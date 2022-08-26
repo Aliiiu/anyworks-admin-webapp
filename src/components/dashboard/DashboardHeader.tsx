@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { DashboardSidebarHeader } from 'src/components/dashboard'
 import { Flex, Button, ButtonClass } from 'src/components/ui'
-// import { URLS } from 'src/constants'
 import avatar from 'src/assets/images/header/avatar.svg'
 import logout from 'src/assets/images/header/logout.svg'
 

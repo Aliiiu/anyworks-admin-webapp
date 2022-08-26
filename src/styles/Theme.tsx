@@ -1,5 +1,5 @@
-import React from 'react'
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import React, { FC, ReactNode } from 'react';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 export const theme = {
   colors: {
@@ -24,6 +24,7 @@ export const theme = {
     sm: '425px',
   },
 }
+
 
 const GlobalStyle = createGlobalStyle`
 html,
@@ -67,15 +68,15 @@ ul {
   list-style-position: outside;
 }
 
-`
+`;
 
-const Theme = ({ children }) => (
-  <ThemeProvider theme={theme}>
-    <>
-      <GlobalStyle />
-      {children}
-    </>
-  </ThemeProvider>
-)
+const Theme: FC<{ children: ReactNode }> = ({ children }) => (
+	<ThemeProvider theme={theme}>
+		<>
+			<GlobalStyle />
+			{children}
+		</>
+	</ThemeProvider>
+);
 
-export default Theme
+export default Theme;
