@@ -1,15 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import { DashboardSidebarHeader } from 'src/components/dashboard'
-import { Flex, InitialsAvatar } from 'src/components/ui'
+import { Flex, Button, ButtonClass } from 'src/components/ui'
 // import { URLS } from 'src/constants'
-import notify from 'src/assets/images/header/notify.svg'
+import avatar from 'src/assets/images/header/avatar.svg'
+import logout from 'src/assets/images/header/logout.svg'
 
 const DashboardHeaderContainer = styled.header`
   .DashboardSidebar__header {
     width: 100%;
-    height: 6rem;
-    padding: 0.5rem 1.5rem;
+    height: 5.5rem;
+    padding: 0.5rem 2.5rem;
     z-index: 1;
     background-color: ${(props) => props.theme.colors.white};
     display: flex;
@@ -20,6 +21,9 @@ const DashboardHeaderContainer = styled.header`
       max-width: 15rem;
       border-radius: 3px;
       background-color: ${(props) => props.theme.colors.white};
+      img.avatar {
+        width: 41px;
+      }
     }
 
     .DashboardHeader__user-role-wrapper {
@@ -31,23 +35,9 @@ const DashboardHeaderContainer = styled.header`
       text-align: left;
     }
 
-    .notify {
-      position: relative;
-
-      .notify--indicate {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        right: -1px;
-        border: 2px solid ${(props) => props.theme.colors.white};
-        background-color: ${(props) => props.theme.colors.purple};
-        position: absolute;
-      }
-    }
-
     .DashboardHeader__user--text {
       width: 100%;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 24px;
       color: ${(props) => props.theme.colors.text_01};
       white-space: nowrap;
@@ -60,7 +50,7 @@ const DashboardHeaderContainer = styled.header`
       color: ${(props) => props.theme.colors.black};
       font-size: 12px;
       font-weight: 400;
-      line-height: 20px;
+      line-height: 15px;
     }
 
     @media (max-width: ${(props) => props.theme.breakpoint.md}) {
@@ -86,15 +76,11 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
       <DashboardSidebarHeader isOpen={isOpen} toggleSidebar={toggleSidebar} showOnDesktop={false} />
 
       <div className="DashboardSidebar__header">
-        <Flex justify="flex-end" align="center" gap="30px">
-          <div className="notify">
-            <img src={notify} alt="notify" />
-            <span className="notify--indicate"></span>
-          </div>
+        <Flex justify="flex-end" align="center" gap="40px">
           <div className="DashboardHeader__user">
             <Flex align="center" gap="10px">
               <Flex justify="flex-end" gap="10px" align="center">
-                <InitialsAvatar name="Olajide Olajide" />
+                <img className="avatar" src={avatar} alt="dp" />
                 <div className="DashboardHeader__user-role-wrapper">
                   <p className="DashboardHeader__user--text DashboardHeader__user--name">
                     Olajide Olajide
@@ -106,6 +92,12 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
               </Flex>
             </Flex>
           </div>
+
+          <Button classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}>
+            {' '}
+            <img className="logout" src={logout} alt="logout" />
+            <span>Log Out</span>
+          </Button>
         </Flex>
       </div>
     </DashboardHeaderContainer>

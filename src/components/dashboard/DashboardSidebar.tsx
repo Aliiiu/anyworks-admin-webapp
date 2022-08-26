@@ -25,6 +25,10 @@ const DashboardSidebarContainer = styled.div`
 
     &.isOpen {
       display: initial;
+
+      .DashboardSidebar__nav {
+        margin-top: 0;
+      }
     }
   }
 
@@ -33,7 +37,7 @@ const DashboardSidebarContainer = styled.div`
     transition: all 0.5s ease-out;
     overflow-y: auto;
     height: calc(100vh - 5.5rem);
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     /* custom scrollbar-color */
     & ::-webkit-scrollbar {
@@ -44,7 +48,7 @@ const DashboardSidebarContainer = styled.div`
     }
     & ::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: ${(props) => props.theme.colors.primaryColor};
+      background-color: ${(props) => props.theme.colors.purple};
     }
 
     ul {
@@ -60,17 +64,20 @@ const DashboardSidebarContainer = styled.div`
           gap: 1rem;
           /* width: calc(100% - 32px); */
           /* margin: 0.5rem auto; */
-          height: 4rem;
+          height: 3rem;
           align-items: center;
           padding: 8px 16px 8px 37px;
           transition: background-color 0.5s ease-out;
           color: ${(props) => props.theme.colors.text_04};
           border-left: 7px solid ${(props) => props.theme.colors.white};
+          @media (max-width: ${(props) => props.theme.breakpoint.md}) {
+            padding-left: 24px;
+          }
 
           &:focus,
           &:hover {
-            background-color: ${(props) => props.theme.colors.ui_04};
-            border-left: 7px solid ${(props) => props.theme.colors.ui_04};
+            background-color: ${(props) => props.theme.colors.ui_01};
+            border-left: 7px solid ${(props) => props.theme.colors.ui_01};
           }
 
           i {
@@ -83,7 +90,7 @@ const DashboardSidebarContainer = styled.div`
 
           span {
             font-weight: 500;
-            font-size: 20px;
+            font-size: 17px;
             line-height: 30px;
             letter-spacing: 0.44px;
           }
@@ -92,11 +99,11 @@ const DashboardSidebarContainer = styled.div`
         &.isActiveNav {
           & summary,
           & > .DashboardSidebar__nav__link {
-            border-left: 7px solid ${(props) => props.theme.colors.black};
+            border-left: 7px solid ${(props) => props.theme.colors.purple};
             color: ${(props) => props.theme.colors.black};
             i {
-              filter: brightness(0) saturate(100%) invert(0%) sepia(1%) saturate(7473%)
-                hue-rotate(355deg) brightness(98%) contrast(99%);
+              filter: brightness(0) saturate(100%) invert(19%) sepia(85%) saturate(3852%)
+                hue-rotate(274deg) brightness(73%) contrast(127%);
             }
           }
         }
@@ -124,7 +131,7 @@ const DashboardSidebarContainer = styled.div`
             }
 
             &:hover {
-              background-color: ${(props) => props.theme.colors.ui_04};
+              background-color: ${(props) => props.theme.colors.ui_01};
             }
 
             &.isActiveSubNav {

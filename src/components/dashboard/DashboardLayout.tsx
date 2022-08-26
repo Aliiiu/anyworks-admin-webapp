@@ -21,15 +21,20 @@ const DashboardLayoutElement = styled.div`
   .DashboardLayout__content-wrapper {
     display: flex;
     flex-direction: column;
-    padding: 2rem 1.5rem;
+    padding: 2rem 2.5rem;
   }
 
   .DashboardLayout__pageHeading {
-    color: ${(props) => props.theme.colors.black};
+
+  
+  .DashboardLayout__pageHeading--title{
     font-weight: 700;
-    font-size: 25px;
+    font-size: 27px;
     line-height: 40px;
+        color: ${(props) => props.theme.colors.black};
+
   }
+}
 
   .modal--info {
     font-size: 16px;

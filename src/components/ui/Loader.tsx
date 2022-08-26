@@ -33,9 +33,9 @@ const LoaderContainer = styled.div`
       right: 0;
       bottom: 0;
       border: 2px solid transparent;
-      border-top-color: #761596;
-      border-right-color: #761596;
-      border-bottom-color: #761596;
+      border-top-color: ${(props) => props.theme.colors.purple};
+      border-right-color: ${(props) => props.theme.colors.purple};
+      border-bottom-color: ${(props) => props.theme.colors.purple};
       border-left-color: transparent;
       border-radius: 50%;
       animation: loading 1s ease infinite;
