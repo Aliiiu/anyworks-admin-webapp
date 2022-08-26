@@ -6,7 +6,7 @@ import {
 	CardHeader,
 	Input,
 	Button,
-} from '../../App';
+} from 'src/styles/commonStyle';
 
 const GetCode = () => {
 	let navigate = useNavigate();
