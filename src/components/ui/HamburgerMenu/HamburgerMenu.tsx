@@ -11,6 +11,12 @@ const HamburgerMenuContainer = styled.div`
     display: block;
   }
 
+  img{
+    filter: brightness(0) saturate(100%) invert(19%) sepia(85%) saturate(3852%) hue-rotate(274deg) brightness(73%) contrast(127%);
+    width: 20px;
+    height: 20px;
+  }
+
   button {
     display: flex;
     align-items: center;

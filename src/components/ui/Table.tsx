@@ -21,20 +21,19 @@ const TableOverviewContainer = styled.div`
         background-color: ${(props) => props.theme.colors.ui_07};
 
         th {
-          font-weight: bold;
+          font-weight: 600;
           line-height: 19px;
-          color: ${(props) => props.theme.colors.text_06};
-          border-bottom: 1px solid #ddd;
-          border-top: 1px solid #ddd;
+          color: ${(props) => props.theme.colors.text_01};
+          font-size: 18px;
           padding: 5px 10px;
           white-space: nowrap;
 
           &:first-child {
-            padding-left: 30px;
+            padding-left: 20px;
           }
 
           &:last-child {
-            padding-right: 30px;
+            padding-right: 20px;
           }
         }
       }
@@ -46,25 +45,24 @@ const TableOverviewContainer = styled.div`
       tr.clickable {
         cursor: pointer;
         &:hover {
-          background-color: ${(props) => props.theme.colors.tableRowHover};
+          background-color: ${(props) => props.theme.colors.gray_01};
         }
       }
 
-      tr:nth-child(even) {
-        background-color: ${(props) => props.theme.colors.ui_07};
+      tr:nth-child(odd) {
+        background-color: ${(props) => props.theme.colors.gray_02};
       }
 
       td {
-        border-bottom: 1px solid #ddd;
         padding: 10px;
         white-space: nowrap;
 
         &:first-child {
-          padding-left: 30px;
+          padding-left: 20px;
         }
 
         &:last-child {
-          padding-right: 30px;
+          padding-right: 20px;
         }
       }
 
@@ -107,30 +105,28 @@ const TableOverviewContainer = styled.div`
 `
 
 interface headerType {
-  title: string;
-  align: string;
-  render: Function
+  title?: string
+  align?: string
+  render?: Function
 }
-
-
 
 // type headerType = headerInt[];
 
 interface Props {
-  rows: [],
-  headers: headerType[],
-  showHead: boolean
-  onRowClick: Function
+  rows: any
+  headers?: headerType[]
+  showHead?: boolean
+  onRowClick?: Function
 }
 
-export const Table : React.FC<Props> = ({ headers, rows, showHead = true, onRowClick, ...rest }) => {
+export const Table: React.FC<Props> = ({ headers, rows, showHead = true, onRowClick, ...rest }) => {
   return (
     <TableOverviewContainer {...rest}>
       <table>
         {showHead && (
           <thead>
             <tr>
-              {headers.map((header) => {
+              {headers?.map((header) => {
                 return (
                   <th
                     key={header.title}
@@ -146,13 +142,15 @@ export const Table : React.FC<Props> = ({ headers, rows, showHead = true, onRowC
           </thead>
         )}
         <tbody>
-          {rows.map((row, index) => (
+          {rows.map((row: any, index: any) => (
             <tr
               key={index}
-              onClick={typeof onRowClick === 'function' ? () => onRowClick({ row, index }) : undefined}
+              onClick={
+                typeof onRowClick === 'function' ? () => onRowClick({ row, index }) : undefined
+              }
               className={clsx({ clickable: onRowClick })}
             >
-              {headers.map((header) => {
+              {headers?.map((header) => {
                 return (
                   <td
                     key={header.title}
@@ -160,7 +158,7 @@ export const Table : React.FC<Props> = ({ headers, rows, showHead = true, onRowC
                       'align--right': header.align === 'right',
                     })}
                   >
-                    {header.render(row)}
+                    {header && header?.render?.(row)}
                   </td>
                 )
               })}
@@ -171,5 +169,4 @@ export const Table : React.FC<Props> = ({ headers, rows, showHead = true, onRowC
     </TableOverviewContainer>
   )
 }
-
 export default Table
