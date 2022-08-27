@@ -2,7 +2,6 @@ import React, { FC, ReactNode } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 export const theme = {
-<<<<<<< HEAD
   colors: {
     black: '#000000',
     blue: '#55C4F1',
@@ -26,30 +25,6 @@ export const theme = {
   },
 }
 
-=======
-	colors: {
-		black: '#000000',
-		blue: '#55C4F1',
-		red: '#EB5656',
-		text_01: '#1D2939',
-		gray_01: '#d9d9d9',
-		gray_02: '#F9FAFB',
-		purple: '#7E00C4',
-		darkPurple: '#210639',
-		text_04: '#828282',
-		transparent: 'transparent',
-		white: '#ffffff',
-		cyan: '#00CCCD',
-		mustard: '#FFAD4A',
-		ui_01: '#f4f4f4',
-	},
-	breakpoint: {
-		lg: '1024px',
-		md: '768px',
-		sm: '425px',
-	},
-};
->>>>>>> working on KYC and Settings page
 
 const GlobalStyle = createGlobalStyle`
 html,
