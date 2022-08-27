@@ -85,6 +85,7 @@ const DashboardSidebarHeaderContainer = styled.div`
     line-height: 15px;
   }
 `
+
 interface Props {
   isOpen: boolean
   showOnDesktop?: boolean

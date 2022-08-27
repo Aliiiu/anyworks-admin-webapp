@@ -24,7 +24,7 @@ const TableOverviewContainer = styled.div`
           font-weight: 600;
           line-height: 19px;
           color: ${(props) => props.theme.colors.text_01};
-        font-size: 18px;
+          font-size: 18px;
           padding: 5px 10px;
           white-space: nowrap;
 
@@ -169,5 +169,4 @@ export const Table: React.FC<Props> = ({ headers, rows, showHead = true, onRowCl
     </TableOverviewContainer>
   )
 }
-
 export default Table

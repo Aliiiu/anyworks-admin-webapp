@@ -63,4 +63,4 @@ const Dashboard = () => (
   </DashboardLayout>
 )
 
-export default Dashboard
+export default Dashboard;

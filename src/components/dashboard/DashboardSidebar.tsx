@@ -156,6 +156,7 @@ const DashboardSidebarContainer = styled.div`
     }
   }
 `
+
 interface Props {
   isOpen: boolean
   toggleSidebar: Function

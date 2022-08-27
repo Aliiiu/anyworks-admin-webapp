@@ -73,7 +73,6 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
   return (
     <DashboardHeaderContainer>
       <DashboardSidebarHeader isOpen={isOpen} toggleSidebar={toggleSidebar} showOnDesktop={false} />
-
       <div className="DashboardSidebar__header">
         <Flex justify="flex-end" align="center" gap="40px">
           <div className="DashboardHeader__user">
