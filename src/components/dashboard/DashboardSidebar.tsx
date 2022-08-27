@@ -17,24 +17,23 @@ const DashboardSidebarContainer = styled.div`
 	height: 100vh;
 	background: ${(props) => props.theme.colors.white};
 	z-index: 2;
-
 	@media (max-width: ${(props) => props.theme.breakpoint.md}) {
 		display: none;
 		max-width: 100%;
 		box-shadow: none;
-
 		&.isOpen {
 			display: initial;
+			.DashboardSidebar__nav {
+				margin-top: 0;
+			}
 		}
 	}
-
 	.DashboardSidebar__nav {
 		position: relative;
 		transition: all 0.5s ease-out;
 		overflow-y: auto;
 		height: calc(100vh - 5.5rem);
-		margin-top: 3rem;
-
+		margin-top: 2rem;
 		/* custom scrollbar-color */
 		& ::-webkit-scrollbar {
 			width: 4px;
@@ -44,35 +43,33 @@ const DashboardSidebarContainer = styled.div`
 		}
 		& ::-webkit-scrollbar-thumb {
 			border-radius: 10px;
-			background-color: ${(props) => props.theme.colors.primaryColor};
+			background-color: ${(props) => props.theme.colors.purple};
 		}
-
 		ul {
 			margin: 0;
 			padding: 0;
-
 			li {
 				list-style: none;
-
 				& summary,
 				& > .DashboardSidebar__nav__link {
 					display: flex;
 					gap: 1rem;
 					/* width: calc(100% - 32px); */
 					/* margin: 0.5rem auto; */
-					height: 4rem;
+					height: 3rem;
 					align-items: center;
 					padding: 8px 16px 8px 37px;
 					transition: background-color 0.5s ease-out;
 					color: ${(props) => props.theme.colors.text_04};
 					border-left: 7px solid ${(props) => props.theme.colors.white};
-
+					@media (max-width: ${(props) => props.theme.breakpoint.md}) {
+						padding-left: 24px;
+					}
 					&:focus,
 					&:hover {
-						background-color: ${(props) => props.theme.colors.ui_04};
-						border-left: 7px solid ${(props) => props.theme.colors.ui_04};
+						background-color: ${(props) => props.theme.colors.ui_01};
+						border-left: 7px solid ${(props) => props.theme.colors.ui_01};
 					}
-
 					i {
 						width: 20px;
 						height: 20px;
@@ -80,36 +77,32 @@ const DashboardSidebarContainer = styled.div`
 						background-repeat: no-repeat;
 						background-size: contain;
 					}
-
 					span {
 						font-weight: 500;
-						font-size: 20px;
+						font-size: 17px;
 						line-height: 30px;
 						letter-spacing: 0.44px;
 					}
 				}
-
 				&.isActiveNav {
 					& summary,
 					& > .DashboardSidebar__nav__link {
 						border-left: 7px solid ${(props) => props.theme.colors.purple};
-						color: ${(props) => props.theme.colors.purple};
+						color: ${(props) => props.theme.colors.black};
 						i {
-							filter: brightness(0) saturate(100%) invert(0%) sepia(1%)
-								saturate(7473%) hue-rotate(355deg) brightness(98%) contrast(99%);
+							filter: brightness(0) saturate(100%) invert(19%) sepia(85%)
+								saturate(3852%) hue-rotate(274deg) brightness(73%)
+								contrast(127%);
 						}
 					}
 				}
-
 				& > details {
 					margin: 0;
 					padding: 0;
-
 					summary {
 						list-style: none;
 						cursor: pointer;
 					}
-
 					li {
 						.DashboardSidebar__subnav__link {
 							display: flex;
@@ -122,11 +115,9 @@ const DashboardSidebarContainer = styled.div`
 							transition: all 0.5s ease-out;
 							color: ${(props) => props.theme.colors.text_05};
 						}
-
 						&:hover {
-							background-color: ${(props) => props.theme.colors.ui_04};
+							background-color: ${(props) => props.theme.colors.ui_01};
 						}
-
 						&.isActiveSubNav {
 							.DashboardSidebar__subnav__link {
 								color: ${(props) => props.theme.colors.primaryColor};
@@ -134,7 +125,6 @@ const DashboardSidebarContainer = styled.div`
 							}
 						}
 					}
-
 					&[open] {
 						ul {
 							border-bottom: 1px solid #eaeaea;
@@ -143,7 +133,6 @@ const DashboardSidebarContainer = styled.div`
 				}
 			}
 		}
-
 		@media (max-width: ${(props) => props.theme.breakpoint.md}) {
 			height: calc(100vh - 5rem);
 		}
@@ -166,7 +155,6 @@ export const DashboardSidebar: React.FC<Props> = ({
 			index === 0
 				? location.pathname === nav.url
 				: location.pathname.includes(nav.url);
-		console.log(`sublinks ${nav.text}`);
 
 		if (sublinks.length) {
 			return (
@@ -176,6 +164,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 							<i style={{ backgroundImage: `url(${nav.icon})` }} />
 							<span>{nav.text}</span>
 						</summary>
+
 						<ul>
 							{sublinks.map((subnav: any) => {
 								const isActiveSubNav = location.pathname === subnav.url;
@@ -203,11 +192,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 				onClick={nav.onClick}
 			>
 				<Link to={nav.url} className='DashboardSidebar__nav__link'>
-					<i
-						style={{
-							backgroundImage: `url(${nav.icon})`,
-						}}
-					/>
+					<i style={{ backgroundImage: `url(${nav.icon})` }} />
 					<span>{nav.text}</span>
 				</Link>
 			</li>
