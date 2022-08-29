@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Flex, Table } from 'src/components/ui'
 import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants'
 
-const RecentTransactionsTableContainer = styled.header`
+const RecentTransactionsTableContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
   margin: 3rem 0;
   border-radius: 16px;

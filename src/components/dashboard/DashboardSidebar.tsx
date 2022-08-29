@@ -7,156 +7,153 @@ import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 
 const DashboardSidebarContainer = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	overflow: hidden;
-	transition: all 0.3s ease-in;
-	width: 100%;
-	max-width: 15rem;
-	height: 100vh;
-	background: ${(props) => props.theme.colors.white};
-	z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in;
+  width: 100%;
+  max-width: 15rem;
+  height: 100vh;
+  background: ${(props) => props.theme.colors.white};
+  z-index: 2;
 
-	@media (max-width: ${(props) => props.theme.breakpoint.md}) {
-		display: none;
-		max-width: 100%;
-		box-shadow: none;
+  @media (max-width: ${(props) => props.theme.breakpoint.md}) {
+    display: none;
+    max-width: 100%;
+    box-shadow: none;
 
-		&.isOpen {
-			display: initial;
+    &.isOpen {
+      display: initial;
 
-			.DashboardSidebar__nav {
-				margin-top: 0;
-			}
-		}
-	}
+      .DashboardSidebar__nav {
+        margin-top: 0;
+      }
+    }
+  }
 
-	.DashboardSidebar__nav {
-		position: relative;
-		transition: all 0.5s ease-out;
-		overflow-y: auto;
-		height: calc(100vh - 5.5rem);
-		margin-top: 2rem;
+  .DashboardSidebar__nav {
+    position: relative;
+    transition: all 0.5s ease-out;
+    overflow-y: auto;
+    height: calc(100vh - 5.5rem);
+    margin-top: 2rem;
 
-		/* custom scrollbar-color */
-		& ::-webkit-scrollbar {
-			width: 4px;
-		}
-		& ::-webkit-scrollbar-track {
-			background-color: #f5f5f5;
-		}
-		& ::-webkit-scrollbar-thumb {
-			border-radius: 10px;
-			background-color: ${(props) => props.theme.colors.purple};
-		}
+    /* custom scrollbar-color */
+    & ::-webkit-scrollbar {
+      width: 4px;
+    }
+    & ::-webkit-scrollbar-track {
+      background-color: #f5f5f5;
+    }
+    & ::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: ${(props) => props.theme.colors.purple};
+    }
 
-		ul {
-			margin: 0;
-			padding: 0;
+    ul {
+      margin: 0;
+      padding: 0;
 
-			li {
-				list-style: none;
+      li {
+        list-style: none;
 
-				& summary,
-				& > .DashboardSidebar__nav__link {
-					display: flex;
-					gap: 1rem;
-					/* width: calc(100% - 32px); */
-					/* margin: 0.5rem auto; */
-					height: 3rem;
-					align-items: center;
-					padding: 8px 16px 8px 37px;
-					transition: background-color 0.5s ease-out;
-					color: ${(props) => props.theme.colors.text_04};
-					border-left: 7px solid ${(props) => props.theme.colors.white};
-					@media (max-width: ${(props) => props.theme.breakpoint.md}) {
-						padding-left: 24px;
-					}
+        & summary,
+        & > .DashboardSidebar__nav__link {
+          display: flex;
+          gap: 1rem;
+          /* width: calc(100% - 32px); */
+          /* margin: 0.5rem auto; */
+          height: 3rem;
+          align-items: center;
+          padding: 8px 16px 8px 37px;
+          transition: background-color 0.5s ease-out;
+          color: ${(props) => props.theme.colors.text_04};
+          border-left: 7px solid ${(props) => props.theme.colors.white};
+          @media (max-width: ${(props) => props.theme.breakpoint.md}) {
+            padding-left: 24px;
+          }
 
-					&:focus,
-					&:hover {
-						background-color: ${(props) => props.theme.colors.ui_01};
-						border-left: 7px solid ${(props) => props.theme.colors.ui_01};
-					}
+          &:focus,
+          &:hover {
+            background-color: ${(props) => props.theme.colors.ui_01};
+            border-left: 7px solid ${(props) => props.theme.colors.ui_01};
+          }
 
-					i {
-						width: 20px;
-						height: 20px;
-						background-position: center;
-						background-repeat: no-repeat;
-						background-size: contain;
-					}
+          i {
+            width: 31px;
+            height: 34px;
+            background-position: -6px -5px;
+            background-repeat: no-repeat;
+          }
 
-					span {
-						font-weight: 500;
-						font-size: 17px;
-						line-height: 30px;
-						letter-spacing: 0.44px;
-					}
-				}
+          span {
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 30px;
+            letter-spacing: 0.44px;
+          }
+        }
 
-				&.isActiveNav {
-					& summary,
-					& > .DashboardSidebar__nav__link {
-						border-left: 7px solid ${(props) => props.theme.colors.purple};
-						color: ${(props) => props.theme.colors.black};
-						i {
-							filter: brightness(0) saturate(100%) invert(19%) sepia(85%)
-								saturate(3852%) hue-rotate(274deg) brightness(73%)
-								contrast(127%);
-						}
-					}
-				}
+        &.isActiveNav {
+          & summary,
+          & > .DashboardSidebar__nav__link {
+            border-left: 7px solid ${(props) => props.theme.colors.purple};
+            color: ${(props) => props.theme.colors.black};
+            i {
+              background-position: -50px -5px;
+            }
+          }
+        }
 
-				& > details {
-					margin: 0;
-					padding: 0;
+        & > details {
+          margin: 0;
+          padding: 0;
 
-					summary {
-						list-style: none;
-						cursor: pointer;
-					}
+          summary {
+            list-style: none;
+            cursor: pointer;
+          }
 
-					li {
-						.DashboardSidebar__subnav__link {
-							display: flex;
-							gap: 16px;
-							width: 100%;
-							height: 2rem;
-							align-items: center;
-							padding: 8px 8px 8px 70px;
-							font-size: small;
-							transition: all 0.5s ease-out;
-							color: ${(props) => props.theme.colors.text_05};
-						}
+          li {
+            .DashboardSidebar__subnav__link {
+              display: flex;
+              gap: 16px;
+              width: 100%;
+              height: 2rem;
+              align-items: center;
+              padding: 8px 8px 8px 70px;
+              font-size: small;
+              transition: all 0.5s ease-out;
+              color: ${(props) => props.theme.colors.text_05};
+            }
 
-						&:hover {
-							background-color: ${(props) => props.theme.colors.ui_01};
-						}
+            &:hover {
+              background-color: ${(props) => props.theme.colors.ui_01};
+            }
 
-						&.isActiveSubNav {
-							.DashboardSidebar__subnav__link {
-								color: ${(props) => props.theme.colors.primaryColor};
-								font-weight: bold;
-							}
-						}
-					}
+            &.isActiveSubNav {
+              .DashboardSidebar__subnav__link {
+                color: ${(props) => props.theme.colors.primaryColor};
+                font-weight: bold;
+              }
+            }
+          }
 
-					&[open] {
-						ul {
-							border-bottom: 1px solid #eaeaea;
-						}
-					}
-				}
-			}
-		}
+          &[open] {
+            ul {
+              border-bottom: 1px solid #eaeaea;
+            }
+          }
+        }
+      }
+    }
 
-		@media (max-width: ${(props) => props.theme.breakpoint.md}) {
-			height: calc(100vh - 5rem);
-		}
-	}
-`;
+    @media (max-width: ${(props) => props.theme.breakpoint.md}) {
+      height: calc(100vh - 5rem);
+    }
+  }
+`
 
 interface Props {
 	isOpen: boolean;

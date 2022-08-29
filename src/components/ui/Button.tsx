@@ -16,7 +16,7 @@ const ButtonContainer = styled.div`
     height: 46px;
     padding: 14px 22px;
     line-height: 24px;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .btn--w-140 {
@@ -44,13 +44,23 @@ const ButtonContainer = styled.div`
 
   .btn--outlined {
     background-color: ${(props) => props.theme.colors.white};
-    border: 1px solid ${(props) => props.theme.colors.primaryColor};
-    color: ${(props) => props.theme.colors.primaryColor};
-    border-radius: 3px;
+    border: 1px solid ${(props) => props.theme.colors.gray_05};
+    color: ${(props) => props.theme.colors.text_01};
+    height: 33px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 0 13px;
+
     &:focus,
     &:hover {
-      color: ${(props) => props.theme.colors.btnHover};
-      border: 1px solid ${(props) => props.theme.colors.btnHover};
+      color: ${(props) => props.theme.colors.purple};
+      border: 1px solid ${(props) => props.theme.colors.purple};
+
+      img {
+        filter: brightness(0) saturate(100%) invert(15%) sepia(86%) saturate(5352%)
+          hue-rotate(278deg) brightness(76%) contrast(120%);
+      }
     }
   }
 

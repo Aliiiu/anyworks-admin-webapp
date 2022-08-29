@@ -25,7 +25,7 @@ const TableOverviewContainer = styled.div`
           line-height: 19px;
           color: ${(props) => props.theme.colors.text_01};
           font-size: 18px;
-          padding: 5px 10px;
+          padding: 10px;
           white-space: nowrap;
 
           &:first-child {

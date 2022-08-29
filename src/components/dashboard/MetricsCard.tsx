@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex } from 'src/components/ui'
-// import { URLS } from 'src/constants'
 import arrow from 'src/assets/images/common/arrow.svg'
 
-const MetricsCardContainer = styled.header`
+const MetricsCardContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
   padding: 16px 20px;

@@ -22,6 +22,7 @@
 		"react-icons": "^4.4.0",
 		"react-router-dom": "^6.3.0",
 		"react-scripts": "5.0.1",
+		"react-tiny-popover": "^7.1.0",
 		"simpler-state": "^1.2.0",
 		"styled-components": "^5.3.5",
 		"typescript": "^4.4.2",
