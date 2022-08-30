@@ -8,36 +8,32 @@ const KycContainer = styled.div`
 	margin: 3rem 0;
 	border-radius: 16px;
 	padding: 20px 0;
+	.table_summary {
+		background: #f2f4f7;
+		border-radius: 16px;
+		color: #7e00c4;
+		font-weight: 700;
+		font-size: 18px;
+		margin-left: 20px;
+		width: 150px;
+		height: 30px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.table_divider {
+		background: #f2f4f7;
+		margin-top: 20px;
+		width: 100%;
+		height: 1px;
+	}
 `;
 
 const KYCDataGrid = () => (
 	<DashboardLayout pageTitle='KYC'>
 		<KycContainer>
-			<div
-				style={{
-					background: '#F2F4F7',
-					borderRadius: 16,
-					color: '#7E00C4',
-					fontWeight: 700,
-					fontSize: 18,
-					width: 150,
-					height: 30,
-					marginLeft: 20,
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-			>
-				46 Pending KYC
-			</div>
-			<div
-				style={{
-					background: '#F2F4F7',
-					marginTop: 20,
-					width: '100%',
-					height: 1,
-				}}
-			></div>
+			<div className='table_summary'>46 Pending KYC</div>
+			<div className='table_divider'></div>
 			<KycTable />
 		</KycContainer>
 	</DashboardLayout>

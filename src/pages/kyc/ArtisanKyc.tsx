@@ -1,17 +1,12 @@
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { DashboardLayout } from 'src/components/dashboard';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import styled from 'styled-components';
 import KycPersonalInfo from './KycPersonalInfo';
 import KycProfileInfo from './KycProfileInfo';
 import { useState } from 'react';
 import KycModal from 'src/components/ui/kycModals/KycModal';
 import RejectionModal from 'src/components/ui/kycModals/RejectionModal';
+import { useNavigate } from 'react-router-dom';
 
 const ArtisankycContainer = styled.div`
 	.pageHeader {
@@ -57,12 +52,13 @@ const ArtisanKyc = () => {
 	const handleRejectOpen = () => setOpenReject(true);
 	const handleClose = () => setOpen(false);
 	const handleRejectClose = () => setOpenReject(false);
+	let navigate = useNavigate();
 	return (
 		<DashboardLayout>
 			<ArtisankycContainer>
 				<div className='pageHeader'>
 					<h2>Artisan KYC</h2>
-					<button className='navButton'>
+					<button onClick={() => navigate('/kyc')} className='navButton'>
 						<AiOutlineArrowLeft style={{ color: '#FFFFFF' }} /> Back to KYC
 					</button>
 				</div>

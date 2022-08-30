@@ -1,6 +1,7 @@
 import dashboardIcon from 'src/assets/images/sidebar/dashboardIcon.svg';
 import kycIcon from 'src/assets/images/sidebar/kycIcon.svg';
 import settingsIcon from 'src/assets/images/sidebar/settings.svg';
+import adminIcon from 'src/assets/images/sidebar/admin.svg';
 
 export const DASHBOARD_SIDEBAR_DATA = () => {
 	let sidebarData = [
@@ -15,7 +16,12 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			icon: kycIcon,
 		},
 		{
-			text: 'Setting',
+			text: 'Admin',
+			url: '/admin',
+			icon: adminIcon,
+		},
+		{
+			text: 'Settings',
 			url: '/setting',
 			icon: settingsIcon,
 		},

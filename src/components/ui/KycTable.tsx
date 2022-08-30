@@ -18,7 +18,7 @@ const kycColumn: KColumnProps[] = [
 	},
 ];
 
-const KycTableContainer = styled.div`
+const TableContainer = styled.div`
 	table {
 		width: 100%;
 		border-colapse: collapse;
@@ -61,6 +61,11 @@ const KycTableContainer = styled.div`
 				&:first-child {
 					padding-left: 45px;
 				}
+				.admin_profile {
+					display: flex;
+					gap: 10px;
+					align-items: center;
+				}
 			}
 		}
 	}
@@ -68,7 +73,7 @@ const KycTableContainer = styled.div`
 const KycTable = () => {
 	let navigate = useNavigate();
 	return (
-		<KycTableContainer>
+		<TableContainer>
 			<table>
 				<thead>
 					<tr>
@@ -80,9 +85,11 @@ const KycTable = () => {
 				<tbody>
 					{kycData.map((item, id) => (
 						<tr key={id} onClick={() => navigate('/artisan-kyc')}>
-							<td style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-								<img src={item.img} alt='' width={40} />
-								{item.name}
+							<td>
+								<div className='admin_profile'>
+									<img src={item.img} alt='' width={40} />
+									{item.name}
+								</div>
 							</td>
 							<td>{item.meansOfId}</td>
 							<td>{item.date}</td>
@@ -90,7 +97,7 @@ const KycTable = () => {
 					))}
 				</tbody>
 			</table>
-		</KycTableContainer>
+		</TableContainer>
 	);
 };
 
