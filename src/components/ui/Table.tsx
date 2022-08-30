@@ -45,7 +45,8 @@ const TableOverviewContainer = styled.div`
       tr.clickable {
         cursor: pointer;
         &:hover {
-          background-color: ${(props) => props.theme.colors.gray_01};
+          background-color: ${(props) => props.theme.colors.gray_04};
+          cursor: pointer;
         }
       }
 

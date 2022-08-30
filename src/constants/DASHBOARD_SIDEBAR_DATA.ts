@@ -3,6 +3,7 @@ import kycIcons from 'src/assets/images/sidebar/kycIcons.png';
 import settingsIcons from 'src/assets/images/sidebar/settingsIcons.png';
 import usersIcons from 'src/assets/images/sidebar/usersIcons.png';
 import adminIcons from 'src/assets/images/sidebar/adminIcons.png';
+import bookingsIcons from 'src/assets/images/sidebar/bookingsIcons.png';
 
 export const DASHBOARD_SIDEBAR_DATA = () => {
 	let sidebarData = [
@@ -30,6 +31,11 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			text: 'Settings',
 			url: '/settings',
 			icon: settingsIcons,
+		},
+		{
+			text: 'Bookings',
+			url: '/bookings',
+			icon: bookingsIcons,
 		},
 
 		// {
