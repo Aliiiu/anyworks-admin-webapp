@@ -36,7 +36,6 @@ const Users = () => {
     setSearchField(e.target.value)
   }
 
-  console.log(filteredData)
   return (
     <DashboardLayout pageTitle="Users" rhsHeading={<RhsHeading handleChange={handleChange}/>}>
       <UsersContainer>

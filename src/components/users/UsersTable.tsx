@@ -1,7 +1,9 @@
+import {useState} from 'react'
 import styled from 'styled-components'
 import { Flex, Table, ActionMenu } from 'src/components/ui'
 import { useNavigate } from 'react-router-dom'
 import { usePagination } from 'src/hooks'
+import {SendNotificationModal, SendMailModal} from 'src/components/users';
 
 const UsersTableContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
@@ -32,6 +34,14 @@ interface Props {
 export const UsersTable = ({ rows }: Props) => {
   const navigate = useNavigate()
 
+  const [openSendNotificationModal, setOpenSendNotificationModal] = useState(false);
+  const handleOpenSendNotificationModal = () => setOpenSendNotificationModal(true);
+  const handleCloseSendNotificationModal = () => setOpenSendNotificationModal(false);
+
+  const [openSendMailModal, setOpenSendMailModal] = useState(false);
+  const handleOpenSendMailModal = () => setOpenSendMailModal(true);
+  const handleCloseSendMailModal = () => setOpenSendMailModal(false);
+
   const UsersTableHeaders = [
     {
       title: 'Name',
@@ -55,11 +65,11 @@ export const UsersTable = ({ rows }: Props) => {
             },
             {
               title: 'Send email',
-              onClick: () => console.log('Send email'),
+              onClick: () => handleOpenSendMailModal(),
             },
             {
               title: 'Send notification',
-              onClick: () => console.log('Send notification'),
+              onClick: () => handleOpenSendNotificationModal(),
             },
           ]}
         />
@@ -74,12 +84,15 @@ export const UsersTable = ({ rows }: Props) => {
   })
   const paginatedRows = rows.slice((page - 1) * limit, page * limit)
 
-  console.log(rows)
+
+
   return (
     <UsersTableContainer>
       <div className="heading">
         <p className="count">{rows.length} Users</p>
       </div>
+      <SendMailModal open={openSendMailModal} handleClose={handleCloseSendMailModal} />
+      <SendNotificationModal open={openSendNotificationModal} handleClose={handleCloseSendNotificationModal} />
       <Table rows={paginatedRows} headers={UsersTableHeaders} showHead={true} />
       <Pagination />
     </UsersTableContainer>

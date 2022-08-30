@@ -17,6 +17,8 @@ const ButtonContainer = styled.div`
     padding: 14px 22px;
     line-height: 24px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
   }
 
   .btn--w-140 {

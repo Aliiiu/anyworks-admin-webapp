@@ -6,7 +6,6 @@ import nextPageIcon from './icons/nextPageIcon.svg'
 import { Flex, Button, ButtonClass } from 'src/components/ui'
 
 const PaginationContainer = styled.div`
-  color: ${(props) => props.theme.colors.text_01};
   border-top: 1px solid ${(props) => props.theme.colors.gray_03};
   padding: 10px 20px 0 20px;
 
@@ -68,9 +67,14 @@ const PaginationContainer = styled.div`
           font-weight: 500;
           font-size: 16px;
           line-height: 20px;
+          color: ${(props) => props.theme.colors.text_01};
 
           &[disabled] {
             opacity: 0.4;
+          }
+
+          &:hover {
+            color: ${(props) => props.theme.colors.purple};
           }
         }
       }
@@ -82,6 +86,7 @@ const PaginationContainer = styled.div`
       gap: 5px;
       padding: 0;
       margin: 0;
+      flex-wrap:wrap;
 
       .page-numbers__link--active {
         background-color: ${(props) => props.theme.colors.lilac};

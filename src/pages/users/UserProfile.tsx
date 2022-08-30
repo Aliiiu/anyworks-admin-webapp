@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { DashboardLayout } from 'src/components/dashboard'
-import { Profile } from 'src/components/users'
+import { Bookings } from 'src/components/users'
+import { ProfileInfo } from 'src/components/common'
 import { Flex, Button, ButtonClass } from 'src/components/ui'
 import arrowRight from 'src/assets/images/common/arrowRight.svg'
 import { theme } from 'src/styles/Theme'
@@ -9,7 +10,7 @@ import { Link } from 'react-router-dom'
 const UserProfileContainer = styled.div``
 
 export const RhsHeading = () => (
-  <Flex wrap='wrap'>
+  <Flex wrap="wrap">
     <Link to="/users">
       <Button
         classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
@@ -26,7 +27,8 @@ export const RhsHeading = () => (
 const UserProfile = () => (
   <DashboardLayout pageTitle="Olajide Olajide’s Profile" rhsHeading={<RhsHeading />}>
     <UserProfileContainer>
-      <Profile />
+      <ProfileInfo />
+      <Bookings />
     </UserProfileContainer>
   </DashboardLayout>
 )

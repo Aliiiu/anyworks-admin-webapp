@@ -8,7 +8,7 @@ export const RECENT_BOOKINGS_TABLE_DATA = () => {
           user: 'Olajide Olajide',
           time:'10:00am',
           location: 'Mokola, Ibadan',
-          status: 'Successful',
+          status: 'Active',
           img: avatar,
         },
         {
@@ -17,7 +17,7 @@ export const RECENT_BOOKINGS_TABLE_DATA = () => {
           user: 'Olajide Olajide',
           time:'10:00am',
           location: 'Mokola, Ibadan',
-          status: 'Successful',
+          status: 'Canceled',
           img: avatar,
         },
         {
@@ -26,7 +26,7 @@ export const RECENT_BOOKINGS_TABLE_DATA = () => {
           user: 'Olajide Olajide',
           time:'10:00am',
           location: 'Mokola, Ibadan',
-          status: 'Successful',
+          status: 'Completed',
           img: avatar,
         },
         {
@@ -35,7 +35,7 @@ export const RECENT_BOOKINGS_TABLE_DATA = () => {
           user: 'Olajide Olajide',
           time:'10:00am',
           location: 'Mokola, Ibadan',
-          status: 'Successful',
+          status: 'Completed',
           img: avatar,
         },
         {
@@ -44,7 +44,7 @@ export const RECENT_BOOKINGS_TABLE_DATA = () => {
           user: 'Olajide Olajide',
           time:'10:00am',
           location: 'Mokola, Ibadan',
-          status: 'Successful',
+          status: 'Active',
           img: avatar,
         },
       ]

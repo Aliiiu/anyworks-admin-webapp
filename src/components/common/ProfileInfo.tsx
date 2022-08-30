@@ -16,7 +16,7 @@ const ProfileInfoContainer = styled.div`
     margin-bottom: 3rem;
     .title {
       font-weight: 700;
-      font-size: 23px;
+      font-size: 18px;
       line-height: 28px;
       color: ${(props) => props.theme.colors.text_01};
     }
