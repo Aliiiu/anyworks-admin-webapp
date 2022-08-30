@@ -11,6 +11,8 @@ import Admin from 'src/pages/admin/Admin';
 import AdminProfile from 'src/pages/admin/AdminProfile';
 import Users from 'src/pages/users/Users';
 import Profile from 'src/pages/users/UserProfile';
+import BookingsPage from 'src/pages/bookings/Bookings';
+import BookingDetailsPage from 'src/pages/bookings/BookingDetails';
 
 const Router = () => {
 	return (
@@ -27,6 +29,8 @@ const Router = () => {
 			<Route path='/admin' element={<Admin />} />
 			<Route path='/admin/:id' element={<AdminProfile />} />
 			<Route path='/settings' element={<Settings />} />
+			<Route path='/bookings' element={<BookingsPage />} />
+			<Route path='/bookings/booking-details' element={<BookingDetailsPage />} />
 		</Routes>
 	);
 };

@@ -4,6 +4,7 @@ import settingsIcons from 'src/assets/images/sidebar/settingsIcons.png';
 import usersIcons from 'src/assets/images/sidebar/usersIcons.png';
 import settingsIcon from 'src/assets/images/sidebar/settings.svg';
 import adminIcon from 'src/assets/images/sidebar/admin.svg';
+import bookingsIcons from 'src/assets/images/sidebar/bookingsIcons.png';
 
 export const DASHBOARD_SIDEBAR_DATA = () => {
 	let sidebarData = [
@@ -30,7 +31,11 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 		{
 			text: 'Settings',
 			url: '/settings',
-			icon: settingsIcons,
+			icon: settingsIcons},
+			{				
+	text: 'Bookings',
+			url: '/bookings',
+			icon: bookingsIcons,
 		},
 
 		// {
