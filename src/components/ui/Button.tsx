@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 const ButtonContainer = styled.div`
   flex: 1;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 
   .btn {
     outline: none;

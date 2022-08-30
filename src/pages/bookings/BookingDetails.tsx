@@ -1,6 +1,7 @@
+import {useState} from 'react'
 import styled from 'styled-components'
 import { DashboardLayout } from 'src/components/dashboard'
-import { BookingStatusBg } from 'src/components/bookings'
+import { BookingStatusBg, InvoiceModal, ChatModal } from 'src/components/bookings'
 import invoice from 'src/assets/images/bookings/invoice.svg'
 import arrowRight from 'src/assets/images/common/arrowRight.svg'
 import chat from 'src/assets/images/bookings/chat.svg'
@@ -19,7 +20,7 @@ const BookingDetailsPageContainer = styled.div`
     border-radius: 16px;
     padding: 24px;
     width: 473px;
-    max-width: 50%;
+    max-width: 100%;
   }
 
   .lhs {
@@ -61,6 +62,7 @@ const BookingDetailsPageContainer = styled.div`
     padding: 24px;
     width: max-content;
     margin: 2rem 0;
+    max-width: 100%;
 
     .title {
       font-weight: 600;
@@ -80,11 +82,26 @@ const BookingDetailsPageContainer = styled.div`
       display: grid;
       gap: 2%;
       grid-template-columns: 18% 40% 18% 18%;
+      @media (max-width: ${(props) => props.theme.breakpoint.md}) {
+			display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+		}
     }
     .gridy2 {
       display: grid;
       gap: 2%;
       grid-template-columns: 18% 18% 40% 18%;
+      @media (max-width: ${(props) => props.theme.breakpoint.md}) {
+        grid-template-columns: 1fr 1fr;
+
+		}
+      @media (max-width: ${(props) => props.theme.breakpoint.sm}) {
+        display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+
+		}
     }
 
     .item {
@@ -117,15 +134,22 @@ export const RhsHeading = () => (
 )
 
 const BookingDetailsPage = () => {
+  const [openInvoiceModal, setOpenInvoiceModal] = useState(false);
+  const handleOpenInvoiceModal = () => setOpenInvoiceModal(true);
+  const handleCloseInvoiceModal = () => setOpenInvoiceModal(false);
+ 
+  const [openChatModal, setOpenChatModal] = useState(false);
+  const handleOpenChatModal = () => setOpenChatModal(true);
+  const handleCloseChatModal = () => setOpenChatModal(false);
   return (
     <DashboardLayout pageTitle="Booking Details" rhsHeading={<RhsHeading />}>
       <BookingDetailsPageContainer>
         <div className="people">
           <Flex gap="2rem" wrap="wrap">
             <div className="user people-card">
-              <Flex justify="space-between">
+              <Flex justify="space-between" wrap='wrap'>
                 <div className="lhs">
-                  <Flex>
+                  <Flex >
                     <img src={avatar} alt="dp" />
                     <div className="info">
                       <p className="name">Olajide Olajide</p>
@@ -142,7 +166,7 @@ const BookingDetailsPage = () => {
               </Flex>
             </div>
             <div className="artisan people-card">
-              <Flex justify="space-between">
+              <Flex justify="space-between" wrap='wrap'>
                 <div className="lhs">
                   <Flex>
                     <img src={avatar} alt="dp" />
@@ -170,12 +194,6 @@ const BookingDetailsPage = () => {
         </div>
         <div className="booking-details--info">
           <Flex direction="column" gap="2rem">
-            {/* <Flex
-              justify="spac
-                </Flex>e-between"
-              wrap="wrap"
-              style={{columnGap: '4rem', rowGap:'1rem'}}
-            > */}
             <div className="gridy1">
               <div className="item">
                 <Flex direction="column" gap="10px">
@@ -220,13 +238,15 @@ const BookingDetailsPage = () => {
                 </Flex>
               </div>
             </div>
-            {/* </Flex> */}
           </Flex>
+          <InvoiceModal open={openInvoiceModal} handleClose={handleCloseInvoiceModal} />
+          <ChatModal open={openChatModal} handleClose={handleCloseChatModal} />
           <div className="buttons">
-            <Flex gap="1.5rem">
+            <Flex gap="1.5rem" wrap='wrap'>
               <div>
                 <Button
                   classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
+                  onClick={handleOpenInvoiceModal}
                   style={{ backgroundColor: theme.colors.purple }}
                 >
                   {' '}
@@ -238,6 +258,7 @@ const BookingDetailsPage = () => {
                 <Button
                   classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
                   style={{ backgroundColor: theme.colors.purple }}
+                  onClick={handleOpenChatModal}
                 >
                   {' '}
                   <img src={chat} alt="chat" />
