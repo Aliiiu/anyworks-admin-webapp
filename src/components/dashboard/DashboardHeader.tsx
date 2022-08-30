@@ -14,7 +14,6 @@ const DashboardHeaderContainer = styled.header`
 		background-color: ${(props) => props.theme.colors.white};
 		display: flex;
 		justify-content: flex-end;
-
 		.DashboardHeader__user {
 			display: block;
 			max-width: 15rem;
@@ -22,9 +21,11 @@ const DashboardHeaderContainer = styled.header`
 			background-color: ${(props) => props.theme.colors.white};
 			img.avatar {
 				width: 41px;
+				img.avatar {
+					width: 41px;
+				}
 			}
 		}
-
 		.DashboardHeader__user-role-wrapper {
 			max-width: 8rem;
 			display: flex;
@@ -44,17 +45,14 @@ const DashboardHeaderContainer = styled.header`
 			text-overflow: ellipsis;
 			font-weight: 600;
 		}
-
 		.DashboardHeader__user--role {
 			color: ${(props) => props.theme.colors.black};
 			font-size: 12px;
 			font-weight: 400;
 			line-height: 15px;
 		}
-
 		@media (max-width: ${(props) => props.theme.breakpoint.md}) {
 			display: none;
-
 			.DashboardHeader__content {
 				margin-left: 0;
 				padding: 30px;

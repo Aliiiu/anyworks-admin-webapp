@@ -3,10 +3,17 @@ import { Input } from 'src/styles/commonStyle';
 import styled from 'styled-components';
 
 const InfoContainer = styled.div`
-	display: grid;
-	grid: auto / auto auto;
+	display: flex;
 	gap: 50px;
 	margin-top: 40px;
+	.personal_info_container {
+		width: 40%;
+	}
+	.moi_info_container {
+		width: 60%;
+		display: flex;
+		justify-content: center;
+	}
 	.personal_info_container,
 	.moi_info_container {
 		border-radius: 16px;
@@ -59,13 +66,15 @@ const KycPersonalInfo = () => {
 				</div>
 			</div>
 			<div className='moi_info_container'>
-				<h3 style={{ marginBottom: 30 }}>Means of Identification</h3>
-				<img
-					src='/images/driversLicense.png'
-					alt="Driver's License"
-					width={568}
-					height='315px'
-				/>
+				<div>
+					<h3 style={{ marginBottom: 30 }}>Means of Identification</h3>
+					<img
+						src='/images/driversLicense.png'
+						alt="Driver's License"
+						width={568}
+						height='315px'
+					/>
+				</div>
 			</div>
 		</InfoContainer>
 	);

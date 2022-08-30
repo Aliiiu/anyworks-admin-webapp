@@ -172,7 +172,6 @@ export const DashboardSidebar: React.FC<Props> = ({
 			index === 0
 				? location.pathname === nav.url
 				: location.pathname.includes(nav.url);
-		console.log(`sublinks ${nav.text}`);
 
 		if (sublinks.length) {
 			return (
@@ -182,6 +181,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 							<i style={{ backgroundImage: `url(${nav.icon})` }} />
 							<span>{nav.text}</span>
 						</summary>
+
 						<ul>
 							{sublinks.map((subnav: any) => {
 								const isActiveSubNav = location.pathname === subnav.url;
@@ -209,11 +209,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 				onClick={nav.onClick}
 			>
 				<Link to={nav.url} className='DashboardSidebar__nav__link'>
-					<i
-						style={{
-							backgroundImage: `url(${nav.icon})`,
-						}}
-					/>
+					<i style={{ backgroundImage: `url(${nav.icon})` }} />
 					<span>{nav.text}</span>
 				</Link>
 			</li>

@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import clsx from 'clsx'
+import React from 'react';
+import styled from 'styled-components';
+import clsx from 'clsx';
 
 const TableOverviewContainer = styled.div`
   overflow-x: auto;

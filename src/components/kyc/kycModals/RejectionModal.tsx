@@ -55,7 +55,20 @@ const RejectionModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 						>
 							Verification Rejected
 						</Typography>
-						<textarea rows={4} cols={50}>
+						<textarea
+							rows={6}
+							cols={50}
+							style={{
+								resize: 'none',
+								fontSize: 16,
+								fontFamily: 'Raleway',
+								borderRadius: 8,
+								boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
+								border: '1px solid #98A2B3',
+								width: '100%',
+								padding: '10px 14px',
+							}}
+						>
 							Kindly state your reason(s) for the rejection
 						</textarea>
 						<button
