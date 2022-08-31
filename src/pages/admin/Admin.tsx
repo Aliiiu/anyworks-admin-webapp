@@ -7,6 +7,7 @@ import AdminTable from 'src/components/admin/AdminTable';
 import { useState } from 'react';
 import AddAdminModal from 'src/components/admin/addAdminModal/AddAdminModal';
 import { StyledPageHeader } from 'src/styles/commonStyle';
+import { ADMINData } from 'src/constants/ADMINDATA';
 
 const AdminContainer = styled.div`
 	.table_wrapper {
@@ -33,6 +34,17 @@ const Admin = () => {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+	const [searchField, setSearchField] = useState('');
+
+	const filteredData = ADMINData.filter((data) => {
+		return (
+			data.admin.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.role.toLowerCase().includes(searchField.toLowerCase())
+		);
+	});
+	const handleChange = (e: any) => {
+		setSearchField(e.target.value);
+	};
 	return (
 		<DashboardLayout>
 			<AdminContainer>
@@ -45,6 +57,7 @@ const Admin = () => {
 								type='text'
 								placeholder='Search'
 								className='search_input'
+								onChange={handleChange}
 							/>
 						</div>
 						<button onClick={handleOpen} className='add_admin_btn'>
@@ -55,8 +68,8 @@ const Admin = () => {
 					</div>
 				</StyledPageHeader>
 				<div className='table_wrapper'>
-					<div className='table_summary'>10 Admin</div>
-					<AdminTable />
+					<div className='table_summary'>{filteredData.length} Admin</div>
+					<AdminTable filteredData={filteredData} />
 				</div>
 			</AdminContainer>
 		</DashboardLayout>

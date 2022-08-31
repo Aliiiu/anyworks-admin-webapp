@@ -64,7 +64,8 @@ const ArtisansProfile = () => {
 			<StyledProfileHeader>
 				<h2>Olajide Olajide's profile</h2>
 				<button onClick={() => navigate('/artisans')} className='add_admin_btn'>
-					<img src={returnIcon} alt='' width={24} height='24px' /> Add new admin
+					<img src={returnIcon} alt='' width={24} height='24px' /> Back to
+					Artisans
 				</button>
 			</StyledProfileHeader>
 			<ArtisansProfileCard />

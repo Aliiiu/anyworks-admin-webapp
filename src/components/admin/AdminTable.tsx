@@ -2,8 +2,9 @@ import { ADMINData } from 'src/constants/ADMINDATA';
 import styled from 'styled-components';
 import navIcon from 'src/assets/images/common/nav.svg';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import usePagination from 'src/hooks/usePagination';
 
 interface ColumnProps {
 	field: string;
@@ -120,12 +121,15 @@ export const TableContainer = styled.div`
 	}
 `;
 
-const AdminTable = () => {
+const AdminTable: FC<{ filteredData: any }> = ({ filteredData }) => {
 	const [popUp, setPopUp] = useState<any>(null);
 	let navigate = useNavigate();
-	useEffect(() => {
-		console.log(`popUp ${popUp}`);
+	const { page, limit, Pagination } = usePagination({
+		page: 1,
+		limit: 2,
+		total: filteredData.length,
 	});
+	const paginatedRows = filteredData.slice((page - 1) * limit, page * limit);
 	return (
 		<TableContainer>
 			<table>
@@ -142,7 +146,7 @@ const AdminTable = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{ADMINData.map((item, id) => (
+					{paginatedRows.map((item: any, id: any) => (
 						<tr key={id + 1}>
 							<td>
 								<div className='admin_profile'>
@@ -208,6 +212,7 @@ const AdminTable = () => {
 					))}
 				</tbody>
 			</table>
+			<Pagination />
 		</TableContainer>
 	);
 };

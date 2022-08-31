@@ -1,13 +1,10 @@
 import { DashboardLayout } from 'src/components/dashboard';
-import {
-	FilterButton,
-	StyledPageHeader,
-	StyledTableContainer,
-} from 'src/styles/commonStyle';
+import { StyledPageHeader } from 'src/styles/commonStyle';
 import searchIcon from 'src/assets/images/common/search.svg';
-import filterIcon from 'src/assets/images/common/filter.svg';
 import styled from 'styled-components';
 import ArtisanTable from 'src/components/artisan/ArtisanTable';
+import { ARTISANData } from 'src/constants/ARTISANDATA';
+import { useState } from 'react';
 
 const StyledArtisanContainer = styled.div`
 	.wrapper {
@@ -21,7 +18,19 @@ const StyledArtisanContainer = styled.div`
 		height: 1px;
 	}
 `;
+
 const Artisan = () => {
+	const [searchField, setSearchField] = useState('');
+
+	const filteredData = ARTISANData.filter((data) => {
+		return (
+			data.name.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.email.toLowerCase().includes(searchField.toLowerCase())
+		);
+	});
+	const handleChange = (e: any) => {
+		setSearchField(e.target.value);
+	};
 	return (
 		<DashboardLayout>
 			<StyledArtisanContainer>
@@ -34,23 +43,12 @@ const Artisan = () => {
 								type='text'
 								placeholder='Search'
 								className='search_input'
+								onChange={handleChange}
 							/>
 						</div>
 					</div>
 				</StyledPageHeader>
-				<StyledTableContainer>
-					<div className='wrapper'>
-						<div style={{ width: 120 }} className='table_summary'>
-							782 Artisans
-						</div>
-						<FilterButton>
-							<img src={filterIcon} alt='' width={24} height='24px' />
-							Filter
-						</FilterButton>
-					</div>
-					<div className='table_divider'></div>
-					<ArtisanTable />
-				</StyledTableContainer>
+				<ArtisanTable filteredData={filteredData} />
 			</StyledArtisanContainer>
 		</DashboardLayout>
 	);

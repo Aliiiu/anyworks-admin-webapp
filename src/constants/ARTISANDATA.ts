@@ -2,7 +2,7 @@ import avatar from 'src/assets/images/header/avatar.svg';
 
 export const ARTISANData = [
 	{
-		name: 'Olajide Olajide',
+		name: 'Olajide Bamidele',
 		email: 'olajide@gmail.com',
 		status: 'Online',
 		registrationDate: '06/05/2022',
@@ -18,7 +18,7 @@ export const ARTISANData = [
 		img: avatar,
 	},
 	{
-		name: 'Olajide Olajide',
+		name: 'Olajide Bamisaye',
 		email: 'olajide@gmail.com',
 		status: 'Online',
 		registrationDate: '06/05/2022',
@@ -34,7 +34,7 @@ export const ARTISANData = [
 		img: avatar,
 	},
 	{
-		name: 'Olajide Olajide',
+		name: 'Olajide Bamikole',
 		email: 'olajide@gmail.com',
 		status: 'Online',
 		registrationDate: '06/05/2022',

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DashboardLayout } from 'src/components/dashboard';
 import returnIcon from 'src/assets/images/common/returnIcon.svg';
 import styled from 'styled-components';
@@ -204,7 +204,7 @@ const AdminProfile = () => {
 	const [openRole, setOpenRole] = useState(false);
 	const [openStatus, setOpenStatus] = useState(false);
 	const [adminSelector, setAdminSelector] = useState(false);
-
+	let navigate = useNavigate();
 	const handleAdminSelector = () => {
 		setAdminSelector(true);
 	};
@@ -213,9 +213,9 @@ const AdminProfile = () => {
 			<StyledAdminProfileComponent>
 				<StyledProfileHeader>
 					<h2>Olajide Olajide's profile</h2>
-					<button className='add_admin_btn'>
-						<img src={returnIcon} alt='' width={24} height='24px' /> Add new
-						admin
+					<button onClick={() => navigate('/admin')} className='add_admin_btn'>
+						<img src={returnIcon} alt='' width={24} height='24px' /> Back to
+						Admins
 					</button>
 				</StyledProfileHeader>
 				<div className='admin_profile_details'>
