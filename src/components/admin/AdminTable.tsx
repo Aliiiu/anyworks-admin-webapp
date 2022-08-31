@@ -26,7 +26,7 @@ const tableColumn: ColumnProps[] = [
 	},
 ];
 
-const TableContainer = styled.div`
+export const TableContainer = styled.div`
 	table {
 		width: 100%;
 		border-colapse: collapse;
@@ -40,7 +40,7 @@ const TableContainer = styled.div`
 					font-weight: 600;
 					color: ${(props) => props.theme.colors.text_01};
 					font-size: 18px;
-					padding: 10px 20px;
+					padding: 20px 20px;
 					white-space: nowrap;
 				}
 			}

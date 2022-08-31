@@ -13,6 +13,8 @@ import Users from 'src/pages/users/Users';
 import Profile from 'src/pages/users/UserProfile';
 import BookingsPage from 'src/pages/bookings/Bookings';
 import BookingDetailsPage from 'src/pages/bookings/BookingDetails';
+import Artisan from 'src/pages/artisans/Artisan';
+import ArtisansProfile from 'src/pages/artisans/ArtisansProfile';
 
 const Router = () => {
 	return (
@@ -26,11 +28,16 @@ const Router = () => {
 			<Route path='/artisan-kyc' element={<ArtisanKyc />} />
 			<Route path='/users' element={<Users />} />
 			<Route path='/users/profile' element={<Profile />} />
+			<Route path='/artisans' element={<Artisan />} />
+			<Route path='/artisans/:id' element={<ArtisansProfile />} />
 			<Route path='/admin' element={<Admin />} />
 			<Route path='/admin/:id' element={<AdminProfile />} />
 			<Route path='/settings' element={<Settings />} />
 			<Route path='/bookings' element={<BookingsPage />} />
-			<Route path='/bookings/booking-details' element={<BookingDetailsPage />} />
+			<Route
+				path='/bookings/booking-details'
+				element={<BookingDetailsPage />}
+			/>
 		</Routes>
 	);
 };

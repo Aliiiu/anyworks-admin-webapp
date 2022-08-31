@@ -6,52 +6,9 @@ import addIcon from 'src/assets/images/common/add.svg';
 import AdminTable from 'src/components/admin/AdminTable';
 import { useState } from 'react';
 import AddAdminModal from 'src/components/admin/addAdminModal/AddAdminModal';
+import { StyledPageHeader } from 'src/styles/commonStyle';
 
 const AdminContainer = styled.div`
-	.pageHeader {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		h2 {
-			font-size: 36px;
-			font-weight: 700;
-			color: ${(props) => props.theme.colors.text_01};
-		}
-		.header_action_wrapper {
-			display: flex;
-			gap: 15px;
-			.search_bar {
-				border-radius: 8px;
-				background: #ffffff;
-				width: 402px;
-				height: 50px;
-				padding: 10px 0 10px 40px;
-				border: none;
-				display: flex;
-				align-items: center;
-				gap: 20px;
-				.search_input {
-					color: #98a2b3;
-					font-size: 20px;
-					width: 100%;
-					border: none;
-					outline: none;
-				}
-			}
-			.add_admin_btn {
-				background: ${(props) => props.theme.colors.purple};
-				color: #ffffff;
-				font-weight: 500;
-				font-szie: 16px;
-				display: flex;
-				gap: 10px;
-				justify-content: center;
-				align-items: center;
-				border-radius: 8px;
-				padding: 12px 20px;
-			}
-		}
-	}
 	.table_wrapper {
 		background-color: ${(props) => props.theme.colors.white};
 		margin: 30px 0;
@@ -79,7 +36,7 @@ const Admin = () => {
 	return (
 		<DashboardLayout>
 			<AdminContainer>
-				<div className='pageHeader'>
+				<StyledPageHeader>
 					<h2>Admin</h2>
 					<div className='header_action_wrapper'>
 						<div className='search_bar'>
@@ -96,7 +53,7 @@ const Admin = () => {
 						</button>
 						<AddAdminModal open={open} handleClose={handleClose} />
 					</div>
-				</div>
+				</StyledPageHeader>
 				<div className='table_wrapper'>
 					<div className='table_summary'>10 Admin</div>
 					<AdminTable />

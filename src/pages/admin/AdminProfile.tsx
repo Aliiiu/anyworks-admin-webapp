@@ -5,31 +5,32 @@ import styled from 'styled-components';
 import dropdownIcon from 'src/assets/images/common/dropDown.svg';
 import filterIcon from 'src/assets/images/common/filter.svg';
 import { useState } from 'react';
-import AddAdminModal from 'src/components/admin/addAdminModal/AddAdminModal';
+import { FilterButton } from 'src/styles/commonStyle';
+
+export const StyledProfileHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	h2 {
+		font-size: 36px;
+		font-weight: 700;
+		color: ${(props) => props.theme.colors.text_01};
+	}
+	.add_admin_btn {
+		background: ${(props) => props.theme.colors.purple};
+		color: #ffffff;
+		font-weight: 500;
+		font-szie: 16px;
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		align-items: center;
+		border-radius: 8px;
+		padding: 12px 20px;
+	}
+`;
 
 const StyledAdminProfileComponent = styled.div`
-	.pageHeader {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		h2 {
-			font-size: 36px;
-			font-weight: 700;
-			color: ${(props) => props.theme.colors.text_01};
-		}
-		.add_admin_btn {
-			background: ${(props) => props.theme.colors.purple};
-			color: #ffffff;
-			font-weight: 500;
-			font-szie: 16px;
-			display: flex;
-			gap: 10px;
-			justify-content: center;
-			align-items: center;
-			border-radius: 8px;
-			padding: 12px 20px;
-		}
-	}
 	.admin_profile_details {
 		margin-top: 36px;
 		border-radius: 16px;
@@ -155,14 +156,6 @@ const StyledAdminProfileComponent = styled.div`
 			padding: 0px 24px;
 			align-items: center;
 			justify-content: space-between;
-			.admin_activity_filter {
-				background: #f2f4f7;
-				display: flex;
-				align-items: center;
-				gap: 8px;
-				border-radius: 16px;
-				padding: 4px 12px;
-			}
 		}
 		.admin_divider {
 			margin-top: 16px;
@@ -218,13 +211,13 @@ const AdminProfile = () => {
 	return (
 		<DashboardLayout>
 			<StyledAdminProfileComponent>
-				<div className='pageHeader'>
+				<StyledProfileHeader>
 					<h2>Olajide Olajide's profile</h2>
 					<button className='add_admin_btn'>
 						<img src={returnIcon} alt='' width={24} height='24px' /> Add new
 						admin
 					</button>
-				</div>
+				</StyledProfileHeader>
 				<div className='admin_profile_details'>
 					<div className='profile_header'>
 						<h3>Profile Information</h3>
@@ -335,10 +328,10 @@ const AdminProfile = () => {
 				<div className='admin_activity'>
 					<div className='activity_header'>
 						<h4>Activity Log</h4>
-						<button className='admin_activity_filter'>
+						<FilterButton>
 							<img src={filterIcon} alt='' width={24} height='24px' />
 							Filter
-						</button>
+						</FilterButton>
 					</div>
 					<div className='admin_divider'></div>
 					<table>

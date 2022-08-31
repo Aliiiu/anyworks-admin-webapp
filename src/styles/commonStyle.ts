@@ -64,3 +64,87 @@ export const Input = styled.input`
 		background: #f9fafb;
 	}
 `;
+
+export const StyledPageHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	h2 {
+		font-size: 36px;
+		font-weight: 700;
+		color: ${(props) => props.theme.colors.text_01};
+	}
+	.header_action_wrapper {
+		display: flex;
+		gap: 15px;
+		.search_bar {
+			border-radius: 8px;
+			background: #ffffff;
+			width: 402px;
+			height: 50px;
+			padding: 10px 0 10px 40px;
+			border: none;
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			.search_input {
+				color: #98a2b3;
+				font-size: 20px;
+				width: 100%;
+				border: none;
+				outline: none;
+			}
+		}
+		.add_admin_btn {
+			background: ${(props) => props.theme.colors.purple};
+			color: #ffffff;
+			font-weight: 500;
+			font-szie: 16px;
+			display: flex;
+			gap: 10px;
+			justify-content: center;
+			align-items: center;
+			border-radius: 8px;
+			padding: 12px 20px;
+		}
+	}
+`;
+
+export const StyledTableContainer = styled.div`
+	background-color: ${(props) => props.theme.colors.white};
+	margin: 3rem 0;
+	border-radius: 16px;
+	padding: 20px 0;
+	.wrapper {
+		display: flex;
+		justify-content: space-between;
+		.table_summary {
+			background: #f2f4f7;
+			border-radius: 16px;
+			color: #7e00c4;
+			font-weight: 700;
+			font-size: 18px;
+			margin-left: 20px;
+			width: 150px;
+			height: 30px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+	.table_divider {
+		background: #f2f4f7;
+		margin-top: 20px;
+		width: 100%;
+		height: 1px;
+	}
+`;
+
+export const FilterButton = styled.button`
+	background: #f2f4f7;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	border-radius: 16px;
+	padding: 4px 12px;
+`;

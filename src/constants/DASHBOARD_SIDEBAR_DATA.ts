@@ -4,6 +4,7 @@ import settingsIcons from 'src/assets/images/sidebar/settingsIcons.png';
 import usersIcons from 'src/assets/images/sidebar/usersIcons.png';
 import adminIcons from 'src/assets/images/sidebar/adminIcons.png';
 import bookingsIcons from 'src/assets/images/sidebar/bookingsIcons.png';
+import artisansIcons from 'src/assets/images/sidebar/artisansIcons.png';
 
 export const DASHBOARD_SIDEBAR_DATA = () => {
 	let sidebarData = [
@@ -23,6 +24,11 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			icon: usersIcons,
 		},
 		{
+			text: 'Artisan',
+			url: '/artisans',
+			icon: artisansIcons,
+		},
+		{
 			text: 'Admin',
 			url: '/admin',
 			icon: adminIcons,
@@ -37,16 +43,6 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			url: '/bookings',
 			icon: bookingsIcons,
 		},
-
-		// {
-		//   text: 'Users',
-		//   url: '/users',
-		//   icon: '/dashboard/sidebar/usersIcons.svg',
-		//   sublinks: [
-		//     { text: 'Users', url: '/users' },
-		//     { text: 'Staffs', url: '/users/staffs' },
-		//   ],
-		// },
 	];
 
 	return sidebarData;
