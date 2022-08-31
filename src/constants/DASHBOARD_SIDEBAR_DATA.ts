@@ -24,6 +24,11 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			icon: usersIcons,
 		},
 		{
+			text: 'Bookings',
+			url: '/bookings',
+			icon: bookingsIcons,
+		},
+		{
 			text: 'Artisan',
 			url: '/artisans',
 			icon: artisansIcons,
@@ -37,11 +42,6 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			text: 'Settings',
 			url: '/settings',
 			icon: settingsIcons,
-		},
-		{
-			text: 'Bookings',
-			url: '/bookings',
-			icon: bookingsIcons,
 		},
 	];
 
