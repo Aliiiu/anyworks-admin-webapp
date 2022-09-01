@@ -30,6 +30,11 @@ export const LoginCard = styled.div`
 	margin: 0 auto;
 	padding: 40px 40px;
 	width: 466px;
+	.validation_error {
+		color: #f04438;
+		font-size: 14px;
+		font-weight: 400;
+	}
 `;
 
 export const CardHeader = styled.h2`

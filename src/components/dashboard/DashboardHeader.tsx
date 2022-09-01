@@ -4,6 +4,7 @@ import { DashboardSidebarHeader } from 'src/components/dashboard';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import avatar from 'src/assets/images/header/avatar.svg';
 import logout from 'src/assets/images/header/logout.svg';
+import { useNavigate } from 'react-router';
 
 const DashboardHeaderContainer = styled.header`
 	.DashboardSidebar__header {
@@ -68,6 +69,7 @@ interface Props {
 }
 
 export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
+	let navigate = useNavigate();
 	return (
 		<DashboardHeaderContainer>
 			<DashboardSidebarHeader
@@ -93,7 +95,10 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
 						</Flex>
 					</div>
 
-					<Button classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}>
+					<Button
+						onClick={() => navigate('/')}
+						classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
+					>
 						{' '}
 						<img className='logout' src={logout} alt='logout' />
 						<span>Log Out</span>
