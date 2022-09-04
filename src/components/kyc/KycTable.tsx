@@ -1,104 +1,79 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { kycData } from 'src/constants/KYCDATA';
-import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { Flex, Table } from 'src/components/ui'
+import { usePagination } from 'src/hooks/usePagination'
 
-interface KColumnProps {
-	field: string;
+const KycTableContainer = styled.div`
+  background-color: ${(props) => props.theme.colors.white};
+  border-radius: 16px;
+  padding-bottom: 20px;
+  margin: 3rem 0;
+  
+  .heading {
+    border-bottom: 1px solid ${(props) => props.theme.colors.gray_03};
+    padding: 20px;
+
+    .count {
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 27px;
+      color: ${(props) => props.theme.colors.purple};
+      background-color: ${(props) => props.theme.colors.gray_04};
+      padding: 4px 12px;
+      width: max-content;
+      border-radius: 16px;
+    }
+  }
+`
+interface Props {
+  rows: any
 }
-const kycColumn: KColumnProps[] = [
-	{
-		field: 'Name',
-	},
-	{
-		field: 'Means of Identification',
-	},
-	{
-		field: 'Date',
-	},
-];
 
-const TableContainer = styled.div`
-	table {
-		width: 100%;
-		border-colapse: collapse;
-		font-size: 15px;
-		text-align: left;
+export const KycTable = ({ rows }: Props) => {
+  const navigate = useNavigate()
 
-		thead {
-			tr {
-				background-color: ${(props) => props.theme.colors.ui_07};
-				th {
-					font-weight: 600;
-					color: ${(props) => props.theme.colors.text_01};
-					font-size: 18px;
-					padding: 15px 10px;
-					white-space: nowrap;
-					&:first-child {
-						padding-left: 45px;
-					}
-					&:last-child {
-						padding-right: 20px;
-					}
-				}
-			}
-		}
+  const KycTableHeaders = [
+    {
+      title: 'Name',
+      render: (row: any) => (
+        <Flex gap="10px" align="center">
+          <img style={{ width: '40px' }} src={row.img} alt="" /> {row.name}
+        </Flex>
+      ),
+    },
+    {
+      title: 'Means of Identification',
+      render: (row: any) => `${row.meansOfId}`,
+    },
+    {
+      title: 'Date',
+      render: (row: any) => `${row.date}`,
+    },
+  ]
 
-		tbody {
-			color: ${(props) => props.theme.colors.text_01};
-			tr {
-				cursor: pointer;
-				&:hover {
-					background-color: ${(props) => props.theme.colors.gray_01};
-				}
-			}
-			tr:nth-child(odd) {
-				background-color: ${(props) => props.theme.colors.gray_02};
-			}
-			td {
-				padding: 10px;
-				white-space: nowrap;
-				&:first-child {
-					padding-left: 45px;
-				}
-				.admin_profile {
-					display: flex;
-					gap: 10px;
-					align-items: center;
-				}
-			}
-		}
-	}
-`;
-const KycTable = () => {
-	let navigate = useNavigate();
-	return (
-		<TableContainer>
-			<table>
-				<thead>
-					<tr>
-						{kycColumn.map((item, id) => (
-							<th key={id}>{item.field}</th>
-						))}
-					</tr>
-				</thead>
-				<tbody>
-					{kycData.map((item, id) => (
-						<tr key={id} onClick={() => navigate('/artisan-kyc')}>
-							<td>
-								<div className='admin_profile'>
-									<img src={item.img} alt='' width={40} />
-									{item.name}
-								</div>
-							</td>
-							<td>{item.meansOfId}</td>
-							<td>{item.date}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</TableContainer>
-	);
-};
+  const { page, limit, Pagination } = usePagination({
+    page: 1,
+    limit: 4,
+    total: rows.length,
+  })
+  const paginatedRows = rows.slice((page - 1) * limit, page * limit)
 
-export default KycTable;
+  return (
+    <KycTableContainer>
+      <div className="heading">
+        <p className="count">{rows.length} Pending Kyc</p>
+      </div>
+      <Table
+        rows={paginatedRows}
+        headers={KycTableHeaders}
+        showHead={true}
+        onRowClick={() => {
+          navigate('/kyc/artisan')
+        }}
+      />
+      <Pagination />
+    </KycTableContainer>
+  )
+}
+
+export default KycTable

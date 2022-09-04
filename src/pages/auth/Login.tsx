@@ -121,7 +121,7 @@ export const Login = () => {
 							fontWeight: 500,
 							cursor: 'pointer',
 						}}
-						to={'/forget-password'}
+						to={'/forgot-password'}
 					>
 						Forgot password?
 					</Link>

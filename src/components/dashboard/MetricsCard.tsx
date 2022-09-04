@@ -3,24 +3,30 @@ import styled from 'styled-components'
 import { Flex } from 'src/components/ui'
 import arrow from 'src/assets/images/common/arrow.svg'
 
-const MetricsCardContainer = styled.div`
+const MetricsCardContainer = styled.a`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
   padding: 16px 20px;
   max-width: 316px;
   width: 316px;
+  &:hover {
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
+      0px 1px 3px 0px rgb(0 0 0 / 12%);
+    transition: 0.5s;
+  }
   .metric__img {
     border-radius: 8px;
-    padding: 20px;    
+    padding: 20px;
     width: 62px;
     height: 62px;
     display: flex;
     justify-content: center;
     align-items: center;
-    img{
+    img {
       width: 27px;
       height: 27px;
-      filter: brightness(0) saturate(100%) invert(99%) sepia(60%) saturate(296%) hue-rotate(187deg) brightness(116%) contrast(100%);
+      filter: brightness(0) saturate(100%) invert(99%) sepia(60%) saturate(296%) hue-rotate(187deg)
+        brightness(116%) contrast(100%);
     }
   }
   .metric__count {
@@ -39,15 +45,16 @@ const MetricsCardContainer = styled.div`
 
 interface Props {
   metric: any
+  href?: string
 }
 
-export const MetricsCard = ({ metric }: Props) => {
+export const MetricsCard = ({ metric, href }: Props) => {
   return (
-    <MetricsCardContainer>
+    <MetricsCardContainer href={href}>
       <Flex align="center" justify="space-between">
         <Flex align="center">
-          <div className="metric__img" style={{backgroundColor: `${metric.color}`}}>
-          <img  src={metric.img} alt="user" />
+          <div className="metric__img" style={{ backgroundColor: `${metric.color}` }}>
+            <img src={metric.img} alt="user" />
           </div>
           <div className="text">
             <p className="metric__count">{metric.count}</p>

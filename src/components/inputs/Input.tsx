@@ -7,7 +7,7 @@ const InputContainer = styled.div`
   border-radius: 8px;
   padding: 10px 10px 10px 40px;
   min-width: 359px;
-  height: 38px;
+  height: 48px;
   display: flex;
   border: 1px solid ${(props) => props.theme.colors.white};
 
@@ -25,13 +25,15 @@ const InputContainer = styled.div`
 
   input {
     color: ${(props) => props.theme.colors.text_01};
-    font-size: 14px;
+    font-size: 18px;
     border: 0;
     outline: none;
     width: 100%;
+    font-weight: 400;
+    font-family: 'Raleway';
 
     &::placeholder {
-      font-size: 14px;
+      font-size: 18px;
       line-height: 30px;
       color: ${(props) => props.theme.colors.text_02};
       font-family: 'Raleway';

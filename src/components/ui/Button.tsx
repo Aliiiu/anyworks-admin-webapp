@@ -34,8 +34,8 @@ const ButtonContainer = styled.div`
   }
 
   .btn--solid {
-    background-color: ${(props) => props.theme.colors.mustard};
-    border: ${(props) => props.theme.colors.mustard};
+    background-color: ${(props) => props.theme.colors.red};
+    border: ${(props) => props.theme.colors.red};
     color: ${(props) => props.theme.colors.white};
     &:focus,
     &:hover {

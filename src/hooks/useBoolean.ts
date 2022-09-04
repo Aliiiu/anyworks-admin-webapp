@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export const useBoolean = (defaultValue: any) => {
+export const useBoolean = (defaultValue: boolean) => {
   const [value, setValue] = useState(!!defaultValue)
 
   const setTrue = () => setValue(true)

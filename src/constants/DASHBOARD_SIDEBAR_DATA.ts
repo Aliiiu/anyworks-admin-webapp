@@ -24,18 +24,18 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			icon: usersIcons,
 		},
 		{
-			text: 'Bookings',
-			url: '/bookings',
-			icon: bookingsIcons,
-		},
-		{
 			text: 'Artisan',
 			url: '/artisans',
 			icon: artisansIcons,
 		},
 		{
+			text: 'Bookings',
+			url: '/bookings',
+			icon: bookingsIcons,
+		},
+		{
 			text: 'Admin',
-			url: '/admin',
+			url: '/admins',
 			icon: adminIcons,
 		},
 		{
