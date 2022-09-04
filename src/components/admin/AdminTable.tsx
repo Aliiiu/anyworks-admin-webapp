@@ -149,7 +149,7 @@ const AdminTable: FC<{ filteredData: any }> = ({ filteredData }) => {
 						{tableColumn.map((item, id) => (
 							<th
 								key={id}
-								style={{ width: item.field === 'Admin' ? 500 : 'auto' }}
+								style={{ width: item.field === 'Admin' ? 400 : 'auto' }}
 							>
 								{item.field}
 							</th>
