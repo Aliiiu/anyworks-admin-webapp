@@ -4,7 +4,7 @@ import {
 	LoginCard,
 	CardHeader,
 	Input,
-	Button,
+	StyledButton,
 } from 'src/styles/commonStyle';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -125,7 +125,7 @@ export const Login = () => {
 					>
 						Forgot password?
 					</Link>
-					<Button onClick={handleSumbit}>Login</Button>
+					<StyledButton onClick={handleSumbit}>Login</StyledButton>
 				</LoginCard>
 			</Container>
 		</div>

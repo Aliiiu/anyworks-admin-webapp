@@ -5,7 +5,7 @@ import {
 	LoginCard,
 	CardHeader,
 	Input,
-	Button,
+	StyledButton,
 } from 'src/styles/commonStyle';
 
 const GetCode = () => {
@@ -84,12 +84,12 @@ const GetCode = () => {
 							}}
 						/>
 					</div>
-					<Button
+					<StyledButton
 						onClick={() => navigate('/new-password')}
 						style={{ marginTop: 30 }}
 					>
 						Sumbit
-					</Button>
+					</StyledButton>
 					<h5
 						style={{
 							fontSize: 14,

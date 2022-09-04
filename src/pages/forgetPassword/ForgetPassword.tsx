@@ -5,7 +5,7 @@ import {
 	LoginCard,
 	CardHeader,
 	Input,
-	Button,
+	StyledButton,
 } from 'src/styles/commonStyle';
 
 const ForgetPassword = () => {
@@ -40,12 +40,12 @@ const ForgetPassword = () => {
 							style={{ fontFamily: 'Raleway' }}
 						/>
 					</div>
-					<Button
+					<StyledButton
 						onClick={() => navigate('/get-code')}
 						style={{ marginTop: 24 }}
 					>
 						Send Code
-					</Button>
+					</StyledButton>
 				</LoginCard>
 			</Container>
 		</div>

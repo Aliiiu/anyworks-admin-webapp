@@ -1,10 +1,14 @@
-import { ADMINData } from 'src/constants/ADMINDATA';
+// import { ADMINData } from 'src/constants/ADMINDATA';
 import styled from 'styled-components';
-import navIcon from 'src/assets/images/common/nav.svg';
 import clsx from 'clsx';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePagination from 'src/hooks/usePagination';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Divider from '@mui/material/Divider';
+import { StyledVerticalMenu } from 'src/styles/commonStyle';
 
 interface ColumnProps {
 	field: string;
@@ -122,7 +126,14 @@ export const TableContainer = styled.div`
 `;
 
 const AdminTable: FC<{ filteredData: any }> = ({ filteredData }) => {
-	const [popUp, setPopUp] = useState<any>(null);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 	let navigate = useNavigate();
 	const { page, limit, Pagination } = usePagination({
 		page: 1,
@@ -138,7 +149,7 @@ const AdminTable: FC<{ filteredData: any }> = ({ filteredData }) => {
 						{tableColumn.map((item, id) => (
 							<th
 								key={id}
-								style={{ width: item.field === 'Admin' ? 400 : 'auto' }}
+								style={{ width: item.field === 'Admin' ? 500 : 'auto' }}
 							>
 								{item.field}
 							</th>
@@ -174,38 +185,48 @@ const AdminTable: FC<{ filteredData: any }> = ({ filteredData }) => {
 								</div>
 							</td>
 							<td>
-								<div className='popup_root'>
-									<button
-										onClick={() => {
-											popUp ? setPopUp(null) : setPopUp(id + 1);
+								<div>
+									<IconButton
+										aria-label='more'
+										id='long-button'
+										aria-controls={open ? 'long-menu' : undefined}
+										aria-expanded={open ? 'true' : undefined}
+										aria-haspopup='true'
+										onClick={handleClick}
+									>
+										<MoreVertIcon />
+									</IconButton>
+									<StyledVerticalMenu
+										id='demo-positioned-menu'
+										aria-labelledby='demo-positioned-button'
+										anchorEl={anchorEl}
+										open={open}
+										onClose={handleClose}
+										anchorOrigin={{
+											vertical: 'center',
+											horizontal: 'left',
+										}}
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'right',
 										}}
 									>
-										<img src={navIcon} alt='' width={24} height='24px' />
-									</button>
-									{popUp === id + 1 ? (
-										<div className='popup_wrapper'>
-											<button
-												onClick={() => navigate(`/admin/${id + 1}`)}
-												style={{ borderBottom: '1px solid #F2F4F7' }}
-												className='popup_item'
-											>
-												View profile
-											</button>
-											<button
-												style={{ borderBottom: '1px solid #F2F4F7' }}
-												className='popup_item'
-											>
-												Activity log
-											</button>
-											<button
-												style={{ borderBottom: '1px solid #F2F4F7' }}
-												className='popup_item'
-											>
-												Active
-											</button>
-											<button className='popup_item'>Block</button>
-										</div>
-									) : null}
+										<MenuItem
+											onClick={() => {
+												navigate(`/admin/${id}`);
+												handleClose();
+											}}
+										>
+											View Profile
+										</MenuItem>
+										<Divider />
+										<MenuItem onClick={handleClose}>Activity log</MenuItem>
+										<Divider />
+										<MenuItem onClick={handleClose}>Active</MenuItem>
+										<Divider />
+
+										<MenuItem onClick={handleClose}>Block</MenuItem>
+									</StyledVerticalMenu>
 								</div>
 							</td>
 						</tr>

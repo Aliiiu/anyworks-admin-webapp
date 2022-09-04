@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+// import { styled as MuiStyled, alpha } from '@mui/material/styles';
+import Menu, { MenuProps } from '@mui/material/Menu';
 
 export const Container = styled.div`
 	max-width: 1440px;
@@ -43,7 +45,7 @@ export const CardHeader = styled.h2`
 	font-weight: 600;
 `;
 
-export const Button = styled.div`
+export const StyledButton = styled.div`
 	background: #7e00c4;
 	border-radius: 8px;
 	max-width: 100%;
@@ -153,3 +155,36 @@ export const FilterButton = styled.button`
 	border-radius: 16px;
 	padding: 4px 12px;
 `;
+
+// const StyledMenu = MuiStyled((props: MenuProps) => <Menu />);
+export const StyledVerticalMenu = styled((props: MenuProps) => (
+	<Menu
+		elevation={0}
+		anchorOrigin={{
+			vertical: 'bottom',
+			horizontal: 'right',
+		}}
+		transformOrigin={{
+			vertical: 'top',
+			horizontal: 'right',
+		}}
+		{...props}
+	/>
+))(() => ({
+	'& .MuiPaper-root': {
+		borderRadius: 6,
+		minWidth: 180,
+		color: '#1D2939',
+		boxShadow:
+			'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+		'& .MuiMenu-list': {
+			padding: '0 0',
+		},
+		'& .MuiMenuItem-root': {
+			padding: '10px 20px',
+		},
+		'& .MuiDivider-root': {
+			margin: 0,
+		},
+	},
+}));

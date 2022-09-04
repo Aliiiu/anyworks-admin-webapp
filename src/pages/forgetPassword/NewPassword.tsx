@@ -4,7 +4,7 @@ import {
 	LoginCard,
 	CardHeader,
 	Input,
-	Button,
+	StyledButton,
 } from 'src/styles/commonStyle';
 
 const NewPassword = () => {
@@ -47,7 +47,7 @@ const NewPassword = () => {
 						<label htmlFor='password'>New Password</label>
 						<Input type={'password'} placeholder='********' />
 					</div>
-					<Button style={{ marginTop: 30 }}>Confrim</Button>
+					<StyledButton style={{ marginTop: 30 }}>Confrim</StyledButton>
 				</LoginCard>
 			</Container>
 		</div>
