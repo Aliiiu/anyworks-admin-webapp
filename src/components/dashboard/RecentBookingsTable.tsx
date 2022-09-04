@@ -1,7 +1,7 @@
-import React from 'react'
 import styled from 'styled-components'
 import { Flex, Table } from 'src/components/ui'
 import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants'
+import { useNavigate } from 'react-router-dom'
 
 const RecentBookingsTableContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
@@ -49,6 +49,8 @@ const RecentBookingsTableHeaders = [
 ]
 
 export const RecentBookingsTable = () => {
+  const navigate = useNavigate()
+
   return (
     <RecentBookingsTableContainer>
       <div className="heading">
@@ -59,6 +61,7 @@ export const RecentBookingsTable = () => {
         rows={RECENT_BOOKINGS_TABLE_DATA()}
         headers={RecentBookingsTableHeaders}
         showHead={true}
+        onRowClick={() => navigate('/bookings/booking-details')}
       />
     </RecentBookingsTableContainer>
   )

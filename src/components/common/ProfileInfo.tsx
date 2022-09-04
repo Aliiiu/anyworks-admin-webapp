@@ -5,6 +5,7 @@ import dp from 'src/assets/images/profile/dp.svg';
 import phone from 'src/assets/images/profile/phone.svg';
 import mail from 'src/assets/images/profile/mail.svg';
 import chat from 'src/assets/images/profile/chat.svg';
+import { Link } from 'react-router-dom';
 
 export const ProfileInfoContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -58,9 +59,15 @@ export const ProfileInfo = () => {
 					<Flex direction='column' align='center' gap='1.5rem'>
 						<img src={dp} alt='dp' className='dp' />
 						<Flex gap='1.5rem'>
+							<a href='tel:+2348110658901'>
 							<img src={phone} alt='phone' />
+							</a>
+							<a href='mailto:info@anyworks-ng.com'>
 							<img src={mail} alt='mail' />
+							</a>
+							<Link to='/bookings/booking-details'>
 							<img src={chat} alt='chat' />
+							</Link>
 						</Flex>
 					</Flex>
 				</div>

@@ -1,4 +1,7 @@
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+import arrowLeft from 'src/assets/images/common/arrowLeft.svg'
+import { theme } from 'src/styles/Theme'
+import { Link } from 'react-router-dom'
+import { Button, ButtonClass } from 'src/components/ui'
 import { DashboardLayout } from 'src/components/dashboard';
 import styled from 'styled-components';
 import KycPersonalInfo from '../../components/kyc/KycPersonalInfo';
@@ -6,7 +9,6 @@ import KycProfileInfo from '../../components/kyc/KycProfileInfo';
 import { useState } from 'react';
 import KycModal from 'src/components/kyc/kycModals/KycModal';
 import RejectionModal from 'src/components/kyc/kycModals/RejectionModal';
-import { useNavigate } from 'react-router-dom';
 
 const ArtisankycContainer = styled.div`
 	.pageHeader {
@@ -17,17 +19,6 @@ const ArtisankycContainer = styled.div`
 			font-size: 36px;
 			font-weight: 700;
 			color: ${(props) => props.theme.colors.text_01};
-		}
-		.navButton {
-			background: ${(props) => props.theme.colors.purple};
-			color: #ffffff;
-			font-weight: 500;
-			font-szie: 16px;
-			display: flex;
-			gap: 10px;
-			justify-content: center;
-			border-radius: 8px;
-			padding: 12px 20px;
 		}
 	}
 	.action_btn_wrapper {
@@ -52,15 +43,22 @@ const ArtisanKyc = () => {
 	const handleRejectOpen = () => setOpenReject(true);
 	const handleClose = () => setOpen(false);
 	const handleRejectClose = () => setOpenReject(false);
-	let navigate = useNavigate();
+
 	return (
 		<DashboardLayout>
 			<ArtisankycContainer>
 				<div className='pageHeader'>
 					<h2>Artisan KYC</h2>
-					<button onClick={() => navigate('/kyc')} className='navButton'>
-						<AiOutlineArrowLeft style={{ color: '#FFFFFF' }} /> Back to KYC
-					</button>
+					<Link to="/kyc">
+      <Button
+        classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
+        style={{ backgroundColor: theme.colors.purple }}
+      >
+        {' '}
+        <img src={arrowLeft} alt="back" />
+        <span>Back to KYC</span>
+      </Button>
+    </Link>
 				</div>
 				<KycPersonalInfo />
 				<KycProfileInfo />

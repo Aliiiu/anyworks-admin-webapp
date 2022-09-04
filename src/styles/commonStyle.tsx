@@ -106,7 +106,7 @@ export const StyledPageHeader = styled.div`
 			background: ${(props) => props.theme.colors.purple};
 			color: #ffffff;
 			font-weight: 500;
-			font-szie: 16px;
+			font-size: 16px;
 			display: flex;
 			gap: 10px;
 			justify-content: center;

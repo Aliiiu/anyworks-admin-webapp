@@ -213,7 +213,7 @@ const AdminTable: FC<{ filteredData: any }> = ({ filteredData }) => {
 									>
 										<MenuItem
 											onClick={() => {
-												navigate(`/admin/${id}`);
+												navigate(`/admins/${id}`);
 												handleClose();
 											}}
 										>

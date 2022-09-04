@@ -1,13 +1,14 @@
-import returnIcon from 'src/assets/images/common/returnIcon.svg';
 import { DashboardLayout } from 'src/components/dashboard';
 import { StyledProfileHeader } from '../admin/AdminProfile';
-import { useNavigate } from 'react-router';
+import arrowLeft from 'src/assets/images/common/arrowLeft.svg'
+import { theme } from 'src/styles/Theme'
 import styled from 'styled-components';
 import ArtisansProfileCard from 'src/components/artisan/ArtisansProfileCard';
 import bookingsIcon from 'src/assets/images/metrics/bookingSummary.svg';
 import BookingsTabs from 'src/components/bookings/BookingsTabs';
 import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
-import Flex from 'src/components/ui/Flex';
+import { Link,useNavigate } from 'react-router-dom'
+import { Flex, Button, ButtonClass } from 'src/components/ui'
 import BookingStatus from 'src/components/bookings/BookingStatus';
 import WalletContainer from 'src/components/artisan/WalletContainer';
 
@@ -63,10 +64,16 @@ const ArtisansProfile = () => {
 		<DashboardLayout>
 			<StyledProfileHeader>
 				<h2>Olajide Olajide's profile</h2>
-				<button onClick={() => navigate('/artisans')} className='add_admin_btn'>
-					<img src={returnIcon} alt='' width={24} height='24px' /> Back to
-					Artisans
-				</button>
+				<Link to="/artisans">
+      <Button
+        classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
+        style={{ backgroundColor: theme.colors.purple }}
+      >
+        {' '}
+        <img src={arrowLeft} alt="back" />
+        <span>Back to Artisans</span>
+      </Button>
+    </Link>
 			</StyledProfileHeader>
 			<ArtisansProfileCard />
 			<StyledBookingSummary>
@@ -87,6 +94,7 @@ const ArtisansProfile = () => {
 				rows={rows}
 				BookingsTableHeaders={BookingsTableHeaders}
 				title={<h1 className='title'>Bookings</h1>}
+				onRowClick={() => navigate('/bookings/booking-details')}
 			/>
 			<WalletContainer />
 		</DashboardLayout>

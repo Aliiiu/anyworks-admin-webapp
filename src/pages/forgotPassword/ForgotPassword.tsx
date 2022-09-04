@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
 	Container,
 	Image,
@@ -8,12 +8,13 @@ import {
 	StyledButton,
 } from 'src/styles/commonStyle';
 
-const ForgetPassword = () => {
+const ForgotPassword = () => {
 	let navigate = useNavigate();
 	return (
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
-				<Image src='/images/logo.png' alt='anyworks logo' />
+				<Link to='/'>
+				<Image src='/images/logo.png' alt='anyworks logo' /></Link>
 				<LoginCard>
 					<CardHeader>Forgot Password</CardHeader>
 					<h4
@@ -52,4 +53,4 @@ const ForgetPassword = () => {
 	);
 };
 
-export default ForgetPassword;
+export default ForgotPassword;

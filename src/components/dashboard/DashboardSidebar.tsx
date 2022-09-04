@@ -59,12 +59,17 @@ const DashboardSidebarContainer = styled.div`
 
       li {
         list-style: none;
+        margin-bottom: 10px;
+
+        &:last-child {
+          margin-bottom: 0;
+					}
 
         & summary,
         & > .DashboardSidebar__nav__link {
           display: flex;
           gap: 1rem;
-          height: 3rem;
+          height: 3.5rem;
           align-items: center;
           padding: 8px 16px 8px 37px;
           transition: background-color 0.5s ease-out;
@@ -173,7 +178,6 @@ export const DashboardSidebar: React.FC<Props> = ({ isOpen, toggleSidebar }) => 
 
   const mapSidebarNav = (nav: any, index: any) => {
     const { sublinks = [] } = nav || {}
-    console.log(index)
     const isActiveNav =
       index === 0 ? location.pathname === nav.url : location.pathname.includes(nav.url)
 

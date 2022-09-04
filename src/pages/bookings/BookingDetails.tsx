@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { DashboardLayout } from 'src/components/dashboard'
 import { BookingStatusBg, InvoiceModal, ChatModal } from 'src/components/bookings'
 import invoice from 'src/assets/images/bookings/invoice.svg'
-import arrowRight from 'src/assets/images/common/arrowRight.svg'
+import arrowLeft from 'src/assets/images/common/arrowLeft.svg'
 import chat from 'src/assets/images/bookings/chat.svg'
 import { theme } from 'src/styles/Theme'
 import { Link } from 'react-router-dom'
@@ -19,7 +19,8 @@ const BookingDetailsPageContainer = styled.div`
     background-color: ${(props) => props.theme.colors.white};
     border-radius: 16px;
     padding: 24px;
-    width: 473px;
+    min-width: 473px;
+    width: 48%;
     max-width: 100%;
   }
 
@@ -126,7 +127,7 @@ export const RhsHeading = () => (
         style={{ backgroundColor: theme.colors.purple }}
       >
         {' '}
-        <img src={arrowRight} alt="back" />
+        <img src={arrowLeft} alt="back" />
         <span>Back to Bookings</span>
       </Button>
     </Link>
@@ -145,8 +146,8 @@ const BookingDetailsPage = () => {
     <DashboardLayout pageTitle="Booking Details" rhsHeading={<RhsHeading />}>
       <BookingDetailsPageContainer>
         <div className="people">
-          <Flex gap="2rem" wrap="wrap">
-            <div className="user people-card">
+          <Flex gap="2rem" wrap="wrap" justify='space-between'>
+            <Link to='/users/profile' className="user people-card">
               <Flex justify="space-between" wrap='wrap'>
                 <div className="lhs">
                   <Flex >
@@ -164,8 +165,8 @@ const BookingDetailsPage = () => {
                 </div>
                 <p className="role">User</p>
               </Flex>
-            </div>
-            <div className="artisan people-card">
+            </Link>
+            <Link to='/artisans/1' className="artisan people-card">
               <Flex justify="space-between" wrap='wrap'>
                 <div className="lhs">
                   <Flex>
@@ -183,7 +184,7 @@ const BookingDetailsPage = () => {
                 </div>
                 <p className="role">Artisan</p>
               </Flex>
-            </div>
+            </Link>
           </Flex>
         </div>
         <div className="booking-status">

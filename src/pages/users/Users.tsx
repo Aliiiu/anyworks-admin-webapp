@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import styled from 'styled-components'
 import { DashboardLayout } from 'src/components/dashboard'
 import { UsersTable } from 'src/components/users'
@@ -10,7 +9,6 @@ const UsersContainer = styled.div``
 
 interface Props {
   handleChange: (e: any) => void
-
 }
 
 export const RhsHeading : React.FC<Props> =  ({handleChange}) => (
@@ -39,7 +37,6 @@ const Users = () => {
   return (
     <DashboardLayout pageTitle="Users" rhsHeading={<RhsHeading handleChange={handleChange}/>}>
       <UsersContainer>
-      
         <UsersTable rows={filteredData} />
       </UsersContainer>
     </DashboardLayout>

@@ -57,6 +57,8 @@ const TableOverviewContainer = styled.div`
 			td {
 				padding: 10px;
 				white-space: nowrap;
+				height: 60px;
+    			min-height: 60px;
 
 				&:first-child {
 					padding-left: 20px;
@@ -117,14 +119,16 @@ interface Props {
 	rows: any;
 	headers?: headerType[];
 	showHead?: boolean;
-	onRowClick?: Function;
+	onRowClick?: Function | ((x?: Object) => void) ;
+	allowRowClick?: boolean;
 }
 
 export const Table: React.FC<Props> = ({
 	headers,
 	rows,
 	showHead = true,
-	onRowClick,
+	onRowClick = () => null,
+	allowRowClick = true,
 	...rest
 }) => {
 	return (
@@ -153,11 +157,11 @@ export const Table: React.FC<Props> = ({
 						<tr
 							key={index}
 							onClick={
-								typeof onRowClick === 'function'
+								allowRowClick
 									? () => onRowClick({ row, index })
 									: undefined
 							}
-							className={clsx({ clickable: onRowClick })}
+							className={clsx({ clickable: allowRowClick })}
 						>
 							{headers?.map((header) => {
 								return (

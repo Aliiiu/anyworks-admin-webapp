@@ -1,46 +1,44 @@
-import { DashboardLayout } from 'src/components/dashboard';
-import { Flex, Table } from 'src/components/ui';
-import { kycData } from 'src/constants/KYCDATA';
-import { usePagination } from 'src/hooks/usePagination';
-import { StyledTableContainer } from 'src/styles/commonStyle';
+import { DashboardLayout } from 'src/components/dashboard'
+import React, { useState } from 'react'
+import { kycData } from 'src/constants/KYCDATA'
+import { KycTable } from 'src/components/kyc/KycTable'
+import { Input } from 'src/components/inputs'
+import searchIcon from 'src/assets/images/input/searchIcon.svg'
 
-const KycTableHeaders = [
-	{
-		title: 'Admin',
-		render: (row: any) => (
-			<Flex gap='10px' align='center'>
-				<img style={{ width: '40px' }} src={row.img} alt='' /> {row.name}
-			</Flex>
-		),
-	},
-	{
-		title: 'Means of Identification',
-		render: (row: any) => `${row.meansOfId}`,
-	},
-	{
-		title: 'Date',
-		render: (row: any) => `${row.date}`,
-	},
-];
+interface Props {
+  handleChange: (e: any) => void
+}
+
+export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
+  <Input
+    icon={<img src={searchIcon} alt="searchIcon" />}
+    type="search"
+    placeholder="Search"
+    handleChange={handleChange}
+  />
+)
+
 const KYCDataGrid = () => {
-	const { page, limit, Pagination } = usePagination({
-		page: 1,
-		limit: 4,
-		total: kycData.length,
-	});
-	const paginatedRows = kycData.slice((page - 1) * limit, page * limit);
-	return (
-		<DashboardLayout pageTitle='KYC'>
-			<StyledTableContainer>
-				<div className='wrapper'>
-					<div className='table_summary'>{kycData.length} Pending KYC</div>
-				</div>
-				<div className='table_divider'></div>
-				<Table rows={paginatedRows} headers={KycTableHeaders} showHead={true} />
-				<Pagination />
-			</StyledTableContainer>
-		</DashboardLayout>
-	);
-};
+  const [searchField, setSearchField] = useState('')
 
-export default KYCDataGrid;
+  const filteredData = kycData.filter((data) => {
+    return (
+      data.name.toLowerCase().includes(searchField.toLowerCase()) ||
+      data.meansOfId.toLowerCase().includes(searchField.toLowerCase())
+    )
+  })
+
+  const handleChange = (e: any) => {
+    setSearchField(e.target.value)
+  }
+
+  return (
+    <DashboardLayout pageTitle="KYC" rhsHeading={<RhsHeading handleChange={handleChange} />}>
+      <>
+        <KycTable rows={filteredData} />
+      </>
+    </DashboardLayout>
+  )
+}
+
+export default KYCDataGrid
