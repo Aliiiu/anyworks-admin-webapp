@@ -60,7 +60,6 @@ export const StyledButton = styled.div`
 export const Input = styled.input`
 	border-radius: 8px;
 	background: transparent;
-	color: #98a2b3;
 	padding: 10px 14px 10px 14px;
 	font-size: inherit;
 	border: 1px solid #98a2b3;
@@ -69,6 +68,9 @@ export const Input = styled.input`
 	&:focus {
 		outline: none;
 		background: #f9fafb;
+	}
+	::placeholder {
+		color: #98a2b3;
 	}
 `;
 

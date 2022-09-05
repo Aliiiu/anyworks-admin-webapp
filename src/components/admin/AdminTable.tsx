@@ -30,6 +30,11 @@ const AdminTableContainer = styled.div`
 
 const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 	const [allowRowClick, setAllowRowClick] = useState(true);
+	let navigate = useNavigate();
+
+	const handleNavigate = (id: any) => {
+		navigate(`/admins/${id + 1}`);
+	};
 	const AdminTableHeaders = [
 		{ title: 'Admin', render: (row: any) => `${row.admin}` },
 		{ title: 'Last login', render: (row: any) => `${row.lastlogin}` },
@@ -49,13 +54,13 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 						{
 							title: 'View profile',
 							onClick: () => {
-								navigate(`/admins/${id + 1}`);
+								handleNavigate(id);
 							},
 						},
 						{
 							title: 'Activity Log',
 							onClick: () => {
-								navigate(`/admins/${id + 1}`);
+								handleNavigate(id);
 							},
 						},
 						{
@@ -83,7 +88,6 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 			),
 		},
 	];
-	let navigate = useNavigate();
 	const { page, limit, Pagination } = usePagination({
 		page: 1,
 		limit: 2,
@@ -100,9 +104,7 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 				headers={AdminTableHeaders}
 				showHead={true}
 				allowRowClick={allowRowClick}
-				onRowClick={() => {
-					navigate(`/admins/id`);
-				}}
+				onRowClick={handleNavigate}
 			/>
 			<Pagination />
 		</AdminTableContainer>

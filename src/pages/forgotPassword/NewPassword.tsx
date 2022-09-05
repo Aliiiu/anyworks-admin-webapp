@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
 	Container,
 	Image,
@@ -8,6 +9,7 @@ import {
 } from 'src/styles/commonStyle';
 
 const NewPassword = () => {
+	let navigate = useNavigate();
 	return (
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
@@ -47,7 +49,9 @@ const NewPassword = () => {
 						<label htmlFor='password'>New Password</label>
 						<Input type={'password'} placeholder='********' />
 					</div>
-					<StyledButton style={{ marginTop: 30 }}>Confrim</StyledButton>
+					<StyledButton onClick={() => navigate('/')} style={{ marginTop: 30 }}>
+						Confrim
+					</StyledButton>
 				</LoginCard>
 			</Container>
 		</div>

@@ -6,8 +6,20 @@ import mail from 'src/assets/images/profile/mail.svg';
 import chat from 'src/assets/images/profile/chat.svg';
 import close from 'src/assets/images/common/close.svg';
 import { Button, ButtonClass } from '../ui';
+import { useState } from 'react';
+import SendMailModal from '../users/SendMailModal';
+import SendNotificationModal from '../users/SendNotificationModal';
 
 const ArtisansProfileCard = () => {
+	const [openSendNotificationModal, setOpenSendNotificationModal] =
+		useState(false);
+	const handleOpenNotificationModal = () => setOpenSendNotificationModal(true);
+	const handleCloseNotificationModal = () =>
+		setOpenSendNotificationModal(false);
+
+	const [openSendMailModal, setOpenSendMailModal] = useState(false);
+	const handleOpenMailModal = () => setOpenSendMailModal(true);
+	const handleCloseMailModal = () => setOpenSendMailModal(false);
 	return (
 		<ProfileInfoContainer>
 			<div className='heading'>
@@ -22,14 +34,28 @@ const ArtisansProfileCard = () => {
 					</div>
 				</Flex>
 			</div>
+			<SendMailModal
+				open={openSendMailModal}
+				handleClose={handleCloseMailModal}
+			/>
+			<SendNotificationModal
+				open={openSendNotificationModal}
+				handleClose={handleCloseNotificationModal}
+			/>
 			<Flex gap='2rem' wrap='wrap'>
 				<div className='profile-info--lhs'>
 					<Flex direction='column' align='center' gap='1.5rem'>
 						<img src={dp} alt='dp' className='dp' />
 						<Flex gap='1.5rem'>
-							<img src={phone} alt='phone' />
-							<img src={mail} alt='mail' />
-							<img src={chat} alt='chat' />
+							<a href='tel:+2348110658901'>
+								<img src={phone} alt='phone' />
+							</a>
+							<button onClick={() => handleOpenMailModal()}>
+								<img src={mail} alt='mail' />
+							</button>
+							<button onClick={handleOpenNotificationModal}>
+								<img src={chat} alt='chat' />
+							</button>
 						</Flex>
 					</Flex>
 				</div>

@@ -156,9 +156,7 @@ export const Table: React.FC<Props> = ({
 					{rows.map((row: any, index: any) => (
 						<tr
 							key={index}
-							onClick={
-								allowRowClick ? () => onRowClick({ row, index }) : undefined
-							}
+							onClick={allowRowClick ? () => onRowClick(index) : undefined}
 							className={clsx({ clickable: allowRowClick })}
 						>
 							{headers?.map((header) => {
