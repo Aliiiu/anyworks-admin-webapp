@@ -18,7 +18,7 @@ export const ADMINData = [
 	{
 		admin: 'Olajide Olajide',
 		role: 'Booking Admin',
-		status: 'Block',
+		status: 'Blocked',
 		lastlogin: '06/05/2022',
 		img: avatar,
 	},

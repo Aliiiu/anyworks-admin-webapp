@@ -60,7 +60,7 @@ const Admin = () => {
 		>
 			<AdminContainer>
 				<AddAdminModal open={open} handleClose={handleClose} />
-				<AdminTable filteredData={filteredData} />
+				<AdminTable rows={filteredData} />
 			</AdminContainer>
 		</DashboardLayout>
 	);
