@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import {
 	Container,
@@ -13,7 +14,9 @@ const NewPassword = () => {
 	return (
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
-				<Image src='/images/logo.png' alt='anyworks logo' />
+				<Link to='/'>
+					<Image src='/images/logo.png' alt='anyworks logo' />
+				</Link>
 				<LoginCard>
 					<CardHeader style={{ textAlign: 'center' }}>New Password</CardHeader>
 					<h4

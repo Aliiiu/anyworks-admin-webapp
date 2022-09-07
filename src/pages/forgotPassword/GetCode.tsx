@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import OTPInput from 'src/components/inputs/OTPInput';
 import {
@@ -44,7 +45,9 @@ const GetCode = () => {
 	return (
 		<StyledWrapper>
 			<Container>
-				<Image src='/images/logo.png' alt='anyworks logo' />
+				<Link to='/'>
+					<Image src='/images/logo.png' alt='anyworks logo' />
+				</Link>
 				<LoginCard>
 					<CardHeader>Forgot Password</CardHeader>
 					<h4>Enter the code sent to olajide@gmail.com</h4>

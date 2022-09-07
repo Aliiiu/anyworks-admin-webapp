@@ -33,7 +33,7 @@ export const Login = () => {
 	const handleSumbit = (e: any) => {
 		let emailError = '';
 		let passwordError = '';
-		let emailFilter = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		let emailFilter = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 		if (!loginDetails.email) {
 			emailError = "Email can't be empty";
 		} else if (!loginDetails.email.match(emailFilter)) {
