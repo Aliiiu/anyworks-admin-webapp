@@ -45,10 +45,11 @@ export const CardHeader = styled.h2`
 	font-weight: 600;
 `;
 
-export const StyledButton = styled.div`
+export const StyledButton = styled.button`
 	background: #7e00c4;
 	border-radius: 8px;
-	max-width: 100%;
+	display: block;
+	width: 100%;
 	font-weight: 500;
 	text-align: center;
 	padding: 12px 0px;
