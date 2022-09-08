@@ -5,7 +5,6 @@ import dp from 'src/assets/images/profile/dp.svg';
 import phone from 'src/assets/images/profile/phone.svg';
 import mail from 'src/assets/images/profile/mail.svg';
 import chat from 'src/assets/images/profile/chat.svg';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import SendMailModal from '../users/SendMailModal';
 import { SendNotificationModal } from '../users/SendNotificationModal';

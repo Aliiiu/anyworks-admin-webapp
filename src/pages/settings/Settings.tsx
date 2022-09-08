@@ -98,13 +98,13 @@ const personalData = [
 	{
 		label: 'Name',
 		for: 'name',
-		placeholder: 'Olajide Olajide',
+		placeholder: 'Admin Fullname',
 		type: 'text',
 	},
 	{
 		label: 'Email',
 		for: 'email',
-		placeholder: 'Olajide@gmail.com',
+		placeholder: 'admin@gmail.com',
 		type: 'email',
 	},
 	{

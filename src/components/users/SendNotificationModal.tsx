@@ -117,7 +117,7 @@ export const SendNotificationModal: React.FC<{ open: boolean; handleClose: () =>
                 <Flex direction="column">
                   <div className="to">
                     <p className="label">To:</p>
-                    <input type="text" value="Olajide Olajide" disabled />
+                    <input type="text" value="Admin Fullname" disabled />
                   </div>
                   <div className="to">
                     <p className="label">Notification</p>

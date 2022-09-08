@@ -8,6 +8,7 @@ import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants'
 import { Flex } from 'src/components/ui'
 import { BookingStatus } from 'src/components/bookings'
 import { useNavigate } from 'react-router-dom'
+ import {formatDate} from 'src/utils/helpers'
 
 const BookingsPageContainer = styled.div``
 
@@ -61,7 +62,7 @@ const BookingsPage = () => {
     },
     { title: 'Service', render: (row: any) => `${row.services}` },
     { title: 'Location', render: (row: any) => `${row.location}` },
-    { title: 'Date', render: (row: any) => `${row.time}` },
+    { title: 'Date', render: (row: any) => formatDate(row.date) },
     {
       title: 'Status',
       render: (row: any) => <BookingStatus status={row['status']} />,

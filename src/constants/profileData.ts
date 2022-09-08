@@ -1,13 +1,13 @@
 export const profileData = [
 	{
 		label: 'First Name',
-		placeholder: 'Olajide',
+		placeholder: 'Admin',
 		for: 'firstname',
 		type: 'text',
 	},
 	{
 		label: 'Last Name',
-		placeholder: 'Olajide',
+		placeholder: 'Admin',
 		for: 'lastname',
 		type: 'text',
 	},
@@ -37,7 +37,7 @@ export const profileData = [
 	},
 	{
 		label: 'Email',
-		placeholder: 'Olajide@yahoo.com',
+		placeholder: 'admin@yahoo.com',
 		for: 'email',
 		type: 'email',
 	},

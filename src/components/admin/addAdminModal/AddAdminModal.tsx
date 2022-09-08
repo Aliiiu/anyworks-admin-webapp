@@ -24,7 +24,6 @@ const style = {
 	justifyContent: 'center',
 	alignItems: 'center',
 	bgcolor: 'background.paper',
-	border: '1px solid #000',
 	borderRadius: '16px',
 	boxShadow: 24,
 	p: '40px',
@@ -73,11 +72,11 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 						</Typography>
 						<InputContainer>
 							<label htmlFor='name'>Name</label>
-							<Input placeholder='Olajide Olajide' style={{ width: '100%' }} />
+							<Input placeholder='Admin Fullname' style={{ width: '100%' }} />
 						</InputContainer>
 						<InputContainer>
 							<label htmlFor='email'>Email</label>
-							<Input placeholder='Olajide@gmail.com' style={{}} />
+							<Input placeholder='admin@gmail.com' style={{}} />
 						</InputContainer>
 						<InputContainer>
 							<label htmlFor='Phone_No'>Phone Number</label>

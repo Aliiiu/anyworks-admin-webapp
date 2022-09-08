@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom'
 import { Flex, Table, Button, ButtonClass } from 'src/components/ui'
 import arrowLeft from 'src/assets/images/common/arrowLeft.svg'
 import { theme } from 'src/styles/Theme'
+import { formatDate } from 'src/utils/helpers'
+import { DateRangeFilter } from 'src/components/common'
+import { addDays } from 'date-fns'
 
 export const StyledProfileHeader = styled.div`
   display: flex;
@@ -181,7 +184,7 @@ const AdminProfile = () => {
   const AdminActivityTableHeaders = [
     {
       title: 'Date',
-      render: (row: any) => `${row.date}`,
+      render: (row: any) => formatDate(row.date),
     },
     {
       title: 'Action Type',
@@ -189,21 +192,49 @@ const AdminProfile = () => {
     },
   ]
 
+  //Date filter
+  const [openDateFilter, setOpenDateFilter] = useState(false)
+  const handleOpenDateFilter = () => setOpenDateFilter(true)
+  const handleCloseDateFilter = () => setOpenDateFilter(false)
+
+  const [state, setState] = useState([
+    {
+      startDate: new Date('2020-01-01'),
+      endDate: addDays(new Date(), 0),
+      key: 'selection',
+      color: theme.colors.darkPurple,
+    },
+  ])
+
+  const startDate = state[0]?.startDate
+  const endDate = state[0]?.endDate
+
+  const dateFilteredData = WALLETData.filter((a: any) => {
+    const date = new Date(a.date)
+    return date >= startDate && date <= endDate
+  })
+
   return (
     <DashboardLayout>
+      <DateRangeFilter
+        open={openDateFilter}
+        handleClose={handleCloseDateFilter}
+        state={state}
+        setState={setState}
+      />
       <StyledAdminProfileComponent>
         <StyledProfileHeader>
           <h2>Olajide Olajide's profile</h2>
           <Link to="/admins">
-      <Button
-        classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
-        style={{ backgroundColor: theme.colors.purple }}
-      >
-        {' '}
-        <img src={arrowLeft} alt="back" />
-        <span>Back to Admins</span>
-      </Button>
-    </Link>
+            <Button
+              classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
+              style={{ backgroundColor: theme.colors.purple }}
+            >
+              {' '}
+              <img src={arrowLeft} alt="back" />
+              <span>Back to Admins</span>
+            </Button>
+          </Link>
         </StyledProfileHeader>
         <div className="admin_profile_details">
           <div className="profile_header">
@@ -293,7 +324,7 @@ const AdminProfile = () => {
           <div className="heading">
             <Flex justify="space-between" align="center">
               <p className="title"> Activity Log</p>
-              <FilterButton>
+              <FilterButton onClick={handleOpenDateFilter}>
                 <img src={filterIcon} alt="" width={24} height="24px" />
                 Filter
               </FilterButton>
@@ -301,7 +332,7 @@ const AdminProfile = () => {
           </div>
 
           <Table
-            rows={WALLETData}
+            rows={dateFilteredData}
             headers={AdminActivityTableHeaders}
             showHead
             allowRowClick={false}

@@ -8,6 +8,9 @@ import { usePagination } from 'src/hooks/usePagination'
 import { Flex, Table } from 'src/components/ui'
 import { FilterButton } from 'src/styles/commonStyle'
 import filterIcon from 'src/assets/images/common/filter.svg'
+import { DateRangeFilter } from 'src/components/common'
+import { addDays } from 'date-fns'
+import { theme } from 'src/styles/Theme'
 
 const BookingsContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
@@ -93,26 +96,51 @@ export const BookingsTabs: React.FC<Props> = ({
   onRowClick,
   allowRowClick = true,
 }) => {
-  const { page, limit, Pagination } = usePagination({
-    page: 1,
-    limit: 2,
-    total: rows.length,
-  })
-  const paginatedRows = rows.slice((page - 1) * limit, page * limit)
+
 
   const [value, setValue] = useState('1')
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
+//Date filter
+  const [openDateFilter, setOpenDateFilter] = useState(false)
+  const handleOpenDateFilter = () => setOpenDateFilter(true)
+  const handleCloseDateFilter = () => setOpenDateFilter(false)
+
+  const [state, setState] = useState([
+    {
+      startDate: new Date('2020-01-01'),
+      endDate: addDays(new Date(), 0),
+      key: 'selection',
+      color: theme.colors.darkPurple
+    },
+  ])
+
+  const startDate = state[0]?.startDate;
+  const endDate = state[0]?.endDate;
+
+  const dateFilteredData = rows.filter((a:any) => {
+    const date = new Date(a.date);
+    return (date >= startDate && date <= endDate);
+  });
+
+
+  const { page, limit, Pagination } = usePagination({
+    page: 1,
+    limit: 4,
+    total: dateFilteredData.length,
+  })
+  const paginatedRows = dateFilteredData.slice((page - 1) * limit, page * limit)
 
   return (
     <BookingsContainer>
+      <DateRangeFilter open={openDateFilter} handleClose={handleCloseDateFilter} state={state} setState={setState}/>
       <div className="heading">
         <Flex justify="space-between" align="center">
           {' '}
           <>{title}</>
-          <FilterButton>
+          <FilterButton onClick={handleOpenDateFilter}>
             <img src={filterIcon} alt="" width={24} height="24px" />
             Filter
           </FilterButton>

@@ -44,7 +44,7 @@ const KycPersonalInfo = () => {
 				<div className='input_container'>
 					<label htmlFor='name'>Full name</label>
 					<Input
-						placeholder='Olajide Olajide Olajide'
+						placeholder='Admin Fullname'
 						style={{ background: '#F2F4F7' }}
 					/>
 				</div>

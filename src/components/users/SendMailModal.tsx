@@ -126,7 +126,7 @@ export const SendMailModal: React.FC<{ open: boolean; handleClose: () => void }>
                 <Flex direction="column">
                   <div className="to">
                     <p className="label">To:</p>
-                    <input type="text" value="olajide@gmail.com" disabled />
+                    <input type="text" value="admin@gmail.com" disabled />
                   </div>
                   <div className="to">
                     <p className="label">Subject</p>

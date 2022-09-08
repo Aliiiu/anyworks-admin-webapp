@@ -54,6 +54,7 @@ const Admin = () => {
 	};
 	return (
 		<DashboardLayout
+		pageTitle="Admin"
 			rhsHeading={
 				<RhsHeading handleChange={handleChange} handleOpen={handleOpen} />
 			}
