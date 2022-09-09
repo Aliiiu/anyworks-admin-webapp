@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import AdminAuth from 'src/service/AdminAuth';
 import {
 	Container,
 	Image,
@@ -17,7 +19,23 @@ const NewPassword = () => {
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
-		navigate('/');
+		AdminAuth.resetPassword({ password, confirm_password: confirmPassword })
+			.then((res) => {
+				if (res.data.message) {
+					toast(res.data.message);
+					navigate('/');
+				}
+			})
+			.catch(
+				(err: any) =>
+					err.response.data.error.message &&
+					toast(err.response.data.error.message)
+			)
+			.finally(() => {
+				setPassword('');
+				setConfirmPassword('');
+			});
+		// navigate('/');
 	};
 	return (
 		<div style={{ background: '#7e00c4' }}>
@@ -51,6 +69,7 @@ const NewPassword = () => {
 							<Input
 								type={'password'}
 								placeholder='********'
+								value={password}
 								onChange={(e: any) => setPassword(e.target.value)}
 							/>
 						</div>
@@ -66,6 +85,7 @@ const NewPassword = () => {
 							<Input
 								type={'password'}
 								placeholder='********'
+								value={confirmPassword}
 								onChange={(e: any) => setConfirmPassword(e.target.value)}
 							/>
 						</div>

@@ -11,6 +11,7 @@ import { useState } from 'react';
 import AdminAuth from 'src/service/AdminAuth';
 import { setAuthUser } from 'src/store/Auth';
 import { setAuthToken } from 'src/utils/AuthUtils';
+import { toast, ToastContainer } from 'react-toastify';
 
 export const Login = () => {
 	let navigate = useNavigate();
@@ -47,10 +48,9 @@ export const Login = () => {
 		}
 		if (!loginDetails.password) {
 			passwordError = "Password can't be empty";
+		} else if (loginDetails.password.length < 6) {
+			passwordError = 'Password should be at least 8 character long';
 		}
-		// else if (loginDetails.password.length < 6) {
-		// 	passwordError = 'Password should be at least 8 character long';
-		// }
 		if (emailError || passwordError) {
 			setLoginDetails({ ...loginDetails, emailError, passwordError });
 		} else {
@@ -60,8 +60,17 @@ export const Login = () => {
 					setAuthUser(res.data.payload.data);
 					setAuthToken(res.data.payload.token);
 					setIsSuccess(false);
-					console.log(res.data.message);
-					// navigate('/dashboard');
+					toast.success(`${res.data.message}`, {
+						position: 'top-center',
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+					});
+					// console.log(res.data);
+					setTimeout(() => navigate('/dashboard'), 5000);
 				})
 				.catch((err: any) => {
 					console.log(err.response.data);
@@ -72,6 +81,7 @@ export const Login = () => {
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
 				<Image src='/images/logo.png' alt='anyworks logo' />
+				<ToastContainer />
 				<LoginCard>
 					<CardHeader>log in</CardHeader>
 					<h4
@@ -144,7 +154,7 @@ export const Login = () => {
 						>
 							Forgot password?
 						</Link>
-						<StyledButton onClick={handleSubmit}>Login</StyledButton>
+						<StyledButton>Login</StyledButton>
 					</form>
 				</LoginCard>
 			</Container>

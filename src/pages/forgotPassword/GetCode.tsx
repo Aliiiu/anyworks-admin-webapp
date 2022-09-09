@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import OTPInput from 'src/components/inputs/OTPInput';
 import AdminAuth from 'src/service/AdminAuth';
 import { auth } from 'src/store/Auth';
@@ -53,23 +54,31 @@ const GetCode = () => {
 	const resendCodeHandler = () => {
 		AdminAuth.forgotPassword({ email: userEmail })
 			.then((res: any) => {
-				console.log(res.data.message);
+				toast(res.data.message);
 			})
 			.catch((err: any) => {
-				console.log(err.res);
+				err.response.data.error.message &&
+					toast(err.response.data.error.message);
 			});
 	};
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
 		console.log(`email: ${userEmail}`);
-		// navigate('/new-password');
+
 		AdminAuth.forgotPasswordOtp({ email: userEmail, code })
 			.then((res) => {
-				console.log(res.data);
-				setAuthToken(res.data.payload.token);
+				if (res.data.success) {
+					toast(res.data.message);
+					setAuthToken(res.data.token);
+					navigate('/new-password');
+				}
 			})
-			.catch((err: any) => console.log(err.response.data.error.message));
+			.catch(
+				(err: any) =>
+					err.response.data.error.message &&
+					toast(err.response.data.error.message)
+			);
 	};
 	return (
 		<StyledWrapper>
@@ -77,6 +86,7 @@ const GetCode = () => {
 				<Link to='/'>
 					<Image src='/images/logo.png' alt='anyworks logo' />
 				</Link>
+				<ToastContainer />
 				<LoginCard>
 					<CardHeader>Forgot Password</CardHeader>
 					<h4>Enter the code sent to olajide@gmail.com</h4>

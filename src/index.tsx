@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
 	typography: {

@@ -15,28 +15,118 @@ import BookingsPage from 'src/pages/bookings/Bookings';
 import BookingDetailsPage from 'src/pages/bookings/BookingDetails';
 import Artisan from 'src/pages/artisans/Artisan';
 import ArtisansProfile from 'src/pages/artisans/ArtisansProfile';
+import IsAuthenticatedRoute from './IsAuthenticatedRoute';
+import PrivateRoute from './PrivateRoute';
 
 const Router = () => {
 	return (
 		<Routes>
-			<Route path='/' element={<Login />} />
+			<Route
+				path='/'
+				element={
+					<IsAuthenticatedRoute>
+						<Login />
+					</IsAuthenticatedRoute>
+				}
+			/>
 			<Route path='forgot-password' element={<ForgotPassword />} />
 			<Route path='get-code' element={<GetCode />} />
 			<Route path='new-password' element={<NewPassword />} />
-			<Route path='/dashboard' element={<Dashboard />} />
-			<Route path='/kyc' element={<Kyc />} />
-			<Route path='/kyc/artisan' element={<ArtisanKyc />} />
-			<Route path='/users' element={<Users />} />
-			<Route path='/users/profile' element={<Profile />} />
-			<Route path='/artisans' element={<Artisan />} />
-			<Route path='/artisans/:id' element={<ArtisansProfile />} />
-			<Route path='/admins' element={<Admin />} />
-			<Route path='/admins/:id' element={<AdminProfile />} />
-			<Route path='/settings' element={<Settings />} />
-			<Route path='/bookings' element={<BookingsPage />} />
+			<Route
+				path='/dashboard'
+				element={
+					<PrivateRoute>
+						<Dashboard />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/kyc'
+				element={
+					<PrivateRoute>
+						<Kyc />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/kyc/artisan'
+				element={
+					<PrivateRoute>
+						<ArtisanKyc />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/users'
+				element={
+					<PrivateRoute>
+						<Users />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/users/profile'
+				element={
+					<PrivateRoute>
+						<Profile />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/artisans'
+				element={
+					<PrivateRoute>
+						<Artisan />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/artisans/:id'
+				element={
+					<PrivateRoute>
+						<ArtisansProfile />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/admins'
+				element={
+					<PrivateRoute>
+						<Admin />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/admins/:id'
+				element={
+					<PrivateRoute>
+						<AdminProfile />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/settings'
+				element={
+					<PrivateRoute>
+						<Settings />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/bookings'
+				element={
+					<PrivateRoute>
+						<BookingsPage />
+					</PrivateRoute>
+				}
+			/>
 			<Route
 				path='/bookings/booking-details'
-				element={<BookingDetailsPage />}
+				element={
+					<PrivateRoute>
+						<BookingDetailsPage />
+					</PrivateRoute>
+				}
 			/>
 		</Routes>
 	);

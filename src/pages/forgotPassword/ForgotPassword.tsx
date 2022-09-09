@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import { entity } from 'simpler-state';
 import AdminAuth from 'src/service/AdminAuth';
 import {
@@ -10,6 +11,7 @@ import {
 	Input,
 	StyledButton,
 } from 'src/styles/commonStyle';
+import { setAuthToken } from 'src/utils/AuthUtils';
 
 export const emailCtx = entity('');
 
@@ -20,15 +22,17 @@ const ForgotPassword = () => {
 	const submitHandler = (e: any) => {
 		e.preventDefault();
 		emailCtx.set(email);
-		// console.log(email);
-		// navigate('/get-code');
 		AdminAuth.forgotPassword({ email })
 			.then((res: any) => {
-				console.log(res.data.message);
-				navigate('/get-code');
+				if (res.data.success) {
+					setAuthToken(res.data.token);
+					toast(res.data.message);
+					navigate('/get-code');
+				}
 			})
 			.catch((err: any) => {
-				console.log(err.res);
+				err.response.data.error.message &&
+					toast(err.response.data.error.message);
 			});
 	};
 	return (
@@ -37,6 +41,7 @@ const ForgotPassword = () => {
 				<Link to='/'>
 					<Image src='/images/logo.png' alt='anyworks logo' />
 				</Link>
+				<ToastContainer />
 				<LoginCard>
 					<CardHeader>Forgot Password</CardHeader>
 					<h4
