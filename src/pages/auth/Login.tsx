@@ -8,9 +8,13 @@ import {
 } from 'src/styles/commonStyle';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import AdminAuth from 'src/service/AdminAuth';
+import { setAuthUser } from 'src/store/Auth';
+import { setAuthToken } from 'src/utils/AuthUtils';
 
 export const Login = () => {
 	let navigate = useNavigate();
+	const [isSuccess, setIsSuccess] = useState(false);
 	const [loginDetails, setLoginDetails] = useState({
 		email: '',
 		password: '',
@@ -30,7 +34,9 @@ export const Login = () => {
 		});
 	};
 
-	const handleSumbit = (e: any) => {
+	const handleSubmit = (e: any) => {
+		setIsSuccess(true);
+		e.preventDefault();
 		let emailError = '';
 		let passwordError = '';
 		let emailFilter = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -41,14 +47,25 @@ export const Login = () => {
 		}
 		if (!loginDetails.password) {
 			passwordError = "Password can't be empty";
-		} else if (loginDetails.password.length < 6) {
-			passwordError = 'Password should be at least 8 character long';
 		}
-
+		// else if (loginDetails.password.length < 6) {
+		// 	passwordError = 'Password should be at least 8 character long';
+		// }
 		if (emailError || passwordError) {
 			setLoginDetails({ ...loginDetails, emailError, passwordError });
 		} else {
-			navigate('/dashboard');
+			const { email, password } = loginDetails;
+			AdminAuth.login({ email, password })
+				.then((res: any) => {
+					setAuthUser(res.data.payload.data);
+					setAuthToken(res.data.payload.token);
+					setIsSuccess(false);
+					console.log(res.data.message);
+					// navigate('/dashboard');
+				})
+				.catch((err: any) => {
+					console.log(err.response.data);
+				});
 		}
 	};
 	return (
@@ -67,65 +84,68 @@ export const Login = () => {
 					>
 						Welcome to Anyworks
 					</h4>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							marginTop: 20,
-							gap: 6,
-						}}
-					>
-						<label htmlFor='email'>Email</label>
-						<Input
+					<form onSubmit={handleSubmit}>
+						<div
 							style={{
-								borderColor: loginDetails.emailError && '#F04438',
-								background: loginDetails.passwordError && '#F9FAFB',
+								display: 'flex',
+								flexDirection: 'column',
+								marginTop: 20,
+								gap: 6,
 							}}
-							placeholder='Email Address'
-							value={loginDetails.email}
-							onChange={handleEmailInputChange}
-						/>
-						{loginDetails.emailError && (
-							<h6 className='validation_error'>{loginDetails.emailError}</h6>
-						)}
-					</div>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							marginTop: 20,
-							marginBottom: 16,
-							gap: 6,
-						}}
-					>
-						<label htmlFor='password'>Password</label>
-						<Input
+						>
+							<label htmlFor='email'>Email</label>
+							<Input
+								style={{
+									borderColor: loginDetails.emailError && '#F04438',
+									background: loginDetails.passwordError && '#F9FAFB',
+								}}
+								placeholder='Email Address'
+								value={loginDetails.email}
+								onChange={handleEmailInputChange}
+							/>
+							{loginDetails.emailError && (
+								<h6 className='validation_error'>{loginDetails.emailError}</h6>
+							)}
+						</div>
+						<div
 							style={{
-								borderColor: loginDetails.passwordError && '#F04438',
-								background: loginDetails.passwordError && '#F9FAFB',
+								display: 'flex',
+								flexDirection: 'column',
+								marginTop: 20,
+								marginBottom: 16,
+								gap: 6,
 							}}
-							type={'password'}
-							placeholder='********'
-							value={loginDetails.password}
-							onChange={handlePasswordInputChange}
-						/>
-						{loginDetails.passwordError && (
-							<h6 className='validation_error'>{loginDetails.passwordError}</h6>
-						)}
-					</div>
-
-					<Link
-						style={{
-							fontSize: 14,
-							color: '#1D2939',
-							fontWeight: 500,
-							cursor: 'pointer',
-						}}
-						to={'/forgot-password'}
-					>
-						Forgot password?
-					</Link>
-					<StyledButton onClick={handleSumbit}>Login</StyledButton>
+						>
+							<label htmlFor='password'>Password</label>
+							<Input
+								style={{
+									borderColor: loginDetails.passwordError && '#F04438',
+									background: loginDetails.passwordError && '#F9FAFB',
+								}}
+								type={'password'}
+								placeholder='********'
+								value={loginDetails.password}
+								onChange={handlePasswordInputChange}
+							/>
+							{loginDetails.passwordError && (
+								<h6 className='validation_error'>
+									{loginDetails.passwordError}
+								</h6>
+							)}
+						</div>
+						<Link
+							style={{
+								fontSize: 14,
+								color: '#1D2939',
+								fontWeight: 500,
+								cursor: 'pointer',
+							}}
+							to={'/forgot-password'}
+						>
+							Forgot password?
+						</Link>
+						<StyledButton onClick={handleSubmit}>Login</StyledButton>
+					</form>
 				</LoginCard>
 			</Container>
 		</div>
