@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import usePagination from 'src/hooks/usePagination';
 import { AdminStatus } from './AdminStatus';
 
-
 const AdminTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
 	margin: 3rem 0;
@@ -42,7 +41,15 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 		{ title: 'Roles', render: (row: any) => `${row.role}` },
 		{
 			title: 'Status',
-			render: (row: any) => <AdminStatus status={row.status} />,
+			render: (row: any) => (
+				<div
+					style={{
+						color: row.status === 'Active' ? '#55C4F1' : '#FFAD4A',
+					}}
+				>
+					{row.status}
+				</div>
+			),
 		},
 		{
 			title: '',
@@ -95,7 +102,6 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 		total: rows.length,
 	});
 	const paginatedRows = rows.slice((page - 1) * limit, page * limit);
-
 
 	return (
 		<AdminTableContainer>

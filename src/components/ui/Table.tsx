@@ -162,9 +162,6 @@ export const Table: React.FC<Props> = ({
 							{headers?.map((header) => {
 								return (
 									<td
-										style={{
-											padding: header.title === 'Status' ? 0 : '',
-										}}
 										key={header.title}
 										className={clsx({
 											'align--right': header.align === 'right',
