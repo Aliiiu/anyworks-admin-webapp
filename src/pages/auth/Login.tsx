@@ -73,7 +73,7 @@ export const Login = () => {
 					setTimeout(() => navigate('/dashboard'), 5000);
 				})
 				.catch((err: any) => {
-					console.log(err.response.data);
+					toast.error(err.response.data.error.message);
 				});
 		}
 	};
@@ -106,7 +106,7 @@ export const Login = () => {
 							<label htmlFor='email'>Email</label>
 							<Input
 								style={{
-									borderColor: loginDetails.emailError && '#F04438',
+									borderColor: loginDetails.passwordError && '#F04438',
 									background: loginDetails.passwordError && '#F9FAFB',
 								}}
 								placeholder='Email Address'

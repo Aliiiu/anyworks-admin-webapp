@@ -77,7 +77,7 @@ const GetCode = () => {
 			.catch(
 				(err: any) =>
 					err.response.data.error.message &&
-					toast(err.response.data.error.message)
+					toast.error(err.response.data.error.message)
 			);
 	};
 	return (

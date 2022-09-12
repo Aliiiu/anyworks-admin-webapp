@@ -14,27 +14,55 @@ import {
 
 const NewPassword = () => {
 	let navigate = useNavigate();
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
+	const [resetDetails, setResetDetails] = useState({
+		password: '',
+		confirm_password: '',
+		passwordError: '',
+		confirmPasswordError: '',
+	});
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
-		AdminAuth.resetPassword({ password, confirm_password: confirmPassword })
-			.then((res) => {
-				if (res.data.message) {
-					toast(res.data.message);
-					navigate('/');
-				}
+		let passwordError = '';
+		let confirmPasswordError = '';
+		if (resetDetails.password.length < 6) {
+			passwordError = 'Password should be at least 8 character long';
+		} else if (resetDetails.password === resetDetails.confirm_password) {
+			confirmPasswordError = 'Password must be the same';
+		}
+
+		if (passwordError || confirmPasswordError) {
+			setResetDetails((prevState) => ({
+				...prevState,
+				passwordError,
+				confirmPasswordError,
+			}));
+		} else {
+			AdminAuth.resetPassword({
+				password: resetDetails.password,
+				confirm_password: resetDetails.confirm_password,
 			})
-			.catch(
-				(err: any) =>
-					err.response.data.error.message &&
-					toast(err.response.data.error.message)
-			)
-			.finally(() => {
-				setPassword('');
-				setConfirmPassword('');
-			});
+				.then((res) => {
+					if (res.data.message) {
+						toast(res.data.message);
+						navigate('/');
+					}
+				})
+				.catch(
+					(err: any) =>
+						err.response.data.error.message &&
+						toast.error(err.response.data.error.message)
+				)
+				.finally(() => {
+					setResetDetails({
+						password: '',
+						confirm_password: '',
+						passwordError: '',
+						confirmPasswordError: '',
+					});
+				});
+		}
+
 		// navigate('/');
 	};
 	return (
@@ -67,11 +95,25 @@ const NewPassword = () => {
 						>
 							<label htmlFor='password'>New Password</label>
 							<Input
+								style={{
+									borderColor: resetDetails.passwordError && '#F04438',
+									background: resetDetails.passwordError && '#F9FAFB',
+								}}
 								type={'password'}
 								placeholder='********'
-								value={password}
-								onChange={(e: any) => setPassword(e.target.value)}
+								value={resetDetails.password}
+								onChange={(e: any) =>
+									setResetDetails((prevState) => ({
+										...prevState,
+										password: e.target.value,
+									}))
+								}
 							/>
+							{resetDetails.passwordError && (
+								<h6 className='validation_error'>
+									{resetDetails.passwordError}
+								</h6>
+							)}
 						</div>
 						<div
 							style={{
@@ -83,11 +125,25 @@ const NewPassword = () => {
 						>
 							<label htmlFor='password'>New Password</label>
 							<Input
+								style={{
+									borderColor: resetDetails.confirmPasswordError && '#F04438',
+									background: resetDetails.confirmPasswordError && '#F9FAFB',
+								}}
 								type={'password'}
 								placeholder='********'
-								value={confirmPassword}
-								onChange={(e: any) => setConfirmPassword(e.target.value)}
+								value={resetDetails.confirm_password}
+								onChange={(e: any) =>
+									setResetDetails((prevState) => ({
+										...prevState,
+										confirm_password: e.target.value,
+									}))
+								}
 							/>
+							{resetDetails.confirmPasswordError && (
+								<h6 className='validation_error'>
+									{resetDetails.confirmPasswordError}
+								</h6>
+							)}
 						</div>
 						<StyledButton style={{ marginTop: 30 }}>Confrim</StyledButton>
 					</form>
