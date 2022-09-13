@@ -1,14 +1,8 @@
 export const profileData = [
 	{
-		label: 'First Name',
+		label: 'Full Name',
 		placeholder: 'Admin',
-		for: 'firstname',
-		type: 'text',
-	},
-	{
-		label: 'Last Name',
-		placeholder: 'Admin',
-		for: 'lastname',
+		for: 'fullName',
 		type: 'text',
 	},
 	{
@@ -20,7 +14,7 @@ export const profileData = [
 	{
 		label: 'Date of birth',
 		placeholder: 'Plumber',
-		for: 'dateOfBirth',
+		for: 'dob',
 		type: 'date',
 	},
 	{
@@ -44,7 +38,7 @@ export const profileData = [
 	{
 		label: 'Phone Number',
 		placeholder: '+238140915605',
-		for: 'phone_no',
+		for: 'phone',
 		type: 'number',
 	},
 	{

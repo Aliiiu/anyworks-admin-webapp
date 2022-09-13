@@ -49,7 +49,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/kyc/artisan'
+				path='/kyc/:artisan_id'
 				element={
 					<PrivateRoute>
 						<ArtisanKyc />

@@ -85,7 +85,7 @@ export const DashboardLayout: React.FC<Props> = ({
     stopLoading: stopFetchingAuthUser,
   } = useLoading(false)
 
-  const containsLoggedInUser = authUser.hasOwnProperty('email')
+  const noLoggedInUserRole = !authUser?.role
 
   const fetchLoggedInUser = () => {
     startFetchingAuthUser()
@@ -100,7 +100,7 @@ export const DashboardLayout: React.FC<Props> = ({
   }
 
   useEffect(() => {
-    !containsLoggedInUser && fetchLoggedInUser()
+    noLoggedInUserRole && fetchLoggedInUser()
   }, [])
 
   if (fetchingAuthUser) {
