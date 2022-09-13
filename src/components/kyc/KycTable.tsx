@@ -96,7 +96,7 @@ export const KycTable = ({ rows }: Props) => {
       <div className="heading">
       <Flex justify="space-between" align="center">
        <p className="count">{rows.length} Pending Kyc</p>
-       <FilterButton onClick={handleOpenDateFilter}>
+       <FilterButton onClick={handleOpenDateFilter} disabled={paginatedRows.length === 0}>
             <img src={filterIcon} alt="" width={24} height="24px" />
             Filter
           </FilterButton>

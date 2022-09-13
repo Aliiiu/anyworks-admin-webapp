@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getAuthToken, isLoggedIn } from './AuthUtils';
 
-const adminServiceApi = () => {
+const artisanServiceApi = () => {
 	let headers = {};
 	if (isLoggedIn()) {
 		headers = {
@@ -9,10 +9,10 @@ const adminServiceApi = () => {
 		};
 	}
 	return axios.create({
-		baseURL: process.env.REACT_APP_BASE_URL || '',
+		baseURL: process.env.REACT_APP_ARTISAN_BASE_URL || '',
 		timeout: 300000,
 		headers,
 	});
 };
 
-export default adminServiceApi;
+export default artisanServiceApi;
