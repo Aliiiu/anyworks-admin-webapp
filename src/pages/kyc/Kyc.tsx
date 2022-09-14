@@ -23,12 +23,15 @@ export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
 
 const KYCDataGrid = () => {
   const [searchField, setSearchField] = useState('')
-  const [kycData, setKycData] = useState<any[]>([])
+  const [pendingkycData, setPendingKycData] = useState<any[]>([])
 
-  const filteredData = kycData.filter((data) => {
+  const filteredData = pendingkycData.filter((data) => {
     return (
-      (data?.name && data?.name?.toLowerCase().includes(searchField.toLowerCase())) ||
-      (data?.meansOfId && data?.meansOfId?.toLowerCase().includes(searchField.toLowerCase()))
+      (data?.first_name && data?.first_name?.toLowerCase().includes(searchField.toLowerCase())) ||
+      (data?.last_name && data?.last_name?.toLowerCase().includes(searchField.toLowerCase())) ||
+      (data?.occupation && data?.occupation?.toLowerCase().includes(searchField.toLowerCase())) ||
+      (data?.gender && data?.gender?.toLowerCase().includes(searchField.toLowerCase())) ||
+      (data?.email && data?.email?.toLowerCase().includes(searchField.toLowerCase()))
     )
   })
 
@@ -37,29 +40,31 @@ const KYCDataGrid = () => {
   }
 
   const {
-    loading: fetchingKycData,
-    startLoading: startFetchingKycData,
-    stopLoading: stopFetchingKycData,
+    loading: fetchingPendingKycData,
+    startLoading: startFetchingPendingKycData,
+    stopLoading: stopFetchingPendingKycData,
   } = useLoading(false)
 
   useEffect(() => {
-    startFetchingKycData()
-    KycData.getAllKyc()
+    startFetchingPendingKycData()
+    KycData.getAllPendingKyc()
       .then((res) => {
-        setKycData(res?.data?.payload?.data || [])
+        setPendingKycData(res?.data?.payload?.data || [])
       })
       .catch((err) => {
         toast.error(err.response.data.error.message)
       })
-      .finally(() => stopFetchingKycData())
+      .finally(() => stopFetchingPendingKycData())
   }, [])
 
   return (
     <DashboardLayout pageTitle="KYC" rhsHeading={<RhsHeading handleChange={handleChange} />}>
       <>
         <ToastContainer />
-        {fetchingKycData ? (
-          <div>
+        {fetchingPendingKycData ? (
+          <div style={{display: 'flex', justifyContent: 'center',
+            marginTop: '100px'
+        }}>
             <Loader>loading...</Loader>{' '}
           </div>
         ) : (

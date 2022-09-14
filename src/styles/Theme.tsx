@@ -61,6 +61,9 @@ button {
   border: 0;
   background-color: transparent;
 }
+img{
+  max-width: 100%;
+}
 ul {
   padding: 0;
   margin: 0 0 0 1.1rem;

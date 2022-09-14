@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Flex, Table } from 'src/components/ui'
 import { usePagination } from 'src/hooks/usePagination'
-import { formatDate } from 'src/utils/helpers'
-import { DateRangeFilter } from 'src/components/common'
-import { FilterButton } from 'src/styles/commonStyle'
-import filterIcon from 'src/assets/images/common/filter.svg'
-import { addDays } from 'date-fns'
-import { theme } from 'src/styles/Theme'
-import { useState } from 'react'
+// import { formatDate } from 'src/utils/helpers'
+// import { DateRangeFilter } from 'src/components/common'
+// import { FilterButton } from 'src/styles/commonStyle'
+// import filterIcon from 'src/assets/images/common/filter.svg'
+// import { addDays } from 'date-fns'
+// import { theme } from 'src/styles/Theme'
+// import { useState } from 'react'
+import avatar from 'src/assets/images/header/avatar.svg'
 
 const KycTableContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
@@ -44,64 +45,83 @@ export const KycTable = ({ rows }: Props) => {
       title: 'Name',
       render: (row: any) => (
         <Flex gap="10px" align="center">
-          <img style={{ width: '40px' }} src={row.img} alt="" /> {row.name}
+          <div
+            style={{
+              backgroundImage: `url(${row?.display_picture || avatar})`,
+              width: '40px',
+              height: '40px',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+              boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+              borderRadius: '50%',
+            }}
+          ></div>
+          <span>
+            {' '}
+            {row.first_name} {row.last_name}
+          </span>
         </Flex>
       ),
     },
     {
-      title: 'Means of Identification',
-      render: (row: any) => `${row.meansOfId}`,
+      title: 'Email',
+      render: (row: any) => `${row.email}`,
     },
     {
-      title: 'Date',
-      render: (row: any) => formatDate(row.date),
+      title: 'Occupation',
+      render: (row: any) => `${row.occupation}`,
+    },
+    {
+      title: 'Gender',
+      render: (row: any) => `${row.gender}`,
     },
   ]
 
   //Date filter
-  const [openDateFilter, setOpenDateFilter] = useState(false)
-  const handleOpenDateFilter = () => setOpenDateFilter(true)
-  const handleCloseDateFilter = () => setOpenDateFilter(false)
+  // const [openDateFilter, setOpenDateFilter] = useState(false)
+  // const handleOpenDateFilter = () => setOpenDateFilter(true)
+  // const handleCloseDateFilter = () => setOpenDateFilter(false)
 
-  const [state, setState] = useState([
-    {
-      startDate: new Date('2020-01-01'),
-      endDate: addDays(new Date(), 8),
-      key: 'selection',
-      color: theme.colors.darkPurple,
-    },
-  ])
+  // const [state, setState] = useState([
+  //   {
+  //     startDate: new Date('2020-01-01'),
+  //     endDate: addDays(new Date(), 8),
+  //     key: 'selection',
+  //     color: theme.colors.darkPurple,
+  //   },
+  // ])
 
-  const startDate = state[0]?.startDate
-  const endDate = state[0]?.endDate
+  // const startDate = state[0]?.startDate
+  // const endDate = state[0]?.endDate
 
-  const dateFilteredData = rows.filter((a: any) => {
-    const date = new Date(a.date)
-    return date >= new Date(startDate) && date <= new Date(endDate)
-  })
+  // const dateFilteredData = rows.filter((a: any) => {
+  //   const date = new Date(a.date)
+  //   return date >= new Date(startDate) && date <= new Date(endDate)
+  // })
 
   const { page, limit, Pagination } = usePagination({
     page: 1,
     limit: 4,
-    total: dateFilteredData.length,
+    total: rows.length,
   })
-  const paginatedRows = dateFilteredData.slice((page - 1) * limit, page * limit)
+  const paginatedRows = rows.slice((page - 1) * limit, page * limit)
 
   return (
     <KycTableContainer>
-      <DateRangeFilter
+      {/* <DateRangeFilter
         open={openDateFilter}
         handleClose={handleCloseDateFilter}
         state={state}
         setState={setState}
-      />
+      /> */}
       <div className="heading">
         <Flex justify="space-between" align="center">
           <p className="count">{rows.length} Pending Kyc</p>
-          <FilterButton onClick={handleOpenDateFilter} disabled={paginatedRows.length === 0}>
+          {/* <FilterButton onClick={handleOpenDateFilter} disabled={paginatedRows.length === 0}>
             <img src={filterIcon} alt="" width={24} height="24px" />
             Filter
-          </FilterButton>
+          </FilterButton> */}
         </Flex>
       </div>
       <Table
@@ -110,7 +130,6 @@ export const KycTable = ({ rows }: Props) => {
         showHead={true}
         onRowClick={(index) => {
           navigate(`/kyc/${index}`)
-          console.log(paginatedRows[Number(index)])
         }}
       />
       <Pagination />

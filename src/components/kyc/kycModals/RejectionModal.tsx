@@ -4,6 +4,8 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
+import { Button, ButtonClass } from 'src/components/ui'
+import { theme } from 'src/styles/Theme'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -27,7 +29,15 @@ const RejectionModal: React.FC<{
   handleRejectKyc: () => void
   setRejectionReason: any
   rejectionReason: string
-}> = ({ open, handleClose, handleRejectKyc, rejectionReason, setRejectionReason }) => {
+  rejectingKyc: any
+}> = ({
+  open,
+  handleClose,
+  handleRejectKyc,
+  rejectionReason,
+  setRejectionReason,
+  rejectingKyc,
+}) => {
   return (
     <div>
       <Modal
@@ -69,26 +79,24 @@ const RejectionModal: React.FC<{
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
             ></textarea>
-            <button
-              onClick={handleRejectKyc}
-              style={{
-                width: '100%',
-                display: 'flex',
-                cursor: 'pointer',
-                justifyContent: 'center',
-                alignItems: 'center',
-                background: '#EB5656',
-                padding: '10px 18px',
-                borderRadius: 8,
-                color: '#FFFFFF',
-                fontSize: 16,
-                marginTop: 24,
-                border: '1px solid #EB5656',
-                boxShadow: '0px 1px 2px rgba(16, 24, 40, 0.05)',
-              }}
-            >
-              Reject
-            </button>
+            <br />
+
+            <div style={{ width: '100%' }}>
+              <Button
+                onClick={handleRejectKyc}
+                loading={rejectingKyc}
+                classes={[ButtonClass.SOLID]}
+                style={{
+                  width: '100%',
+                  backgroundColor: theme.colors.red,
+                  height: '37px',
+                  fontWeight: '100',
+                  justifyContent: 'center',
+                }}
+              >
+                Reject
+              </Button>
+            </div>
           </Box>
         </Fade>
       </Modal>

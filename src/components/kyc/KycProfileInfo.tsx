@@ -1,7 +1,7 @@
-import { profileData } from 'src/constants/profileData'
 import { Input } from 'src/styles/commonStyle'
 import styled from 'styled-components'
 import { formatDateYmd } from 'src/utils/helpers'
+import { Flex } from 'src/components/ui'
 
 const ProfileContainer = styled.div`
   padding: 40px;
@@ -19,13 +19,6 @@ const ProfileContainer = styled.div`
     grid: auto / auto auto;
     gap: 20px;
   }
-  .input_container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    gap: 15px;
-    width: 100%;
-  }
 `
 
 interface Props {
@@ -33,28 +26,86 @@ interface Props {
 }
 
 const KycProfileInfo = ({ artisanKyc }: Props) => {
-  console.log(artisanKyc)
   return (
     <ProfileContainer>
       <h3>Profile Information</h3>
-      <img src="/images/profilePics.png" alt="" width={153} height="153px" />
-      <div className="input_wrapper">
-        {profileData.map((item, id) => (
-          <div key={id} className="input_container">
-            <label htmlFor={item.for}>{item.label}</label>
+      <div
+            style={{
+              backgroundImage: `url(${artisanKyc?.artisan?.display_picture || '/images/profilePics.png'})`,
+              width: '153px',
+              height: '153px',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+              boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+              borderRadius: '50%',
+            }}
+          ></div>
+      <br />
+      <br />
+      <Flex direction="column" gap="2.5rem">
+        <Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Full Name</label>
             <Input
-              placeholder={item.placeholder}
-              type={item.type}
+              disabled
               style={{ background: '#F2F4F7' }}
-              value={
-                item.for === 'dob'
-                  ? formatDateYmd(artisanKyc?.kyc?.identity_resolved_value[`${item.for}`])
-                  : artisanKyc?.kyc?.identity_resolved_value[`${item.for}`]
-              }
+              value={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
             />
-          </div>
-        ))}
-      </div>
+          </Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Occupation</label>
+            <Input
+              disabled
+              style={{ background: '#F2F4F7' }}
+              value={artisanKyc?.artisan?.occupation}
+            />
+          </Flex>
+        </Flex>
+        <Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Date of birth</label>
+            <Input
+              disabled
+              type="date"
+              style={{ background: '#F2F4F7' }}
+              value={formatDateYmd(artisanKyc?.artisan?.dob)}
+            />
+          </Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Residential Address</label>
+            <Input
+              disabled
+              style={{ background: '#F2F4F7' }}
+              value={`${artisanKyc?.artisan?.address?.house_address},${artisanKyc?.artisan?.address?.city}, ${artisanKyc?.artisan?.address?.state}`}
+            />
+          </Flex>
+        </Flex>
+        <Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Gender</label>
+            <Input disabled style={{ background: '#F2F4F7' }} value={artisanKyc?.artisan?.gender} />
+          </Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Email</label>
+            <Input disabled style={{ background: '#F2F4F7' }} value={artisanKyc?.artisan?.email} />
+          </Flex>
+        </Flex>
+        <Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Phone Number</label>
+            <Input disabled style={{ background: '#F2F4F7' }} value={artisanKyc?.artisan?.phone} />
+          </Flex>
+          <Flex direction="column" style={{ width: '50%' }}>
+            <label htmlFor="first_name">Call Out Fee</label>
+            <Input
+              disabled
+              style={{ background: '#F2F4F7' }}
+              value={artisanKyc?.artisan?.call_out_fee}
+            />
+          </Flex>
+        </Flex>
+      </Flex>
     </ProfileContainer>
   )
 }

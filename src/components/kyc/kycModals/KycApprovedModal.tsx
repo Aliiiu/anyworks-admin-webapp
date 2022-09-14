@@ -16,15 +16,15 @@ const style = {
 	justifyContent: 'center',
 	alignItems: 'center',
 	bgcolor: 'background.paper',
-	border: '1px solid #000',
 	borderRadius: '16px',
 	boxShadow: 24,
 	p: '60px',
 };
 
-const KycModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
+const KycApprovedModal: React.FC<{ open: boolean; handleClose: () => void; artisanName: string }> = ({
 	open,
 	handleClose,
+	artisanName
 }) => {
 	return (
 		<div>
@@ -60,7 +60,7 @@ const KycModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 							variant='h5'
 							gutterBottom
 						>
-							You have sucessfully verify Olajide Olajide
+							You have sucessfully verify {artisanName}
 						</Typography>
 						<button
 							onClick={handleClose}
@@ -89,4 +89,4 @@ const KycModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 	);
 };
 
-export default KycModal;
+export default KycApprovedModal;

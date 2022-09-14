@@ -2,7 +2,7 @@ export const profileData = [
 	{
 		label: 'Full Name',
 		placeholder: 'Admin',
-		for: 'fullName',
+		for: 'first_name',
 		type: 'text',
 	},
 	{
