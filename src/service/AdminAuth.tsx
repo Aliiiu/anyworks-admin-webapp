@@ -1,4 +1,4 @@
-import adminServiceApi from 'src/utils/AdminServiceApi';
+import {adminServiceApi} from 'src/utils/AdminServiceApi';
 
 const AdminAuth = {
 	login: async (data: { email: string; password: string }) => {

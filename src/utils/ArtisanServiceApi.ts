@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getAuthToken, isLoggedIn } from './AuthUtils';
 
-const artisanServiceApi = () => {
+export const artisanServiceApi = () => {
 	let headers = {};
 	if (isLoggedIn()) {
 		headers = {

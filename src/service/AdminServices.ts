@@ -1,4 +1,4 @@
-import adminServiceApi from 'src/utils/AdminServiceApi';
+import {adminServiceApi} from 'src/utils/AdminServiceApi';
 
 export const AdminServices = {
 	getAllAdmins: async () => {

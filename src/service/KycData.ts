@@ -1,4 +1,4 @@
-import artisanServiceApi from 'src/utils/ArtisanServiceApi';
+import {artisanServiceApi} from 'src/utils/ArtisanServiceApi';
 
 const KycData = {
 	getAllPendingKyc: async () => {
