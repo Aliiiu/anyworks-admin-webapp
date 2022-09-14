@@ -1,83 +1,90 @@
-import React from 'react';
-import { Input } from 'src/styles/commonStyle';
-import styled from 'styled-components';
+import { Input } from 'src/styles/commonStyle'
+import styled from 'styled-components'
+import { formatDateYmd } from 'src/utils/helpers'
 
 const InfoContainer = styled.div`
-	display: flex;
-	gap: 50px;
-	margin-top: 40px;
-	.personal_info_container {
-		width: 40%;
-	}
-	.moi_info_container {
-		width: 60%;
-		display: flex;
-		justify-content: center;
-	}
-	.personal_info_container,
-	.moi_info_container {
-		border-radius: 16px;
-		background: #ffffff;
-		padding: 30px;
-	}
-	.input_container {
-		display: flex;
-		flex-direction: column;
-		margin-top: 20px;
-		gap: 6px;
-	}
-`;
+  display: flex;
+  gap: 50px;
+  margin-top: 40px;
+  .personal_info_container {
+    width: 40%;
+  }
+  .moi_info_container {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+  }
+  .personal_info_container,
+  .moi_info_container {
+    border-radius: 16px;
+    background: #ffffff;
+    padding: 30px;
+  }
+  .input_container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 6px;
+  }
+`
 
-const KycPersonalInfo = () => {
-	return (
-		<InfoContainer>
-			<div className='personal_info_container'>
-				<h3>Personal Information</h3>
-				<div className='input_container'>
-					<label htmlFor='nin'>NIN Number</label>
-					<Input
-						placeholder='12334545435345'
-						type={'number'}
-						style={{ background: '#F2F4F7' }}
-					/>
-				</div>
-				<div className='input_container'>
-					<label htmlFor='name'>Full name</label>
-					<Input
-						placeholder='Admin Fullname'
-						style={{ background: '#F2F4F7' }}
-					/>
-				</div>
-				<div className='input_container'>
-					<label htmlFor='phone_no'>Phone number</label>
-					<Input
-						placeholder='08100033300'
-						type={'number'}
-						style={{ background: '#F2F4F7' }}
-					/>
-				</div>
-				<div className='input_container'>
-					<label htmlFor='dob'>Date of birth</label>
-					<Input
-						placeholder='18/05/1990'
-						type={'date'}
-						style={{ background: '#F2F4F7' }}
-					/>
-				</div>
-			</div>
-			<div className='moi_info_container'>
-				<div>
-					<h3 style={{ marginBottom: 30 }}>Means of Identification</h3>
-					<img
-						src='/images/driversLicense.png'
-						alt="Driver's License"
-						width={568}
-						height='315px'
-					/>
-				</div>
-			</div>
-		</InfoContainer>
-	);
-};
+interface Props {
+  artisanKyc: any
+}
+const KycPersonalInfo = ({ artisanKyc }: Props) => {
+  return (
+    <InfoContainer>
+      <div className="personal_info_container">
+        <h3>Personal Information</h3>
+        <div className="input_container">
+          <label htmlFor="nin">{artisanKyc?.kyc?.document_type}</label>
+          <Input
+            placeholder="12334545435345"
+            value={artisanKyc?.kyc?.identity_no}
+            type={'number'}
+            style={{ background: '#F2F4F7' }}
+          />
+        </div>
+        <div className="input_container">
+          <label htmlFor="name">Full name</label>
+          <Input
+            placeholder="Admin Fullname"
+            value={artisanKyc?.kyc?.identity_resolved_value?.fullName}
+            style={{ background: '#F2F4F7' }}
+          />
+        </div>
+        <div className="input_container">
+          <label htmlFor="phone_no">Phone number</label>
+          <Input
+            placeholder="08100033300"
+            value={artisanKyc?.kyc?.identity_resolved_value?.phone}
+            type={'number'}
+            style={{ background: '#F2F4F7' }}
+          />
+        </div>
+        <div className="input_container">
+          <label htmlFor="dob">Date of birth</label>
+          <Input
+            placeholder="18/05/1990"
+            value={formatDateYmd(artisanKyc?.kyc?.identity_resolved_value?.dob)}
+            type={'date'}
+            style={{ background: '#F2F4F7' }}
+          />
+        </div>
+      </div>
+      <div className="moi_info_container">
+        <div>
+          <h3 style={{ marginBottom: 30 }}>Means of Identification </h3>
+          <img
+            src={artisanKyc?.kyc?.document_url || '/images/driversLicense.png'}
+            alt={artisanKyc?.kyc?.document_type}
+            width={568}
+            height="315px"
+          />
+        </div>
+      </div>
+    </InfoContainer>
+  )
+}
 
-export default KycPersonalInfo;
+export default KycPersonalInfo

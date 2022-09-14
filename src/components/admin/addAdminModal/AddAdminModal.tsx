@@ -197,7 +197,7 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 								/>
 							</InputContainer>
 							<MultipleSelect setRoles={setAdminDetails} />
-							<InputContainer>
+							{/* <InputContainer>
 								<label htmlFor='status'>Status</label>
 								<FormControl fullWidth size='small'>
 									<InputLabel id='demo-simple-select-label'>Status</InputLabel>
@@ -217,7 +217,7 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 										<MenuItem value={'true'}>true</MenuItem>
 									</Select>
 								</FormControl>
-							</InputContainer>
+							</InputContainer> */}
 							<InputContainer>
 								<label htmlFor='dropzone-file'>Display Picture</label>
 								<div className='file_wrapper'>

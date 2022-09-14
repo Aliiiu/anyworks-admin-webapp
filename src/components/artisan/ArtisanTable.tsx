@@ -120,24 +120,16 @@ const ArtisanTable = () => {
 
 	const ArtisanTableHeaders = [
 		{
-			title: 'Admin',
-			render: (row: any) => (
-				<Flex gap='10px' align='center'>
-					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.name}
-				</Flex>
-			),
+			title: 'First Name',
+			render: (row: any) => `${row.name}`,
+		},
+		{
+			title: 'Last Name',
+			render: (row: any) => `${row.name}`,
 		},
 		{
 			title: 'Email',
 			render: (row: any) => `${row.email}`,
-		},
-		{
-			title: 'Registration Date',
-			render: (row: any) => `${row.registrationDate}`,
-		},
-		{
-			title: 'Last Login',
-			render: (row: any) => `${row.lastLogin}`,
 		},
 		{
 			title: 'Status',
@@ -151,6 +143,21 @@ const ArtisanTable = () => {
 				</div>
 			),
 		},
+		{
+			title: 'DP',
+			render: (row: any) => (
+				<img style={{ width: '40px' }} src={row.img} alt='' />
+			),
+		},
+		{
+			title: 'Gender',
+			render: (row: any) => `${row.registrationDate}`,
+		},
+		{
+			title: 'Occupation',
+			render: (row: any) => `${row.lastLogin}`,
+		},
+
 		{
 			title: '',
 			render: (row: any, index: any) => (
@@ -196,7 +203,7 @@ const ArtisanTable = () => {
 			<ArtisanTableContainer>
 				<div className='heading'>
 					<Flex justify='space-between' align='center'>
-						<p className='count'>{sortedData().length} Artisans</p>
+						<p className='count'>{sortedData().length} Users</p>
 						<Popover
 							isOpen={isOpen}
 							padding={1}

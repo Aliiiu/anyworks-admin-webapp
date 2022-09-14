@@ -157,6 +157,10 @@ export const FilterButton = styled.button`
 	gap: 8px;
 	border-radius: 16px;
 	padding: 4px 12px;
+
+	&:disabled{
+		pointer-events: none;
+	}
 `;
 
 // const StyledMenu = MuiStyled((props: MenuProps) => <Menu />);
