@@ -268,7 +268,7 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 									)}
 								</div>
 							</InputContainer>
-							<button onClick={handleClose} className='btn_action'>
+							<button onClick={handleClose} className='btn-action'>
 								Create
 							</button>
 						</StyledForm>

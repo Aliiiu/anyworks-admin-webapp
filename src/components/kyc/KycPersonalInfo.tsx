@@ -79,7 +79,7 @@ const KycPersonalInfo = ({ artisanKyc }: Props) => {
       <div className="moi_info_container">
         <div>
           <h3 style={{ marginBottom: 30 }}>
-            Means of Identification ({artisanKyc?.kyc?.document_type})
+            Means of Identification
           </h3>
           <div
             style={{

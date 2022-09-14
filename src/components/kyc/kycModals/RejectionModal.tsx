@@ -60,7 +60,7 @@ const RejectionModal: React.FC<{
               sx={{ marginTop: '24px' }}
               gutterBottom
             >
-              Verification Rejected
+              Verification Rejection
             </Typography>
             <textarea
               rows={6}

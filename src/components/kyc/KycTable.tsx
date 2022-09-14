@@ -42,9 +42,8 @@ export const KycTable = ({ rows }: Props) => {
 
   const KycTableHeaders = [
     {
-      title: 'Name',
+      title: 'Picture',
       render: (row: any) => (
-        <Flex gap="10px" align="center">
           <div
             style={{
               backgroundImage: `url(${row?.display_picture || avatar})`,
@@ -57,24 +56,30 @@ export const KycTable = ({ rows }: Props) => {
               borderRadius: '50%',
             }}
           ></div>
-          <span>
-            {' '}
-            {row.first_name} {row.last_name}
-          </span>
-        </Flex>
+      
       ),
     },
     {
-      title: 'Email',
-      render: (row: any) => `${row.email}`,
+      title: 'First Name',
+      render: (row: any) => `${row.first_name}`,
     },
+    {
+      title: 'Last Name',
+      render: (row: any) => `${row.last_name}`,
+    },
+
+    {
+      title: 'Gender',
+      render: (row: any) => `${row.gender}`,
+    },
+
     {
       title: 'Occupation',
       render: (row: any) => `${row.occupation}`,
     },
     {
-      title: 'Gender',
-      render: (row: any) => `${row.gender}`,
+      title: 'Email',
+      render: (row: any) => `${row.email}`,
     },
   ]
 
