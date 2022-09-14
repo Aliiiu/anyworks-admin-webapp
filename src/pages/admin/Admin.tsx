@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import searchIcon from 'src/assets/images/input/searchIcon.svg';
 import addIcon from 'src/assets/images/common/add.svg';
 import AdminTable from 'src/components/admin/AdminTable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddAdminModal from 'src/components/admin/addAdminModal/AddAdminModal';
 import { theme } from 'src/styles/Theme';
 import { Input } from 'src/components/inputs';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import { ADMINData } from 'src/constants/ADMINDATA';
+import { AdminServices } from 'src/service/AdminServices';
+import { AdminTypes } from './adminTypes';
 
 const AdminContainer = styled.div``;
 interface Props {
@@ -40,13 +42,27 @@ const Admin = () => {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+	const [allAdmins, setAllAdmins] = useState<AdminTypes[]>([]);
 	const [searchField, setSearchField] = useState('');
+	const getAllAdmins = () => {
+		AdminServices.getAllAdmins()
+			.then((res: any) => {
+				// console.log(res.data.payload.data);
+				res.data.payload.data && setAllAdmins(res.data.payload.data);
+			})
+			.catch((err: any) => console.log(err.response));
+	};
 
-	const filteredData = ADMINData.filter((data) => {
+	useEffect(() => {
+		getAllAdmins();
+		// console.log(allAdmins);
+	}, []);
+
+	const filteredData = allAdmins.filter((data) => {
 		return (
-			data.admin.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.role.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.status.toLowerCase().includes(searchField.toLowerCase())
+			data.first_name.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.last_name.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.suspended.toLowerCase().includes(searchField.toLowerCase())
 		);
 	});
 	const handleChange = (e: any) => {
@@ -54,7 +70,7 @@ const Admin = () => {
 	};
 	return (
 		<DashboardLayout
-		pageTitle="Admin"
+			pageTitle='Admin'
 			rhsHeading={
 				<RhsHeading handleChange={handleChange} handleOpen={handleOpen} />
 			}

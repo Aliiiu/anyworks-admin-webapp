@@ -4,7 +4,6 @@ import { Flex, Table, ActionMenu } from 'src/components/ui';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePagination from 'src/hooks/usePagination';
-import { AdminStatus } from './AdminStatus';
 
 const AdminTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -32,28 +31,41 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 	const [allowRowClick, setAllowRowClick] = useState(true);
 	let navigate = useNavigate();
 
-	const handleNavigate = (id: any) => {
-		navigate(`/admins/${id + 1}`);
+	const handleNavigate = (id: string) => {
+		// console.log(id);
+		navigate(`/admins/${id}`);
 	};
 	const AdminTableHeaders = [
-		{ title: 'Admin', render: (row: any) => `${row.admin}` },
-		{ title: 'Last login', render: (row: any) => `${row.lastlogin}` },
-		{ title: 'Roles', render: (row: any) => `${row.role}` },
+		{ title: 'First Name', render: (row: any) => `${row.first_name}` },
+		{ title: 'Last Name', render: (row: any) => `${row.last_name}` },
+		{ title: 'Email', render: (row: any) => `${row.email}` },
 		{
-			title: 'Status',
+			title: 'Roles',
 			render: (row: any) => (
-				<div
-					style={{
-						color: row.status === 'Active' ? '#55C4F1' : '#FFAD4A',
-					}}
-				>
-					{row.status}
+				<div>
+					{row.role.map((item: any) => (
+						<span style={{ textTransform: 'capitalize', marginRight: 5 }}>
+							{item},
+						</span>
+					))}
 				</div>
 			),
 		},
 		{
+			title: 'Suspended',
+			render: (row: any) => (
+				<p
+					style={{
+						color: row.suspended === 'false' ? '#55C4F1' : '#FFAD4A',
+					}}
+				>
+					{String(row.suspended)}
+				</p>
+			),
+		},
+		{
 			title: '',
-			render: (row: any, id: any) => (
+			render: (row: any) => (
 				<ActionMenu
 					setAllowRowClick={(bool: boolean) => {
 						setAllowRowClick(bool);
@@ -62,13 +74,13 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 						{
 							title: 'View profile',
 							onClick: () => {
-								handleNavigate(id);
+								handleNavigate(row._id);
 							},
 						},
 						{
 							title: 'Activity Log',
 							onClick: () => {
-								handleNavigate(id);
+								handleNavigate(row._id);
 							},
 						},
 						{
@@ -76,7 +88,7 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 								<Flex justify='space-between'>
 									<p>Active</p>
 									<div>
-										{row.status === 'Active' && (
+										{row.suspended === 'false' && (
 											<img src={checkIcon} alt='✔️' />
 										)}
 									</div>
@@ -87,7 +99,7 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 							title: (
 								<Flex justify='space-between'>
 									<p>Block</p>
-									<p>{row.status === 'Blocked' && '❌'}</p>
+									<p>{row.suspended === 'true' && '❌'}</p>
 								</Flex>
 							),
 						},

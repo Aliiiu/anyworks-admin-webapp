@@ -1,15 +1,22 @@
 import axios from 'axios';
 import { getAuthToken, isLoggedIn } from './AuthUtils';
 
+let headers = {};
+if (isLoggedIn()) {
+	headers = {
+		Authorization: `Bearer ${getAuthToken()}`,
+	};
+}
 const adminServiceApi = () => {
-	let headers = {};
-	if (isLoggedIn()) {
-		headers = {
-			Authorization: `Bearer ${getAuthToken()}`,
-		};
-	}
 	return axios.create({
 		baseURL: process.env.REACT_APP_BASE_URL || '',
+		timeout: 30000,
+		headers,
+	});
+};
+export const artisanServiceApi = () => {
+	return axios.create({
+		baseURL: process.env.REACT_APP_ARTISAN_URL || '',
 		timeout: 30000,
 		headers,
 	});

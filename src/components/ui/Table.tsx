@@ -6,6 +6,16 @@ const TableOverviewContainer = styled.div`
 	overflow-x: auto;
 	margin: 20px 0;
 
+	.update_container {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		.data_update {
+			font-size: 20px;
+			font-weight: 500;
+		}
+	}
+
 	table {
 		width: 100%;
 		text-align: left;
@@ -133,48 +143,54 @@ export const Table: React.FC<Props> = ({
 }) => {
 	return (
 		<TableOverviewContainer {...rest}>
-			<table>
-				{showHead && (
-					<thead>
-						<tr>
-							{headers?.map((header) => {
-								return (
-									<th
-										key={header.title}
-										className={clsx({
-											'align--right': header.align === 'right',
-										})}
-									>
-										{header.title}
-									</th>
-								);
-							})}
-						</tr>
-					</thead>
-				)}
-				<tbody>
-					{rows.map((row: any, index: any) => (
-						<tr
-							key={index}
-							onClick={allowRowClick ? () => onRowClick(index) : undefined}
-							className={clsx({ clickable: allowRowClick })}
-						>
-							{headers?.map((header) => {
-								return (
-									<td
-										key={header.title}
-										className={clsx({
-											'align--right': header.align === 'right',
-										})}
-									>
-										{header && header?.render?.(row, index)}
-									</td>
-								);
-							})}
-						</tr>
-					))}
-				</tbody>
-			</table>
+			{rows.length > 0 ? (
+				<table>
+					{showHead && (
+						<thead>
+							<tr>
+								{headers?.map((header) => {
+									return (
+										<th
+											key={header.title}
+											className={clsx({
+												'align--right': header.align === 'right',
+											})}
+										>
+											{header.title}
+										</th>
+									);
+								})}
+							</tr>
+						</thead>
+					)}
+					<tbody>
+						{rows.map((row: any) => (
+							<tr
+								key={row._id}
+								onClick={allowRowClick ? () => onRowClick(row._id) : undefined}
+								className={clsx({ clickable: allowRowClick })}
+							>
+								{headers?.map((header) => {
+									return (
+										<td
+											key={header.title}
+											className={clsx({
+												'align--right': header.align === 'right',
+											})}
+										>
+											{header && header?.render?.(row)}
+										</td>
+									);
+								})}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			) : (
+				<div className='update_container'>
+					<p className='data_update'>Data Entry is Empty</p>
+				</div>
+			)}
 		</TableOverviewContainer>
 	);
 };

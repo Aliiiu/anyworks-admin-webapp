@@ -35,7 +35,7 @@ function getStyles(name: string, personName: string[], theme: Theme) {
 	};
 }
 
-export default function MultipleSelect() {
+export default function MultipleSelect({ setRoles }: { setRoles: Function }) {
 	const theme = useTheme();
 	const [personName, setPersonName] = useState<string[]>([]);
 	const [clicked, setClicked] = useState(false);
@@ -44,15 +44,16 @@ export default function MultipleSelect() {
 		const {
 			target: { value },
 		} = event;
-		setPersonName(
-			// On autofill we get a stringified value.
-			typeof value === 'string' ? value.split(',') : value
-		);
+		setRoles((prevState: any) => ({
+			...prevState,
+			role: typeof value === 'string' ? value.split(',') : value,
+		}));
+		setPersonName(typeof value === 'string' ? value.split(',') : value);
 	};
 
 	React.useEffect(() => {
-		console.log(clicked);
-	}, [clicked]);
+		console.log(personName);
+	}, [personName]);
 
 	return (
 		<>

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { usePagination } from 'src/hooks/usePagination';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActionMenu, Flex, Table } from 'src/components/ui';
 import filterIcon from 'src/assets/images/common/filter.svg';
 import SendMailModal from '../users/SendMailModal';
@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import { Input } from 'src/components/inputs';
 import { ARTISANData } from 'src/constants/ARTISANDATA';
 import searchIcon from 'src/assets/images/input/searchIcon.svg';
+import { ArtisansServices } from 'src/service/ArtisansServices';
 
 const PopupContainer = styled.div`
 	background: #ffffff;
@@ -69,15 +70,25 @@ const ArtisanTable = () => {
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
 	const handleOpenMailModal = () => setOpenSendMailModal(true);
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
-
 	const [selectedFilterValue, setSelectedFilterValue] = useState('all');
+	const [searchField, setSearchField] = useState('');
+	const [allArtisans, setAllArtisans] = useState<any[]>([]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedFilterValue(event.target.value);
 	};
 
-	const [searchField, setSearchField] = useState('');
-	const filteredData = ARTISANData?.filter((data: any) => {
+	const fetchAllArtisans = () => {
+		ArtisansServices.getAllArtisans()
+			.then((res) => setAllArtisans(res.data))
+			.catch((err: any) => console.log(err.response));
+	};
+
+	useEffect(() => {
+		fetchAllArtisans();
+		console.log(allArtisans);
+	}, []);
+	const filteredData = ARTISANData.filter((data: any) => {
 		return (
 			data?.name?.toLowerCase().includes(searchField.toLowerCase()) ||
 			data?.status?.toLowerCase().includes(searchField.toLowerCase())
@@ -185,7 +196,7 @@ const ArtisanTable = () => {
 			<ArtisanTableContainer>
 				<div className='heading'>
 					<Flex justify='space-between' align='center'>
-						<p className='count'>{sortedData().length} Users</p>
+						<p className='count'>{sortedData().length} Artisans</p>
 						<Popover
 							isOpen={isOpen}
 							padding={1}
