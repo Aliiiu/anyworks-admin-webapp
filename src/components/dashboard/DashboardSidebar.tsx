@@ -6,7 +6,9 @@ import { DashboardSidebarHeader } from 'src/components/dashboard'
 import clsx from 'clsx'
 import { useLocation } from 'react-router-dom'
 import { Button, ButtonClass } from 'src/components/ui'
-import logout from 'src/assets/images/header/logout.svg'
+import logoutIcon from 'src/assets/images/header/logout.svg'
+import { useNavigate } from 'react-router'
+import { logout } from 'src/utils/AuthUtils'
 
 const DashboardSidebarContainer = styled.div`
   position: fixed;
@@ -63,7 +65,7 @@ const DashboardSidebarContainer = styled.div`
 
         &:last-child {
           margin-bottom: 0;
-					}
+        }
 
         & summary,
         & > .DashboardSidebar__nav__link {
@@ -172,6 +174,7 @@ interface Props {
 
 export const DashboardSidebar: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
   const location = useLocation()
+  const navigate = useNavigate()
 
   const mapSidebarNav = (nav: any, index: any) => {
     const { sublinks = [] } = nav || {}
@@ -183,7 +186,7 @@ export const DashboardSidebar: React.FC<Props> = ({ isOpen, toggleSidebar }) => 
         <li key={nav.text} className={clsx({ isActiveNav })}>
           <details>
             <summary>
-              <i style={{ backgroundImage: `url(${isActiveNav ?nav.activeIcon : nav.icon})` }} />
+              <i style={{ backgroundImage: `url(${isActiveNav ? nav.activeIcon : nav.icon})` }} />
               <span>{nav.text}</span>
             </summary>
 
@@ -207,7 +210,7 @@ export const DashboardSidebar: React.FC<Props> = ({ isOpen, toggleSidebar }) => 
     return (
       <li key={nav.text} className={clsx({ isActiveNav })} onClick={nav.onClick}>
         <Link to={nav.url} className="DashboardSidebar__nav__link">
-          <i style={{ backgroundImage: `url(${isActiveNav ?nav.activeIcon : nav.icon})` }} />
+          <i style={{ backgroundImage: `url(${isActiveNav ? nav.activeIcon : nav.icon})` }} />
           <span>{nav.text}</span>
         </Link>
       </li>
@@ -221,9 +224,14 @@ export const DashboardSidebar: React.FC<Props> = ({ isOpen, toggleSidebar }) => 
       <nav className="DashboardSidebar__nav">
         <ul>{DASHBOARD_SIDEBAR_DATA().map(mapSidebarNav)}</ul>
         <div className="logout__btn">
-          <Button classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}>
+          <Button
+            classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
+            onClick={() => {
+              logout(() => navigate('/'))
+            }}
+          >
             {' '}
-            <img className="logout" src={logout} alt="logout" />
+            <img className="logout" src={logoutIcon} alt="logout" />
             <span>Log Out</span>
           </Button>
         </div>

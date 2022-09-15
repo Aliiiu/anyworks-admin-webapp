@@ -72,7 +72,7 @@ const WalletTable = () => {
 
   const { page, limit, Pagination } = usePagination({
     page: 1,
-    limit: 4,
+    limit: 10,
     total: dateFilteredData.length,
   })
   const paginatedRows = dateFilteredData.slice((page - 1) * limit, page * limit)

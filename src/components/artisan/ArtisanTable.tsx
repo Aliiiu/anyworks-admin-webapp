@@ -186,7 +186,7 @@ const ArtisanTable = () => {
 
 	const { page, limit, Pagination } = usePagination({
 		page: 1,
-		limit: 5,
+		limit: 10,
 		total: sortedData().length,
 	});
 	const paginatedRows = sortedData().slice((page - 1) * limit, page * limit);

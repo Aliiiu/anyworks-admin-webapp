@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom'
 import { useLoading } from 'src/hooks'
 import KycData from 'src/service/KycData'
 import { toast, ToastContainer } from 'react-toastify'
+import { Loader } from 'src/components/common'
 
 const ArtisankycContainer = styled.div`
   .pageHeader {
@@ -40,7 +41,13 @@ const ArtisanKyc = () => {
   const [artisanKyc, setArtisanKyc] = useState<{ [key: string]: any }>({})
   const [rejectionReason, setRejectionReason] = useState('')
 
+  const {
+    loading: fetchingArtisanKyc,
+    startLoading: startFetchingArtisanKyc,
+    stopLoading: stopFetchingArtisanKyc,
+  } = useLoading(false)
   useEffect(() => {
+    startFetchingArtisanKyc()
     KycData.getOnePendingKyc(artisan_id || '')
       .then((res) => {
         setArtisanKyc(res?.data?.payload?.data || [])
@@ -48,6 +55,7 @@ const ArtisanKyc = () => {
       .catch((err) => {
         toast.error(err.response.data.error.message)
       })
+      .finally(() => stopFetchingArtisanKyc())
   }, [artisan_id])
 
   const {
@@ -106,42 +114,52 @@ const ArtisanKyc = () => {
             </Button>
           </Link>
         </Flex>
-        <KycPersonalInfo artisanKyc={artisanKyc} />
-        <KycProfileInfo artisanKyc={artisanKyc} />
-        <br />
-        <Flex>
-          <div>
-            <Button
-              onClick={handleConfirmApproveKycModalOpen}
-              classes={[ButtonClass.SOLID]}
-              style={{
-                backgroundColor: theme.colors.purple,
-                height: '37px',
-                width: '136px',
-                fontWeight: '300',
-                justifyContent: 'center',
-              }}
-            >
-              Accept
-            </Button>
+        {fetchingArtisanKyc ? (
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
+            <Loader>loading...</Loader>{' '}
           </div>
-          <div>
-            <Button
-              onClick={handleRejectOpen}
-              classes={[ButtonClass.SOLID]}
-              style={{
-                color: theme.colors.purple,
-                backgroundColor: 'rgba(126, 0, 196, 0.2)',
-                height: '37px',
-                width: '136px',
-                fontWeight: '300',
-                justifyContent: 'center',
-              }}
-            >
-              Reject
-            </Button>
-          </div>
-        </Flex>
+        ) : (
+          <>
+            {' '}
+            <KycPersonalInfo artisanKyc={artisanKyc} />
+            <KycProfileInfo artisanKyc={artisanKyc} />
+            <br />
+            <Flex>
+              <div>
+                <Button
+                  onClick={handleConfirmApproveKycModalOpen}
+                  classes={[ButtonClass.SOLID]}
+                  style={{
+                    backgroundColor: theme.colors.purple,
+                    height: '37px',
+                    width: '136px',
+                    fontWeight: '300',
+                    justifyContent: 'center',
+                  }}
+                >
+                  Accept
+                </Button>
+              </div>
+              <div>
+                <Button
+                  onClick={handleRejectOpen}
+                  classes={[ButtonClass.SOLID]}
+                  style={{
+                    color: theme.colors.purple,
+                    backgroundColor: 'rgba(126, 0, 196, 0.2)',
+                    height: '37px',
+                    width: '136px',
+                    fontWeight: '300',
+                    justifyContent: 'center',
+                  }}
+                >
+                  Reject
+                </Button>
+              </div>
+            </Flex>
+          </>
+        )}
+
         <KycApprovedModal
           open={open}
           handleClose={handleClose}
