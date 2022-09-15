@@ -1,4 +1,4 @@
-import {adminServiceApi} from 'src/utils/AdminServiceApi';
+import { adminServiceApi } from 'src/utils/AdminServiceApi';
 
 export const AdminServices = {
 	getAllAdmins: async () => {
@@ -9,5 +9,8 @@ export const AdminServices = {
 	},
 	addAdmin: async (data: any) => {
 		return adminServiceApi().post(``, data);
+	},
+	suspendAdmin: async (admin_id: string, action: string) => {
+		return adminServiceApi().put(`${admin_id}/${action}`);
 	},
 };

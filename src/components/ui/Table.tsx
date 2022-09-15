@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import clsx from 'clsx';
+import { Loader } from '../common';
+import LoadingOverlay from './LoadingOverlay';
 
 const TableOverviewContainer = styled.div`
 	overflow-x: auto;
@@ -143,54 +145,48 @@ export const Table: React.FC<Props> = ({
 }) => {
 	return (
 		<TableOverviewContainer {...rest}>
-			{rows.length > 0 ? (
-				<table>
-					{showHead && (
-						<thead>
-							<tr>
-								{headers?.map((header) => {
-									return (
-										<th
-											key={header.title}
-											className={clsx({
-												'align--right': header.align === 'right',
-											})}
-										>
-											{header.title}
-										</th>
-									);
-								})}
-							</tr>
-						</thead>
-					)}
-					<tbody>
-						{rows.map((row: any) => (
-							<tr
-								key={row._id}
-								onClick={allowRowClick ? () => onRowClick(row._id) : undefined}
-								className={clsx({ clickable: allowRowClick })}
-							>
-								{headers?.map((header) => {
-									return (
-										<td
-											key={header.title}
-											className={clsx({
-												'align--right': header.align === 'right',
-											})}
-										>
-											{header && header?.render?.(row)}
-										</td>
-									);
-								})}
-							</tr>
-						))}
-					</tbody>
-				</table>
-			) : (
-				<div className='update_container'>
-					<p className='data_update'>Data Entry is Empty</p>
-				</div>
-			)}
+			<table>
+				{showHead && (
+					<thead>
+						<tr>
+							{headers?.map((header) => {
+								return (
+									<th
+										key={header.title}
+										className={clsx({
+											'align--right': header.align === 'right',
+										})}
+									>
+										{header.title}
+									</th>
+								);
+							})}
+						</tr>
+					</thead>
+				)}
+				<tbody>
+					{rows.map((row: any) => (
+						<tr
+							key={row._id}
+							onClick={allowRowClick ? () => onRowClick(row._id) : undefined}
+							className={clsx({ clickable: allowRowClick })}
+						>
+							{headers?.map((header) => {
+								return (
+									<td
+										key={header.title}
+										className={clsx({
+											'align--right': header.align === 'right',
+										})}
+									>
+										{header && header?.render?.(row)}
+									</td>
+								);
+							})}
+						</tr>
+					))}
+				</tbody>
+			</table>
 		</TableOverviewContainer>
 	);
 };

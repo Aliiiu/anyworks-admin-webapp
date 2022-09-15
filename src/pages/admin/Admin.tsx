@@ -11,6 +11,8 @@ import { Flex, Button, ButtonClass } from 'src/components/ui';
 import { ADMINData } from 'src/constants/ADMINDATA';
 import { AdminServices } from 'src/service/AdminServices';
 import { AdminTypes } from './adminTypes';
+import Loader from 'src/components/common/Loader';
+import { useLoading } from 'src/hooks';
 
 const AdminContainer = styled.div``;
 interface Props {
@@ -44,13 +46,20 @@ const Admin = () => {
 	const handleClose = () => setOpen(false);
 	const [allAdmins, setAllAdmins] = useState<AdminTypes[]>([]);
 	const [searchField, setSearchField] = useState('');
+	const {
+		loading: fetchingAdmins,
+		startLoading: startFetchingAdmins,
+		stopLoading: stopFetchingAdmins,
+	} = useLoading(false);
 	const getAllAdmins = () => {
+		startFetchingAdmins();
 		AdminServices.getAllAdmins()
 			.then((res: any) => {
 				// console.log(res.data.payload.data);
 				res.data.payload.data && setAllAdmins(res.data.payload.data);
 			})
-			.catch((err: any) => console.log(err.response));
+			.catch((err: any) => console.log(err.response))
+			.finally(() => stopFetchingAdmins());
 	};
 
 	useEffect(() => {
@@ -81,7 +90,19 @@ const Admin = () => {
 					fetchAdmins={getAllAdmins}
 					handleClose={handleClose}
 				/>
-				<AdminTable rows={filteredData} />
+				{fetchingAdmins ? (
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							marginTop: '100px',
+						}}
+					>
+						<Loader>loading...</Loader>{' '}
+					</div>
+				) : (
+					<AdminTable rows={filteredData} fetchAdmins={getAllAdmins} />
+				)}
 			</AdminContainer>
 		</DashboardLayout>
 	);

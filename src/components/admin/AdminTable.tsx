@@ -4,6 +4,8 @@ import { Flex, Table, ActionMenu } from 'src/components/ui';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePagination from 'src/hooks/usePagination';
+import { AdminServices } from 'src/service/AdminServices';
+import { toast, ToastContainer } from 'react-toastify';
 
 const AdminTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -27,12 +29,22 @@ const AdminTableContainer = styled.div`
 	}
 `;
 
-const AdminTable: FC<{ rows: any }> = ({ rows }) => {
+const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
+	rows,
+	fetchAdmins,
+}) => {
 	const [allowRowClick, setAllowRowClick] = useState(true);
 	let navigate = useNavigate();
 
 	const handleNavigate = (id: string) => {
 		navigate(`/admins/${id}`);
+	};
+
+	const suspendActivityHandler = (admin_id: string, action: string) => {
+		AdminServices.suspendAdmin(admin_id, action)
+			.then((res) => toast.success(res.data.message))
+			.catch((err) => toast.error(err.response.data.error.message))
+			.finally(() => fetchAdmins());
 	};
 	const AdminTableHeaders = [
 		{ title: 'First Name', render: (row: any) => `${row.first_name}` },
@@ -51,14 +63,14 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 			),
 		},
 		{
-			title: 'Suspended',
+			title: 'Status',
 			render: (row: any) => (
 				<p
 					style={{
-						color: row.suspended === 'false' ? '#55C4F1' : '#FFAD4A',
+						color: row.suspended ? '#FFAD4A' : '#55C4F1',
 					}}
 				>
-					{String(row.suspended)}
+					{row.suspended ? 'Blocked' : 'Active'}
 				</p>
 			),
 		},
@@ -84,15 +96,18 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 						},
 						{
 							title: (
-								<button onClick={(e: any) => console.log('activate')}>
+								<Flex justify='space-between'>
 									<p>Active</p>
 									<div>
 										{row.suspended === 'false' && (
 											<img src={checkIcon} alt='✔️' />
 										)}
 									</div>
-								</button>
+								</Flex>
 							),
+							onClick: () => {
+								suspendActivityHandler(row._id, 'activate');
+							},
 						},
 						{
 							title: (
@@ -101,6 +116,9 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 									<p>{row.suspended === 'true' && '❌'}</p>
 								</Flex>
 							),
+							onClick: () => {
+								suspendActivityHandler(row._id, 'suspend');
+							},
 						},
 					]}
 				/>
@@ -119,6 +137,7 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 			<div className='heading'>
 				<p className='count'>{rows.length} Admins</p>
 			</div>
+			<ToastContainer />
 			<Table
 				rows={paginatedRows}
 				headers={AdminTableHeaders}
