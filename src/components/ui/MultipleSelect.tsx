@@ -35,7 +35,13 @@ function getStyles(name: string, personName: string[], theme: Theme) {
 	};
 }
 
-export default function MultipleSelect({ setRoles }: { setRoles: Function }) {
+export default function MultipleSelect({
+	setRoles,
+	roleError,
+}: {
+	setRoles: Function;
+	roleError: string;
+}) {
 	const theme = useTheme();
 	const [personName, setPersonName] = useState<string[]>([]);
 	const [clicked, setClicked] = useState(false);
@@ -47,6 +53,7 @@ export default function MultipleSelect({ setRoles }: { setRoles: Function }) {
 		setRoles((prevState: any) => ({
 			...prevState,
 			role: typeof value === 'string' ? value.split(',') : value,
+			roleError: '',
 		}));
 		setPersonName(typeof value === 'string' ? value.split(',') : value);
 	};
@@ -70,6 +77,7 @@ export default function MultipleSelect({ setRoles }: { setRoles: Function }) {
 						input={<OutlinedInput label='Role' />}
 						style={{ padding: '0px auto' }}
 						MenuProps={MenuProps}
+						required
 					>
 						{roles.map((role) => (
 							<MenuItem
@@ -83,6 +91,7 @@ export default function MultipleSelect({ setRoles }: { setRoles: Function }) {
 						))}
 					</Select>
 				</FormControl>
+				{roleError && <h6 className='validation_error'>{roleError}</h6>}
 			</InputContainer>
 		</>
 	);

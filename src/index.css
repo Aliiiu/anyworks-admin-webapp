@@ -15,7 +15,7 @@ body {
 
 button {
 	font-family: 'Raleway';
-	cursor: pointer;
+	/* cursor: pointer; */
 }
 
 button:active {

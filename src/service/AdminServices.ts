@@ -7,4 +7,7 @@ export const AdminServices = {
 	getAdmin: async (admin_id: string) => {
 		return adminServiceApi().get(`${admin_id}`);
 	},
+	addAdmin: async (data: any) => {
+		return adminServiceApi().post(``, data);
+	},
 };

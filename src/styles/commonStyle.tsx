@@ -48,14 +48,16 @@ export const CardHeader = styled.h2`
 export const StyledButton = styled.button`
 	background: #7e00c4;
 	border-radius: 8px;
-	display: block;
 	width: 100%;
 	font-weight: 500;
 	text-align: center;
 	padding: 12px 0px;
 	color: #fff;
 	margin-top: 48px;
+	display: flex;
 	cursor: pointer;
+	justify-content: center;
+	align-items: center;
 `;
 
 export const Input = styled.input`
@@ -158,7 +160,7 @@ export const FilterButton = styled.button`
 	border-radius: 16px;
 	padding: 4px 12px;
 
-	&:disabled{
+	&:disabled {
 		pointer-events: none;
 	}
 `;
