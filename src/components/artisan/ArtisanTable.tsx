@@ -168,7 +168,7 @@ const ArtisanTable = () => {
 					actions={[
 						{
 							title: 'View profile',
-							onClick: () => handleNavigate(index),
+							onClick: () => handleNavigate(row._id),
 						},
 						{
 							title: 'Send email',

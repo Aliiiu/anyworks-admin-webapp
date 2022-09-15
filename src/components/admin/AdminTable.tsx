@@ -84,14 +84,14 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 						},
 						{
 							title: (
-								<Flex justify='space-between'>
-									<p onClick={(e: any) => console.log('activate')}>Active</p>
+								<button onClick={(e: any) => console.log('activate')}>
+									<p>Active</p>
 									<div>
 										{row.suspended === 'false' && (
 											<img src={checkIcon} alt='✔️' />
 										)}
 									</div>
-								</Flex>
+								</button>
 							),
 						},
 						{
