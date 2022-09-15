@@ -76,7 +76,11 @@ const Admin = () => {
 			}
 		>
 			<AdminContainer>
-				<AddAdminModal open={open} handleClose={handleClose} />
+				<AddAdminModal
+					open={open}
+					fetchAdmins={getAllAdmins}
+					handleClose={handleClose}
+				/>
 				<AdminTable rows={filteredData} />
 			</AdminContainer>
 		</DashboardLayout>

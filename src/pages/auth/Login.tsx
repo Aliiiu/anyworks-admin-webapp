@@ -12,10 +12,11 @@ import AdminAuth from 'src/service/AdminAuth';
 import { setAuthUser } from 'src/store/Auth';
 import { setAuthToken } from 'src/utils/AuthUtils';
 import { toast, ToastContainer } from 'react-toastify';
+import Loading from 'src/components/ui/Loader';
 
 export const Login = () => {
 	let navigate = useNavigate();
-	const [isSuccess, setIsSuccess] = useState(false);
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 	const [loginDetails, setLoginDetails] = useState({
 		email: '',
 		password: '',
@@ -36,7 +37,6 @@ export const Login = () => {
 	};
 
 	const handleSubmit = (e: any) => {
-		setIsSuccess(true);
 		e.preventDefault();
 		let emailError = '';
 		let passwordError = '';
@@ -54,12 +54,16 @@ export const Login = () => {
 		if (emailError || passwordError) {
 			setLoginDetails({ ...loginDetails, emailError, passwordError });
 		} else {
+			setIsSuccess(true);
+			if (isSuccess) {
+				return;
+			}
+			// console.log('clicked');
 			const { email, password } = loginDetails;
 			AdminAuth.login({ email, password })
 				.then((res: any) => {
 					setAuthUser(res.data.payload.data);
 					setAuthToken(res.data.payload.token);
-					setIsSuccess(false);
 					toast.success(`${res.data.message}`, {
 						position: 'top-center',
 						autoClose: 5000,
@@ -69,12 +73,12 @@ export const Login = () => {
 						draggable: true,
 						progress: undefined,
 					});
-					// console.log(res.data);
-					setTimeout(() => navigate('/dashboard'), 5000);
+					navigate('/dashboard');
 				})
 				.catch((err: any) => {
 					toast.error(err.response.data.error.message);
-				});
+				})
+				.finally(() => setIsSuccess(false));
 		}
 	};
 	return (
@@ -106,8 +110,8 @@ export const Login = () => {
 							<label htmlFor='email'>Email</label>
 							<Input
 								style={{
-									borderColor: loginDetails.passwordError && '#F04438',
-									background: loginDetails.passwordError && '#F9FAFB',
+									borderColor: loginDetails.emailError && '#F04438',
+									background: loginDetails.emailError && '#F9FAFB',
 								}}
 								placeholder='Email Address'
 								value={loginDetails.email}
@@ -154,7 +158,9 @@ export const Login = () => {
 						>
 							Forgot password?
 						</Link>
-						<StyledButton>Login</StyledButton>
+						<StyledButton disabled={isSuccess} onClick={handleSubmit}>
+							{isSuccess ? <Loading color='white' /> : 'Login'}
+						</StyledButton>
 					</form>
 				</LoginCard>
 			</Container>

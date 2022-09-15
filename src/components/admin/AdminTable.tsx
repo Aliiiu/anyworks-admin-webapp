@@ -32,7 +32,6 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 	let navigate = useNavigate();
 
 	const handleNavigate = (id: string) => {
-		// console.log(id);
 		navigate(`/admins/${id}`);
 	};
 	const AdminTableHeaders = [
@@ -86,7 +85,7 @@ const AdminTable: FC<{ rows: any }> = ({ rows }) => {
 						{
 							title: (
 								<Flex justify='space-between'>
-									<p>Active</p>
+									<p onClick={(e: any) => console.log('activate')}>Active</p>
 									<div>
 										{row.suspended === 'false' && (
 											<img src={checkIcon} alt='✔️' />

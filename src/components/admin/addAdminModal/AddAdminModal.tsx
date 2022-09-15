@@ -11,9 +11,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import closeModal from 'src/assets/images/common/closeModal.svg';
 import { PhotoCamera } from '@mui/icons-material';
+import { AdminServices } from 'src/service/AdminServices';
+import { Loading } from 'src/components/ui';
+import clsx from 'clsx';
+import { toast, ToastContainer } from 'react-toastify';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -34,7 +38,7 @@ const style = {
 const StyledForm = styled.form`
 	max-width: 532px;
 	width: 100%;
-	.btn-action {
+	.btn_action {
 		width: 100%;
 		display: flex;
 		cursor: pointer;
@@ -48,6 +52,9 @@ const StyledForm = styled.form`
 		margin-top: 24px;
 		border: 1px solid #7e00c4;
 		box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+		&:disabled {
+			color: black;
+		}
 	}
 `;
 
@@ -57,7 +64,8 @@ export const InputContainer = styled.div`
 	flex-direction: column;
 	margin-top: 20px;
 	gap: 6px;
-	.addAdminForm {
+	.validation_error {
+		color: #f04438;
 	}
 	.file_wrapper {
 		position: relative;
@@ -70,16 +78,16 @@ export const InputContainer = styled.div`
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			max-width: 300px;
+			margin: 0 auto;
 			.upload_item_container {
 				display: flex;
 				justify-content: space-between;
 				width: 100%;
-				background: grey;
 				align-items: center;
 				.delete_icon {
 					width: 20px;
 					height: 20px;
-					margin-left: 7px;
 				}
 			}
 		}
@@ -104,29 +112,99 @@ export const InputContainer = styled.div`
 
 interface AddAdminTypes {
 	first_name: string;
+	firstNameError: string;
 	last_name: string;
+	lastNameError: string;
 	email: string;
+	emailError: string;
 	role: string[];
-	suspended: string;
-	display_picture: FileList | null;
+	roleError: string;
+	display_picture: File[];
 }
 
-const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
-	open,
-	handleClose,
-}) => {
+const AddAdminModal: React.FC<{
+	open: boolean;
+	fetchAdmins: Function;
+	handleClose: () => void;
+}> = ({ open, handleClose, fetchAdmins }) => {
+	const [disabled, setDisabled] = useState<boolean>(false);
 	const [adminDetails, setAdminDetails] = useState<AddAdminTypes>({
 		first_name: '',
+		firstNameError: '',
 		last_name: '',
+		lastNameError: '',
 		email: '',
+		emailError: '',
 		role: [],
-		suspended: '',
-		display_picture: null,
+		roleError: '',
+		display_picture: [],
 	});
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
-		console.log(adminDetails);
+		if (disabled) {
+			return;
+		}
+		let emailError = '';
+		let roleError = '';
+		let firstNameError = '';
+		let lastNameError = '';
+		let emailFilter = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+		if (!adminDetails.email) {
+			emailError = "Email can't be empty";
+		} else if (!adminDetails.email.match(emailFilter)) {
+			emailError = 'Please enter a valid email address';
+		}
+		if (!adminDetails.first_name) {
+			firstNameError = "field can't be empty";
+		}
+		if (!adminDetails.last_name) {
+			lastNameError = "field can't be empty";
+		}
+		if (adminDetails.role.length === 0) {
+			roleError = 'select a role';
+		}
+		if (emailError || firstNameError || lastNameError || roleError) {
+			setAdminDetails({
+				...adminDetails,
+				emailError,
+				roleError,
+				firstNameError,
+				lastNameError,
+			});
+		} else {
+			setDisabled(true);
+			const newData = new FormData();
+			newData.append('first_name', adminDetails.first_name);
+			newData.append('last_name', adminDetails.last_name);
+			newData.append('email', adminDetails.email);
+			newData.append('role', adminDetails.role.toString());
+			newData.append('display_picture', adminDetails.display_picture[0]);
+			// console.log(adminDetails);
+
+			AdminServices.addAdmin(newData)
+				.then((res) => {
+					console.log(res.data);
+					fetchAdmins();
+				})
+				.catch((err: any) => toast.error(err.response.data.error.message))
+				.finally(() => {
+					setAdminDetails((prevState) => ({
+						...prevState,
+						first_name: '',
+						firstNameError: '',
+						last_name: '',
+						lastNameError: '',
+						email: '',
+						emailError: '',
+						role: [],
+						roleError: '',
+						display_picture: [],
+					}));
+					setDisabled(false);
+					handleClose();
+				});
+		}
 	};
 
 	return (
@@ -144,6 +222,7 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 			>
 				<Fade in={open}>
 					<Box sx={style}>
+						<ToastContainer />
 						<button
 							onClick={handleClose}
 							style={{ position: 'absolute', top: -10, right: -10 }}
@@ -162,11 +241,23 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 										setAdminDetails((prevState) => ({
 											...prevState,
 											first_name: e.target.value,
+											firstNameError: '',
 										}))
 									}
 									placeholder='First Name'
-									style={{ width: '100%' }}
+									style={{
+										width: '100%',
+										borderColor: adminDetails.firstNameError && '#F04438',
+										background: adminDetails.firstNameError && '#F9FAFB',
+									}}
+									className={clsx()}
+									required
 								/>
+								{adminDetails.firstNameError && (
+									<h6 className='validation_error'>
+										{adminDetails.firstNameError}
+									</h6>
+								)}
 							</InputContainer>
 							<InputContainer>
 								<label htmlFor='First Name'>Last Name</label>
@@ -176,11 +267,22 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 										setAdminDetails((prevState) => ({
 											...prevState,
 											last_name: e.target.value,
+											lastNameError: '',
 										}))
 									}
 									placeholder='Last Name'
-									style={{ width: '100%' }}
+									style={{
+										width: '100%',
+										borderColor: adminDetails.lastNameError && '#F04438',
+										background: adminDetails.lastNameError && '#F9FAFB',
+									}}
+									required
 								/>
+								{adminDetails.lastNameError && (
+									<h6 className='validation_error'>
+										{adminDetails.lastNameError}
+									</h6>
+								)}
 							</InputContainer>
 							<InputContainer>
 								<label htmlFor='email'>Email</label>
@@ -190,49 +292,42 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 										setAdminDetails((prevState) => ({
 											...prevState,
 											email: e.target.value,
+											emailError: '',
 										}))
 									}
 									placeholder='admin@gmail.com'
-									style={{ width: '100%' }}
+									style={{
+										width: '100%',
+										borderColor: adminDetails.emailError && '#F04438',
+										background: adminDetails.emailError && '#F9FAFB',
+									}}
+									required
 								/>
+								{adminDetails.emailError && (
+									<h6 className='validation_error'>
+										{adminDetails.emailError}
+									</h6>
+								)}
 							</InputContainer>
-							<MultipleSelect setRoles={setAdminDetails} />
-							{/* <InputContainer>
-								<label htmlFor='status'>Status</label>
-								<FormControl fullWidth size='small'>
-									<InputLabel id='demo-simple-select-label'>Status</InputLabel>
-									<Select
-										labelId='demo-simple-select-label'
-										id='demo-simple-select'
-										value={adminDetails.suspended}
-										label='Age'
-										onChange={(e: any) =>
-											setAdminDetails((prevState) => ({
-												...prevState,
-												suspended: e.target.value,
-											}))
-										}
-									>
-										<MenuItem value={'false'}>false</MenuItem>
-										<MenuItem value={'true'}>true</MenuItem>
-									</Select>
-								</FormControl>
-							</InputContainer> */}
+							<MultipleSelect
+								roleError={adminDetails.roleError}
+								setRoles={setAdminDetails}
+							/>
 							<InputContainer>
 								<label htmlFor='dropzone-file'>Display Picture</label>
 								<div className='file_wrapper'>
-									{adminDetails.display_picture &&
-									adminDetails.display_picture['0'].name ? (
+									{adminDetails.display_picture[0] &&
+									adminDetails.display_picture.length > 0 ? (
 										<div className='upload_item'>
 											{/* <img src={ImageConfig['png']} alt='' width={'40px'} /> */}
 											<div className='upload_item_container'>
-												<p>{adminDetails.display_picture['0'].name}</p>
+												<p>{adminDetails.display_picture[0].name}</p>
 												<div>
 													<DeleteIcon
 														onClick={() => {
 															setAdminDetails((prevState) => ({
 																...prevState,
-																display_picture: null,
+																display_picture: [],
 															}));
 														}}
 														className='delete_icon'
@@ -256,10 +351,10 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 												id='dropzone-file'
 												type='file'
 												onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-													console.log(e.target.files!);
+													const filesArr: File[] = Array.from(e.target.files!);
 													setAdminDetails((prevState) => ({
 														...prevState,
-														display_picture: e.target.files!,
+														display_picture: filesArr,
 													}));
 												}}
 												className='absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer'
@@ -268,8 +363,12 @@ const AddAdminModal: React.FC<{ open: boolean; handleClose: () => void }> = ({
 									)}
 								</div>
 							</InputContainer>
-							<button onClick={handleClose} className='btn_action'>
-								Create
+							<button
+								disabled={disabled}
+								onClick={submitHandler}
+								className='btn_action'
+							>
+								{disabled ? <Loading color='white' /> : 'Create'}
 							</button>
 						</StyledForm>
 					</Box>

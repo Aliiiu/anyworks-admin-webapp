@@ -1,4 +1,4 @@
-import { artisanServiceApi } from 'src/utils/AdminServiceApi';
+import artisanServiceApi from 'src/utils/ArtisanServiceApi';
 
 export const ArtisansServices = {
 	getAllArtisans: async () => {
