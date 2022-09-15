@@ -22,6 +22,12 @@ const BookingDetailsPageContainer = styled.div`
     min-width: 473px;
     width: 48%;
     max-width: 100%;
+    @media (max-width: ${(props) => props.theme.breakpoint.md}){
+      width: auto;
+    }
+    @media (max-width: ${(props) => props.theme.breakpoint.sm}){
+      min-width: 100%;
+    }
   }
 
   .lhs {

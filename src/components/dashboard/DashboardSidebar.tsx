@@ -88,7 +88,7 @@ const DashboardSidebarContainer = styled.div`
           i {
             width: 31px;
             height: 34px;
-            background-position: -6px -5px;
+            background-position: center;
             background-repeat: no-repeat;
           }
 
@@ -105,9 +105,6 @@ const DashboardSidebarContainer = styled.div`
           & > .DashboardSidebar__nav__link {
             border-left: 7px solid ${(props) => props.theme.colors.purple};
             color: ${(props) => props.theme.colors.black};
-            i {
-              background-position: -50px -5px;
-            }
           }
         }
 
@@ -186,7 +183,7 @@ export const DashboardSidebar: React.FC<Props> = ({ isOpen, toggleSidebar }) => 
         <li key={nav.text} className={clsx({ isActiveNav })}>
           <details>
             <summary>
-              <i style={{ backgroundImage: `url(${nav.icon})` }} />
+              <i style={{ backgroundImage: `url(${isActiveNav ?nav.activeIcon : nav.icon})` }} />
               <span>{nav.text}</span>
             </summary>
 
@@ -210,7 +207,7 @@ export const DashboardSidebar: React.FC<Props> = ({ isOpen, toggleSidebar }) => 
     return (
       <li key={nav.text} className={clsx({ isActiveNav })} onClick={nav.onClick}>
         <Link to={nav.url} className="DashboardSidebar__nav__link">
-          <i style={{ backgroundImage: `url(${nav.icon})` }} />
+          <i style={{ backgroundImage: `url(${isActiveNav ?nav.activeIcon : nav.icon})` }} />
           <span>{nav.text}</span>
         </Link>
       </li>
