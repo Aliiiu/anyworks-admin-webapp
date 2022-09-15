@@ -15,7 +15,7 @@ const KycTableContainer = styled.div`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 16px;
   padding-bottom: 20px;
-  margin: 3rem 0;
+  margin: 2rem 0;
 
   .heading {
     border-bottom: 1px solid ${(props) => props.theme.colors.gray_03};

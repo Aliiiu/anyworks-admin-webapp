@@ -8,7 +8,6 @@ import AddAdminModal from 'src/components/admin/addAdminModal/AddAdminModal';
 import { theme } from 'src/styles/Theme';
 import { Input } from 'src/components/inputs';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
-import { ADMINData } from 'src/constants/ADMINDATA';
 import { AdminServices } from 'src/service/AdminServices';
 import { AdminTypes } from './adminTypes';
 import Loader from 'src/components/common/Loader';

@@ -42,13 +42,13 @@ const DashboardSidebarContainer = styled.div`
     margin-top: 2rem;
 
     /* custom scrollbar-color */
-    & ::-webkit-scrollbar {
+    &::-webkit-scrollbar {
       width: 4px;
     }
-    & ::-webkit-scrollbar-track {
+    &::-webkit-scrollbar-track {
       background-color: #f5f5f5;
     }
-    & ::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
       border-radius: 10px;
       background-color: ${(props) => props.theme.colors.purple};
     }

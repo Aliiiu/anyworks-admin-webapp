@@ -9,7 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Flex, Table, Button, ButtonClass } from 'src/components/ui';
 import arrowLeft from 'src/assets/images/common/arrowLeft.svg';
 import { theme } from 'src/styles/Theme';
-import { formatDate } from 'src/utils/helpers';
+import { formatDateDmy } from 'src/utils/helpers';
 import { DateRangeFilter } from 'src/components/common';
 import { addDays } from 'date-fns';
 import { AdminServices } from 'src/service/AdminServices';
@@ -185,7 +185,7 @@ const AdminProfile = () => {
 	const AdminActivityTableHeaders = [
 		{
 			title: 'Date',
-			render: (row: any) => formatDate(row.date),
+			render: (row: any) => formatDateDmy(row.date),
 		},
 		{
 			title: 'Action Type',

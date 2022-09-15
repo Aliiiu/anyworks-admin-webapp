@@ -5,7 +5,7 @@ import filterIcon from 'src/assets/images/common/filter.svg'
 import { FilterButton } from 'src/styles/commonStyle'
 import styled from 'styled-components'
 import { WALLETData } from 'src/constants/WALLETDATA'
-import { formatDate } from 'src/utils/helpers'
+import { formatDateDmy } from 'src/utils/helpers'
 import { DateRangeFilter } from 'src/components/common'
 import { addDays } from 'date-fns'
 import { theme } from 'src/styles/Theme'
@@ -32,7 +32,7 @@ const WalletTable = () => {
   const WalletTableHeaders = [
     {
       title: 'Date',
-      render: (row: any) => formatDate(row.date),
+      render: (row: any) => formatDateDmy(row.date),
     },
     {
       title: 'Type',

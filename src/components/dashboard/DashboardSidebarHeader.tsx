@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import logo from 'src/assets/images/header/logo.png';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { Link } from 'react-router-dom';
+import { auth } from 'src/store/Auth'
 
 const DashboardSidebarHeaderContainer = styled.div`
 	display: flex;
@@ -97,6 +98,9 @@ export const DashboardSidebarHeader: React.FC<Props> = ({
 	toggleSidebar,
 	showOnDesktop,
 }) => {
+	const { authUser } = auth.use()
+	const adminProfileRoles = authUser?.role || []
+
 	return (
 		<DashboardSidebarHeaderContainer
 			className={clsx('DashboardSidebarHeader', { showOnDesktop })}
@@ -108,8 +112,8 @@ export const DashboardSidebarHeader: React.FC<Props> = ({
 				<img className='showOnMobile' src={avatar} alt='avatar' />
 				<div className='tooltiptext'>
 					{' '}
-					<p className='tooltiptext__user--name'>Olajide Olajide</p>
-					<p className='tooltiptext__user--role'>HR Manager</p>
+					<p className='tooltiptext__user--name'>{authUser?.first_name} {authUser?.last_name}</p>
+					<p className='tooltiptext__user--role'>{adminProfileRoles[0]}</p>
 				</div>
 			</div>
 			<HamburgerMenu isOpen={isOpen} onClick={toggleSidebar} />

@@ -35,7 +35,7 @@ export const ProfileInfoContainer = styled.div`
 			}
 			.key {
 				font-weight: 400;
-				padding-right: 20px;
+				padding-right: 100px;
 			}
 		}
 	}

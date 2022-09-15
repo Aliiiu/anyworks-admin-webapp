@@ -12,6 +12,24 @@ import { Flex } from 'src/components/ui'
 const Wrapper = styled.div`
   width: 100%;
 
+  .modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 1rem;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: ${(props) => props.theme.colors.gray_01};
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: ${(props) => props.theme.colors.purple};
+    }
+  }
+
   .text-box {
     font-size: 14px;
     line-height: 24px;
@@ -82,54 +100,56 @@ export const ChatModal: React.FC<{ open: boolean; handleClose: () => void }> = (
               <button onClick={handleClose} style={{ position: 'absolute', top: -15, right: -17 }}>
                 <img src={closeModal} alt="" width={32} height="32px" />
               </button>
-              <Flex direction="column">
-                <div className="lhs">
-                  <div className="gray-box text-box">Hello, are you available today?</div>
-                  <Flex align="center" gap="8px">
-                    <img src={dp} alt="person" className="person" />
-                    <p className="time">09:30 PM</p>
+              <div className="modal-content">
+                <Flex direction="column">
+                  <div className="lhs">
+                    <div className="gray-box text-box">Hello, are you available today?</div>
+                    <Flex align="center" gap="8px">
+                      <img src={dp} alt="person" className="person" />
+                      <p className="time">09:30 PM</p>
+                    </Flex>
+                  </div>
+                  <Flex align="flex-end" direction="column" gap="8px">
+                    <div className="purple-box text-box">Yes I am available</div>
+                    <Flex align="center" gap="8px">
+                      <p className="time">09:30 PM</p>
+                      <img src={dp} alt="person" className="person" />
+                      <img src={check} alt="check" />
+                    </Flex>
                   </Flex>
-                </div>
-                <Flex align="flex-end" direction="column" gap="8px">
-                  <div className="purple-box text-box">Yes I am available</div>
-                  <Flex align="center" gap="8px">
-                    <p className="time">09:30 PM</p>
-                    <img src={dp} alt="person" className="person" />
-                    <img src={check} alt="check" />
+                  <Flex align="flex-end" direction="column" gap="8px">
+                    <div className="purple-box text-box">
+                      Lorem ipsum dolor sit amet, wdaconsectetur adipiscing elit. Velit at donec mi
+                      diam leo sds
+                    </div>
+                    <Flex align="center" gap="8px">
+                      <p className="time">09:30 PM</p>
+                      <img src={dp} alt="person" className="person" />
+                      <img src={check} alt="check" />
+                    </Flex>
+                  </Flex>
+                  <div className="lhs">
+                    <div className="gray-box text-box">
+                      Lorem ipsum dolor sit amet , wdaconsectetur adipiscing elit. Velit at donec mi
+                      diam leo sds
+                    </div>
+                    <Flex align="center" gap="8px">
+                      <img src={dp} alt="person" className="person" />
+                      <p className="time">09:30 PM</p>
+                    </Flex>
+                  </div>
+                  <Flex align="flex-end" direction="column" gap="8px">
+                    <div className="purple-box text-box">
+                      Lorem ipsum dolor sit amet, wd onsectetur adipiscing elit.
+                    </div>
+                    <Flex align="center" gap="8px">
+                      <p className="time">09:30 PM</p>
+                      <img src={dp} alt="person" className="person" />
+                      <img src={check} alt="check" />
+                    </Flex>
                   </Flex>
                 </Flex>
-                <Flex align="flex-end" direction="column" gap="8px">
-                  <div className="purple-box text-box">
-                    Lorem ipsum dolor sit amet, wdaconsectetur adipiscing elit. Velit at donec mi
-                    diam leo sds
-                  </div>
-                  <Flex align="center" gap="8px">
-                    <p className="time">09:30 PM</p>
-                    <img src={dp} alt="person" className="person" />
-                    <img src={check} alt="check" />
-                  </Flex>
-                </Flex>
-                <div className="lhs">
-                  <div className="gray-box text-box">
-                    Lorem ipsum dolor sit amet , wdaconsectetur adipiscing elit. Velit at donec mi
-                    diam leo sds
-                  </div>
-                  <Flex align="center" gap="8px">
-                    <img src={dp} alt="person" className="person" />
-                    <p className="time">09:30 PM</p>
-                  </Flex>
-                </div>
-                <Flex align="flex-end" direction="column" gap="8px">
-                  <div className="purple-box text-box">
-                    Lorem ipsum dolor sit amet, wd onsectetur adipiscing elit.
-                  </div>
-                  <Flex align="center" gap="8px">
-                    <p className="time">09:30 PM</p>
-                    <img src={dp} alt="person" className="person" />
-                    <img src={check} alt="check" />
-                  </Flex>
-                </Flex>
-              </Flex>
+              </div>
             </Wrapper>
           </Box>
         </Fade>

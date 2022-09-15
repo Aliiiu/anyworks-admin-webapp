@@ -40,7 +40,7 @@ export const RhsHeading: React.FC<Props> = ({ handleChangeSearch }) => (
 
 const ArtisanTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
-	margin: 3rem 0;
+	margin: 2rem 0;
 	border-radius: 16px;
 	padding-bottom: 20px;
 	.heading {

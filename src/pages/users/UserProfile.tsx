@@ -9,7 +9,7 @@ import { Flex, Button, ButtonClass } from 'src/components/ui'
 import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants'
 import { BookingStatus } from 'src/components/bookings'
 import { useNavigate } from 'react-router-dom'
-import {formatDate} from 'src/utils/helpers'
+import {formatDateDmy} from 'src/utils/helpers'
 
 const UserProfileContainer = styled.div``
 
@@ -42,7 +42,7 @@ const UserProfile = () => {
     },
     { title: 'Service', render: (row: any) => `${row.services}` },
     { title: 'Location', render: (row: any) => `${row.location}` },
-    { title: 'Date', render: (row: any) => formatDate(row.date) },
+    { title: 'Date', render: (row: any) => formatDateDmy(row.date) },
     { title: 'Status', render: (row: any) => <BookingStatus status={row['status']} /> },
   ]
 

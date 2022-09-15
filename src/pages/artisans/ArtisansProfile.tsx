@@ -11,7 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import BookingStatus from 'src/components/bookings/BookingStatus';
 import WalletContainer from 'src/components/artisan/WalletContainer';
-import {formatDate} from 'src/utils/helpers'
+import {formatDateDmy} from 'src/utils/helpers'
 
 const StyledBookingSummary = styled.div`
 	margin: 32px 0px;
@@ -54,7 +54,7 @@ const ArtisansProfile = () => {
 		},
 		{ title: 'Service', render: (row: any) => `${row.services}` },
 		{ title: 'Location', render: (row: any) => `${row.location}` },
-		{ title: 'Date', render: (row: any) => formatDate(row.date) },
+		{ title: 'Date', render: (row: any) => formatDateDmy(row.date) },
 		{
 			title: 'Status',
 			render: (row: any) => <BookingStatus status={row['status']} />,
