@@ -54,10 +54,10 @@ export const Login = () => {
 		if (emailError || passwordError) {
 			setLoginDetails({ ...loginDetails, emailError, passwordError });
 		} else {
-			setIsSuccess(true);
 			if (isSuccess) {
 				return;
 			}
+			setIsSuccess(true);
 			// console.log('clicked');
 			const { email, password } = loginDetails;
 			AdminAuth.login({ email, password })
@@ -159,7 +159,7 @@ export const Login = () => {
 							Forgot password?
 						</Link>
 						<StyledButton disabled={isSuccess} onClick={handleSubmit}>
-							{isSuccess ? <Loading color='white' /> : 'Login'}
+							{isSuccess ? <Loading color='white' /> : 'Send Code'}
 						</StyledButton>
 					</form>
 				</LoginCard>

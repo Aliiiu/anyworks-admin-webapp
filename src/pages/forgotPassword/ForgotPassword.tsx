@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { entity } from 'simpler-state';
+import { Loading } from 'src/components/ui';
 import AdminAuth from 'src/service/AdminAuth';
 import {
 	Container,
@@ -18,9 +19,14 @@ export const emailCtx = entity('');
 const ForgotPassword = () => {
 	let navigate = useNavigate();
 	const [email, setEmail] = useState('');
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
+		if (isSuccess) {
+			return;
+		}
+		setIsSuccess(true);
 		emailCtx.set(email);
 		AdminAuth.forgotPassword({ email })
 			.then((res: any) => {
@@ -33,7 +39,8 @@ const ForgotPassword = () => {
 			.catch((err: any) => {
 				err.response.data.error.message &&
 					toast.error(err.response.data.error.message);
-			});
+			})
+			.finally(() => setIsSuccess(false));
 	};
 	return (
 		<div style={{ background: '#7e00c4' }}>
@@ -70,7 +77,13 @@ const ForgotPassword = () => {
 								style={{ fontFamily: 'Raleway' }}
 							/>
 						</div>
-						<StyledButton style={{ marginTop: 24 }}>Send Code</StyledButton>
+						<StyledButton
+							disabled={isSuccess}
+							type='submit'
+							style={{ marginTop: 24 }}
+						>
+							{isSuccess ? <Loading color='white' /> : 'Send Code'}
+						</StyledButton>
 					</form>
 				</LoginCard>
 			</Container>

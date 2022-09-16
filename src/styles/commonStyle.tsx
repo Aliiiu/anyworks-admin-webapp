@@ -64,7 +64,7 @@ export const Input = styled.input`
 	border-radius: 8px;
 	background: transparent;
 	padding: 10px 14px 10px 14px;
-	font-size: inherit;
+	font-size: inherit;s
 	border: 1px solid #98a2b3;
 	width: 98%;
 	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
@@ -74,6 +74,9 @@ export const Input = styled.input`
 	}
 	::placeholder {
 		color: #98a2b3;
+	}
+	&:disabled{
+		color: black;
 	}
 `;
 

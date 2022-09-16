@@ -167,7 +167,6 @@ export function OTPInputComponent(props: OTPInputProps) {
 				.fill('')
 				.map((_, index) => (
 					<SingleInput
-						placeholder='0'
 						key={`SingleInput-${index}`}
 						type={isNumberInput ? 'number' : 'text'}
 						focus={activeInput === index}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import OTPInput from 'src/components/inputs/OTPInput';
+import Loading from 'src/components/ui/Loader';
 import AdminAuth from 'src/service/AdminAuth';
 import { auth } from 'src/store/Auth';
 import {
@@ -40,6 +41,7 @@ const StyledWrapper = styled.div`
 		border: 1px solid #98a2b3;
 		padding: 8px;
 		outline: 1px solid #98a2b3;
+		color: #98a2b3;
 		::placeholder {
 			color: #98a2b3;
 		}
@@ -49,6 +51,7 @@ const StyledWrapper = styled.div`
 const GetCode = () => {
 	let navigate = useNavigate();
 	const [code, setCode] = useState<number>(0);
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 	const userEmail = emailCtx.use();
 
 	const resendCodeHandler = () => {
@@ -64,8 +67,10 @@ const GetCode = () => {
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
-		console.log(`email: ${userEmail}`);
-
+		if (isSuccess) {
+			return;
+		}
+		setIsSuccess(true);
 		AdminAuth.forgotPasswordOtp({ email: userEmail, code })
 			.then((res) => {
 				if (res.data.success) {
@@ -78,7 +83,8 @@ const GetCode = () => {
 				(err: any) =>
 					err.response.data.error.message &&
 					toast.error(err.response.data.error.message)
-			);
+			)
+			.finally(() => setIsSuccess(false));
 	};
 	return (
 		<StyledWrapper>
@@ -89,7 +95,7 @@ const GetCode = () => {
 				<ToastContainer />
 				<LoginCard>
 					<CardHeader>Forgot Password</CardHeader>
-					<h4>Enter the code sent to olajide@gmail.com</h4>
+					<h4>Enter the code sent to {userEmail}</h4>
 					<form onSubmit={submitHandler}>
 						<div className='otpContainer'>
 							<OTPInput
@@ -99,7 +105,9 @@ const GetCode = () => {
 								onChangeOTP={(otp) => setCode(Number(otp))}
 							/>
 						</div>
-						<StyledButton style={{ marginTop: 30 }}>Sumbit</StyledButton>
+						<StyledButton style={{ marginTop: 30 }}>
+							{isSuccess ? <Loading color='white' /> : 'Submit'}
+						</StyledButton>
 					</form>
 					<h5
 						style={{
