@@ -50,7 +50,8 @@ const StyledWrapper = styled.div`
 
 const GetCode = () => {
 	let navigate = useNavigate();
-	const [code, setCode] = useState<number>(0);
+	const [code, setCode] = useState<string>('');
+	const [resetCode, setResetCode] = useState<boolean>(false);
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 	const userEmail = emailCtx.use();
 
@@ -71,11 +72,11 @@ const GetCode = () => {
 			return;
 		}
 		setIsSuccess(true);
-		AdminAuth.forgotPasswordOtp({ email: userEmail, code })
+		AdminAuth.forgotPasswordOtp({ email: userEmail, code: Number(code) })
 			.then((res) => {
 				if (res.data.success) {
 					toast(res.data.message);
-					setAuthToken(res.data.token);
+					setAuthToken(res.data.payload.token);
 					navigate('/new-password');
 				}
 			})
@@ -102,7 +103,7 @@ const GetCode = () => {
 								autoFocus
 								length={4}
 								inputClassName='otpInput'
-								onChangeOTP={(otp) => setCode(Number(otp))}
+								onChangeOTP={(otp) => setCode(otp)}
 							/>
 						</div>
 						<StyledButton style={{ marginTop: 30 }}>

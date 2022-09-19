@@ -4,7 +4,7 @@ export const ArtisansServices = {
 	getAllArtisans: async () => {
 		return artisanServiceApi().get('');
 	},
-	getArtisan: async (artisan_id: number) => {
-		return artisanServiceApi().get(`profile/:${artisan_id}`);
+	getArtisan: async (artisan_id: string) => {
+		return artisanServiceApi().get(`profile/${artisan_id}`);
 	},
 };

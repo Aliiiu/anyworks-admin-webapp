@@ -72,7 +72,7 @@ const ArtisanTable = () => {
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
 	const [selectedFilterValue, setSelectedFilterValue] = useState('all');
 	const [searchField, setSearchField] = useState('');
-	const [allArtisans, setAllArtisans] = useState<any[]>([]);
+	const [allArtisans, setAllArtisans] = useState([]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSelectedFilterValue(event.target.value);
@@ -80,7 +80,7 @@ const ArtisanTable = () => {
 
 	const fetchAllArtisans = () => {
 		ArtisansServices.getAllArtisans()
-			.then((res) => setAllArtisans(res.data))
+			.then((res) => setAllArtisans(res.data.payload.data))
 			.catch((err: any) => console.log(err.response));
 	};
 
@@ -88,7 +88,7 @@ const ArtisanTable = () => {
 		fetchAllArtisans();
 		console.log(allArtisans);
 	}, []);
-	const filteredData = ARTISANData.filter((data: any) => {
+	const filteredData = allArtisans.filter((data: any) => {
 		return (
 			data?.name?.toLowerCase().includes(searchField.toLowerCase()) ||
 			data?.status?.toLowerCase().includes(searchField.toLowerCase())
@@ -114,18 +114,33 @@ const ArtisanTable = () => {
 	let navigate = useNavigate();
 	const [allowRowClick, setAllowRowClick] = useState(true);
 
-	const handleNavigate = (id: any) => {
-		navigate(`/artisans/${id + 1}`);
+	const handleNavigate = (id: string) => {
+		navigate(`/artisans/${id}`);
 	};
 
 	const ArtisanTableHeaders = [
 		{
+			title: 'DP',
+			render: (row: any) => (
+				<img
+					style={{
+						width: '40px',
+						height: 40,
+						borderRadius: '50%',
+						objectFit: 'contain',
+					}}
+					src={row.display_picture}
+					alt=''
+				/>
+			),
+		},
+		{
 			title: 'First Name',
-			render: (row: any) => `${row.name}`,
+			render: (row: any) => `${row.first_name}`,
 		},
 		{
 			title: 'Last Name',
-			render: (row: any) => `${row.name}`,
+			render: (row: any) => `${row.last_name}`,
 		},
 		{
 			title: 'Email',
@@ -144,18 +159,12 @@ const ArtisanTable = () => {
 			),
 		},
 		{
-			title: 'DP',
-			render: (row: any) => (
-				<img style={{ width: '40px' }} src={row.img} alt='' />
-			),
-		},
-		{
 			title: 'Gender',
-			render: (row: any) => `${row.registrationDate}`,
+			render: (row: any) => `${row.gender}`,
 		},
 		{
 			title: 'Occupation',
-			render: (row: any) => `${row.lastLogin}`,
+			render: (row: any) => `${row.occupation}`,
 		},
 
 		{

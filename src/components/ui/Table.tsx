@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import clsx from 'clsx';
-import { Loader } from '../common';
-import LoadingOverlay from './LoadingOverlay';
 
 const TableOverviewContainer = styled.div`
 	overflow-x: auto;
@@ -68,7 +66,7 @@ const TableOverviewContainer = styled.div`
 
 			td {
 				padding: 10px;
-				white-space: nowrap;
+				white-space: normal;
 				height: 60px;
 				min-height: 60px;
 

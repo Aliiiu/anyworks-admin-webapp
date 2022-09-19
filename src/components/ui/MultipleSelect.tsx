@@ -20,10 +20,10 @@ const MenuProps = {
 };
 
 const roles = [
-	'Admin Manager',
-	'Artisan Manager',
-	'Booking Manager',
-	'User Manager',
+	'adminManager',
+	'artisanManager',
+	'bookingManager',
+	'userManager',
 ];
 
 function getStyles(name: string, personName: string[], theme: Theme) {
@@ -67,14 +67,13 @@ export default function MultipleSelect({
 			<InputContainer>
 				<label htmlFor='Role'>Role</label>
 				<FormControl fullWidth size='small'>
-					<InputLabel id='demo-multiple-name-label'>Role</InputLabel>
+					{/* <InputLabel id='demo-multiple-name-label'>Role</InputLabel> */}
 					<Select
 						labelId='demo-multiple-name-label'
 						id='demo-multiple-name'
 						multiple
 						value={personName}
 						onChange={handleChange}
-						input={<OutlinedInput label='Role' />}
 						style={{ padding: '0px auto' }}
 						MenuProps={MenuProps}
 						required

@@ -21,17 +21,17 @@ import PrivateRoute from './PrivateRoute';
 const Router = () => {
 	return (
 		<Routes>
-			<Route
-				path='/'
-				element={
-					<IsAuthenticatedRoute>
-						<Login />
-					</IsAuthenticatedRoute>
-				}
-			/>
+			<Route path='/' element={<Login />} />
 			<Route path='forgot-password' element={<ForgotPassword />} />
 			<Route path='get-code' element={<GetCode />} />
-			<Route path='new-password' element={<NewPassword />} />
+			<Route
+				path='new-password'
+				element={
+					<PrivateRoute>
+						<NewPassword />
+					</PrivateRoute>
+				}
+			/>
 			<Route
 				path='/dashboard'
 				element={

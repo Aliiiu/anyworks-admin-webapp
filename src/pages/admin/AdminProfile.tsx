@@ -14,6 +14,8 @@ import { DateRangeFilter } from 'src/components/common';
 import { addDays } from 'date-fns';
 import { AdminServices } from 'src/service/AdminServices';
 import { AdminTypes } from './adminTypes';
+import AdminProfileDetails from 'src/components/admin/AdminProfileDetails';
+import { ADMINLOG } from 'src/constants/ADMINLOG';
 
 export const StyledProfileHeader = styled.div`
 	display: flex;
@@ -158,7 +160,10 @@ const StyledAdminProfileComponent = styled.div`
 					table {
 						width: 100%;
 						td:first-child {
-							padding-right: 60px;
+							padding-right: 120px;
+						}
+						td:last-child {
+							font-weight: 600;
 						}
 						td {
 							padding-bottom: 5px;
@@ -174,14 +179,6 @@ const StyledAdminProfileComponent = styled.div`
 	}
 `;
 const AdminProfile = () => {
-	const [openRole, setOpenRole] = useState(false);
-	const [openStatus, setOpenStatus] = useState(false);
-	const [adminSelector, setAdminSelector] = useState(false);
-
-	const handleAdminSelector = () => {
-		setAdminSelector(true);
-	};
-
 	const AdminActivityTableHeaders = [
 		{
 			title: 'Date',
@@ -210,7 +207,7 @@ const AdminProfile = () => {
 	const startDate = state[0]?.startDate;
 	const endDate = state[0]?.endDate;
 
-	const dateFilteredData = WALLETData.filter((a: any) => {
+	const dateFilteredData = ADMINLOG.filter((a: any) => {
 		const date = new Date(a.date);
 		return date >= startDate && date <= endDate;
 	});
@@ -225,12 +222,12 @@ const AdminProfile = () => {
 	const getAdmin = (id: string) => {
 		AdminServices.getAdmin(id)
 			.then((res: any) => {
+				console.log(res.data.payload.data);
 				res.data.payload.data && setAdminEntry(res.data.payload.data);
 			})
 			.catch((err: any) => console.log(err.response));
 	};
 	useEffect(() => {
-		// console.log(adminEntry.role.map((item) => ));
 		id && getAdmin(id);
 	}, []);
 
@@ -258,107 +255,7 @@ const AdminProfile = () => {
 						</Button>
 					</Link>
 				</StyledProfileHeader>
-				<div className='admin_profile_details'>
-					<div className='profile_header'>
-						<h3>Profile Information</h3>
-						<div className='profile_status_wrapper'>
-							<div className='popup_root'>
-								<button
-									onClick={() => setOpenRole((prevState) => !prevState)}
-									className='status_btn'
-								>
-									Role
-									<img src={dropdownIcon} alt='' width={14} height='14px' />
-								</button>
-								{openRole && (
-									<div className='role_modal'>
-										{' '}
-										{adminEntry.role &&
-											adminEntry.role.map((item, idx) => (
-												<button key={idx} className='modal_item'>
-													{item}
-												</button>
-											))}
-									</div>
-								)}
-							</div>
-							<div className='popup_root_status'>
-								<button
-									onClick={() => setOpenStatus((prevState) => !prevState)}
-									className='status_btn'
-								>
-									Status
-									<img src={dropdownIcon} alt='' width={14} height='14px' />
-								</button>
-								{openStatus && (
-									<div className='role_modal'>
-										{' '}
-										<button className='modal_item'>Active</button>
-										<button className='modal_item'>Block</button>
-									</div>
-								)}
-							</div>
-						</div>
-					</div>
-					<div className='profile_details_wrapper'>
-						<img
-							src='/images/profilePics.png'
-							alt=''
-							width={150}
-							height='151px'
-						/>
-						<div className='profile_details'>
-							<h4>
-								{adminEntry.first_name && adminEntry.first_name}{' '}
-								{adminEntry.last_name && adminEntry.last_name}
-							</h4>
-							<div className='details'>
-								<table>
-									<tbody>
-										<tr>
-											<td className='text key'>First Name</td>
-											<td className='text value'>{adminEntry.first_name}</td>
-										</tr>
-										<tr>
-											<td className='text key'>Last Name</td>
-											<td className='text value'>{adminEntry.last_name}</td>
-										</tr>
-										<tr>
-											<td className='text key'>Email</td>
-											<td className='text value'>{adminEntry.email}</td>
-										</tr>
-
-										<tr>
-											<td className='text key'>Roles</td>
-											<td className='text value'>
-												{adminEntry.role.map((item) => (
-													<span>{item},</span>
-												))}
-											</td>
-										</tr>
-										<tr>
-											<td className='text key'>Status</td>
-											<td className='text value'>
-												<div
-													style={{
-														fontSize: 14,
-														borderRadius: 31,
-														background: 'rgba(85, 196, 241, 0.2)',
-														padding: '6px 12px',
-														width: 68,
-														color: '#55C4F1',
-													}}
-												>
-													{!adminEntry.suspended ? 'Active' : 'Blocked'}
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
+				<AdminProfileDetails adminEntry={adminEntry} />
 				<AdminActivityTableContainer>
 					<div className='heading'>
 						<Flex justify='space-between' align='center'>

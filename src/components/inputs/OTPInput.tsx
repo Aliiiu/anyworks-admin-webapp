@@ -5,7 +5,6 @@ import SingleInput from './SingleInput';
 export function OTPInputComponent(props: OTPInputProps) {
 	const {
 		length,
-		isNumberInput,
 		autoFocus,
 		disabled,
 		onChangeOTP,
@@ -27,18 +26,18 @@ export function OTPInputComponent(props: OTPInputProps) {
 	);
 
 	// Helper to return value with the right type: 'text' or 'number'
-	const getRightValue = useCallback(
-		(str: string) => {
-			let changedValue = str;
+	// const getRightValue = useCallback(
+	// 	(str: string) => {
+	// 		let changedValue = str;
 
-			if (!isNumberInput || !changedValue) {
-				return changedValue;
-			}
+	// 		if (!isNumberInput || !changedValue) {
+	// 			return changedValue;
+	// 		}
 
-			return Number(changedValue) >= 0 ? changedValue : '';
-		},
-		[isNumberInput]
-	);
+	// 		return Number(changedValue) >= 0 ? changedValue : '';
+	// 	},
+	// 	[isNumberInput]
+	// );
 
 	// Change OTP value at focussing input
 	const changeCodeAtFocus = useCallback(
@@ -79,7 +78,7 @@ export function OTPInputComponent(props: OTPInputProps) {
 	// Handle onChange value for each input
 	const handleOnChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
-			const val = getRightValue(e.currentTarget.value);
+			const val = e.currentTarget.value;
 			if (!val) {
 				e.preventDefault();
 				return;
@@ -87,7 +86,7 @@ export function OTPInputComponent(props: OTPInputProps) {
 			changeCodeAtFocus(val);
 			focusNextInput();
 		},
-		[changeCodeAtFocus, focusNextInput, getRightValue]
+		[changeCodeAtFocus, focusNextInput]
 	);
 
 	// Handle onBlur input
@@ -141,13 +140,13 @@ export function OTPInputComponent(props: OTPInputProps) {
 				.trim()
 				.slice(0, length - activeInput)
 				.split('');
-			console.log(pastedData);
+			// console.log(pastedData);
 			if (pastedData) {
 				let nextFocusIndex = 0;
 				const updatedOTPValues = [...otpValues];
 				updatedOTPValues.forEach((val, index) => {
 					if (index >= activeInput) {
-						const changedValue = getRightValue(pastedData.shift() || val);
+						const changedValue = pastedData.shift();
 						if (changedValue) {
 							updatedOTPValues[index] = changedValue;
 							nextFocusIndex = index;
@@ -158,7 +157,7 @@ export function OTPInputComponent(props: OTPInputProps) {
 				setActiveInput(Math.min(nextFocusIndex + 1, length - 1));
 			}
 		},
-		[activeInput, getRightValue, length, otpValues]
+		[activeInput, length, otpValues]
 	);
 
 	return (
@@ -168,7 +167,7 @@ export function OTPInputComponent(props: OTPInputProps) {
 				.map((_, index) => (
 					<SingleInput
 						key={`SingleInput-${index}`}
-						type={isNumberInput ? 'number' : 'text'}
+						type={'text'}
 						focus={activeInput === index}
 						value={otpValues && otpValues[index]}
 						autoFocus={autoFocus}

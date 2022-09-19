@@ -14,7 +14,6 @@ export const ProfileInfoContainer = styled.div`
 	margin: 3rem 0;
 	border-radius: 16px;
 	padding: 20px;
-
 	.heading {
 		margin-bottom: 3rem;
 		.title {
@@ -25,6 +24,14 @@ export const ProfileInfoContainer = styled.div`
 		}
 	}
 
+	.profile-info--lhs {
+		.dp {
+			width: 150px;
+			height: 150px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+	}
 	.profile-info--rhs {
 		.details {
 			.text {
@@ -35,7 +42,7 @@ export const ProfileInfoContainer = styled.div`
 			}
 			.key {
 				font-weight: 400;
-				padding-right: 100px;
+				padding-right: 0px;
 			}
 		}
 	}

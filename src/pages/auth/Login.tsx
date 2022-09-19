@@ -13,6 +13,8 @@ import { setAuthUser } from 'src/store/Auth';
 import { setAuthToken } from 'src/utils/AuthUtils';
 import { toast, ToastContainer } from 'react-toastify';
 import Loading from 'src/components/ui/Loader';
+import { StyledPasswordInput } from '../forgotPassword/NewPassword';
+import { useBoolean } from 'src/hooks';
 
 export const Login = () => {
 	let navigate = useNavigate();
@@ -63,6 +65,7 @@ export const Login = () => {
 			AdminAuth.login({ email, password })
 				.then((res: any) => {
 					setAuthUser(res.data.payload.data);
+					console.log(res.data.payload.data);
 					setAuthToken(res.data.payload.token);
 					toast.success(`${res.data.message}`, {
 						position: 'top-center',
@@ -76,11 +79,14 @@ export const Login = () => {
 					navigate('/dashboard');
 				})
 				.catch((err: any) => {
+					console.log(err.response);
 					toast.error(err.response.data.error.message);
 				})
 				.finally(() => setIsSuccess(false));
 		}
 	};
+
+	const { value, toggle } = useBoolean(false);
 	return (
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
@@ -131,16 +137,27 @@ export const Login = () => {
 							}}
 						>
 							<label htmlFor='password'>Password</label>
-							<Input
+							<StyledPasswordInput
 								style={{
 									borderColor: loginDetails.passwordError && '#F04438',
 									background: loginDetails.passwordError && '#F9FAFB',
 								}}
-								type={'password'}
-								placeholder='********'
-								value={loginDetails.password}
-								onChange={handlePasswordInputChange}
-							/>
+							>
+								<input
+									type={value ? 'text' : 'password'}
+									placeholder='********'
+									value={loginDetails.password}
+									onChange={handlePasswordInputChange}
+								/>
+								<img
+									src='/svgs/visible.svg'
+									onClick={() => {
+										console.log('Clicked!');
+										toggle();
+									}}
+									alt=''
+								/>
+							</StyledPasswordInput>
 							{loginDetails.passwordError && (
 								<h6 className='validation_error'>
 									{loginDetails.passwordError}
@@ -159,7 +176,7 @@ export const Login = () => {
 							Forgot password?
 						</Link>
 						<StyledButton disabled={isSuccess} onClick={handleSubmit}>
-							{isSuccess ? <Loading color='white' /> : 'Send Code'}
+							{isSuccess ? <Loading color='white' /> : 'Login'}
 						</StyledButton>
 					</form>
 				</LoginCard>

@@ -7,11 +7,13 @@ import ArtisansProfileCard from 'src/components/artisan/ArtisansProfileCard';
 import bookingsIcon from 'src/assets/images/metrics/bookingSummary.svg';
 import BookingsTabs from 'src/components/bookings/BookingsTabs';
 import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import BookingStatus from 'src/components/bookings/BookingStatus';
 import WalletContainer from 'src/components/artisan/WalletContainer';
-import {formatDateDmy} from 'src/utils/helpers'
+import { formatDateDmy } from 'src/utils/helpers';
+import { ArtisansServices } from 'src/service/ArtisansServices';
+import { useEffect, useState } from 'react';
 
 const StyledBookingSummary = styled.div`
 	margin: 32px 0px;
@@ -43,6 +45,40 @@ const ArtisansProfile = () => {
 	let navigate = useNavigate();
 
 	const rows = RECENT_BOOKINGS_TABLE_DATA();
+	const [walletBal, setWalletBal] = useState<WalletDataTypes>({
+		balance: 0,
+		transactions: [],
+	});
+	const [artisanDetails, setArtisanDetails] = useState<ArtisanProfileDetails>({
+		_id: '',
+		first_name: '',
+		last_name: '',
+		email: '',
+		occupation: '',
+		profile_stage: '',
+		phone: '',
+		status: '',
+		display_picture: '',
+		address: {
+			house_address: '',
+			city: '',
+			state: '',
+		},
+	});
+	const { id } = useParams();
+	const fetchMe = (id: string) => {
+		ArtisansServices.getArtisan(id)
+			.then((res) => {
+				console.log(res.data.payload.data);
+				setWalletBal(res.data.payload.data.wallet);
+				setArtisanDetails(res.data.payload.data.artisan);
+			})
+			.catch((err) => console.log(err));
+	};
+
+	useEffect(() => {
+		id && fetchMe(id);
+	}, []);
 	const BookingsTableHeaders = [
 		{
 			title: 'Artisan',
@@ -76,7 +112,7 @@ const ArtisansProfile = () => {
 					</Button>
 				</Link>
 			</StyledProfileHeader>
-			<ArtisansProfileCard />
+			<ArtisansProfileCard artisanDetails={artisanDetails} />
 			<StyledBookingSummary>
 				<div className='booking_summary'>
 					<div className='summary_details'>
@@ -86,7 +122,7 @@ const ArtisansProfile = () => {
 				</div>
 				<div className='wallet_summary'>
 					<div className='summary_details'>
-						<h5>Wallet Balance</h5> <h3>N34,0000</h3>
+						<h5>Wallet Balance</h5> <h3> ₦{walletBal.balance}</h3>
 					</div>
 					<img src={bookingsIcon} alt='' width={55} height='55px' />
 				</div>

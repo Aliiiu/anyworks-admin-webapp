@@ -9,17 +9,17 @@ import {
 	Image,
 	LoginCard,
 	CardHeader,
-	Input,
 	StyledButton,
 } from 'src/styles/commonStyle';
 import styled from 'styled-components';
 
-const StyledPasswordInput = styled.div`
+export const StyledPasswordInput = styled.div`
 	border: 1px solid #98a2b3;
 	border-radius: 8px;
 	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 	width: 100%;
 	display: flex;
+	outline: none;
 	input {
 		background: transparent;
 		padding: 10px 14px 10px 14px;

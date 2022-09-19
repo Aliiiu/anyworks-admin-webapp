@@ -39,7 +39,6 @@ const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 	const handleNavigate = (id: string) => {
 		navigate(`/admins/${id}`);
 	};
-
 	const suspendActivityHandler = (admin_id: string, action: string) => {
 		AdminServices.suspendAdmin(admin_id, action)
 			.then((res) => toast.success(res.data.message))
@@ -53,12 +52,14 @@ const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 		{
 			title: 'Roles',
 			render: (row: any) => (
-				<div>
-					{row.role.map((item: any) => (
-						<span style={{ textTransform: 'capitalize', marginRight: 5 }}>
-							{item},
-						</span>
-					))}
+				<div style={{ display: 'flex', flexWrap: 'wrap', width: 350 }}>
+					<span
+						style={{
+							marginRight: 5,
+						}}
+					>
+						{row.role.join(', ')}
+					</span>
 				</div>
 			),
 		},
@@ -84,12 +85,6 @@ const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 					actions={[
 						{
 							title: 'View profile',
-							onClick: () => {
-								handleNavigate(row._id);
-							},
-						},
-						{
-							title: 'Activity Log',
 							onClick: () => {
 								handleNavigate(row._id);
 							},
