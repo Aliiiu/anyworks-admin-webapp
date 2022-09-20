@@ -36,7 +36,7 @@ const Dashboard = () => {
 				console.log(res.data.message);
 				setMetricData(res.data.payload.data);
 			})
-			.catch((err) => toast(err.response.data.error.message));
+			.catch((err) => toast.error(err.response.data.error.message));
 	}, []);
 
 	const metrics = [
@@ -48,8 +48,8 @@ const Dashboard = () => {
 			href: '/users',
 		},
 		{
-			count: '345',
-			key: metricData.artisans,
+			count: metricData.artisans,
+			key: 'Total Artisans',
 			img: artisan,
 			color: theme.colors.blue,
 			href: '/artisans',
