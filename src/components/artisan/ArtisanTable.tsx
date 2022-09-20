@@ -212,7 +212,7 @@ const ArtisanTable = () => {
 			<ArtisanTableContainer>
 				<div className='heading'>
 					<Flex justify='space-between' align='center'>
-						<p className='count'>{sortedData().length} Users</p>
+						<p className='count'>{sortedData().length} Artisans</p>
 						<Popover
 							isOpen={isOpen}
 							padding={1}

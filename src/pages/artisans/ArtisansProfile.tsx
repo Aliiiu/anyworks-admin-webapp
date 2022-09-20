@@ -100,7 +100,9 @@ const ArtisansProfile = () => {
 	return (
 		<DashboardLayout>
 			<StyledProfileHeader>
-				<h2>Olajide Olajide's profile</h2>
+				<h2>
+					{artisanDetails.first_name} {artisanDetails.last_name}'s profile
+				</h2>
 				<Link to='/artisans'>
 					<Button
 						classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}

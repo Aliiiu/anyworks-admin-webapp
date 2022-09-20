@@ -10,6 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Loading } from 'src/components/ui';
 import { auth, setAuthUser } from 'src/store/Auth';
 import { BounceLoader } from 'react-spinners';
+import Visibility from 'src/components/common/Visibility';
 
 const InputField = styled(Field)`
 	border-radius: 8px;
@@ -68,26 +69,6 @@ const SettingsContainer = styled.div`
 					align-items: center;
 				}
 			}
-			// .img-upload:before {
-			// 	content: url('./svgs/cameraIcon.svg');
-			// 	font-size: 90px;
-			// 	position: absolute;
-			// 	padding-top: 80px;
-			// 	top: 45%;
-			// 	left: 50%;
-			// 	transform: translate(-50%, -50%);
-			// 	text-align: center;
-			// 	color: #63d3a6;
-			// 	width: 150px;
-			// 	height: 150px;
-			// 	border-radius: 50%;
-			// 	opacity: 0;
-			// 	transition: 0.5s ease;
-			// 	background-color: #fff;
-			// }
-			// .img-upload:hover:before {
-			// 	opacity: 1;
-			// }
 			img {
 				width: auto;
 				height: 100%;
@@ -234,13 +215,7 @@ const Settings = () => {
 										type={value ? 'text' : 'password'}
 										placeholder='***************'
 									/>
-									<img
-										src='/svgs/visible.svg'
-										onClick={() => {
-											toggle();
-										}}
-										alt=''
-									/>
+									<Visibility value={value} toggle={toggle} />
 								</StyledPasswordInput>
 								<div className='error'>
 									<ErrorMessage name='old_password' />
@@ -254,13 +229,7 @@ const Settings = () => {
 										type={value ? 'text' : 'password'}
 										placeholder='***************'
 									/>
-									<img
-										src='/svgs/visible.svg'
-										onClick={() => {
-											toggle();
-										}}
-										alt=''
-									/>
+									<Visibility value={value} toggle={toggle} />
 								</StyledPasswordInput>
 								<div className='error'>
 									<ErrorMessage name='new_password' />
@@ -274,13 +243,7 @@ const Settings = () => {
 										type={value ? 'text' : 'password'}
 										placeholder='***************'
 									/>
-									<img
-										src='/svgs/visible.svg'
-										onClick={() => {
-											toggle();
-										}}
-										alt=''
-									/>
+									<Visibility value={value} toggle={toggle} />
 								</StyledPasswordInput>
 								<div className='error'>
 									<ErrorMessage name='confirm_password' />

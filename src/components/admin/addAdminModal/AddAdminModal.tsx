@@ -187,7 +187,7 @@ const AddAdminModal: React.FC<{
 			newData.append('email', adminDetails.email);
 			newData.append('role', adminDetails.role.toString());
 			newData.append('display_picture', adminDetails.display_picture[0]);
-			// console.log(adminDetails);
+			console.log(adminDetails);
 
 			AdminServices.addAdmin(newData)
 				.then((res) => {

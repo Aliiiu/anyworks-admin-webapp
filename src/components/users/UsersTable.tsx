@@ -94,7 +94,7 @@ export const UsersTable = ({ rows }: Props) => {
 
 	const { page, limit, Pagination } = usePagination({
 		page: 1,
-		limit: 15,
+		limit: 10,
 		total: rows.length,
 	});
 	const paginatedRows = rows.slice((page - 1) * limit, page * limit);

@@ -15,6 +15,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import Loading from 'src/components/ui/Loader';
 import { StyledPasswordInput } from '../forgotPassword/NewPassword';
 import { useBoolean } from 'src/hooks';
+import Visibility from 'src/components/common/Visibility';
 
 export const Login = () => {
 	let navigate = useNavigate();
@@ -80,7 +81,8 @@ export const Login = () => {
 				})
 				.catch((err: any) => {
 					console.log(err.response);
-					toast.error(err.response.data.error.message);
+					err.response.data.error.message &&
+						toast.error(err.response.data.error.message);
 				})
 				.finally(() => setIsSuccess(false));
 		}
@@ -149,14 +151,7 @@ export const Login = () => {
 									value={loginDetails.password}
 									onChange={handlePasswordInputChange}
 								/>
-								<img
-									src='/svgs/visible.svg'
-									onClick={() => {
-										console.log('Clicked!');
-										toggle();
-									}}
-									alt=''
-								/>
+								<Visibility value={value} toggle={toggle} />
 							</StyledPasswordInput>
 							{loginDetails.passwordError && (
 								<h6 className='validation_error'>

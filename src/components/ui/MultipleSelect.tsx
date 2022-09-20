@@ -19,11 +19,23 @@ const MenuProps = {
 	},
 };
 
-const roles = [
-	'adminManager',
-	'artisanManager',
-	'bookingManager',
-	'userManager',
+const adminRole = [
+	{
+		name: 'Admin Manager',
+		value: 'adminManager',
+	},
+	{
+		name: 'Artisan Manager',
+		value: 'artisanManager',
+	},
+	{
+		name: 'Booking Manager',
+		value: 'bookingManager',
+	},
+	{
+		name: 'User Manager',
+		value: 'userManager',
+	},
 ];
 
 function getStyles(name: string, personName: string[], theme: Theme) {
@@ -78,14 +90,14 @@ export default function MultipleSelect({
 						MenuProps={MenuProps}
 						required
 					>
-						{roles.map((role) => (
+						{adminRole.map((role) => (
 							<MenuItem
-								key={role}
-								value={role}
+								key={role.name}
+								value={role.value}
 								onClick={() => setClicked((prevState) => !prevState)}
-								style={getStyles(role, personName, theme)}
+								style={getStyles(role.name, personName, theme)}
 							>
-								{role}
+								{role.name}
 							</MenuItem>
 						))}
 					</Select>

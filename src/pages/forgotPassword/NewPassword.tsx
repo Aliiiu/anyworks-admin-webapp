@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Visibility from 'src/components/common/Visibility';
 import { Loading } from 'src/components/ui';
+import { useBoolean } from 'src/hooks';
 import AdminAuth from 'src/service/AdminAuth';
 import {
 	Container,
@@ -19,6 +21,7 @@ export const StyledPasswordInput = styled.div`
 	box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 	width: 100%;
 	display: flex;
+	align-items: center;
 	outline: none;
 	input {
 		background: transparent;
@@ -45,7 +48,7 @@ export const StyledPasswordInput = styled.div`
 const NewPassword = () => {
 	let navigate = useNavigate();
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
-	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const { value, toggle } = useBoolean(false);
 	const [resetDetails, setResetDetails] = useState({
 		password: '',
 		confirm_password: '',
@@ -138,7 +141,7 @@ const NewPassword = () => {
 								}}
 							>
 								<input
-									type={showPassword ? 'text' : 'password'}
+									type={value ? 'text' : 'password'}
 									placeholder='********'
 									value={resetDetails.password}
 									onChange={(e: any) =>
@@ -149,11 +152,7 @@ const NewPassword = () => {
 										}))
 									}
 								/>
-								<img
-									src='/svgs/visible.svg'
-									onClick={() => setShowPassword((prevState) => !prevState)}
-									alt=''
-								/>
+								<Visibility value={value} toggle={toggle} />
 							</StyledPasswordInput>
 							{resetDetails.passwordError && (
 								<h6 className='validation_error'>
@@ -177,7 +176,7 @@ const NewPassword = () => {
 								}}
 							>
 								<input
-									type={showPassword ? 'text' : 'password'}
+									type={value ? 'text' : 'password'}
 									placeholder='********'
 									value={resetDetails.confirm_password}
 									onChange={(e: any) =>
@@ -188,11 +187,7 @@ const NewPassword = () => {
 										}))
 									}
 								/>
-								<img
-									src='/svgs/visible.svg'
-									onClick={() => setShowPassword((prevState) => !prevState)}
-									alt=''
-								/>
+								<Visibility value={value} toggle={toggle} />
 							</StyledPasswordInput>
 							{resetDetails.confirmPasswordError && (
 								<h6 className='validation_error'>
