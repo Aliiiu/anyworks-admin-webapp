@@ -42,7 +42,7 @@ export const ProfileInfoContainer = styled.div`
 			}
 			.key {
 				font-weight: 400;
-				padding-right: 0px;
+				padding-right: 100px;
 			}
 		}
 	}

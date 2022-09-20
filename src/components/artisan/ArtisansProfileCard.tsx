@@ -26,35 +26,6 @@ const ArtisansProfileCard = ({
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
 	const handleOpenMailModal = () => setOpenSendMailModal(true);
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
-	// const [artisanDetails, setArtisanDetails] = useState<ArtisanProfileDetails>({
-	// 	_id: '',
-	// 	first_name: '',
-	// 	last_name: '',
-	// 	email: '',
-	// 	occupation: '',
-	// 	profile_stage: '',
-	// 	phone: '',
-	// 	status: '',
-	// 	display_picture: '',
-	// 	address: {
-	// 		house_address: '',
-	// 		city: '',
-	// 		state: '',
-	// 	},
-	// });
-	// const { id } = useParams();
-	// const fetchMe = (id: string) => {
-	// 	ArtisansServices.getArtisan(id)
-	// 		.then((res) => {
-	// 			console.log(res.data.payload.data.artisan);
-	// 			setArtisanDetails(res.data.payload.data.artisan);
-	// 		})
-	// 		.catch((err) => console.log(err));
-	// };
-
-	// useEffect(() => {
-	// 	id && fetchMe(id);
-	// }, []);
 
 	return (
 		<ProfileInfoContainer>
@@ -107,10 +78,10 @@ const ArtisansProfileCard = ({
 						</h3>
 						<div className='details'>
 							<table
-								style={{
-									width: '100%',
-									borderSpacing: 8,
-								}}
+							// style={{
+							// 	width: '100%',
+							// 	borderSpacing: 8,
+							// }}
 							>
 								<tbody>
 									<tr>
