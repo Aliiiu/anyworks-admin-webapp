@@ -255,7 +255,7 @@ const AdminProfile = () => {
 						</Button>
 					</Link>
 				</StyledProfileHeader>
-				<AdminProfileDetails adminEntry={adminEntry} />
+				<AdminProfileDetails adminEntry={adminEntry} getAdmin={getAdmin} />
 				<AdminActivityTableContainer>
 					<div className='heading'>
 						<Flex justify='space-between' align='center'>

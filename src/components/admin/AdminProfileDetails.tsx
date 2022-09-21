@@ -1,6 +1,8 @@
 import React, { FC, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import dropdownIcon from 'src/assets/images/common/dropDown.svg';
 import { AdminTypes } from 'src/pages/admin/adminTypes';
+import { AdminServices } from 'src/service/AdminServices';
 import styled from 'styled-components';
 
 const StyledAdminProfileComponent = styled.div`
@@ -116,6 +118,14 @@ const StyledAdminProfileComponent = styled.div`
 								text-transform: capitalize;
 							}
 						}
+						.status-action {
+							font-size: 14px;
+							border-radius: 32px;
+							display: flex;
+							justify-content: center;
+							width: max-content;
+							padding: 6px 12px;
+						}
 					}
 				}
 			}
@@ -123,13 +133,28 @@ const StyledAdminProfileComponent = styled.div`
 	}
 `;
 
-const AdminProfileDetails: FC<{ adminEntry: AdminTypes }> = ({
-	adminEntry,
-}) => {
+const AdminProfileDetails: FC<{
+	adminEntry: AdminTypes;
+	getAdmin: (id: string) => void;
+}> = ({ adminEntry, getAdmin }) => {
 	const [openRole, setOpenRole] = useState(false);
 	const [openStatus, setOpenStatus] = useState(false);
+
+	const suspendActivityHandler = (admin_id: string, action: string) => {
+		AdminServices.suspendAdmin(admin_id, action)
+			.then((res) => {
+				console.log(res.data);
+				toast.success(res.data.message);
+			})
+			.catch((err) => {
+				console.log(err.message);
+				toast.error(err.response.data.error.message);
+			})
+			.finally(() => getAdmin(admin_id));
+	};
 	return (
 		<StyledAdminProfileComponent>
+			<ToastContainer />
 			<div className='admin_profile_details'>
 				<div className='profile_header'>
 					<h3>Profile Information</h3>
@@ -164,9 +189,24 @@ const AdminProfileDetails: FC<{ adminEntry: AdminTypes }> = ({
 							</button>
 							{openStatus && (
 								<div className='role_modal'>
-									{' '}
-									<button className='modal_item'>Active</button>
-									<button className='modal_item'>Block</button>
+									<button
+										onClick={() =>
+											adminEntry._id &&
+											suspendActivityHandler(adminEntry._id, 'activate')
+										}
+										className='modal_item'
+									>
+										Active
+									</button>
+									<button
+										onClick={() =>
+											adminEntry._id &&
+											suspendActivityHandler(adminEntry._id, 'suspend')
+										}
+										className='modal_item'
+									>
+										Block
+									</button>
 								</div>
 							)}
 						</div>
@@ -212,15 +252,14 @@ const AdminProfileDetails: FC<{ adminEntry: AdminTypes }> = ({
 										<td className='text value'>
 											<div
 												style={{
-													fontSize: 14,
-													borderRadius: 31,
-													background: 'rgba(85, 196, 241, 0.2)',
-													padding: '6px 12px',
-													width: 68,
-													color: '#55C4F1',
+													background: adminEntry.suspended
+														? 'rgba(255, 173, 74, 0.2)'
+														: 'rgba(85, 196, 241, 0.2)',
+													color: adminEntry.suspended ? '#FFAD4A' : '#55C4F1',
 												}}
+												className='status-action'
 											>
-												{!adminEntry.suspended ? 'Active' : 'Blocked'}
+												{adminEntry.suspended ? 'Blocked' : 'Active'}
 											</div>
 										</td>
 									</tr>
