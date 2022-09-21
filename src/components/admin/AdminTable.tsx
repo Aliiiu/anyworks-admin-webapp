@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import checkIcon from 'src/assets/images/common/mark.svg';
 import { Flex, Table, ActionMenu } from 'src/components/ui';
 import { FC, useState } from 'react';
@@ -6,28 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import usePagination from 'src/hooks/usePagination';
 import { AdminServices } from 'src/service/AdminServices';
 import { toast, ToastContainer } from 'react-toastify';
-
-const AdminTableContainer = styled.div`
-	background-color: ${(props) => props.theme.colors.white};
-	margin: 2rem 0;
-	border-radius: 16px;
-	padding-bottom: 20px;
-	.heading {
-		border-bottom: 1px solid ${(props) => props.theme.colors.gray_03};
-		padding: 20px;
-
-		.count {
-			font-weight: 700;
-			font-size: 17px;
-			line-height: 27px;
-			color: ${(props) => props.theme.colors.purple};
-			background-color: ${(props) => props.theme.colors.gray_04};
-			padding: 4px 12px;
-			width: max-content;
-			border-radius: 16px;
-		}
-	}
-`;
+import { AdminTableContainer } from './admin-style';
+import avatar from 'src/assets/images/header/avatar.svg';
 
 const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 	rows,
@@ -46,23 +25,41 @@ const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 			.finally(() => fetchAdmins());
 	};
 	const AdminTableHeaders = [
+		{
+			title: 'Picture',
+			render: (row: any) => (
+				<div
+					style={{
+						backgroundImage: `url(${row?.display_picture || avatar})`,
+						width: '40px',
+						height: '40px',
+						backgroundRepeat: 'no-repeat',
+						backgroundPosition: 'center',
+						backgroundSize: 'contain',
+						boxShadow:
+							'0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+						borderRadius: '50%',
+					}}
+				></div>
+			),
+		},
 		{ title: 'First Name', render: (row: any) => `${row.first_name}` },
 		{ title: 'Last Name', render: (row: any) => `${row.last_name}` },
 		{ title: 'Email', render: (row: any) => `${row.email}` },
-		{
-			title: 'Roles',
-			render: (row: any) => (
-				<div style={{ display: 'flex', flexWrap: 'wrap', width: 350 }}>
-					<span
-						style={{
-							marginRight: 5,
-						}}
-					>
-						{row.role.join(', ')}
-					</span>
-				</div>
-			),
-		},
+		// {
+		// 	title: 'Roles',
+		// 	render: (row: any) => (
+		// 		<div style={{ display: 'flex', flexWrap: 'wrap', width: 350 }}>
+		// 			<span
+		// 				style={{
+		// 					marginRight: 5,
+		// 				}}
+		// 			>
+		// 				{row.role.join(', ')}
+		// 			</span>
+		// 		</div>
+		// 	),
+		// },
 		{
 			title: 'Status',
 			render: (row: any) => (

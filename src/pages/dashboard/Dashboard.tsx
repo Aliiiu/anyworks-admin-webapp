@@ -55,7 +55,7 @@ const Dashboard = () => {
 			href: '/artisans',
 		},
 		{
-			count: metricData.total_balance,
+			count: `₦${metricData.total_balance}`,
 			key: 'Total Wallet ',
 			img: wallet,
 			color: theme.colors.cyan,

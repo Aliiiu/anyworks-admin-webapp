@@ -19,8 +19,8 @@ import { Loader } from 'src/components/common';
 const ArtisankycContainer = styled.div`
 	.pageHeader {
 		h2 {
-			font-size: 36px;
-			font-weight: 700;
+			font-weight: 600;
+			font-size: 27px;
 			color: ${(props) => props.theme.colors.text_01};
 		}
 	}
@@ -109,7 +109,7 @@ const ArtisanKyc = () => {
 			<ToastContainer />
 
 			<ArtisankycContainer>
-				<Flex justify='space-between' className='pageHeader'>
+				<Flex justify='space-between' align='center' className='pageHeader'>
 					<h2>Artisan KYC</h2>
 					<Link to='/kyc'>
 						<Button

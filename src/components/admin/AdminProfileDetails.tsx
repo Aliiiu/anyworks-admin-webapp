@@ -1,144 +1,42 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import dropdownIcon from 'src/assets/images/common/dropDown.svg';
 import { AdminTypes } from 'src/pages/admin/adminTypes';
 import { AdminServices } from 'src/service/AdminServices';
-import styled from 'styled-components';
-
-const StyledAdminProfileComponent = styled.div`
-	.admin_profile_details {
-		margin-top: 36px;
-		border-radius: 16px;
-		background: #ffffff;
-		padding: 24px;
-		.profile_header {
-			display: flex;
-			align-items: start;
-			justify-content: space-between;
-			h3 {
-				font-size: 24px;
-				color: #1d2939;
-				margin-top: 8px;
-			}
-			.profile_status_wrapper {
-				display: flex;
-				gap: 10px;
-				.popup_root {
-					position: relative;
-					.status_btn {
-						padding: 12px 16px;
-						border-radius: 8px;
-						font-size: 16px;
-						border: 1px solid #7e00c4;
-						display: flex;
-						align-items: center;
-						gap: 10px;
-					}
-					.role_modal {
-						position: absolute;
-						z-index: 2;
-						width: 179px;
-						right: 5px;
-						top: 35px;
-						display: flex;
-						flex-direction: column;
-						border-radius: 8px;
-						padding: 3px 0px;
-						background: #ffffff;
-						border: 1px solid #f2f4f7;
-						box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08),
-							0px 4px 6px -2px rgba(16, 24, 40, 0.03);
-						.modal_item {
-							text-align: left;
-							padding: 10px 14px;
-							font-size: 14px;
-							&:hover {
-								background: #f2f4f7;
-							}
-						}
-					}
-				}
-				.popup_root_status {
-					position: relative;
-					.status_btn {
-						padding: 12px 16px;
-						border-radius: 8px;
-						font-size: 16px;
-						border: 1px solid #7e00c4;
-						display: flex;
-						align-items: center;
-						gap: 10px;
-					}
-					.role_modal {
-						position: absolute;
-						z-index: 2;
-						width: 109px;
-						right: -3px;
-						top: 35px;
-						display: flex;
-						flex-direction: column;
-						border-radius: 8px;
-						background: #ffffff;
-						border: 1px solid #f2f4f7;
-						box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08),
-							0px 4px 6px -2px rgba(16, 24, 40, 0.03);
-						.modal_item {
-							text-align: left;
-							padding: 10px 14px;
-							font-size: 14px;
-							&:hover {
-								background: #f2f4f7;
-							}
-						}
-					}
-				}
-			}
-		}
-		.profile_details_wrapper {
-			margin-top: 40px;
-			display: flex;
-			gap: 50px;
-			.profile_details {
-				h4 {
-					margin-bottom: 20px;
-				}
-				.details {
-					table {
-						width: 100%;
-						td:first-child {
-							padding-right: 120px;
-						}
-						td:last-child {
-							font-weight: 600;
-						}
-						td {
-							padding-bottom: 5px;
-							span {
-								margin-right: 5px;
-								text-transform: capitalize;
-							}
-						}
-						.status-action {
-							font-size: 14px;
-							border-radius: 32px;
-							display: flex;
-							justify-content: center;
-							width: max-content;
-							padding: 6px 12px;
-						}
-					}
-				}
-			}
-		}
-	}
-`;
+import MenuItem from '@mui/material/MenuItem';
+import Check from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import {
+	MUIStyledButton,
+	StyledAdminProfileComponent,
+	StyledMenu,
+	StyledMenuStatus,
+} from './admin-style';
 
 const AdminProfileDetails: FC<{
 	adminEntry: AdminTypes;
 	getAdmin: (id: string) => void;
 }> = ({ adminEntry, getAdmin }) => {
-	const [openRole, setOpenRole] = useState(false);
-	const [openStatus, setOpenStatus] = useState(false);
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+	const [anchorRoleEl, setAnchorRoleEl] = React.useState<null | HTMLElement>(
+		null
+	);
+	const open = Boolean(anchorEl);
+	const openRole = Boolean(anchorRoleEl);
+
+	const handleRoleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorRoleEl(event.currentTarget);
+	};
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleRoleClose = () => {
+		setAnchorRoleEl(null);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
 	const suspendActivityHandler = (admin_id: string, action: string) => {
 		AdminServices.suspendAdmin(admin_id, action)
@@ -150,7 +48,10 @@ const AdminProfileDetails: FC<{
 				console.log(err.message);
 				toast.error(err.response.data.error.message);
 			})
-			.finally(() => getAdmin(admin_id));
+			.finally(() => {
+				getAdmin(admin_id);
+				setAnchorEl(null);
+			});
 	};
 	return (
 		<StyledAdminProfileComponent>
@@ -159,62 +60,121 @@ const AdminProfileDetails: FC<{
 				<div className='profile_header'>
 					<h3>Profile Information</h3>
 					<div className='profile_status_wrapper'>
-						<div className='popup_root'>
-							<button
-								onClick={() => setOpenRole((prevState) => !prevState)}
-								className='status_btn'
+						<div>
+							<MUIStyledButton
+								id='demo-customized-button'
+								aria-controls={openRole ? 'demo-customized-menu' : undefined}
+								aria-haspopup='true'
+								aria-expanded={openRole ? 'true' : undefined}
+								variant='outlined'
+								color='inherit'
+								disableElevation
+								onClick={handleRoleClick}
+								endIcon={<KeyboardArrowDownIcon />}
 							>
-								Role
-								<img src={dropdownIcon} alt='' width={14} height='14px' />
-							</button>
-							{openRole && (
-								<div className='role_modal'>
-									{' '}
-									{adminEntry.role &&
-										adminEntry.role.map((item, idx) => (
-											<button key={idx} className='modal_item'>
-												{item}
-											</button>
-										))}
-								</div>
-							)}
+								Roles
+							</MUIStyledButton>
+							<StyledMenu
+								id='demo-customized-menu'
+								MenuListProps={{
+									'aria-labelledby': 'demo-customized-button',
+								}}
+								anchorEl={anchorRoleEl}
+								open={openRole}
+								onClose={handleRoleClose}
+							>
+								<MenuItem disableRipple>
+									Admin Manager
+									{adminEntry.role.includes('adminManager') ? (
+										<Check sx={{ color: '#7E00C4' }} />
+									) : (
+										''
+									)}
+								</MenuItem>
+								<MenuItem disableRipple>
+									Artisan Manager{' '}
+									{adminEntry.role.includes('artisanManager') ? (
+										<Check sx={{ color: '#7E00C4' }} />
+									) : (
+										''
+									)}
+								</MenuItem>
+								<MenuItem disableRipple>
+									Booking Manager{' '}
+									{adminEntry.role.includes('bookingManager') ? (
+										<Check sx={{ color: '#7E00C4' }} />
+									) : (
+										''
+									)}
+								</MenuItem>
+								<MenuItem disableRipple>
+									User Manager{' '}
+									{adminEntry.role.includes('userManager') ? (
+										<Check sx={{ color: '#7E00C4' }} />
+									) : (
+										''
+									)}
+								</MenuItem>
+							</StyledMenu>
 						</div>
-						<div className='popup_root_status'>
-							<button
-								onClick={() => setOpenStatus((prevState) => !prevState)}
-								className='status_btn'
+						<div>
+							<MUIStyledButton
+								id='demo-customized-button'
+								aria-controls={open ? 'demo-customized-menu' : undefined}
+								aria-haspopup='true'
+								aria-expanded={open ? 'true' : undefined}
+								variant='outlined'
+								color='inherit'
+								disableElevation
+								onClick={handleClick}
+								endIcon={<KeyboardArrowDownIcon />}
 							>
 								Status
-								<img src={dropdownIcon} alt='' width={14} height='14px' />
-							</button>
-							{openStatus && (
-								<div className='role_modal'>
-									<button
-										onClick={() =>
-											adminEntry._id &&
-											suspendActivityHandler(adminEntry._id, 'activate')
-										}
-										className='modal_item'
-									>
-										Active
-									</button>
-									<button
-										onClick={() =>
-											adminEntry._id &&
-											suspendActivityHandler(adminEntry._id, 'suspend')
-										}
-										className='modal_item'
-									>
-										Block
-									</button>
-								</div>
-							)}
+							</MUIStyledButton>
+							<StyledMenuStatus
+								id='demo-customized-menu'
+								MenuListProps={{
+									'aria-labelledby': 'demo-customized-button',
+								}}
+								anchorEl={anchorEl}
+								open={open}
+								onClose={handleClose}
+							>
+								<MenuItem
+									onClick={() =>
+										adminEntry._id &&
+										suspendActivityHandler(adminEntry._id, 'activate')
+									}
+									disableRipple
+								>
+									Active
+									{adminEntry.suspended ? (
+										''
+									) : (
+										<Check sx={{ color: '#7E00C4' }} />
+									)}
+								</MenuItem>
+								<MenuItem
+									onClick={() =>
+										adminEntry._id &&
+										suspendActivityHandler(adminEntry._id, 'suspend')
+									}
+									disableRipple
+								>
+									Block
+									{adminEntry.suspended ? (
+										<CloseIcon sx={{ color: 'red' }} />
+									) : (
+										''
+									)}
+								</MenuItem>
+							</StyledMenuStatus>
 						</div>
 					</div>
 				</div>
 				<div className='profile_details_wrapper'>
 					<img
-						src='/images/profilePics.png'
+						src={adminEntry.display_picture}
 						alt=''
 						width={150}
 						height='151px'
@@ -242,9 +202,18 @@ const AdminProfileDetails: FC<{
 									<tr>
 										<td className='text key'>Roles</td>
 										<td className='text value'>
-											{adminEntry.role.map((item) => (
-												<span>{item},</span>
-											))}
+											{adminEntry.role.includes('adminManager')
+												? 'Admin Manager,'
+												: ''}
+											{adminEntry.role.includes('artisanManager')
+												? 'Artisan Manager,'
+												: ''}
+											{adminEntry.role.includes('bookingManager')
+												? 'Booking Manager,'
+												: ''}
+											{adminEntry.role.includes('userManager')
+												? 'User Manager'
+												: ''}
 										</td>
 									</tr>
 									<tr>

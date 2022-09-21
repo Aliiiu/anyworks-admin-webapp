@@ -1,5 +1,4 @@
 import { DashboardLayout } from 'src/components/dashboard';
-import { StyledProfileHeader } from '../admin/AdminProfile';
 import arrowLeft from 'src/assets/images/common/arrowLeft.svg';
 import { theme } from 'src/styles/Theme';
 import styled from 'styled-components';
@@ -14,6 +13,19 @@ import WalletContainer from 'src/components/artisan/WalletContainer';
 import { formatDateDmy } from 'src/utils/helpers';
 import { ArtisansServices } from 'src/service/ArtisansServices';
 import { useEffect, useState } from 'react';
+import { StyledProfileHeader } from 'src/components/admin/admin-style';
+import { ScaleLoader } from 'react-spinners';
+import { useLoading } from 'src/hooks';
+
+const StyledLoader = styled.div`
+	border-radius: 16px;
+	background: #ffffff;
+	height: 300px;
+	margin-top: 36px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
 
 const StyledBookingSummary = styled.div`
 	margin: 32px 0px;
@@ -66,14 +78,17 @@ const ArtisansProfile = () => {
 		},
 	});
 	const { id } = useParams();
+	const { loading, startLoading, stopLoading } = useLoading();
 	const fetchMe = (id: string) => {
+		startLoading();
 		ArtisansServices.getArtisan(id)
 			.then((res) => {
 				console.log(res.data.payload.data);
 				setWalletBal(res.data.payload.data.wallet);
 				setArtisanDetails(res.data.payload.data.artisan);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => console.log(err))
+			.finally(() => stopLoading());
 	};
 
 	useEffect(() => {
@@ -114,7 +129,13 @@ const ArtisansProfile = () => {
 					</Button>
 				</Link>
 			</StyledProfileHeader>
-			<ArtisansProfileCard artisanDetails={artisanDetails} />
+			{loading ? (
+				<StyledLoader>
+					<ScaleLoader color='#7E00C4' height={50} width={8} />
+				</StyledLoader>
+			) : (
+				<ArtisansProfileCard artisanDetails={artisanDetails} />
+			)}
 			<StyledBookingSummary>
 				<div className='booking_summary'>
 					<div className='summary_details'>

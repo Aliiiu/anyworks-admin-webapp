@@ -5,4 +5,5 @@ export interface AdminTypes {
 	email: string;
 	role: string[];
 	suspended: string;
+	display_picture: string;
 }
