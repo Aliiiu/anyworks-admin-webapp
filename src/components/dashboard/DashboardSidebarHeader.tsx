@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import logo from 'src/assets/images/header/logo.png';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { Link } from 'react-router-dom';
-import { auth } from 'src/store/Auth'
+import { auth } from 'src/store/Auth';
 
 const DashboardSidebarHeaderContainer = styled.div`
 	display: flex;
@@ -50,6 +50,10 @@ const DashboardSidebarHeaderContainer = styled.div`
 		position: relative;
 		display: inline-block;
 		cursor: pointer;
+		img {
+			width: 40px;
+			border-radius: 50%;
+		}
 	}
 
 	.tooltip__avatar .tooltiptext {
@@ -98,8 +102,8 @@ export const DashboardSidebarHeader: React.FC<Props> = ({
 	toggleSidebar,
 	showOnDesktop,
 }) => {
-	const { authUser } = auth.use()
-	const adminProfileRoles = authUser?.role || []
+	const { authUser } = auth.use();
+	const adminProfileRoles = authUser?.role || [];
 
 	return (
 		<DashboardSidebarHeaderContainer
@@ -109,10 +113,16 @@ export const DashboardSidebarHeader: React.FC<Props> = ({
 				<img className='brand-logo' src={logo} alt='anyworks' />
 			</Link>
 			<div className='tooltip__avatar'>
-				<img className='showOnMobile' src={avatar} alt='avatar' />
+				<img
+					className='showOnMobile'
+					src={authUser.display_picture || avatar}
+					alt='avatar'
+				/>
 				<div className='tooltiptext'>
 					{' '}
-					<p className='tooltiptext__user--name'>{authUser?.first_name} {authUser?.last_name}</p>
+					<p className='tooltiptext__user--name'>
+						{authUser?.first_name} {authUser?.last_name}
+					</p>
 					<p className='tooltiptext__user--role'>{adminProfileRoles[0]}</p>
 				</div>
 			</div>

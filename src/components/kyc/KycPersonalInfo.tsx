@@ -82,15 +82,6 @@ const KycPersonalInfo = ({ artisanKyc }: Props) => {
 					<h3 style={{ marginBottom: 30 }}>Means of Identification</h3>
 					<div
 						style={{
-							// backgroundImage: `url(${
-							// 	artisanKyc?.kyc?.document_url || '/images/driversLicense.png'
-							// })`,
-							// width: '100%',
-							// maxWidth: '100%',
-							// height: '300px',
-							// backgroundRepeat: 'no-repeat',
-							// backgroundPosition: 'center',
-							// backgroundSize: 'contain',
 							display: 'flex',
 							justifyContent: 'center',
 							alignContent: 'center',

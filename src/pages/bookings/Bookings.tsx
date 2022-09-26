@@ -1,86 +1,97 @@
-import styled from 'styled-components'
-import { DashboardLayout } from 'src/components/dashboard'
-import { BookingsTabs } from 'src/components/bookings'
-import { Input } from 'src/components/inputs'
-import searchIcon from 'src/assets/images/input/searchIcon.svg'
-import React, { useState } from 'react'
-import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants'
-import { Flex } from 'src/components/ui'
-import { BookingStatus } from 'src/components/bookings'
-import { useNavigate } from 'react-router-dom'
- import {formatDateDmy} from 'src/utils/helpers'
+import styled from 'styled-components';
+import { DashboardLayout } from 'src/components/dashboard';
+import { BookingsTabs } from 'src/components/bookings';
+import { Input } from 'src/components/inputs';
+import searchIcon from 'src/assets/images/input/searchIcon.svg';
+import React, { useEffect, useState } from 'react';
+import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
+import { Flex } from 'src/components/ui';
+import { BookingStatus } from 'src/components/bookings';
+import { useNavigate } from 'react-router-dom';
+import { formatDateDmy } from 'src/utils/helpers';
 
-const BookingsPageContainer = styled.div``
+const BookingsPageContainer = styled.div``;
 
 interface Props {
-  handleChange: (e: any) => void
+	handleChange: (e: any) => void;
 }
 
 export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
-  <Input
-    icon={<img src={searchIcon} alt="searchIcon" />}
-    type="search"
-    placeholder="Search"
-    handleChange={handleChange}
-  />
-)
+	<Input
+		icon={<img src={searchIcon} alt='searchIcon' />}
+		type='search'
+		placeholder='Search'
+		handleChange={handleChange}
+	/>
+);
 
 const BookingsPage = () => {
-  const navigate = useNavigate()
+	const navigate = useNavigate();
 
-  const [searchField, setSearchField] = useState('')
+	const [searchField, setSearchField] = useState('');
 
-  const filteredData = RECENT_BOOKINGS_TABLE_DATA().filter((data) => {
-    return (
-      data.user.toLowerCase().includes(searchField.toLowerCase()) ||
-      data.services.toLowerCase().includes(searchField.toLowerCase()) ||
-      data.location.toLowerCase().includes(searchField.toLowerCase()) ||
-      data.artisan.toLowerCase().includes(searchField.toLowerCase())
-    )
-  })
+	const filteredData = RECENT_BOOKINGS_TABLE_DATA().filter((data) => {
+		return (
+			data.user.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.services.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.location.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.artisan.toLowerCase().includes(searchField.toLowerCase())
+		);
+	});
 
-  const handleChange = (e: any) => {
-    setSearchField(e.target.value)
-  }
+	useEffect(() => {
+		document.title = "Booking's Page";
+	}, []);
 
-  const BookingsTableHeaders = [
-    {
-      title: 'Artisan',
-      render: (row: any) => (
-        <Flex gap="10px" align="center">
-          <img style={{ width: '40px' }} src={row.img} alt="" /> {row.artisan}
-        </Flex>
-      ),
-    },
-    {
-      title: 'User',
-      render: (row: any) => (
-        <Flex gap="10px" align="center">
-          <img style={{ width: '40px' }} src={row.img} alt="" /> {row.user}
-        </Flex>
-      ),
-    },
-    { title: 'Service', render: (row: any) => `${row.services}` },
-    { title: 'Location', render: (row: any) => `${row.location}` },
-    { title: 'Date', render: (row: any) => formatDateDmy(row.date) },
-    {
-      title: 'Status',
-      render: (row: any) => <BookingStatus status={row['status']} />,
-    },
-  ]
+	const handleChange = (e: any) => {
+		setSearchField(e.target.value);
+	};
 
-  return (
-    <DashboardLayout pageTitle="Bookings" rhsHeading={<RhsHeading handleChange={handleChange} />}>
-      <BookingsPageContainer>
-        <BookingsTabs
-          rows={filteredData}
-          BookingsTableHeaders={BookingsTableHeaders}
-          title={<p className="count">{RECENT_BOOKINGS_TABLE_DATA().length} Bookings</p>}
-          onRowClick={() => navigate('/bookings/booking-details')}
-        />
-      </BookingsPageContainer>
-    </DashboardLayout>
-  )
-}
+	const BookingsTableHeaders = [
+		{
+			title: 'Artisan',
+			render: (row: any) => (
+				<Flex gap='10px' align='center'>
+					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.artisan}
+				</Flex>
+			),
+		},
+		{
+			title: 'User',
+			render: (row: any) => (
+				<Flex gap='10px' align='center'>
+					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.user}
+				</Flex>
+			),
+		},
+		{ title: 'Service', render: (row: any) => `${row.services}` },
+		{ title: 'Location', render: (row: any) => `${row.location}` },
+		{ title: 'Date', render: (row: any) => formatDateDmy(row.date) },
+		{
+			title: 'Status',
+			render: (row: any) => <BookingStatus status={row['status']} />,
+		},
+	];
 
-export default BookingsPage
+	return (
+		<DashboardLayout
+			pageTitle='Bookings'
+			rhsHeading={<RhsHeading handleChange={handleChange} />}
+		>
+			<BookingsPageContainer>
+				<BookingsTabs
+					rows={filteredData}
+					BookingsTableHeaders={BookingsTableHeaders}
+					title={
+						<p className='count'>
+							{RECENT_BOOKINGS_TABLE_DATA().length} Bookings
+						</p>
+					}
+					onRowClick={() => navigate('/bookings/booking-details')}
+				/>
+			</BookingsPageContainer>
+		</DashboardLayout>
+	);
+};
+
+export default BookingsPage;

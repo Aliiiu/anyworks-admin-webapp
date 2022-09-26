@@ -50,6 +50,11 @@ const Admin = () => {
 		startLoading: startFetchingAdmins,
 		stopLoading: stopFetchingAdmins,
 	} = useLoading(false);
+
+	useEffect(() => {
+		document.title = 'Admin Page';
+	}, []);
+
 	const getAllAdmins = () => {
 		startFetchingAdmins();
 		AdminServices.getAllAdmins()

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DashboardLayout } from 'src/components/dashboard';
 import styled from 'styled-components';
 import { StyledPasswordInput } from '../forgotPassword/NewPassword';
@@ -134,6 +134,10 @@ const Settings = () => {
 				resetForm({ values: '' });
 			});
 	};
+
+	useEffect(() => {
+		document.title = 'Settings';
+	}, []);
 
 	const fetchMe = () => {
 		AdminProfile.getMe()

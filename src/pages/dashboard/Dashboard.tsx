@@ -31,6 +31,10 @@ const Dashboard = () => {
 	});
 
 	useEffect(() => {
+		document.title = 'Dashboard';
+	}, []);
+
+	useEffect(() => {
 		DashboardService.ArtisansData()
 			.then((res) => {
 				console.log(res.data.message);

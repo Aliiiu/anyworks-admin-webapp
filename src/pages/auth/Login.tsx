@@ -7,7 +7,7 @@ import {
 	StyledButton,
 } from 'src/styles/commonStyle';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AdminAuth from 'src/service/AdminAuth';
 import { setAuthUser } from 'src/store/Auth';
 import { setAuthToken } from 'src/utils/AuthUtils';
@@ -26,6 +26,10 @@ export const Login = () => {
 		emailError: '',
 		passwordError: '',
 	});
+
+	useEffect(() => {
+		document.title = 'Login';
+	}, []);
 
 	const handleEmailInputChange = (e: any) => {
 		setLoginDetails({ ...loginDetails, email: e.target.value, emailError: '' });
@@ -96,25 +100,9 @@ export const Login = () => {
 				<ToastContainer />
 				<LoginCard>
 					<CardHeader>log in</CardHeader>
-					<h4
-						style={{
-							fontSize: 16,
-							marginTop: 20,
-							color: '#1D2939',
-							fontWeight: 400,
-						}}
-					>
-						Welcome to Anyworks
-					</h4>
+					<h4>Welcome to Anyworks</h4>
 					<form onSubmit={handleSubmit}>
-						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								marginTop: 20,
-								gap: 6,
-							}}
-						>
+						<div className='input-container'>
 							<label htmlFor='email'>Email</label>
 							<Input
 								style={{
@@ -131,12 +119,9 @@ export const Login = () => {
 						</div>
 						<div
 							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								marginTop: 20,
 								marginBottom: 16,
-								gap: 6,
 							}}
+							className='input-container'
 						>
 							<label htmlFor='password'>Password</label>
 							<StyledPasswordInput
@@ -159,15 +144,7 @@ export const Login = () => {
 								</h6>
 							)}
 						</div>
-						<Link
-							style={{
-								fontSize: 14,
-								color: '#1D2939',
-								fontWeight: 500,
-								cursor: 'pointer',
-							}}
-							to={'/forgot-password'}
-						>
+						<Link to={'/forgot-password'} className='forgot-password'>
 							Forgot password?
 						</Link>
 						<StyledButton disabled={isSuccess} onClick={handleSubmit}>

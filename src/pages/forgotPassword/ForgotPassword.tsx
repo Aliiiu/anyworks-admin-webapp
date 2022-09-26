@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { entity } from 'simpler-state';
@@ -20,6 +20,10 @@ const ForgotPassword = () => {
 	let navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
+
+	useEffect(() => {
+		document.title = 'Forgot Password';
+	}, []);
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
@@ -51,16 +55,7 @@ const ForgotPassword = () => {
 				<ToastContainer />
 				<LoginCard>
 					<CardHeader>Forgot Password</CardHeader>
-					<h4
-						style={{
-							fontSize: 16,
-							marginTop: 16,
-							fontWeight: 400,
-							color: '#1D2939',
-						}}
-					>
-						Please enter your email address to receive your new password
-					</h4>
+					<h4>Please enter your email address to receive your new password</h4>
 					<form onSubmit={submitHandler}>
 						<div
 							style={{

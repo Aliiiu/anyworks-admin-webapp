@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import OTPInput from 'src/components/inputs/OTPInput';
 import Loading from 'src/components/ui/Loader';
 import AdminAuth from 'src/service/AdminAuth';
-import { auth } from 'src/store/Auth';
 import {
 	Container,
 	Image,
@@ -33,17 +32,23 @@ const StyledWrapper = styled.div`
 	}
 
 	.otpInput {
-		width: 64px;
-		margin: 0 1rem;
-		font-size: 48px;
+		width: 32px;
+		font-size: 24px;
+		margin: 0 8px;
 		text-align: center;
 		border-radius: 8px;
 		border: 1px solid #98a2b3;
-		padding: 8px;
+		padding: 2px;
 		outline: 1px solid #98a2b3;
 		color: #98a2b3;
 		::placeholder {
 			color: #98a2b3;
+		}
+		@media (min-width: ${(props) => props.theme.breakpoint.sm}) {
+			width: 64px;
+			padding: 8px;
+			font-size: 48px;
+			margin: 0 1rem;
 		}
 	}
 `;
@@ -51,9 +56,13 @@ const StyledWrapper = styled.div`
 const GetCode = () => {
 	let navigate = useNavigate();
 	const [code, setCode] = useState<string>('');
-	const [resetCode, setResetCode] = useState<boolean>(false);
+	// const [resetCode, setResetCode] = useState<boolean>(false);
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 	const userEmail = emailCtx.use();
+
+	useEffect(() => {
+		document.title = 'OTP Code';
+	}, []);
 
 	const resendCodeHandler = () => {
 		AdminAuth.forgotPassword({ email: userEmail })

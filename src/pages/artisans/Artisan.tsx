@@ -25,6 +25,10 @@ const Artisan = () => {
 	const [allArtisans, setAllArtisans] = useState([]);
 	const { loading, startLoading, stopLoading } = useLoading();
 
+	useEffect(() => {
+		document.title = "Artisan's Page";
+	}, []);
+
 	const fetchAllArtisans = () => {
 		startLoading();
 		ArtisansServices.getAllArtisans()

@@ -51,6 +51,10 @@ const KYCDataGrid = () => {
 	} = useLoading(false);
 
 	useEffect(() => {
+		document.title = 'KYC Page';
+	}, []);
+
+	useEffect(() => {
 		startFetchingPendingKycData();
 		KycData.getAllPendingKyc()
 			.then((res) => {

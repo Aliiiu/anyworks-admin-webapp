@@ -92,7 +92,7 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
 							<Flex justify='flex-end' gap='10px' align='center'>
 								<img
 									className='avatar'
-									src={authUser.display_picture}
+									src={authUser.display_picture || avatar}
 									alt='dp'
 								/>
 								<div className='DashboardHeader__user-role-wrapper'>

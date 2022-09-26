@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import { styled as MuiStyled, alpha } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
 
 export const Container = styled.div`
@@ -12,17 +11,27 @@ export const Container = styled.div`
 	justify-content: center;
 	align-items: center;
 	margin: 0 auto;
+	padding: 0 20px;
 	background-image: url('/images/bgPattern.png');
+	@media (min-width: ${(props) => props.theme.breakpoint.md}) {
+		padding: 0px;
+	}
 `;
 
 export const Image = styled.img`
-	width: 183px;
-	height: 60px;
+	width: 123px;
+	height: 40px;
 	object-fit: contain;
 	position: absolute;
-	top: 50px;
-	left: 50px;
+	top: 20px;
+	left: 20px;
 	cursor: pointer;
+	@media (min-width: ${(props) => props.theme.breakpoint.md}) {
+		width: 183px;
+		height: 60px;
+		top: 40px;
+		left: 40px;
+	}
 `;
 
 export const LoginCard = styled.div`
@@ -30,19 +39,50 @@ export const LoginCard = styled.div`
 	background: #ffffff;
 	box-shadow: 0px 24px 48px -12px rgba(16, 24, 40, 0.18);
 	margin: 0 auto;
-	padding: 40px 40px;
-	width: 466px;
+	padding: 20px 20px;
+	width: 100%;
+	max-width: 466px;
+	h4 {
+		font-size: 16px;
+		margin-top: 10px;
+		color: #1d2939;
+		font-weight: 400;
+	}
+	.input-container {
+		display: flex;
+		flex-direction: column;
+		margin-top: 20px;
+		gap: 6px;
+	}
+	.forgot-password {
+		font-size: 14px;
+		color: #1d2939;
+		font-weight: 500;
+		cursor: pointer;
+	}
 	.validation_error {
 		color: #f04438;
 		font-size: 14px;
 		font-weight: 400;
 	}
+
+	@media (min-width: ${(props) => props.theme.breakpoint.md}) {
+		padding: 40px 40px;
+
+		h4 {
+			margin-top: 20px;
+		}
+	}
 `;
 
 export const CardHeader = styled.h2`
-	font-size: 48px;
+	font-size: 28px;
 	font-style: normal;
+	text-align: center;
 	font-weight: 600;
+	@media (min-width: ${(props) => props.theme.breakpoint.md}) {
+		font-size: 48px;
+	}
 `;
 
 export const StyledButton = styled.button`
@@ -52,12 +92,15 @@ export const StyledButton = styled.button`
 	font-weight: 500;
 	text-align: center;
 	padding: 12px 0px;
+	margin-top: 24px;
 	color: #fff;
-	margin-top: 48px;
 	display: flex;
 	cursor: pointer;
 	justify-content: center;
 	align-items: center;
+	@media (min-width: ${(props) => props.theme.breakpoint.md}) {
+		margin-top: 48px;
+	}
 `;
 
 export const Input = styled.input`
