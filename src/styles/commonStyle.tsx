@@ -47,6 +47,7 @@ export const LoginCard = styled.div`
 		margin-top: 10px;
 		color: #1d2939;
 		font-weight: 400;
+		text-align: center;
 	}
 	.input-container {
 		display: flex;
