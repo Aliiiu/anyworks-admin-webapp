@@ -47,7 +47,6 @@ export const LoginCard = styled.div`
 		margin-top: 10px;
 		color: #1d2939;
 		font-weight: 400;
-		text-align: center;
 	}
 	.input-container {
 		display: flex;
@@ -57,7 +56,7 @@ export const LoginCard = styled.div`
 	}
 	.forgot-password {
 		font-size: 14px;
-		color: #1d2939;
+		color: #7e00c4;
 		font-weight: 500;
 		cursor: pointer;
 	}
@@ -79,7 +78,6 @@ export const LoginCard = styled.div`
 export const CardHeader = styled.h2`
 	font-size: 28px;
 	font-style: normal;
-	text-align: center;
 	font-weight: 600;
 	@media (min-width: ${(props) => props.theme.breakpoint.md}) {
 		font-size: 48px;
