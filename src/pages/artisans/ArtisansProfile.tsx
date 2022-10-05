@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { StyledProfileHeader } from 'src/components/admin/admin-style';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
+import artisanBookingService from 'src/service/ArtisanBookings';
 
 const StyledLoader = styled.div`
 	border-radius: 16px;
@@ -55,6 +56,14 @@ const StyledBookingSummary = styled.div`
 
 const ArtisansProfile = () => {
 	let navigate = useNavigate();
+	const [artisanBookings, setArtisanBookings] = useState();
+
+	useEffect(() => {
+		artisanBookingService
+			.bookingHistory()
+			.then((res) => console.log(res.data))
+			.catch((err: any) => console.error(err.response));
+	}, []);
 
 	const rows = RECENT_BOOKINGS_TABLE_DATA();
 	const [walletBal, setWalletBal] = useState<WalletDataTypes>({
@@ -83,11 +92,11 @@ const ArtisansProfile = () => {
 		startLoading();
 		ArtisansServices.getArtisan(id)
 			.then((res) => {
-				console.log(res.data.payload.data);
-				setWalletBal(res.data.payload.data.wallet);
-				setArtisanDetails(res.data.payload.data.artisan);
+				// console.log(res.data.payload.data);
+				setWalletBal(res?.data?.payload?.data?.wallet);
+				setArtisanDetails(res?.data?.payload?.data?.artisan);
 			})
-			.catch((err) => console.log(err))
+			.catch((err) => console.log(err?.response?.data))
 			.finally(() => stopLoading());
 	};
 

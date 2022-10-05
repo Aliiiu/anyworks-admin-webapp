@@ -9,6 +9,7 @@ import { Flex } from 'src/components/ui';
 import { BookingStatus } from 'src/components/bookings';
 import { useNavigate } from 'react-router-dom';
 import { formatDateDmy } from 'src/utils/helpers';
+import bookingAdminService from 'src/service/BookingAdmin';
 
 const BookingsPageContainer = styled.div``;
 
@@ -28,7 +29,18 @@ export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
 const BookingsPage = () => {
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		document.title = "Booking's Page";
+	}, []);
+
 	const [searchField, setSearchField] = useState('');
+
+	useEffect(() => {
+		bookingAdminService
+			.bookingHistory()
+			.then((res) => console.log(res?.data?.payload))
+			.catch((err) => console.error(err?.response?.data));
+	}, []);
 
 	const filteredData = RECENT_BOOKINGS_TABLE_DATA().filter((data) => {
 		return (
@@ -38,10 +50,6 @@ const BookingsPage = () => {
 			data.artisan.toLowerCase().includes(searchField.toLowerCase())
 		);
 	});
-
-	useEffect(() => {
-		document.title = "Booking's Page";
-	}, []);
 
 	const handleChange = (e: any) => {
 		setSearchField(e.target.value);

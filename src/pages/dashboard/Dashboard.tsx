@@ -16,6 +16,7 @@ import { theme } from 'src/styles/Theme';
 import KycData from 'src/service/KycData';
 import { DashboardService } from 'src/service/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
+import bookingAdminService from 'src/service/BookingAdmin';
 
 const DashboardContainer = styled.div`
 	.metrics__cards {
@@ -29,6 +30,19 @@ const Dashboard = () => {
 		pending_kyc: 0,
 		total_balance: 0,
 	});
+	const [adminBookings, setAdminBookings] = useState<BookingMetricTypes>({
+		active_bookings: 0,
+		canceled_bookings: 0,
+		pending_bookings: 0,
+		total_bookings: 0,
+	});
+
+	const initialBookingState: BookingMetricTypes = {
+		active_bookings: 0,
+		canceled_bookings: 0,
+		pending_bookings: 0,
+		total_bookings: 0,
+	};
 
 	useEffect(() => {
 		document.title = 'Dashboard';
@@ -37,10 +51,23 @@ const Dashboard = () => {
 	useEffect(() => {
 		DashboardService.ArtisansData()
 			.then((res) => {
-				console.log(res.data.message);
+				toast.success(res.data.payload.data);
 				setMetricData(res.data.payload.data);
 			})
 			.catch((err) => toast.error(err.response.data.error.message));
+	}, []);
+
+	useEffect(() => {
+		bookingAdminService
+			.dashboardData()
+			.then((res) =>
+				setAdminBookings(res?.data?.payload?.data || initialBookingState)
+			)
+			.catch((err: any) =>
+				toast.error(
+					err?.response?.data?.error?.message || 'Something went wrong'
+				)
+			);
 	}, []);
 
 	const metrics = [
@@ -73,7 +100,7 @@ const Dashboard = () => {
 			href: '/kyc',
 		},
 		{
-			count: '43',
+			count: adminBookings.total_bookings,
 			key: 'Active Booking ',
 			img: booking,
 			color: theme.colors.darkPurple,
