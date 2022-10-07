@@ -5,6 +5,9 @@ import { UsersTable } from 'src/components/users';
 import { Input } from 'src/components/inputs';
 import { USERS_TABLE_DATA } from 'src/constants';
 import searchIcon from 'src/assets/images/input/searchIcon.svg';
+import userServices from 'src/service/userServices';
+import { useLoading } from 'src/hooks';
+import { Loader } from 'src/components/common';
 const UsersContainer = styled.div``;
 
 interface Props {
@@ -20,12 +23,42 @@ export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
 	/>
 );
 
+const usersInitialState: UsersListTypes = {
+	display_picture: '',
+	email: '',
+	first_name: '',
+	gender: '',
+	last_name: '',
+	_id: '',
+};
+
 const Users = () => {
 	const [searchField, setSearchField] = useState('');
+	const [usersList, setUsersList] = useState<UsersListTypes[]>([]);
+	const {
+		loading: fetchingUsers,
+		startLoading: startFetchingUsers,
+		stopLoading: stopFetchingUsers,
+	} = useLoading(false);
+	const fetchUsers = () => {
+		startFetchingUsers();
+		userServices
+			.getUsers()
+			.then((res) =>
+				setUsersList(res?.data?.payload?.data || usersInitialState)
+			)
+			.catch((err) => console.error(err?.response))
+			.finally(() => stopFetchingUsers());
+	};
 
-	const filteredData = USERS_TABLE_DATA().filter((data) => {
+	useEffect(() => {
+		fetchUsers();
+	}, []);
+
+	const filteredData = usersList.filter((data) => {
 		return (
-			data.name.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.first_name.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.last_name.toLowerCase().includes(searchField.toLowerCase()) ||
 			data.email.toLowerCase().includes(searchField.toLowerCase())
 		);
 	});
@@ -44,7 +77,19 @@ const Users = () => {
 			rhsHeading={<RhsHeading handleChange={handleChange} />}
 		>
 			<UsersContainer>
-				<UsersTable rows={filteredData} />
+				{fetchingUsers ? (
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							marginTop: '100px',
+						}}
+					>
+						<Loader>loading...</Loader>{' '}
+					</div>
+				) : (
+					<UsersTable rows={filteredData} />
+				)}
 			</UsersContainer>
 		</DashboardLayout>
 	);

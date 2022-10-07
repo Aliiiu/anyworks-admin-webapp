@@ -26,8 +26,48 @@ export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
 	/>
 );
 
+const initialAddressState = {
+	city: '',
+	state: '',
+	house_address: '',
+};
+
+const initialMetaState = {
+	call_out_fee: 0,
+	display_picture: '',
+	first_name: '',
+	last_name: '',
+	phone: '',
+	rating: '',
+	address: initialAddressState,
+};
+
+const initialBookingState = {
+	artisan_id: '',
+	city: '',
+	service: '',
+	state: '',
+	status: '',
+	updatedAt: '',
+	user_id: '',
+	artisan_meta: initialMetaState,
+	user_meta: initialMetaState,
+};
 const BookingsPage = () => {
 	const navigate = useNavigate();
+	const [bookingDetails, setBookingDetails] = useState<BookingsTypes[]>([
+		{
+			artisan_id: '',
+			city: '',
+			service: '',
+			state: '',
+			status: '',
+			updatedAt: '',
+			user_id: '',
+			artisan_meta: initialMetaState,
+			user_meta: initialMetaState,
+		},
+	]);
 
 	useEffect(() => {
 		document.title = "Booking's Page";
@@ -38,16 +78,29 @@ const BookingsPage = () => {
 	useEffect(() => {
 		bookingAdminService
 			.bookingHistory()
-			.then((res) => console.log(res?.data?.payload))
+			.then((res) =>
+				setBookingDetails(res?.data?.payload?.data || initialBookingState)
+			)
 			.catch((err) => console.error(err?.response?.data));
 	}, []);
 
-	const filteredData = RECENT_BOOKINGS_TABLE_DATA().filter((data) => {
+	const filteredData = bookingDetails.filter((data) => {
 		return (
-			data.user.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.services.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.location.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.artisan.toLowerCase().includes(searchField.toLowerCase())
+			data.user_meta.first_name
+				.toLowerCase()
+				.includes(searchField.toLowerCase()) ||
+			data.user_meta.last_name
+				.toLowerCase()
+				.includes(searchField.toLowerCase()) ||
+			data.service.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.city.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.state.toLowerCase().includes(searchField.toLowerCase()) ||
+			data.artisan_meta.first_name
+				.toLowerCase()
+				.includes(searchField.toLowerCase()) ||
+			data.artisan_meta.last_name
+				.toLowerCase()
+				.includes(searchField.toLowerCase())
 		);
 	});
 
@@ -55,29 +108,49 @@ const BookingsPage = () => {
 		setSearchField(e.target.value);
 	};
 
+	const handleNavigate = (id: string) => {
+		navigate(`/bookings/${id}`);
+	};
+
 	const BookingsTableHeaders = [
 		{
 			title: 'Artisan',
-			render: (row: any) => (
+			render: (row: BookingsTypes) => (
 				<Flex gap='10px' align='center'>
-					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.artisan}
+					<img
+						style={{ width: 40, height: 40, borderRadius: '50%' }}
+						src={row.artisan_meta.display_picture}
+						alt=''
+					/>{' '}
+					{row.artisan_meta.first_name} {row.artisan_meta.last_name}
 				</Flex>
 			),
 		},
 		{
 			title: 'User',
-			render: (row: any) => (
+			render: (row: BookingsTypes) => (
 				<Flex gap='10px' align='center'>
-					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.user}
+					<img
+						style={{ width: 40, height: 40, borderRadius: '50%' }}
+						src={row.user_meta.display_picture}
+						alt=''
+					/>{' '}
+					{row.user_meta.first_name} {row.user_meta.last_name}
 				</Flex>
 			),
 		},
-		{ title: 'Service', render: (row: any) => `${row.services}` },
-		{ title: 'Location', render: (row: any) => `${row.location}` },
-		{ title: 'Date', render: (row: any) => formatDateDmy(row.date) },
+		{ title: 'Service', render: (row: BookingsTypes) => `${row.service}` },
+		{
+			title: 'Location',
+			render: (row: BookingsTypes) => `${row.city}, ${row.state}`,
+		},
+		{
+			title: 'Date',
+			render: (row: BookingsTypes) => formatDateDmy(row.updatedAt),
+		},
 		{
 			title: 'Status',
-			render: (row: any) => <BookingStatus status={row['status']} />,
+			render: (row: BookingsTypes) => <BookingStatus status={row.status} />,
 		},
 	];
 
@@ -90,12 +163,8 @@ const BookingsPage = () => {
 				<BookingsTabs
 					rows={filteredData}
 					BookingsTableHeaders={BookingsTableHeaders}
-					title={
-						<p className='count'>
-							{RECENT_BOOKINGS_TABLE_DATA().length} Bookings
-						</p>
-					}
-					onRowClick={() => navigate('/bookings/booking-details')}
+					title={<p className='count'>{filteredData.length} Bookings</p>}
+					onRowClick={handleNavigate}
 				/>
 			</BookingsPageContainer>
 		</DashboardLayout>

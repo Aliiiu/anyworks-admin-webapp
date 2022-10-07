@@ -34,6 +34,10 @@ interface Props {
 export const UsersTable = ({ rows }: Props) => {
 	const navigate = useNavigate();
 
+	const handleNavigate = (id: string) => {
+		navigate(`/users/${id}`);
+	};
+
 	const [allowRowClick, setAllowRowClick] = useState(true);
 
 	const [openSendNotificationModal, setOpenSendNotificationModal] =
@@ -50,18 +54,19 @@ export const UsersTable = ({ rows }: Props) => {
 	const UsersTableHeaders = [
 		{
 			title: 'Name',
-			render: (row: any) => (
+			render: (row: UsersListTypes) => (
 				<Flex gap='10px' align='center'>
-					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.name}
+					<img style={{ width: '40px' }} src={row.display_picture} alt='' />{' '}
+					{row.first_name} {row.last_name}
 				</Flex>
 			),
 		},
-		{ title: 'Email', render: (row: any) => `${row.email}` },
-		{ title: 'Registration Date', render: (row: any) => `${row.lastLogin}` },
-		{ title: 'Last Login', render: (row: any) => `${row.registrationDate}` },
+		{ title: 'Email', render: (row: UsersListTypes) => `${row.email}` },
+		{ title: 'Gender', render: (row: UsersListTypes) => `${row.gender}` },
+		// { title: 'Last Login', render: (row: UsersListTypes) => `${row.registrationDate}` },
 		{
 			title: '',
-			render: (row: any) => (
+			render: (row: UsersListTypes) => (
 				<ActionMenu
 					setAllowRowClick={(bool: boolean) => {
 						setAllowRowClick(bool);
@@ -70,7 +75,7 @@ export const UsersTable = ({ rows }: Props) => {
 						{
 							title: 'View profile',
 							onClick: () => {
-								navigate('/users/profile');
+								handleNavigate(row._id);
 							},
 						},
 						{
@@ -117,9 +122,7 @@ export const UsersTable = ({ rows }: Props) => {
 				headers={UsersTableHeaders}
 				showHead={true}
 				allowRowClick={allowRowClick}
-				onRowClick={() => {
-					navigate('/users/profile');
-				}}
+				onRowClick={handleNavigate}
 			/>
 			<Pagination />
 		</UsersTableContainer>

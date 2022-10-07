@@ -5,7 +5,7 @@ import dp from 'src/assets/images/profile/dp.svg';
 import phone from 'src/assets/images/profile/phone.svg';
 import mail from 'src/assets/images/profile/mail.svg';
 import chat from 'src/assets/images/profile/chat.svg';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import SendMailModal from '../users/SendMailModal';
 import { SendNotificationModal } from '../users/SendNotificationModal';
 
@@ -48,7 +48,9 @@ export const ProfileInfoContainer = styled.div`
 	}
 `;
 
-export const ProfileInfo = () => {
+export const ProfileInfo: FC<{ userDetails?: UsersDetailsType }> = ({
+	userDetails,
+}) => {
 	const [openSendNotificationModal, setOpenSendNotificationModal] =
 		useState(false);
 	const handleOpenNotificationModal = () => setOpenSendNotificationModal(true);
@@ -99,35 +101,37 @@ export const ProfileInfo = () => {
 				</div>
 				<div className='profile-info--rhs'>
 					<Flex direction='column' gap='1.5rem'>
-						<h3 className='name'>Olajide Olajide</h3>
+						<h3 className='name'>
+							{userDetails?.first_name} {userDetails?.last_name}
+						</h3>
 						<div className='details'>
 							<table>
 								<tbody>
 									<tr>
 										<td className='text key'>Email</td>
-										<td className='text value'>olajideolajide@gmail.com</td>
+										<td className='text value'>{userDetails?.email}</td>
 									</tr>
 									<tr>
 										<td className='text key'>Phone number</td>
-										<td className='text value'>08189898989</td>
+										<td className='text value'>{userDetails?.phone}</td>
 									</tr>
 									<tr>
 										<td className='text key'>Address</td>
 										<td className='text value'>
-											No 4, ikorudu street, Ikeja bus stop, Lagos
+											{userDetails?.address.house_address}
 										</td>
 									</tr>
 									<tr>
-										<td className='text key'>State</td>
-										<td className='text value'>Abeokuta</td>
+										<td className='text key'>City</td>
+										<td className='text value'>{userDetails?.address.city}</td>
 									</tr>
 									<tr>
-										<td className='text key'>City</td>
-										<td className='text value'>Ogun</td>
+										<td className='text key'>State</td>
+										<td className='text value'>{userDetails?.address.state}</td>
 									</tr>
 									<tr>
 										<td className='text key'>Rating</td>
-										<td className='text value'>4.5</td>
+										<td className='text value'>{userDetails?.rating}</td>
 									</tr>
 								</tbody>
 							</table>

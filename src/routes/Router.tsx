@@ -65,7 +65,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/users/profile'
+				path='/users/:id'
 				element={
 					<PrivateRoute>
 						<Profile />
@@ -121,7 +121,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/bookings/booking-details'
+				path='/bookings/:id'
 				element={
 					<PrivateRoute>
 						<BookingDetailsPage />

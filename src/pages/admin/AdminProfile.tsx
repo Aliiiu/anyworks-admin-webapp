@@ -68,8 +68,8 @@ const AdminProfile = () => {
 		startLoading();
 		AdminServices.getAdmin(id)
 			.then((res: any) => {
-				console.log(res.data.payload.data);
-				res.data.payload.data && setAdminEntry(res.data.payload.data);
+				// console.log(res.data.payload.data);
+				res?.data.payload.data && setAdminEntry(res.data.payload.data);
 			})
 			.catch((err: any) => console.log(err.response))
 			.finally(() => stopLoading());

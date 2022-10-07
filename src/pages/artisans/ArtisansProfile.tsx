@@ -17,6 +17,7 @@ import { StyledProfileHeader } from 'src/components/admin/admin-style';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
 import artisanBookingService from 'src/service/ArtisanBookings';
+import { initialBookingState } from '../bookings/BookingDetails';
 
 const StyledLoader = styled.div`
 	border-radius: 16px;
@@ -56,14 +57,18 @@ const StyledBookingSummary = styled.div`
 
 const ArtisansProfile = () => {
 	let navigate = useNavigate();
-	const [artisanBookings, setArtisanBookings] = useState();
+	const [artisanBookings, setArtisanBookings] = useState<BookingsTypes[]>([
+		initialBookingState,
+	]);
+	const { id } = useParams();
 
 	useEffect(() => {
-		artisanBookingService
-			.bookingHistory()
-			.then((res) => console.log(res.data))
-			.catch((err: any) => console.error(err.response));
-	}, []);
+		id &&
+			artisanBookingService
+				.bookingHistory(id)
+				.then((res) => setArtisanBookings(res.data.payload.data))
+				.catch((err: any) => console.error(err.response));
+	}, [id]);
 
 	const rows = RECENT_BOOKINGS_TABLE_DATA();
 	const [walletBal, setWalletBal] = useState<WalletDataTypes>({
@@ -86,7 +91,6 @@ const ArtisansProfile = () => {
 			state: '',
 		},
 	});
-	const { id } = useParams();
 	const { loading, startLoading, stopLoading } = useLoading();
 	const fetchMe = (id: string) => {
 		startLoading();
@@ -106,18 +110,30 @@ const ArtisansProfile = () => {
 	const BookingsTableHeaders = [
 		{
 			title: 'Artisan',
-			render: (row: any) => (
+			render: (row: BookingsTypes) => (
 				<Flex gap='10px' align='center'>
-					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.artisan}
+					<img
+						style={{ width: '40px', height: 40, borderRadius: '50%' }}
+						src={row.artisan_meta.display_picture}
+						alt=''
+					/>{' '}
+					{row.artisan_meta.first_name} {row.artisan_meta.last_name}
 				</Flex>
 			),
 		},
-		{ title: 'Service', render: (row: any) => `${row.services}` },
-		{ title: 'Location', render: (row: any) => `${row.location}` },
-		{ title: 'Date', render: (row: any) => formatDateDmy(row.date) },
+		{ title: 'Service', render: (row: BookingsTypes) => `${row.service}` },
+		{
+			title: 'Location',
+			render: (row: BookingsTypes) =>
+				`${row.artisan_meta.address.house_address}, ${row.artisan_meta.address.city}, ${row.artisan_meta.address.state}`,
+		},
+		{
+			title: 'Date',
+			render: (row: BookingsTypes) => formatDateDmy(row.updatedAt),
+		},
 		{
 			title: 'Status',
-			render: (row: any) => <BookingStatus status={row['status']} />,
+			render: (row: BookingsTypes) => <BookingStatus status={row['status']} />,
 		},
 	];
 
@@ -160,7 +176,7 @@ const ArtisansProfile = () => {
 				</div>
 			</StyledBookingSummary>
 			<BookingsTabs
-				rows={rows}
+				rows={artisanBookings}
 				BookingsTableHeaders={BookingsTableHeaders}
 				title={<h1 className='title'>Bookings</h1>}
 				onRowClick={() => navigate('/bookings/booking-details')}
