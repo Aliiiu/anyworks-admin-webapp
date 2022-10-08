@@ -85,7 +85,7 @@ export const ProfileInfo: FC<{ userDetails?: UsersDetailsType }> = ({
 			<Flex gap='2rem' wrap='wrap'>
 				<div className='profile-info--lhs'>
 					<Flex direction='column' align='center' gap='1.5rem'>
-						<img src={dp} alt='dp' className='dp' />
+						<img src={userDetails?.display_picture} alt='dp' className='dp' />
 						<Flex gap='1.5rem'>
 							<a href='tel:+2348110658901'>
 								<img src={phone} alt='phone' />

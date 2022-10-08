@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useLoading } from 'src/hooks';
 import { ArtisansServices } from 'src/service/ArtisansServices';
 import { Loader } from 'src/components/common';
+import { toast, ToastContainer } from 'react-toastify';
 
 interface Props {
 	handleChangeSearch: (e: any) => void;
@@ -33,13 +34,15 @@ const Artisan = () => {
 		startLoading();
 		ArtisansServices.getAllArtisans()
 			.then((res) => setAllArtisans(res.data.payload.data))
-			.catch((err: any) => console.log(err.response))
+			.catch((err: any) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopLoading());
 	};
 
 	useEffect(() => {
 		fetchAllArtisans();
-		console.log(allArtisans);
 	}, []);
 	const filteredData = allArtisans.filter((data: any) => {
 		return (
@@ -59,6 +62,7 @@ const Artisan = () => {
 			pageTitle='Artisans'
 			rhsHeading={<RhsHeading handleChangeSearch={handleChangeSearch} />}
 		>
+			<ToastContainer />
 			{loading ? (
 				<div
 					style={{
@@ -69,8 +73,10 @@ const Artisan = () => {
 				>
 					<Loader>loading...</Loader>{' '}
 				</div>
-			) : (
+			) : filteredData.length > 0 ? (
 				<ArtisanTable filteredRow={filteredData} />
+			) : (
+				<p className='table-entry-status'>No Admin Found</p>
 			)}
 		</DashboardLayout>
 	);

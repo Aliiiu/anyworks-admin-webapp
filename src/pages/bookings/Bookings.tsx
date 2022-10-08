@@ -10,6 +10,9 @@ import { BookingStatus } from 'src/components/bookings';
 import { useNavigate } from 'react-router-dom';
 import { formatDateDmy } from 'src/utils/helpers';
 import bookingAdminService from 'src/service/BookingAdmin';
+import { useLoading } from 'src/hooks';
+import { Loader } from 'src/components/common';
+import { toast, ToastContainer } from 'react-toastify';
 
 const BookingsPageContainer = styled.div``;
 
@@ -48,7 +51,7 @@ const initialBookingState = {
 	service: '',
 	state: '',
 	status: '',
-	updatedAt: '',
+	createdAt: '',
 	user_id: '',
 	artisan_meta: initialMetaState,
 	user_meta: initialMetaState,
@@ -56,18 +59,13 @@ const initialBookingState = {
 const BookingsPage = () => {
 	const navigate = useNavigate();
 	const [bookingDetails, setBookingDetails] = useState<BookingsTypes[]>([
-		{
-			artisan_id: '',
-			city: '',
-			service: '',
-			state: '',
-			status: '',
-			updatedAt: '',
-			user_id: '',
-			artisan_meta: initialMetaState,
-			user_meta: initialMetaState,
-		},
+		initialBookingState,
 	]);
+	const {
+		loading: fetchingBookings,
+		startLoading: startFetchingBookings,
+		stopLoading: stopFetchingBookings,
+	} = useLoading(false);
 
 	useEffect(() => {
 		document.title = "Booking's Page";
@@ -76,12 +74,17 @@ const BookingsPage = () => {
 	const [searchField, setSearchField] = useState('');
 
 	useEffect(() => {
+		startFetchingBookings();
 		bookingAdminService
 			.bookingHistory()
 			.then((res) =>
 				setBookingDetails(res?.data?.payload?.data || initialBookingState)
 			)
-			.catch((err) => console.error(err?.response?.data));
+			.catch((err) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
+			.finally(() => stopFetchingBookings());
 	}, []);
 
 	const filteredData = bookingDetails.filter((data) => {
@@ -146,7 +149,7 @@ const BookingsPage = () => {
 		},
 		{
 			title: 'Date',
-			render: (row: BookingsTypes) => formatDateDmy(row.updatedAt),
+			render: (row: BookingsTypes) => formatDateDmy(row.createdAt),
 		},
 		{
 			title: 'Status',
@@ -159,13 +162,32 @@ const BookingsPage = () => {
 			pageTitle='Bookings'
 			rhsHeading={<RhsHeading handleChange={handleChange} />}
 		>
+			<ToastContainer />
 			<BookingsPageContainer>
-				<BookingsTabs
-					rows={filteredData}
-					BookingsTableHeaders={BookingsTableHeaders}
-					title={<p className='count'>{filteredData.length} Bookings</p>}
-					onRowClick={handleNavigate}
-				/>
+				{fetchingBookings ? (
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							marginTop: '100px',
+						}}
+					>
+						<Loader>loading...</Loader>{' '}
+					</div>
+				) : filteredData.length > 0 ? (
+					<BookingsTabs
+						rows={filteredData}
+						BookingsTableHeaders={BookingsTableHeaders}
+						title={
+							<p className='count'>
+								{filteredData.length > 1 ? filteredData.length : 0} Bookings
+							</p>
+						}
+						onRowClick={handleNavigate}
+					/>
+				) : (
+					<p className='table-entry-status'>No Bookings Found</p>
+				)}
 			</BookingsPageContainer>
 		</DashboardLayout>
 	);

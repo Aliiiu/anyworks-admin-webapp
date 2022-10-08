@@ -118,6 +118,10 @@ const ArtisansProfileCard = ({
 									</tr>
 									<tr>
 										<td className='text key'>Rating</td>
+										<td className='text value'>{artisanDetails.rating}</td>
+									</tr>
+									<tr>
+										<td className='text key'>Profile Stage</td>
 										<td className='text value'>
 											{artisanDetails.profile_stage}
 										</td>

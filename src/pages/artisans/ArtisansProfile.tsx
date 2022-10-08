@@ -18,6 +18,8 @@ import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
 import artisanBookingService from 'src/service/ArtisanBookings';
 import { initialBookingState } from '../bookings/BookingDetails';
+import bookingAdminService from 'src/service/BookingAdmin';
+import { toast, ToastContainer } from 'react-toastify';
 
 const StyledLoader = styled.div`
 	border-radius: 16px;
@@ -64,13 +66,15 @@ const ArtisansProfile = () => {
 
 	useEffect(() => {
 		id &&
-			artisanBookingService
-				.bookingHistory(id)
+			bookingAdminService
+				.artisanBookingHistory(id)
 				.then((res) => setArtisanBookings(res.data.payload.data))
-				.catch((err: any) => console.error(err.response));
+				.catch((err: any) => {
+					console.log(err?.response?.data?.error?.message);
+					toast.error(err?.response?.data?.error?.message);
+				});
 	}, [id]);
 
-	const rows = RECENT_BOOKINGS_TABLE_DATA();
 	const [walletBal, setWalletBal] = useState<WalletDataTypes>({
 		balance: 0,
 		transactions: [],
@@ -82,6 +86,7 @@ const ArtisansProfile = () => {
 		email: '',
 		occupation: '',
 		profile_stage: '',
+		rating: 0,
 		phone: '',
 		status: '',
 		display_picture: '',
@@ -100,12 +105,29 @@ const ArtisansProfile = () => {
 				setWalletBal(res?.data?.payload?.data?.wallet);
 				setArtisanDetails(res?.data?.payload?.data?.artisan);
 			})
-			.catch((err) => console.log(err?.response?.data))
+			.catch((err) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopLoading());
 	};
 
 	useEffect(() => {
 		id && fetchMe(id);
+	}, []);
+
+	const [totalBookings, setTotalBookings] = useState(0);
+	useEffect(() => {
+		bookingAdminService
+			.dashboardData()
+			.then((res) => {
+				setTotalBookings(res?.data?.payload?.data.total_bookings);
+			})
+			.catch((err: any) =>
+				toast.error(
+					err?.response?.data?.error?.message || 'Something went wrong'
+				)
+			);
 	}, []);
 	const BookingsTableHeaders = [
 		{
@@ -129,7 +151,7 @@ const ArtisansProfile = () => {
 		},
 		{
 			title: 'Date',
-			render: (row: BookingsTypes) => formatDateDmy(row.updatedAt),
+			render: (row: BookingsTypes) => formatDateDmy(row.createdAt),
 		},
 		{
 			title: 'Status',
@@ -139,6 +161,7 @@ const ArtisansProfile = () => {
 
 	return (
 		<DashboardLayout>
+			<ToastContainer />
 			<StyledProfileHeader>
 				<h2>
 					{artisanDetails.first_name} {artisanDetails.last_name}'s profile
@@ -164,7 +187,7 @@ const ArtisansProfile = () => {
 			<StyledBookingSummary>
 				<div className='booking_summary'>
 					<div className='summary_details'>
-						<h5>Total Bookings</h5> <h3>24</h3>
+						<h5>Total Bookings</h5> <h3>{totalBookings}</h3>
 					</div>
 					<img src={bookingsIcon} alt='' width={55} height='55px' />
 				</div>

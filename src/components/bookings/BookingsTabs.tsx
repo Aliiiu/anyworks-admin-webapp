@@ -77,7 +77,12 @@ const BookingsContainer = styled.div`
 		padding: 0;
 	}
 	.pd-20 {
-		padding: 20px 0 0 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 50px;
+		font-style: italic;
+		font-weight: 600;
 	}
 `;
 
@@ -119,7 +124,7 @@ export const BookingsTabs: React.FC<Props> = ({
 	const endDate = state[0]?.endDate;
 
 	const dateFilteredData = rows.filter((a: BookingsTypes) => {
-		const date = new Date(a.updatedAt);
+		const date = new Date(a.createdAt);
 		return date >= startDate && date <= endDate;
 	});
 
@@ -169,53 +174,68 @@ export const BookingsTabs: React.FC<Props> = ({
 					</div>
 					<div>
 						<TabPanel value='1'>
-							{' '}
-							<Table
-								rows={paginatedRows}
-								headers={BookingsTableHeaders}
-								showHead={true}
-								allowRowClick={allowRowClick}
-								onRowClick={onRowClick}
-							/>
-							<Pagination />
+							{paginatedRows.length > 0 ? (
+								<>
+									<Table
+										rows={paginatedRows}
+										headers={BookingsTableHeaders}
+										showHead={true}
+										allowRowClick={allowRowClick}
+										onRowClick={onRowClick}
+									/>
+									<Pagination />
+								</>
+							) : (
+								<p className='pd-20'>No Bookings</p>
+							)}
 						</TabPanel>
 						<TabPanel value='2'>
 							{tabData('active').length > 0 ? (
-								<Table
-									rows={tabData('active')}
-									headers={BookingsTableHeaders}
-									showHead={true}
-									allowRowClick={allowRowClick}
-									onRowClick={onRowClick}
-								/>
+								<>
+									<Table
+										rows={tabData('active')}
+										headers={BookingsTableHeaders}
+										showHead={true}
+										allowRowClick={allowRowClick}
+										onRowClick={onRowClick}
+									/>
+									<Pagination />
+								</>
 							) : (
-								<p className='pd-20'>Active Bookings</p>
+								<p className='pd-20'>No Active Bookings</p>
 							)}
 						</TabPanel>
 						<TabPanel value='3'>
 							{tabData('completed').length > 0 ? (
-								<Table
-									rows={tabData('completed')}
-									headers={BookingsTableHeaders}
-									showHead={true}
-									allowRowClick={allowRowClick}
-									onRowClick={onRowClick}
-								/>
+								<>
+									<Table
+										rows={tabData('completed')}
+										headers={BookingsTableHeaders}
+										showHead={true}
+										allowRowClick={allowRowClick}
+										onRowClick={onRowClick}
+									/>
+
+									<Pagination />
+								</>
 							) : (
-								<p className='pd-20'>Completed Bookings</p>
+								<p className='pd-20'>No Completed Bookings</p>
 							)}
 						</TabPanel>
 						<TabPanel value='4'>
 							{tabData('canceled').length > 0 ? (
-								<Table
-									rows={tabData('canceled')}
-									headers={BookingsTableHeaders}
-									showHead={true}
-									allowRowClick={allowRowClick}
-									onRowClick={onRowClick}
-								/>
+								<>
+									<Table
+										rows={tabData('canceled')}
+										headers={BookingsTableHeaders}
+										showHead={true}
+										allowRowClick={allowRowClick}
+										onRowClick={onRowClick}
+									/>
+									<Pagination />
+								</>
 							) : (
-								<p className='pd-20'>Canceled Bookings</p>
+								<p className='pd-20'>No Canceled Bookings</p>
 							)}
 						</TabPanel>
 					</div>

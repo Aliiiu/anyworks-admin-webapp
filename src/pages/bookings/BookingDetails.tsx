@@ -18,6 +18,7 @@ import bookingAdminService from 'src/service/BookingAdmin';
 import { useLoading } from 'src/hooks';
 import { ScaleLoader } from 'react-spinners';
 import { formatDateDmy, formatTime } from 'src/utils';
+import { toast, ToastContainer } from 'react-toastify';
 
 export const RhsHeading = () => (
 	<Flex wrap='wrap'>
@@ -62,7 +63,7 @@ export const initialBookingState = {
 	service: '',
 	state: '',
 	status: '',
-	updatedAt: '',
+	createdAt: '',
 	user_id: '',
 	artisan_meta: initialMetaState,
 	user_meta: initialMetaState,
@@ -88,13 +89,16 @@ const BookingDetailsPage = () => {
 		bookingAdminService
 			.bookingDetails(booking_id)
 			.then((res) => {
-				console.log(res?.data?.payload?.data);
+				// console.log(res?.data?.payload?.data);
 				setBookingTransactions(res?.data?.payload?.data.booking_trx);
 				setBookingDetail(
 					res?.data?.payload?.data?.booking || initialBookingState
 				);
 			})
-			.catch((err) => console.error(err.response))
+			.catch((err) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopLoading());
 	};
 	useEffect(() => {
@@ -102,6 +106,7 @@ const BookingDetailsPage = () => {
 	}, []);
 	return (
 		<DashboardLayout pageTitle='Booking Details' rhsHeading={<RhsHeading />}>
+			<ToastContainer />
 			<BookingDetailsPageContainer>
 				<div className='people'>
 					<Flex gap='2rem' wrap='wrap' justify='space-between'>
@@ -219,7 +224,7 @@ const BookingDetailsPage = () => {
 								<Flex direction='column' gap='10px'>
 									<p className='title'>Time</p>
 									<p className='details'>
-										{formatTime(new Date(bookingsDetail.updatedAt))}
+										{formatTime(new Date(bookingsDetail.createdAt))}
 									</p>
 								</Flex>
 							</div>
@@ -227,7 +232,7 @@ const BookingDetailsPage = () => {
 								<Flex direction='column' gap='10px'>
 									<p className='title'>Date </p>
 									<p className='details'>
-										{formatDateDmy(bookingsDetail.updatedAt)}
+										{formatDateDmy(bookingsDetail.createdAt)}
 									</p>
 								</Flex>
 							</div>

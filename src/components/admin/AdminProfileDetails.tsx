@@ -41,12 +41,11 @@ const AdminProfileDetails: FC<{
 	const suspendActivityHandler = (admin_id: string, action: string) => {
 		AdminServices.suspendAdmin(admin_id, action)
 			.then((res) => {
-				console.log(res.data);
-				toast.success(res.data.message);
+				toast.success(res?.data?.message);
 			})
 			.catch((err) => {
-				console.log(err.message);
-				toast.error(err.response.data.error.message);
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
 			})
 			.finally(() => {
 				getAdmin(admin_id);

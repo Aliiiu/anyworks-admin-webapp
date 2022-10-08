@@ -12,8 +12,19 @@ import { AdminServices } from 'src/service/AdminServices';
 import { AdminTypes } from './adminTypes';
 import Loader from 'src/components/common/Loader';
 import { useLoading } from 'src/hooks';
+import { toast, ToastContainer } from 'react-toastify';
 
-const AdminContainer = styled.div``;
+const AdminContainer = styled.div`
+	.table-entry-status {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100px;
+		font-weight: 700;
+		font-size: 32px;
+		font-style: italic;
+	}
+`;
 interface Props {
 	handleOpen: (e: any) => void;
 	handleChange: (e: any) => void;
@@ -60,9 +71,12 @@ const Admin = () => {
 		AdminServices.getAllAdmins()
 			.then((res: any) => {
 				// console.log(res.data.payload.data);
-				res.data.payload.data && setAllAdmins(res.data.payload.data);
+				res?.data?.payload?.data && setAllAdmins(res?.data?.payload?.data);
 			})
-			.catch((err: any) => console.log(err.response))
+			.catch((err: any) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopFetchingAdmins());
 	};
 
@@ -88,6 +102,7 @@ const Admin = () => {
 				<RhsHeading handleChange={handleChange} handleOpen={handleOpen} />
 			}
 		>
+			<ToastContainer />
 			<AdminContainer>
 				<AddAdminModal
 					open={open}
@@ -104,8 +119,10 @@ const Admin = () => {
 					>
 						<Loader>loading...</Loader>{' '}
 					</div>
-				) : (
+				) : filteredData.length > 0 ? (
 					<AdminTable rows={filteredData} fetchAdmins={getAllAdmins} />
+				) : (
+					<p className='table-entry-status'>No Admin Found</p>
 				)}
 			</AdminContainer>
 		</DashboardLayout>

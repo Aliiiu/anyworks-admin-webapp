@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import arrowLeft from 'src/assets/images/common/arrowLeft.svg';
 import { theme } from 'src/styles/Theme';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, ButtonClass, Flex } from 'src/components/ui';
 import { DashboardLayout } from 'src/components/dashboard';
 import styled from 'styled-components';
@@ -54,12 +54,14 @@ const ArtisanKyc = () => {
 		KycData.getOnePendingKyc(artisan_id || '')
 			.then((res) => {
 				setArtisanKyc(res?.data?.payload?.data || []);
-				console.log(res.data.payload.data);
+				// console.log(res.data.payload.data);
 			})
 			.catch((err) => {
 				toast.error(err.response.data.error.message);
 			})
-			.finally(() => stopFetchingArtisanKyc());
+			.finally(() => {
+				stopFetchingArtisanKyc();
+			});
 	}, []);
 
 	const {
@@ -67,7 +69,7 @@ const ArtisanKyc = () => {
 		startLoading: startApprovingKyc,
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
-
+	let navigate = useNavigate();
 	const handleApproveKyc = () => {
 		startApprovingKyc();
 		KycData.approveRejectKyc({ reason: '' }, artisan_id || '', 'approve')
@@ -78,7 +80,10 @@ const ArtisanKyc = () => {
 			.catch((err) => {
 				toast.error(err.response.data.error.message);
 			})
-			.finally(() => stopApprovingKyc());
+			.finally(() => {
+				stopApprovingKyc();
+				navigate('/user');
+			});
 	};
 
 	const {
@@ -101,7 +106,10 @@ const ArtisanKyc = () => {
 			.catch((err) => {
 				toast.error(err.response.data.error.message);
 			})
-			.finally(() => stopRejectingKyc());
+			.finally(() => {
+				stopRejectingKyc();
+				navigate('user');
+			});
 	};
 
 	return (

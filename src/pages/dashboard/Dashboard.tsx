@@ -17,6 +17,7 @@ import KycData from 'src/service/KycData';
 import { DashboardService } from 'src/service/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
 import bookingAdminService from 'src/service/BookingAdmin';
+import userServices from 'src/service/userServices';
 
 const DashboardContainer = styled.div`
 	.metrics__cards {
@@ -24,25 +25,22 @@ const DashboardContainer = styled.div`
 	}
 `;
 
+const initialBookingState: BookingMetricTypes = {
+	active_bookings: 0,
+	canceled_bookings: 0,
+	pending_bookings: 0,
+	total_bookings: 0,
+};
+
 const Dashboard = () => {
 	const [metricData, setMetricData] = useState<ArtisanMetricTypes>({
 		artisans: 0,
 		pending_kyc: 0,
 		total_balance: 0,
 	});
-	const [adminBookings, setAdminBookings] = useState<BookingMetricTypes>({
-		active_bookings: 0,
-		canceled_bookings: 0,
-		pending_bookings: 0,
-		total_bookings: 0,
-	});
-
-	const initialBookingState: BookingMetricTypes = {
-		active_bookings: 0,
-		canceled_bookings: 0,
-		pending_bookings: 0,
-		total_bookings: 0,
-	};
+	const [adminBookings, setAdminBookings] =
+		useState<BookingMetricTypes>(initialBookingState);
+	const [totalUsers, setTotalUsers] = useState<number>(0);
 
 	useEffect(() => {
 		document.title = 'Dashboard';
@@ -60,9 +58,9 @@ const Dashboard = () => {
 	useEffect(() => {
 		bookingAdminService
 			.dashboardData()
-			.then((res) =>
-				setAdminBookings(res?.data?.payload?.data || initialBookingState)
-			)
+			.then((res) => {
+				setAdminBookings(res?.data?.payload?.data || initialBookingState);
+			})
 			.catch((err: any) =>
 				toast.error(
 					err?.response?.data?.error?.message || 'Something went wrong'
@@ -70,9 +68,16 @@ const Dashboard = () => {
 			);
 	}, []);
 
+	useEffect(() => {
+		userServices
+			.getUsers()
+			.then((res) => setTotalUsers(res?.data?.payload?.data.length))
+			.catch((err) => console.log(err?.response?.data?.error?.message));
+	}, []);
+
 	const metrics = [
 		{
-			count: '243',
+			count: totalUsers,
 			key: 'Total Users',
 			img: user,
 			color: theme.colors.purple,
@@ -101,9 +106,30 @@ const Dashboard = () => {
 		},
 		{
 			count: adminBookings.total_bookings,
-			key: 'Active Booking ',
+			key: 'Total Booking ',
 			img: booking,
 			color: theme.colors.darkPurple,
+			href: '/bookings',
+		},
+		{
+			count: adminBookings.active_bookings,
+			key: 'Active Booking ',
+			img: booking,
+			color: theme.colors.mustard,
+			href: '/bookings',
+		},
+		{
+			count: adminBookings.pending_bookings,
+			key: 'Pending Booking ',
+			img: booking,
+			color: theme.colors.cyan,
+			href: '/bookings',
+		},
+		{
+			count: adminBookings.canceled_bookings,
+			key: 'Canceled Booking ',
+			img: booking,
+			color: theme.colors.red,
 			href: '/bookings',
 		},
 	];

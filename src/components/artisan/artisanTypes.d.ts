@@ -5,6 +5,7 @@ interface ArtisanProfileDetails {
 	email: string;
 	occupation: string;
 	profile_stage: number | string;
+	rating: number;
 	phone: string;
 	status: string;
 	display_picture: string;

@@ -1,11 +1,11 @@
-import userServiceApi from 'src/utils/userServiceApi';
+import adminServiceApi from 'src/utils/AdminServiceApi';
 
 const userServices = {
 	getUsers: async () => {
-		return userServiceApi().get('');
+		return adminServiceApi().get('user/v1/');
 	},
 	getUser: async (user_id: string) => {
-		return userServiceApi().get(`profile/${user_id}`);
+		return adminServiceApi().get(`user/v1/profile/${user_id}`);
 	},
 };
 

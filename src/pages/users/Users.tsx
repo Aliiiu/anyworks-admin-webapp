@@ -8,6 +8,7 @@ import searchIcon from 'src/assets/images/input/searchIcon.svg';
 import userServices from 'src/service/userServices';
 import { useLoading } from 'src/hooks';
 import { Loader } from 'src/components/common';
+import { toast, ToastContainer } from 'react-toastify';
 const UsersContainer = styled.div``;
 
 interface Props {
@@ -44,10 +45,14 @@ const Users = () => {
 		startFetchingUsers();
 		userServices
 			.getUsers()
-			.then((res) =>
-				setUsersList(res?.data?.payload?.data || usersInitialState)
-			)
-			.catch((err) => console.error(err?.response))
+			.then((res) => {
+				// console.log(res?.data?.payload?.data);
+				setUsersList(res?.data?.payload?.data || usersInitialState);
+			})
+			.catch((err) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopFetchingUsers());
 	};
 
@@ -76,6 +81,7 @@ const Users = () => {
 			pageTitle='Users'
 			rhsHeading={<RhsHeading handleChange={handleChange} />}
 		>
+			<ToastContainer />
 			<UsersContainer>
 				{fetchingUsers ? (
 					<div
@@ -87,8 +93,10 @@ const Users = () => {
 					>
 						<Loader>loading...</Loader>{' '}
 					</div>
-				) : (
+				) : filteredData.length > 0 ? (
 					<UsersTable rows={filteredData} />
+				) : (
+					<p className='table-entry-status'>No Admin Found</p>
 				)}
 			</UsersContainer>
 		</DashboardLayout>

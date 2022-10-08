@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import { ScaleLoader } from 'react-spinners';
 import bookingAdminService from 'src/service/BookingAdmin';
 import { initialBookingState } from '../bookings/BookingDetails';
+import { toast, ToastContainer } from 'react-toastify';
 
 const UserProfileContainer = styled.div`
 	.loader-container {
@@ -82,7 +83,10 @@ const UserProfile = () => {
 				setUserDetails(res.data.payload.data);
 				// res.data.payload.data && setAdminEntry(res.data.payload.data);
 			})
-			.catch((err: any) => console.log(err.response))
+			.catch((err: any) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopLoading());
 	};
 	useEffect(() => {
@@ -118,7 +122,7 @@ const UserProfile = () => {
 		},
 		{
 			title: 'Date',
-			render: (row: BookingsTypes) => formatDateDmy(row.updatedAt),
+			render: (row: BookingsTypes) => formatDateDmy(row.createdAt),
 		},
 		{
 			title: 'Status',
@@ -131,6 +135,7 @@ const UserProfile = () => {
 			pageTitle={`${userDetails.first_name} ${userDetails.last_name}’s Profile`}
 			rhsHeading={<RhsHeading />}
 		>
+			<ToastContainer />
 			<UserProfileContainer>
 				{loading ? (
 					<div className='loader-container'>

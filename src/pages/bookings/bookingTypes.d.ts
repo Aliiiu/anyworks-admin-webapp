@@ -5,7 +5,7 @@ interface BookingsTypes {
 	service: string;
 	state: string;
 	status: string;
-	updatedAt: string;
+	createdAt: string;
 	user_id: string;
 	user_meta: MetaTypes;
 }
