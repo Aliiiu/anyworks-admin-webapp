@@ -83,6 +83,7 @@ const Admin = () => {
 	useEffect(() => {
 		getAllAdmins();
 		// console.log(allAdmins);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const filteredData = allAdmins.filter((data) => {
