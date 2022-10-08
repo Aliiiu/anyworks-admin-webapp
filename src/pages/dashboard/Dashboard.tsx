@@ -13,7 +13,6 @@ import kyc from 'src/assets/images/metrics/kyc.svg';
 import booking from 'src/assets/images/metrics/booking.svg';
 import { Flex } from 'src/components/ui';
 import { theme } from 'src/styles/Theme';
-import KycData from 'src/service/KycData';
 import { DashboardService } from 'src/service/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
 import bookingAdminService from 'src/service/BookingAdmin';

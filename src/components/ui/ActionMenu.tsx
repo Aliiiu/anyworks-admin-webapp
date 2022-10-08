@@ -89,12 +89,7 @@ export const ActionMenu: React.FC<Props> = ({
 	children = null,
 	setAllowRowClick = () => null,
 }) => {
-	const {
-		value: isOpen,
-		setTrue: openAction,
-		setFalse: closeAction,
-		toggle,
-	} = useBoolean(false);
+	const { value: isOpen, setFalse: closeAction, toggle } = useBoolean(false);
 
 	useEffect(() => {
 		setAllowRowClick(!isOpen);

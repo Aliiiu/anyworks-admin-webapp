@@ -4,7 +4,6 @@ import { BookingsTabs } from 'src/components/bookings';
 import { Input } from 'src/components/inputs';
 import searchIcon from 'src/assets/images/input/searchIcon.svg';
 import React, { useEffect, useState } from 'react';
-import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
 import { Flex } from 'src/components/ui';
 import { BookingStatus } from 'src/components/bookings';
 import { useNavigate } from 'react-router-dom';

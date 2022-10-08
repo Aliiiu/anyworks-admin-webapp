@@ -15,7 +15,6 @@ import BookingsPage from 'src/pages/bookings/Bookings';
 import BookingDetailsPage from 'src/pages/bookings/BookingDetails';
 import Artisan from 'src/pages/artisans/Artisan';
 import ArtisansProfile from 'src/pages/artisans/ArtisansProfile';
-import IsAuthenticatedRoute from './IsAuthenticatedRoute';
 import PrivateRoute from './PrivateRoute';
 
 const Router = () => {

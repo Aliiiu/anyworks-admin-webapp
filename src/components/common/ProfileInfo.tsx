@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import close from 'src/assets/images/common/close.svg';
-import dp from 'src/assets/images/profile/dp.svg';
 import phone from 'src/assets/images/profile/phone.svg';
 import mail from 'src/assets/images/profile/mail.svg';
 import chat from 'src/assets/images/profile/chat.svg';

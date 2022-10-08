@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Theme, useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -56,7 +54,7 @@ export default function MultipleSelect({
 }) {
 	const theme = useTheme();
 	const [personName, setPersonName] = useState<string[]>([]);
-	const [clicked, setClicked] = useState(false);
+	// const [clicked, setClicked] = useState(false);
 
 	const handleChange = (event: SelectChangeEvent<typeof personName>) => {
 		const {
@@ -94,7 +92,6 @@ export default function MultipleSelect({
 							<MenuItem
 								key={role.name}
 								value={role.value}
-								onClick={() => setClicked((prevState) => !prevState)}
 								style={getStyles(role.name, personName, theme)}
 							>
 								{role.name}

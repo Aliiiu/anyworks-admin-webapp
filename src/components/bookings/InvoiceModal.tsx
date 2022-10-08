@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import closeModal from 'src/assets/images/common/closeModal.svg';
 import { theme } from 'src/styles/Theme';
 import { Flex, Button, ButtonClass, Table } from 'src/components/ui';
-import { INVOICE_TABLE_DATA } from 'src/constants';
 import { numberWithCommas } from 'src/utils';
 
 const Wrapper = styled.div`

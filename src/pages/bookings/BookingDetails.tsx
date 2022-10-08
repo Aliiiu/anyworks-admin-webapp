@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { DashboardLayout } from 'src/components/dashboard';
 import {
 	BookingStatusBg,

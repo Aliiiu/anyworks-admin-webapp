@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { DashboardLayout } from 'src/components/dashboard';
 import { UsersTable } from 'src/components/users';
 import { Input } from 'src/components/inputs';
-import { USERS_TABLE_DATA } from 'src/constants';
 import searchIcon from 'src/assets/images/input/searchIcon.svg';
 import userServices from 'src/service/userServices';
 import { useLoading } from 'src/hooks';

@@ -1,16 +1,13 @@
 import { ProfileInfoContainer } from '../common/ProfileInfo';
 import Flex from '../ui/Flex';
-import dp from 'src/assets/images/profile/dp.svg';
 import phone from 'src/assets/images/profile/phone.svg';
 import mail from 'src/assets/images/profile/mail.svg';
 import chat from 'src/assets/images/profile/chat.svg';
 import close from 'src/assets/images/common/close.svg';
 import { Button, ButtonClass } from '../ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SendMailModal from '../users/SendMailModal';
 import SendNotificationModal from '../users/SendNotificationModal';
-import { ArtisansServices } from 'src/service/ArtisansServices';
-import { useParams } from 'react-router';
 
 const ArtisansProfileCard = ({
 	artisanDetails,
