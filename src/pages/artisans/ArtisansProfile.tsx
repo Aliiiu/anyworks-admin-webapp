@@ -162,7 +162,8 @@ const ArtisansProfile = () => {
 			<ToastContainer />
 			<StyledProfileHeader>
 				<h2>
-					{artisanDetails.first_name} {artisanDetails.last_name}'s profile
+					{artisanDetails.first_name &&
+						`${artisanDetails.first_name} ${artisanDetails.last_name}'s profile`}
 				</h2>
 				<Link to='/artisans'>
 					<Button

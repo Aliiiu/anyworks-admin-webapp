@@ -21,7 +21,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 export const RhsHeading = () => (
 	<Flex wrap='wrap'>
-		<Link to='/bookings'>
+		<Link to={`/bookings`}>
 			<Button
 				classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
 				style={{ backgroundColor: theme.colors.purple }}
@@ -206,7 +206,9 @@ const BookingDetailsPage = () => {
 							<div className='item'>
 								<Flex direction='column' gap='10px'>
 									<p className='title'>Service Rendered</p>
-									<p className='details'>{bookingsDetail.service}</p>
+									<p className='details'>
+										{bookingsDetail.service && bookingsDetail.service}
+									</p>
 								</Flex>
 							</div>
 							<div className='item'>
@@ -223,7 +225,8 @@ const BookingDetailsPage = () => {
 								<Flex direction='column' gap='10px'>
 									<p className='title'>Time</p>
 									<p className='details'>
-										{formatTime(new Date(bookingsDetail.createdAt))}
+										{bookingsDetail.createdAt &&
+											formatTime(new Date(bookingsDetail.createdAt))}
 									</p>
 								</Flex>
 							</div>
@@ -231,7 +234,8 @@ const BookingDetailsPage = () => {
 								<Flex direction='column' gap='10px'>
 									<p className='title'>Date </p>
 									<p className='details'>
-										{formatDateDmy(bookingsDetail.createdAt)}
+										{bookingsDetail.createdAt &&
+											formatDateDmy(bookingsDetail.createdAt)}
 									</p>
 								</Flex>
 							</div>
@@ -241,9 +245,15 @@ const BookingDetailsPage = () => {
 								<Flex direction='column' gap='10px'>
 									<p className='title'>Artisan Location </p>
 									<p className='details'>
-										{bookingsDetail.artisan_meta.address.house_address},{' '}
-										{bookingsDetail.artisan_meta.address.city},{' '}
-										{bookingsDetail.artisan_meta.address.state}.
+										{bookingsDetail.artisan_meta.address.house_address &&
+											bookingsDetail.artisan_meta.address.house_address}
+										,{' '}
+										{bookingsDetail.artisan_meta.address.city &&
+											bookingsDetail.artisan_meta.address.city}
+										,{' '}
+										{bookingsDetail.artisan_meta.address.state &&
+											bookingsDetail.artisan_meta.address.state}
+										.
 									</p>
 								</Flex>
 							</div>
@@ -251,9 +261,15 @@ const BookingDetailsPage = () => {
 								<Flex direction='column' gap='10px'>
 									<p className='title'>User Location </p>
 									<p className='details'>
-										{bookingsDetail.user_meta.address.house_address},{' '}
-										{bookingsDetail.user_meta.address.city},{' '}
-										{bookingsDetail.user_meta.address.state}.
+										{bookingsDetail.user_meta.address.house_address &&
+											bookingsDetail.user_meta.address.house_address}
+										,{' '}
+										{bookingsDetail.user_meta.address.city &&
+											bookingsDetail.user_meta.address.city}
+										,{' '}
+										{bookingsDetail.user_meta.address.state &&
+											bookingsDetail.user_meta.address.state}
+										.
 									</p>
 								</Flex>
 							</div>

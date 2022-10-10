@@ -111,6 +111,7 @@ const Router = () => {
 					</PrivateRoute>
 				}
 			/>
+
 			<Route
 				path='/bookings'
 				element={
@@ -127,6 +128,14 @@ const Router = () => {
 					</PrivateRoute>
 				}
 			/>
+			{/* <Route
+					path=':tabStatus'
+					element={
+						<PrivateRoute>
+							<BookingsPage />
+						</PrivateRoute>
+					}
+				/> */}
 		</Routes>
 	);
 };

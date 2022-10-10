@@ -94,7 +94,8 @@ const AdminProfile = () => {
 			<StyledAdminProfileComponent>
 				<StyledProfileHeader>
 					<h2>
-						{adminEntry.first_name} {adminEntry.last_name}'s profile
+						{adminEntry.first_name &&
+							`${adminEntry.first_name} ${adminEntry.last_name}'s profile`}
 					</h2>
 					<Link to='/admins'>
 						<Button

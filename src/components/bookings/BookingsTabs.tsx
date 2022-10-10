@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -11,6 +11,7 @@ import filterIcon from 'src/assets/images/common/filter.svg';
 import { DateRangeFilter } from 'src/components/common';
 import { addDays } from 'date-fns';
 import { theme } from 'src/styles/Theme';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 const BookingsContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -102,11 +103,18 @@ export const BookingsTabs: React.FC<Props> = ({
 	allowRowClick = true,
 }) => {
 	const [value, setValue] = useState('1');
+	let [searchParams, setSearchParams] = useSearchParams();
 
 	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
 		setValue(newValue);
 	};
 	//Date filter
+	useEffect(() => {
+		searchParams.get('tabStatus') === 'all' && setValue('1');
+		searchParams.get('tabStatus') === 'active' && setValue('2');
+		searchParams.get('tabStatus') === 'completed' && setValue('3');
+		searchParams.get('tabStatus') === 'canceled' && setValue('4');
+	}, [searchParams]);
 	const [openDateFilter, setOpenDateFilter] = useState(false);
 	const handleOpenDateFilter = () => setOpenDateFilter(true);
 	const handleCloseDateFilter = () => setOpenDateFilter(false);

@@ -17,10 +17,22 @@ import { DashboardService } from 'src/service/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
 import bookingAdminService from 'src/service/BookingAdmin';
 import userServices from 'src/service/userServices';
+import { formatTime } from 'src/utils';
+import { ScaleLoader } from 'react-spinners';
+import { useLoading } from 'src/hooks';
 
 const DashboardContainer = styled.div`
 	.metrics__cards {
 		margin: 2rem 0;
+	}
+	.loader-container {
+		border-radius: 16px;
+		background: #ffffff;
+		height: 300px;
+		margin-top: 36px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 `;
 
@@ -40,6 +52,7 @@ const Dashboard = () => {
 	const [adminBookings, setAdminBookings] =
 		useState<BookingMetricTypes>(initialBookingState);
 	const [totalUsers, setTotalUsers] = useState<number>(0);
+	const [recentBookings, setRecentBookings] = useState<BookingsTypes[]>([]);
 
 	useEffect(() => {
 		document.title = 'Dashboard';
@@ -67,11 +80,23 @@ const Dashboard = () => {
 			);
 	}, []);
 
+	const { loading, startLoading, stopLoading } = useLoading();
+
 	useEffect(() => {
 		userServices
 			.getUsers()
 			.then((res) => setTotalUsers(res?.data?.payload?.data.length))
 			.catch((err) => console.log(err?.response?.data?.error?.message));
+	}, []);
+
+	useEffect(() => {
+		startLoading();
+		DashboardService.RecentBookingHistory()
+			.then((res) => {
+				setRecentBookings(res?.data?.payload?.data);
+			})
+			.catch((err) => console.log(err.response))
+			.finally(() => stopLoading());
 	}, []);
 
 	const metrics = [
@@ -108,28 +133,28 @@ const Dashboard = () => {
 			key: 'Total Booking ',
 			img: booking,
 			color: theme.colors.darkPurple,
-			href: '/bookings',
+			href: '/bookings?tabStatus=all',
 		},
 		{
 			count: adminBookings.active_bookings,
 			key: 'Active Booking ',
 			img: booking,
 			color: theme.colors.mustard,
-			href: '/bookings',
+			href: '/bookings?tabStatus=active',
 		},
 		{
 			count: adminBookings.pending_bookings,
 			key: 'Pending Booking ',
 			img: booking,
 			color: theme.colors.cyan,
-			href: '/bookings',
+			href: '/bookings?tabStatus=completed',
 		},
 		{
 			count: adminBookings.canceled_bookings,
 			key: 'Canceled Booking ',
 			img: booking,
 			color: theme.colors.red,
-			href: '/bookings',
+			href: '/bookings?tabStatus=canceled',
 		},
 	];
 	return (
@@ -149,7 +174,13 @@ const Dashboard = () => {
 						})}
 					</Flex>
 				</div>
-				<RecentBookingsTable />
+				{loading ? (
+					<div className='loader-container'>
+						<ScaleLoader color='#7E00C4' height={50} width={8} />
+					</div>
+				) : (
+					<RecentBookingsTable rows={recentBookings} />
+				)}
 				<RecentTransactionsTable />
 			</DashboardContainer>
 		</DashboardLayout>

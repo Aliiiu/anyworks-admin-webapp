@@ -6,7 +6,7 @@ import searchIcon from 'src/assets/images/input/searchIcon.svg';
 import React, { useEffect, useState } from 'react';
 import { Flex } from 'src/components/ui';
 import { BookingStatus } from 'src/components/bookings';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { formatDateDmy } from 'src/utils/helpers';
 import bookingAdminService from 'src/service/BookingAdmin';
 import { useLoading } from 'src/hooks';

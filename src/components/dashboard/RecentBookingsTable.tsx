@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Flex, Table } from 'src/components/ui';
 import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
 import { useNavigate } from 'react-router-dom';
+import { formatDateDmy, formatTime } from 'src/utils';
+import { BookingStatus } from '../bookings';
+import { FC } from 'react';
 
 const RecentBookingsTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -28,29 +31,52 @@ const RecentBookingsTableContainer = styled.div`
 const RecentBookingsTableHeaders = [
 	{
 		title: 'Artisan',
-		render: (row: any) => (
+		render: (row: BookingsTypes) => (
 			<Flex gap='10px' align='center'>
-				<img style={{ width: '40px' }} src={row.img} alt='' /> {row.artisan}
+				<img
+					style={{ width: 40, height: 40, borderRadius: '50%' }}
+					src={row.artisan_meta.display_picture}
+					alt=''
+				/>{' '}
+				{row.artisan_meta.first_name} {row.artisan_meta.last_name}
 			</Flex>
 		),
 	},
-	{ title: 'Services', render: (row: any) => `${row.services}` },
+	{ title: 'Service', render: (row: BookingsTypes) => `${row.service}` },
 	{
 		title: 'User',
-		render: (row: any) => (
+		render: (row: BookingsTypes) => (
 			<Flex gap='10px' align='center'>
-				<img style={{ width: '40px' }} src={row.img} alt='' /> {row.user}
+				<img
+					style={{ width: 40, height: 40, borderRadius: '50%' }}
+					src={row.user_meta.display_picture}
+					alt=''
+				/>{' '}
+				{row.user_meta.first_name} {row.user_meta.last_name}
 			</Flex>
 		),
 	},
-	{ title: 'Time', render: (row: any) => `${row.time}` },
-	{ title: 'Location', render: (row: any) => `${row.location}` },
-	{ title: 'Status', render: (row: any) => `${row.status}` },
+	{
+		title: 'Time',
+		render: (row: BookingsTypes) => formatTime(new Date(row.createdAt)),
+	},
+	{
+		title: 'Location',
+		render: (row: BookingsTypes) => `${row.city}, ${row.state}`,
+	},
+	{
+		title: 'Status',
+		render: (row: BookingsTypes) => <BookingStatus status={row.status} />,
+	},
 ];
 
-export const RecentBookingsTable = () => {
+export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
+	rows,
+}) => {
 	const navigate = useNavigate();
-
+	const handleNavigate = (id: string) => {
+		navigate(`/bookings/${id}`);
+	};
 	return (
 		<RecentBookingsTableContainer>
 			<div className='heading'>
@@ -58,10 +84,10 @@ export const RecentBookingsTable = () => {
 				<p className='info'>Bookings in the last 24 hours</p>
 			</div>
 			<Table
-				rows={RECENT_BOOKINGS_TABLE_DATA()}
+				rows={rows}
 				headers={RecentBookingsTableHeaders}
 				showHead={true}
-				onRowClick={() => navigate('/bookings/booking-details')}
+				onRowClick={handleNavigate}
 			/>
 		</RecentBookingsTableContainer>
 	);

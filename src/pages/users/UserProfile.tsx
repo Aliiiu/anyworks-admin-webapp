@@ -100,6 +100,10 @@ const UserProfile = () => {
 				.then((res) => setUserBookings(res?.data?.payload?.data))
 				.catch((err) => console.error(err.response));
 	}, [id]);
+
+	const handleNavigate = (booking_id: string) => {
+		navigate(`/bookings/${booking_id}`);
+	};
 	const BookingsTableHeaders = [
 		{
 			title: 'Artisan',
@@ -132,7 +136,10 @@ const UserProfile = () => {
 
 	return (
 		<DashboardLayout
-			pageTitle={`${userDetails.first_name} ${userDetails.last_name}’s Profile`}
+			pageTitle={
+				userDetails.first_name &&
+				`${userDetails.first_name} ${userDetails.last_name}’s Profile`
+			}
 			rhsHeading={<RhsHeading />}
 		>
 			<ToastContainer />
@@ -148,7 +155,7 @@ const UserProfile = () => {
 					rows={userBookings}
 					BookingsTableHeaders={BookingsTableHeaders}
 					title={<h1 className='title'>Bookings</h1>}
-					onRowClick={() => navigate('/bookings/booking-details')}
+					onRowClick={handleNavigate}
 				/>
 			</UserProfileContainer>
 		</DashboardLayout>

@@ -31,9 +31,10 @@ export const formatDateDmy = (date: any) => {
 };
 
 export const formatTime = (data: any) => {
-	var H = data.getHours(),
-		i = data.getMinutes();
-
+	var H = '' + data.getHours(),
+		i = '' + data.getMinutes();
+	if (H.length < 2) H = '0' + H;
+	if (i.length < 2) i = '0' + i;
 	return [H, i].join(':');
 };
 
