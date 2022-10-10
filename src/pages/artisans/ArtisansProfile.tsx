@@ -5,7 +5,12 @@ import styled from 'styled-components';
 import ArtisansProfileCard from 'src/components/artisan/ArtisansProfileCard';
 import bookingsIcon from 'src/assets/images/metrics/bookingSummary.svg';
 import BookingsTabs from 'src/components/bookings/BookingsTabs';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+	Link,
+	useNavigate,
+	useParams,
+	useSearchParams,
+} from 'react-router-dom';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import BookingStatus from 'src/components/bookings/BookingStatus';
 import WalletContainer from 'src/components/artisan/WalletContainer';
@@ -127,6 +132,12 @@ const ArtisansProfile = () => {
 				)
 			);
 	}, []);
+
+	let [searchParams, setSearchParams] = useSearchParams();
+
+	const handleNavigate = (booking_id: string) => {
+		navigate(`/bookings/${booking_id}tabStatus=all`);
+	};
 	const BookingsTableHeaders = [
 		{
 			title: 'Artisan',
@@ -201,7 +212,9 @@ const ArtisansProfile = () => {
 				rows={artisanBookings}
 				BookingsTableHeaders={BookingsTableHeaders}
 				title={<h1 className='title'>Bookings</h1>}
-				onRowClick={() => navigate('/bookings/booking-details')}
+				onRowClick={handleNavigate}
+				searchParams={searchParams}
+				setSearchParams={setSearchParams}
 			/>
 			<WalletContainer />
 		</DashboardLayout>

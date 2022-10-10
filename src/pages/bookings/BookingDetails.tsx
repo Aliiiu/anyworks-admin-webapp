@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { DashboardLayout } from 'src/components/dashboard';
 import {
 	BookingStatusBg,
@@ -9,7 +9,7 @@ import invoice from 'src/assets/images/bookings/invoice.svg';
 import arrowLeft from 'src/assets/images/common/arrowLeft.svg';
 import chat from 'src/assets/images/bookings/chat.svg';
 import { theme } from 'src/styles/Theme';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { BookingDetailsPageContainer } from './bookings.styles';
@@ -19,9 +19,9 @@ import { ScaleLoader } from 'react-spinners';
 import { formatDateDmy, formatTime } from 'src/utils';
 import { toast, ToastContainer } from 'react-toastify';
 
-export const RhsHeading = () => (
+export const RhsHeading: FC<{ tabStatus: string | null }> = ({ tabStatus }) => (
 	<Flex wrap='wrap'>
-		<Link to={`/bookings`}>
+		<Link to={`/bookings?tabStatus=${tabStatus}`}>
 			<Button
 				classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
 				style={{ backgroundColor: theme.colors.purple }}
@@ -100,11 +100,18 @@ const BookingDetailsPage = () => {
 			})
 			.finally(() => stopLoading());
 	};
+
+	let [searchParams, setSearchParams] = useSearchParams();
 	useEffect(() => {
 		id && fetchBookingDetails(id);
 	}, []);
 	return (
-		<DashboardLayout pageTitle='Booking Details' rhsHeading={<RhsHeading />}>
+		<DashboardLayout
+			pageTitle='Booking Details'
+			rhsHeading={
+				<RhsHeading tabStatus={searchParams.get('tabStatus') || null} />
+			}
+		>
 			<ToastContainer />
 			<BookingDetailsPageContainer>
 				<div className='people'>

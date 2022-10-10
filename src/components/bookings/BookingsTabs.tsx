@@ -93,6 +93,8 @@ interface Props {
 	title: any;
 	onRowClick?: Function;
 	allowRowClick?: boolean;
+	searchParams?: any;
+	setSearchParams?: any;
 }
 
 export const BookingsTabs: React.FC<Props> = ({
@@ -101,12 +103,25 @@ export const BookingsTabs: React.FC<Props> = ({
 	title,
 	onRowClick,
 	allowRowClick = true,
+	searchParams,
+	setSearchParams,
 }) => {
 	const [value, setValue] = useState('1');
-	let [searchParams, setSearchParams] = useSearchParams();
 
 	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
 		setValue(newValue);
+		if (newValue === '1') {
+			setSearchParams({ tabStatus: 'all' });
+		}
+		if (newValue === '2') {
+			setSearchParams({ tabStatus: 'active' });
+		}
+		if (newValue === '3') {
+			setSearchParams({ tabStatus: 'completed' });
+		}
+		if (newValue === '4') {
+			setSearchParams({ tabStatus: 'canceled' });
+		}
 	};
 	//Date filter
 	useEffect(() => {

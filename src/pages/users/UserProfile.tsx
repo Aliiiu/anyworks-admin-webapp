@@ -4,7 +4,7 @@ import { ProfileInfo } from 'src/components/common';
 import { BookingsTabs } from 'src/components/bookings';
 import arrowLeft from 'src/assets/images/common/arrowLeft.svg';
 import { theme } from 'src/styles/Theme';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import { BookingStatus } from 'src/components/bookings';
 import { useNavigate } from 'react-router-dom';
@@ -100,9 +100,12 @@ const UserProfile = () => {
 				.then((res) => setUserBookings(res?.data?.payload?.data))
 				.catch((err) => console.error(err.response));
 	}, [id]);
+	let [searchParams, setSearchParams] = useSearchParams();
 
 	const handleNavigate = (booking_id: string) => {
-		navigate(`/bookings/${booking_id}`);
+		navigate(
+			`/bookings/${booking_id}?tabStatus=${searchParams.get('tabStatus')}`
+		);
 	};
 	const BookingsTableHeaders = [
 		{
@@ -156,6 +159,8 @@ const UserProfile = () => {
 					BookingsTableHeaders={BookingsTableHeaders}
 					title={<h1 className='title'>Bookings</h1>}
 					onRowClick={handleNavigate}
+					searchParams={searchParams}
+					setSearchParams={setSearchParams}
 				/>
 			</UserProfileContainer>
 		</DashboardLayout>

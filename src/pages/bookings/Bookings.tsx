@@ -6,7 +6,7 @@ import searchIcon from 'src/assets/images/input/searchIcon.svg';
 import React, { useEffect, useState } from 'react';
 import { Flex } from 'src/components/ui';
 import { BookingStatus } from 'src/components/bookings';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { formatDateDmy } from 'src/utils/helpers';
 import bookingAdminService from 'src/service/BookingAdmin';
 import { useLoading } from 'src/hooks';
@@ -110,8 +110,10 @@ const BookingsPage = () => {
 		setSearchField(e.target.value);
 	};
 
+	let [searchParams, setSearchParams] = useSearchParams();
+
 	const handleNavigate = (id: string) => {
-		navigate(`/bookings/${id}`);
+		navigate(`/bookings/${id}?tabStatus=${searchParams.get('tabStatus')}`);
 	};
 
 	const BookingsTableHeaders = [
@@ -183,6 +185,8 @@ const BookingsPage = () => {
 							</p>
 						}
 						onRowClick={handleNavigate}
+						searchParams={searchParams}
+						setSearchParams={setSearchParams}
 					/>
 				) : (
 					<p className='table-entry-status'>No Bookings Found</p>

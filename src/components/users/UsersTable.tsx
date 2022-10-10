@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Flex, Table, ActionMenu } from 'src/components/ui';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SendNotificationModal, SendMailModal } from 'src/components/users';
 import { usePagination } from 'src/hooks/usePagination';
 
@@ -35,7 +35,7 @@ export const UsersTable = ({ rows }: Props) => {
 	const navigate = useNavigate();
 
 	const handleNavigate = (id: string) => {
-		navigate(`/users/${id}`);
+		navigate(`/users/${id}?tabStatus=all`);
 	};
 
 	const [allowRowClick, setAllowRowClick] = useState(true);

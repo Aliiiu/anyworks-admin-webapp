@@ -119,7 +119,6 @@ const Dashboard = () => {
 			key: 'Total Wallet ',
 			img: wallet,
 			color: theme.colors.cyan,
-			href: '#',
 		},
 		{
 			count: metricData.pending_kyc,
