@@ -127,7 +127,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<Input
 							style={{ background: '#F2F4F7' }}
 							// value={artisanKyc?.artisan?.call_out_fee}
-							defaultValue={'2500'}
+							defaultValue={artisanKyc?.artisan?.call_out_fee || ''}
 						/>
 					</Flex>
 				</Flex>
