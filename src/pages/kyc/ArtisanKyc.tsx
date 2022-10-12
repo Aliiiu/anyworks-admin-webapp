@@ -72,18 +72,20 @@ const ArtisanKyc = () => {
 	let navigate = useNavigate();
 	const handleApproveKyc = () => {
 		startApprovingKyc();
-		KycData.approveRejectKyc({ reason: '' }, artisan_id || '', 'approve')
-			.then((res) => {
-				handleConfirmApproveKycModalClose();
-				setTimeout(() => handleOpen(), 1000);
-			})
-			.catch((err) => {
-				toast.error(err.response.data.error.message);
-			})
-			.finally(() => {
-				stopApprovingKyc();
-				navigate('/user');
-			});
+		artisan_id &&
+			KycData.approveRejectKyc({ reason: '' }, artisan_id, 'approve')
+				.then((res) => {
+					console.log(res.data);
+					handleConfirmApproveKycModalClose();
+					setTimeout(() => handleOpen(), 1000);
+				})
+				.catch((err) => {
+					toast.error(err.response.data.error.message);
+				})
+				.finally(() => {
+					stopApprovingKyc();
+					navigate('/artisans');
+				});
 	};
 
 	const {
@@ -94,22 +96,24 @@ const ArtisanKyc = () => {
 
 	const handleRejectKyc = () => {
 		startRejectingKyc();
-		KycData.approveRejectKyc(
-			{ reason: rejectionReason },
-			artisan_id || '',
-			'reject'
-		)
-			.then((res) => {
-				toast.success(res?.data?.message || []);
-				handleRejectClose();
-			})
-			.catch((err) => {
-				toast.error(err.response.data.error.message);
-			})
-			.finally(() => {
-				stopRejectingKyc();
-				navigate('user');
-			});
+		artisan_id &&
+			KycData.approveRejectKyc(
+				{ reason: rejectionReason },
+				artisan_id,
+				'reject'
+			)
+				.then((res) => {
+					console.log(res.data);
+					toast.success(res?.data?.message || []);
+					handleRejectClose();
+				})
+				.catch((err) => {
+					toast.error(err.response.data.error.message);
+				})
+				.finally(() => {
+					stopRejectingKyc();
+					navigate('/kyc');
+				});
 	};
 
 	return (

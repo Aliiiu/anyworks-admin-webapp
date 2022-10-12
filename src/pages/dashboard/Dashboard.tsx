@@ -21,7 +21,7 @@ import { formatTime } from 'src/utils';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
 
-const DashboardContainer = styled.div`
+export const DashboardContainer = styled.div`
 	.metrics__cards {
 		margin: 2rem 0;
 	}

@@ -47,7 +47,7 @@ export const ProfileInfoContainer = styled.div`
 	}
 `;
 
-export const ProfileInfo: FC<{ userDetails?: UsersDetailsType }> = ({
+export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 	userDetails,
 }) => {
 	const [openSendNotificationModal, setOpenSendNotificationModal] =
@@ -75,6 +75,7 @@ export const ProfileInfo: FC<{ userDetails?: UsersDetailsType }> = ({
 			</div>
 			<SendMailModal
 				open={openSendMailModal}
+				userEmail={userDetails.email}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
@@ -89,10 +90,16 @@ export const ProfileInfo: FC<{ userDetails?: UsersDetailsType }> = ({
 							<a href='tel:+2348110658901'>
 								<img src={phone} alt='phone' />
 							</a>
-							<button onClick={() => handleOpenMailModal()}>
+							<button
+								style={{ cursor: 'pointer' }}
+								onClick={() => handleOpenMailModal()}
+							>
 								<img src={mail} alt='mail' />
 							</button>
-							<button onClick={handleOpenNotificationModal}>
+							<button
+								style={{ cursor: 'pointer' }}
+								onClick={handleOpenNotificationModal}
+							>
 								<img src={chat} alt='chat' />
 							</button>
 						</Flex>

@@ -146,7 +146,19 @@ export const BookingsTabs: React.FC<Props> = ({
 	const startDate = state[0]?.startDate;
 	const endDate = state[0]?.endDate;
 
-	const dateFilteredData = rows.filter((a: BookingsTypes) => {
+	const tabData = (status: string) => {
+		if (status !== 'all') {
+			return rows.filter((data) => {
+				return data.status?.toLowerCase().includes(status.toLowerCase() || '');
+			});
+		} else {
+			return rows;
+		}
+	};
+
+	const AllDateFilteredData = tabData(
+		searchParams.get('tabStatus') || ''
+	).filter((a: BookingsTypes) => {
 		const date = new Date(a.createdAt);
 		return date >= startDate && date <= endDate;
 	});
@@ -154,18 +166,18 @@ export const BookingsTabs: React.FC<Props> = ({
 	const { page, limit, Pagination } = usePagination({
 		page: 1,
 		limit: 10,
-		total: dateFilteredData.length,
+		total: AllDateFilteredData.length,
 	});
-	const paginatedRows = dateFilteredData.slice(
+	const paginatedRows = AllDateFilteredData.slice(
 		(page - 1) * limit,
 		page * limit
 	);
 
-	const tabData = (status: string) => {
-		return paginatedRows.filter((data) => {
-			return data.status.toLowerCase().includes(status.toLowerCase());
-		});
-	};
+	// const tabData = (status: string) => {
+	// 	return paginatedRows.filter((data) => {
+	// 		return data.status.toLowerCase().includes(status.toLowerCase());
+	// 	});
+	// };
 
 	return (
 		<BookingsContainer>
@@ -213,10 +225,10 @@ export const BookingsTabs: React.FC<Props> = ({
 							)}
 						</TabPanel>
 						<TabPanel value='2'>
-							{tabData('active').length > 0 ? (
+							{paginatedRows.length > 0 ? (
 								<>
 									<Table
-										rows={tabData('active')}
+										rows={paginatedRows}
 										headers={BookingsTableHeaders}
 										showHead={true}
 										allowRowClick={allowRowClick}
@@ -229,10 +241,10 @@ export const BookingsTabs: React.FC<Props> = ({
 							)}
 						</TabPanel>
 						<TabPanel value='3'>
-							{tabData('completed').length > 0 ? (
+							{paginatedRows.length > 0 ? (
 								<>
 									<Table
-										rows={tabData('completed')}
+										rows={paginatedRows}
 										headers={BookingsTableHeaders}
 										showHead={true}
 										allowRowClick={allowRowClick}
@@ -246,10 +258,10 @@ export const BookingsTabs: React.FC<Props> = ({
 							)}
 						</TabPanel>
 						<TabPanel value='4'>
-							{tabData('canceled').length > 0 ? (
+							{paginatedRows.length > 0 ? (
 								<>
 									<Table
-										rows={tabData('canceled')}
+										rows={paginatedRows}
 										headers={BookingsTableHeaders}
 										showHead={true}
 										allowRowClick={allowRowClick}

@@ -80,7 +80,7 @@ const UserProfile = () => {
 		userServices
 			.getUser(id)
 			.then((res: any) => {
-				setUserDetails(res.data.payload.data);
+				setUserDetails(res?.data?.payload?.data);
 				// res.data.payload.data && setAdminEntry(res.data.payload.data);
 			})
 			.catch((err: any) => {

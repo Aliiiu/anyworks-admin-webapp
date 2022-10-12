@@ -52,6 +52,12 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			activeIcon: adminActiveIcon,
 		},
 		{
+			text: 'Others',
+			url: '/others',
+			icon: dashboardIcon,
+			activeIcon: dashboardActiveIcon,
+		},
+		{
 			text: 'Settings',
 			url: '/settings',
 			icon: settingsIcon,

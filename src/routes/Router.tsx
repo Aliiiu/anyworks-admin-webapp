@@ -16,6 +16,7 @@ import BookingDetailsPage from 'src/pages/bookings/BookingDetails';
 import Artisan from 'src/pages/artisans/Artisan';
 import ArtisansProfile from 'src/pages/artisans/ArtisansProfile';
 import PrivateRoute from './PrivateRoute';
+import Occupation from 'src/pages/occupation/Occupation';
 
 const Router = () => {
 	return (
@@ -128,14 +129,14 @@ const Router = () => {
 					</PrivateRoute>
 				}
 			/>
-			{/* <Route
-					path=':tabStatus'
-					element={
-						<PrivateRoute>
-							<BookingsPage />
-						</PrivateRoute>
-					}
-				/> */}
+			<Route
+				path='/others'
+				element={
+					<PrivateRoute>
+						<Occupation />
+					</PrivateRoute>
+				}
+			/>
 		</Routes>
 	);
 };
