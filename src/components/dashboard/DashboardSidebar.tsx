@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { DASHBOARD_SIDEBAR_DATA } from 'src/constants';
@@ -9,6 +9,7 @@ import { Button, ButtonClass } from 'src/components/ui';
 import logoutIcon from 'src/assets/images/header/logout.svg';
 import { useNavigate } from 'react-router';
 import { logout } from 'src/utils/AuthUtils';
+import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 
 const DashboardSidebarContainer = styled.div`
 	position: fixed;
@@ -117,6 +118,11 @@ const DashboardSidebarContainer = styled.div`
 					summary {
 						list-style: none;
 						cursor: pointer;
+						.arrow-icon {
+							width: 5px;
+							height: 5px;
+							background-color: purple;
+						}
 					}
 
 					li {
@@ -126,10 +132,21 @@ const DashboardSidebarContainer = styled.div`
 							width: 100%;
 							height: 2rem;
 							align-items: center;
+							margin-left: 20px;
 							padding: 8px 8px 8px 70px;
-							font-size: small;
+							font-weight: 500;
+							font-size: 15px;
+							line-height: 30px;
+							letter-spacing: 0.44px;
 							transition: all 0.5s ease-out;
-							color: ${(props) => props.theme.colors.text_05};
+							border-left: 7px solid ${(props) => props.theme.colors.white};
+							color: ${(props) => props.theme.colors.text_04};
+							.sublink_nav {
+								width: 15px;
+								height: 15px;
+								border-radius: 50%;
+								border: 1px solid #828282;
+							}
 						}
 
 						&:hover {
@@ -138,8 +155,7 @@ const DashboardSidebarContainer = styled.div`
 
 						&.isActiveSubNav {
 							.DashboardSidebar__subnav__link {
-								color: ${(props) => props.theme.colors.primaryColor};
-								font-weight: bold;
+								color: ${(props) => props.theme.colors.black};
 							}
 						}
 					}
@@ -178,6 +194,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 }) => {
 	const location = useLocation();
 	const navigate = useNavigate();
+	const [open, setOpen] = useState(false);
 
 	const mapSidebarNav = (nav: any, index: any) => {
 		const { sublinks = [] } = nav || {};
@@ -189,7 +206,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 		if (sublinks.length) {
 			return (
 				<li key={nav.text} className={clsx({ isActiveNav })}>
-					<details>
+					<details onClick={() => setOpen((prevState) => !prevState)}>
 						<summary>
 							<i
 								style={{
@@ -199,6 +216,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 								}}
 							/>
 							<span>{nav.text}</span>
+							{open ? <IoIosArrowDown /> : <IoIosArrowForward />}
 						</summary>
 
 						<ul>
@@ -210,6 +228,14 @@ export const DashboardSidebar: React.FC<Props> = ({
 											to={subnav.url}
 											className='DashboardSidebar__subnav__link'
 										>
+											<div
+												style={{
+													background: `${
+														isActiveSubNav ? '#7E00C4' : 'transparent'
+													}`,
+												}}
+												className='sublink_nav'
+											></div>
 											{subnav.text}
 										</Link>
 									</li>
@@ -248,7 +274,6 @@ export const DashboardSidebar: React.FC<Props> = ({
 				toggleSidebar={toggleSidebar}
 				showOnDesktop
 			/>
-
 			<nav className='DashboardSidebar__nav'>
 				<ul>{DASHBOARD_SIDEBAR_DATA().map(mapSidebarNav)}</ul>
 				<div className='logout__btn'>

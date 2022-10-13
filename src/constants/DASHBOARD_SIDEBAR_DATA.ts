@@ -55,6 +55,16 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			text: 'Others',
 			url: '/others',
 			icon: dashboardIcon,
+			sublinks: [
+				{
+					text: 'Banks',
+					url: '/banks',
+				},
+				{
+					text: 'Occupations',
+					url: '/occupations',
+				},
+			],
 			activeIcon: dashboardActiveIcon,
 		},
 		{

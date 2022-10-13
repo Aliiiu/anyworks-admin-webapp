@@ -16,7 +16,8 @@ import BookingDetailsPage from 'src/pages/bookings/BookingDetails';
 import Artisan from 'src/pages/artisans/Artisan';
 import ArtisansProfile from 'src/pages/artisans/ArtisansProfile';
 import PrivateRoute from './PrivateRoute';
-import Occupation from 'src/pages/occupation/Occupation';
+import Occupation from 'src/pages/Others/Occupation';
+import Banks from 'src/pages/Others/Banks';
 
 const Router = () => {
 	return (
@@ -130,7 +131,23 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/others'
+				path='/banks'
+				element={
+					<PrivateRoute>
+						<Banks />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/occupations'
+				element={
+					<PrivateRoute>
+						<Occupation />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/banks'
 				element={
 					<PrivateRoute>
 						<Occupation />

@@ -11,25 +11,25 @@ import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
 import BankTable from 'src/components/Others/BankTable';
 import OccupationTable from 'src/components/Others/OccupationTable';
+import { RhsHeading } from '../admin/Admin';
+import AddOccupationModal from 'src/components/Others/AddOccupationModal';
 
 type Props = {};
 
 const Occupation = (props: Props) => {
 	const [occupations, setOccupation] = useState([]);
-	const [banks, setBanks] = useState([]);
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+	const [searchField, setSearchField] = useState('');
 
 	const {
 		loading: fetchingOccupation,
 		startLoading: startFetchingOccupation,
 		stopLoading: stopFetchingOccupation,
 	} = useLoading();
-	const {
-		loading: fetchingBanks,
-		startLoading: startFetchingBanks,
-		stopLoading: stopFetchingBanks,
-	} = useLoading();
 
-	useEffect(() => {
+	const fetchAllOccupations = () => {
 		startFetchingOccupation();
 		miscService
 			.getOccupations()
@@ -39,56 +39,39 @@ const Occupation = (props: Props) => {
 			})
 			.catch((err) => console.log(err.response))
 			.finally(() => stopFetchingOccupation());
-	}, []);
+	};
+
 	useEffect(() => {
-		startFetchingBanks();
-		miscService
-			.getBanks()
-			.then((res) => {
-				// console.log(res?.data?.payload?.data);
-				setBanks(res?.data?.payload.data);
-			})
-			.catch((err) => console.log(err.response))
-			.finally(() => stopFetchingBanks());
+		fetchAllOccupations();
 	}, []);
-	const otherMetrics = [
-		{
-			count: occupations.length,
-			key: 'Total Occupations',
-			img: user,
-			color: theme.colors.purple,
-		},
-		{
-			count: banks.length,
-			key: 'Total Banks',
-			img: artisan,
-			color: theme.colors.blue,
-		},
-	];
+	const handleChange = (e: any) => {
+		setSearchField(e.target.value);
+	};
+
+	const filteredData = occupations.filter((data: any) => {
+		return data.name.toLowerCase().includes(searchField.toLowerCase());
+	});
+
 	return (
-		<DashboardLayout pageTitle='Dashboard'>
+		<DashboardLayout
+			pageTitle='Occupations'
+			rhsHeading={
+				<RhsHeading handleChange={handleChange} handleOpen={handleOpen} />
+			}
+		>
 			<DashboardContainer>
 				<ToastContainer />
-				<div className='metrics__cards'>
-					<Flex wrap='wrap' gap='1.5rem'>
-						{otherMetrics.map((metric) => {
-							return <MetricsCard key={metric.key} metric={metric} />;
-						})}
-					</Flex>
-				</div>
-				{/* {fetchingOccupation ? (
+				<AddOccupationModal
+					open={open}
+					fetchAdmins={fetchAllOccupations}
+					handleClose={handleClose}
+				/>
+				{fetchingOccupation ? (
 					<div className='loader-container'>
 						<ScaleLoader color='#7E00C4' height={50} width={8} />
 					</div>
 				) : (
-					<OccupationTable rows={occupations} />
-				)} */}
-				{fetchingBanks ? (
-					<div className='loader-container'>
-						<ScaleLoader color='#7E00C4' height={50} width={8} />
-					</div>
-				) : (
-					<BankTable rows={banks} />
+					<OccupationTable rows={filteredData} />
 				)}
 			</DashboardContainer>
 		</DashboardLayout>

@@ -8,7 +8,7 @@ type Props = { rows: any };
 const OccupationTable = ({ rows }: Props) => {
 	const AdminTableHeaders = [
 		// { title: 'ID', render: (row: any) => `${row.id}` },
-		{ title: 'Bank Name', render: (row: any) => `${row.name}` },
+		{ title: 'Occupations', render: (row: any) => `${row.name}` },
 	];
 	const { page, limit, Pagination } = usePagination({
 		page: 1,
@@ -20,7 +20,7 @@ const OccupationTable = ({ rows }: Props) => {
 	return (
 		<AdminTableContainer>
 			<div className='heading'>
-				<p className='count'>{rows.length} Banks</p>
+				<p className='count'>{rows.length} Occupations</p>
 			</div>
 			<Table rows={paginatedRows} headers={AdminTableHeaders} showHead={true} />
 			<Pagination />
