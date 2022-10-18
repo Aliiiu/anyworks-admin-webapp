@@ -7,6 +7,7 @@ import chat from 'src/assets/images/profile/chat.svg';
 import { FC, useState } from 'react';
 import SendMailModal from '../users/SendMailModal';
 import { SendNotificationModal } from '../users/SendNotificationModal';
+import avatar from '../../assets/images/header/avatar.svg';
 
 export const ProfileInfoContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -75,7 +76,7 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 			</div>
 			<SendMailModal
 				open={openSendMailModal}
-				userEmail={userDetails.email}
+				userEmail={userDetails.email || ''}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
@@ -85,7 +86,11 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 			<Flex gap='2rem' wrap='wrap'>
 				<div className='profile-info--lhs'>
 					<Flex direction='column' align='center' gap='1.5rem'>
-						<img src={userDetails?.display_picture} alt='dp' className='dp' />
+						<img
+							src={userDetails?.display_picture || avatar}
+							alt='dp'
+							className='dp'
+						/>
 						<Flex gap='1.5rem'>
 							<a href='tel:+2348110658901'>
 								<img src={phone} alt='phone' />
@@ -108,36 +113,40 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 				<div className='profile-info--rhs'>
 					<Flex direction='column' gap='1.5rem'>
 						<h3 className='name'>
-							{userDetails?.first_name} {userDetails?.last_name}
+							{userDetails?.first_name || ''} {userDetails?.last_name || ''}
 						</h3>
 						<div className='details'>
 							<table>
 								<tbody>
 									<tr>
 										<td className='text key'>Email</td>
-										<td className='text value'>{userDetails?.email}</td>
+										<td className='text value'>{userDetails?.email || ''}</td>
 									</tr>
 									<tr>
 										<td className='text key'>Phone number</td>
-										<td className='text value'>{userDetails?.phone}</td>
+										<td className='text value'>{userDetails?.phone || ''}</td>
 									</tr>
 									<tr>
 										<td className='text key'>Address</td>
 										<td className='text value'>
-											{userDetails?.address.house_address}
+											{userDetails?.address?.house_address || ''}
 										</td>
 									</tr>
 									<tr>
 										<td className='text key'>City</td>
-										<td className='text value'>{userDetails?.address.city}</td>
+										<td className='text value'>
+											{userDetails?.address?.city || ''}
+										</td>
 									</tr>
 									<tr>
 										<td className='text key'>State</td>
-										<td className='text value'>{userDetails?.address.state}</td>
+										<td className='text value'>
+											{userDetails?.address?.state || ''}
+										</td>
 									</tr>
 									<tr>
 										<td className='text key'>Rating</td>
-										<td className='text value'>{userDetails?.rating}</td>
+										<td className='text value'>{userDetails?.rating || ''}</td>
 									</tr>
 								</tbody>
 							</table>

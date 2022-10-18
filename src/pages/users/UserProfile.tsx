@@ -16,6 +16,7 @@ import { ScaleLoader } from 'react-spinners';
 import bookingAdminService from 'src/service/BookingAdmin';
 import { initialBookingState } from '../bookings/BookingDetails';
 import { toast, ToastContainer } from 'react-toastify';
+import avatar from '../../assets/images/header/avatar.svg';
 
 const UserProfileContainer = styled.div`
 	.loader-container {
@@ -114,34 +115,42 @@ const UserProfile = () => {
 				<Flex gap='10px' align='center'>
 					<img
 						style={{ width: '40px', height: 40, borderRadius: '50%' }}
-						src={row.artisan_meta.display_picture}
+						src={row?.artisan_meta?.display_picture || avatar}
 						alt=''
 					/>{' '}
-					{row.artisan_meta.first_name} {row.artisan_meta.last_name}
+					{row?.artisan_meta?.first_name || ''}{' '}
+					{row?.artisan_meta?.last_name || ''}
 				</Flex>
 			),
 		},
-		{ title: 'Service', render: (row: BookingsTypes) => `${row.service}` },
+		{
+			title: 'Service',
+			render: (row: BookingsTypes) => `${row?.service || ''}`,
+		},
 		{
 			title: 'Location',
 			render: (row: BookingsTypes) =>
-				`${row.artisan_meta.address.house_address} ${row.artisan_meta.address.city} ${row.artisan_meta.address.state}`,
+				`${row?.artisan_meta?.address?.house_address || ''} ${
+					row?.artisan_meta?.address?.city || ''
+				} ${row?.artisan_meta?.address?.state || ''}`,
 		},
 		{
 			title: 'Date',
-			render: (row: BookingsTypes) => formatDateDmy(row.createdAt),
+			render: (row: BookingsTypes) => formatDateDmy(row?.createdAt || ''),
 		},
 		{
 			title: 'Status',
-			render: (row: BookingsTypes) => <BookingStatus status={row['status']} />,
+			render: (row: BookingsTypes) => (
+				<BookingStatus status={row['status'] || ''} />
+			),
 		},
 	];
 
 	return (
 		<DashboardLayout
 			pageTitle={
-				userDetails.first_name &&
-				`${userDetails.first_name} ${userDetails.last_name}’s Profile`
+				userDetails?.first_name &&
+				`${userDetails?.first_name} ${userDetails?.last_name}’s Profile`
 			}
 			rhsHeading={<RhsHeading />}
 		>

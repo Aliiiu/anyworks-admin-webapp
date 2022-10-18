@@ -61,9 +61,9 @@ const Users = () => {
 
 	const filteredData = usersList.filter((data) => {
 		return (
-			data.first_name.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.last_name.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.email.toLowerCase().includes(searchField.toLowerCase())
+			data?.first_name?.toLowerCase().includes(searchField.toLowerCase()) ||
+			data?.last_name?.toLowerCase().includes(searchField.toLowerCase()) ||
+			data?.email?.toLowerCase().includes(searchField.toLowerCase())
 		);
 	});
 

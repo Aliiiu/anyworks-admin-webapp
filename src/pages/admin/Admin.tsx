@@ -28,9 +28,14 @@ const AdminContainer = styled.div`
 interface Props {
 	handleOpen: (e: any) => void;
 	handleChange: (e: any) => void;
+	action?: string;
 }
 
-export const RhsHeading: React.FC<Props> = ({ handleChange, handleOpen }) => (
+export const RhsHeading: React.FC<Props> = ({
+	handleChange,
+	handleOpen,
+	action,
+}) => (
 	<Flex wrap='wrap'>
 		<Input
 			icon={<img src={searchIcon} alt='searchIcon' />}
@@ -45,7 +50,7 @@ export const RhsHeading: React.FC<Props> = ({ handleChange, handleOpen }) => (
 			style={{ backgroundColor: theme.colors.purple, height: '48px' }}
 		>
 			<img src={addIcon} alt='plus' width={24} height='24px' />
-			<span>Add new admin</span>
+			<span>Add new {action ? action : 'admin'}</span>
 		</Button>
 	</Flex>
 );

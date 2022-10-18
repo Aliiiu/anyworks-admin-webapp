@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { DashboardLayout, MetricsCard } from 'src/components/dashboard';
-import { Flex } from 'src/components/ui';
-import { theme } from 'src/styles/Theme';
 import { DashboardContainer } from '../dashboard/Dashboard';
 import user from 'src/assets/images/metrics/user.svg';
 import artisan from 'src/assets/images/metrics/artisan.svg';
@@ -56,7 +54,11 @@ const Occupation = (props: Props) => {
 		<DashboardLayout
 			pageTitle='Occupations'
 			rhsHeading={
-				<RhsHeading handleChange={handleChange} handleOpen={handleOpen} />
+				<RhsHeading
+					handleChange={handleChange}
+					handleOpen={handleOpen}
+					action='Occupation'
+				/>
 			}
 		>
 			<DashboardContainer>
