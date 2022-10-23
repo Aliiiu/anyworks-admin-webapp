@@ -33,7 +33,8 @@ interface Props {
 
 export const UsersTable = ({ rows }: Props) => {
 	const navigate = useNavigate();
-
+	const [userEmail, setUserEmail] = useState('');
+	const [userName, setUserName] = useState('');
 	const handleNavigate = (id: string) => {
 		navigate(`/users/${id}?tabStatus=all`);
 	};
@@ -48,7 +49,11 @@ export const UsersTable = ({ rows }: Props) => {
 		setOpenSendNotificationModal(false);
 
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
-	const handleOpenSendMailModal = () => setOpenSendMailModal(true);
+	const handleOpenSendMailModal = (email: string, name: string) => {
+		setUserEmail(email);
+		setUserName(name);
+		setOpenSendMailModal(true);
+	};
 	const handleCloseSendMailModal = () => setOpenSendMailModal(false);
 
 	const UsersTableHeaders = [
@@ -85,8 +90,7 @@ export const UsersTable = ({ rows }: Props) => {
 						{
 							title: 'Send email',
 							onClick: () => {
-								console.log('email modal');
-								handleOpenSendMailModal();
+								handleOpenSendMailModal(row.email, row.first_name);
 							},
 						},
 						{
@@ -115,6 +119,8 @@ export const UsersTable = ({ rows }: Props) => {
 			</div>
 			<SendMailModal
 				open={openSendMailModal}
+				userEmail={userEmail}
+				user={userName}
 				handleClose={handleCloseSendMailModal}
 			/>
 			<SendNotificationModal

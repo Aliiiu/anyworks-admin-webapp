@@ -9,6 +9,8 @@ import closeIcon from 'src/assets/images/common/closeIcon.svg';
 import imagePreview from 'src/assets/images/modal/imagePreview.svg';
 import attach from 'src/assets/images/modal/attach.svg';
 import { theme } from 'src/styles/Theme';
+import { AdminServices } from 'src/service/AdminServices';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Wrapper = styled.div`
 	.heading {
@@ -81,6 +83,11 @@ const Wrapper = styled.div`
 				cursor: pointer;
 			}
 		}
+		.error {
+			font-weight: 200;
+			color: red;
+			margin-top: 3px;
+		}
 	}
 `;
 const style = {
@@ -99,10 +106,67 @@ const style = {
 export const SendMailModal: React.FC<{
 	open: boolean;
 	userEmail?: string;
+	user?: string;
 	handleClose: () => void;
-}> = ({ open, handleClose, userEmail }) => {
+}> = ({ open, handleClose, userEmail, user }) => {
+	const [isDisabled, setIsDisabled] = React.useState<boolean>(false);
+	const [mailPayload, setMailPayload] = React.useState({
+		subject: '',
+		body: '',
+		bodyError: '',
+		subjectError: '',
+	});
+
+	const handleSubjectChange = (e: any) => {
+		setMailPayload({
+			...mailPayload,
+			subject: e.target.value,
+			subjectError: '',
+		});
+	};
+
+	const handleBodyChange = (e: any) => {
+		setMailPayload({ ...mailPayload, body: e.target.value, bodyError: '' });
+	};
+
+	const submitHandler = (e: any) => {
+		e.preventDefault();
+		const { body, subject } = mailPayload;
+		let bodyError = '';
+		let subjectError = '';
+		if (!mailPayload.subject) {
+			subjectError = 'Please Enter a Subject';
+		}
+		if (!mailPayload.body) {
+			bodyError = 'Please enter a the message';
+		}
+		if (bodyError || subjectError) {
+			setMailPayload({ ...mailPayload, bodyError, subjectError });
+		} else {
+			if (isDisabled) {
+				return;
+			}
+			setIsDisabled(true);
+			AdminServices.sendMail({
+				body: body,
+				subject,
+				email: userEmail,
+				salutation: `Hello ${user}`,
+			})
+				.then((res) => {
+					console.log(res?.data);
+					toast.success(res?.data?.message);
+				})
+				.catch((err) => console.log(err?.response))
+				.finally(() => {
+					setIsDisabled(false);
+					setMailPayload({ ...mailPayload, subject: '', body: '' });
+				});
+		}
+	};
 	return (
 		<>
+			<ToastContainer />
 			<Modal
 				aria-labelledby='transition-modal-title'
 				aria-describedby='transition-modal-description'
@@ -131,15 +195,30 @@ export const SendMailModal: React.FC<{
 								<Flex direction='column'>
 									<div className='to'>
 										<p className='label'>To:</p>
-										<input type='text' value={userEmail} disabled />
+										<input type='text' value={userEmail || ''} disabled />
 									</div>
 									<div className='to'>
 										<p className='label'>Subject</p>
-										<input type='text' />
+										<input
+											type='text'
+											name='subject'
+											value={mailPayload.subject}
+											onChange={handleSubjectChange}
+										/>
+										{mailPayload.subjectError && (
+											<h6 className='error'>{mailPayload.subjectError}</h6>
+										)}
 									</div>
 									<div className='to'>
 										<p className='label'>Body</p>
-										<textarea />
+										<textarea
+											name='body'
+											value={mailPayload.body}
+											onChange={handleBodyChange}
+										/>
+										{mailPayload.bodyError && (
+											<h6 className='error'>{mailPayload.bodyError}</h6>
+										)}
 									</div>
 									<div className='button'>
 										<Flex justify='space-between'>
@@ -149,7 +228,9 @@ export const SendMailModal: React.FC<{
 											</Flex>
 											<div>
 												<Button
+													onClick={submitHandler}
 													classes={[ButtonClass.SOLID]}
+													disabled={isDisabled}
 													style={{ backgroundColor: theme.colors.purple }}
 												>
 													<span>Send message</span>

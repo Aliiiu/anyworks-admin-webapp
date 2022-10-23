@@ -1,67 +1,95 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Flex, Table } from 'src/components/ui'
-import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants'
+import React, { FC } from 'react';
+import styled from 'styled-components';
+import { Flex, Table } from 'src/components/ui';
+import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
+import { formatDateDmy, numberWithCommas } from 'src/utils';
 
 const RecentTransactionsTableContainer = styled.div`
-  background-color: ${(props) => props.theme.colors.white};
-  margin: 3rem 0;
-  border-radius: 16px;
-  padding: 20px 0;
-  .heading {
-    color: ${(props) => props.theme.colors.text_01};
-    padding: 0 20px;
+	background-color: ${(props) => props.theme.colors.white};
+	margin: 3rem 0;
+	border-radius: 16px;
+	padding: 20px 0;
+	.heading {
+		color: ${(props) => props.theme.colors.text_01};
+		padding: 0 20px;
 
-    .title {
-      font-weight: 600;
-      font-size: 22px;
-      line-height: 32px;
-    }
-    .info {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 24px;
-    }
-  }
-`
+		.title {
+			font-weight: 600;
+			font-size: 22px;
+			line-height: 32px;
+		}
+		.info {
+			font-weight: 500;
+			font-size: 14px;
+			line-height: 24px;
+		}
+	}
+	.table-empty-status {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100px;
+		font-weight: 700;
+		font-size: 24px;
+		font-style: italic;
+	}
+`;
 
 const RecentTransactionsTableHeaders = [
-  {
-    title: 'Sender',
-    render: (row: any) => (
-      <Flex gap="10px" align="center">
-        <img style={{ width: '40px' }} src={row.img} alt="" /> {row.artisan}
-      </Flex>
-    ),
-  },
-  { title: 'Amount', render: (row: any) => `${row.services}` },
-  {
-    title: 'Recipient',
-    render: (row: any) => (
-      <Flex gap="10px" align="center">
-        <img style={{ width: '40px' }} src={row.img} alt="" /> {row.user}
-      </Flex>
-    ),
-  },
-  { title: 'Date', render: (row: any) => `${row.time}` },
-  { title: 'Transaction', render: (row: any) => `${row.location}` },
-  { title: 'Status', render: (row: any) => `${row.status}` },
-]
+	{
+		title: 'Type',
+		render: (row: WalletTrnxTypes) => (
+			<Flex gap='10px' align='center'>
+				{' '}
+				{row?.type || ''}{' '}
+			</Flex>
+		),
+	},
+	{
+		title: 'Amount',
+		render: (row: WalletTrnxTypes) => `₦${numberWithCommas(row?.amount) || ''}`,
+	},
+	{
+		title: 'Date',
+		render: (row: WalletTrnxTypes) => `${formatDateDmy(row?.created_at) || ''}`,
+	},
+	{
+		title: 'Status',
+		render: (row: WalletTrnxTypes) => (
+			<p
+				style={{
+					color:
+						row?.transaction_details.status === 'success'
+							? '#00CCCD'
+							: '#FFAD4A',
+				}}
+			>
+				{row?.transaction_details?.status || ''}
+			</p>
+		),
+	},
+];
 
-export const RecentTransactionsTable = () => {
-  return (
-    <RecentTransactionsTableContainer>
-      <div className="heading">
-        <p className="title">Recent Transactions</p>
-        <p className="info">Transactions in the last 24 hours</p>
-      </div>
-      <Table
-        rows={RECENT_BOOKINGS_TABLE_DATA()}
-        headers={RecentTransactionsTableHeaders}
-        showHead={true}
-      />
-    </RecentTransactionsTableContainer>
-  )
-}
+export const RecentTransactionsTable: FC<{ rows: WalletTrnxTypes[] }> = ({
+	rows,
+}) => {
+	return (
+		<RecentTransactionsTableContainer>
+			<div className='heading'>
+				<p className='title'>Recent Transactions</p>
+				<p className='info'>Transactions in the last 24 hours</p>
+			</div>
+			{rows.length > 0 ? (
+				<Table
+					rows={rows}
+					headers={RecentTransactionsTableHeaders}
+					showHead={true}
+				/>
+			) : (
+				<h5 className='table-empty-status'> No recent Transaction</h5>
+			)}
+		</RecentTransactionsTableContainer>
+	);
+};
 
-export default RecentTransactionsTable
+export default RecentTransactionsTable;

@@ -10,6 +10,9 @@ export const AdminServices = {
 	addAdmin: async (data: any) => {
 		return adminServiceApi().post(`admin/v1/`, data);
 	},
+	sendMail: async (data: any) => {
+		return adminServiceApi().post(`admin/v1/notification/mail`, data);
+	},
 	suspendAdmin: async (admin_id: string, action: string) => {
 		return adminServiceApi().put(`admin/v1/${admin_id}/${action}`);
 	},

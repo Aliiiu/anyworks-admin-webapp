@@ -17,7 +17,7 @@ import { DashboardService } from 'src/service/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
 import bookingAdminService from 'src/service/BookingAdmin';
 import userServices from 'src/service/userServices';
-import { formatTime } from 'src/utils';
+import { formatTime, numberWithCommas } from 'src/utils';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
 
@@ -41,6 +41,15 @@ const initialBookingState: BookingMetricTypes = {
 	canceled_bookings: 0,
 	pending_bookings: 0,
 	total_bookings: 0,
+	completed_bookings: 0,
+};
+const initialWalletTrnxState: WalletTrnxTypes = {
+	created_at: '',
+	amount: 0,
+	type: '',
+	transaction_details: {
+		status: '',
+	},
 };
 
 const Dashboard = () => {
@@ -53,6 +62,9 @@ const Dashboard = () => {
 		useState<BookingMetricTypes>(initialBookingState);
 	const [totalUsers, setTotalUsers] = useState<number>(0);
 	const [recentBookings, setRecentBookings] = useState<BookingsTypes[]>([]);
+	const [recentWalletTrnx, setRecentWalletTrnx] = useState<WalletTrnxTypes[]>(
+		[]
+	);
 
 	useEffect(() => {
 		document.title = 'Dashboard';
@@ -81,6 +93,11 @@ const Dashboard = () => {
 	}, []);
 
 	const { loading, startLoading, stopLoading } = useLoading();
+	const {
+		loading: fetchRecentTrx,
+		startLoading: startFetchingTnx,
+		stopLoading: stopFetchingTnx,
+	} = useLoading();
 
 	useEffect(() => {
 		userServices
@@ -97,6 +114,15 @@ const Dashboard = () => {
 			})
 			.catch((err) => console.log(err.response))
 			.finally(() => stopLoading());
+	}, []);
+	useEffect(() => {
+		startFetchingTnx();
+		DashboardService.RecentWalletHistory()
+			.then((res) => {
+				setRecentWalletTrnx(res?.data?.payload?.data);
+			})
+			.catch((err) => console.log(err?.response?.data?.error?.message))
+			.finally(() => stopFetchingTnx());
 	}, []);
 
 	const metrics = [
@@ -115,7 +141,7 @@ const Dashboard = () => {
 			href: '/artisans',
 		},
 		{
-			count: `₦${metricData.total_balance}`,
+			count: `₦${numberWithCommas(metricData.total_balance)}`,
 			key: 'Total Wallet ',
 			img: wallet,
 			color: theme.colors.cyan,
@@ -155,6 +181,13 @@ const Dashboard = () => {
 			color: theme.colors.red,
 			href: '/bookings?tabStatus=canceled',
 		},
+		{
+			count: adminBookings.completed_bookings,
+			key: 'Completed Booking ',
+			img: booking,
+			color: theme.colors.purple,
+			href: '/bookings?tabStatus=completed',
+		},
 	];
 	return (
 		<DashboardLayout pageTitle='Dashboard'>
@@ -180,7 +213,13 @@ const Dashboard = () => {
 				) : (
 					<RecentBookingsTable rows={recentBookings} />
 				)}
-				<RecentTransactionsTable />
+				{fetchRecentTrx ? (
+					<div className='loader-container'>
+						<ScaleLoader color='#7E00C4' height={50} width={8} />
+					</div>
+				) : (
+					<RecentTransactionsTable rows={recentWalletTrnx} />
+				)}
 			</DashboardContainer>
 		</DashboardLayout>
 	);

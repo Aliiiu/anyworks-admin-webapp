@@ -21,7 +21,13 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 		setOpenSendNotificationModal(false);
 
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
-	const handleOpenMailModal = () => setOpenSendMailModal(true);
+	const [userEmail, setUserEmail] = useState('');
+	const [userName, setUserName] = useState('');
+	const handleOpenMailModal = (email: string, name: string) => {
+		setUserEmail(email);
+		setUserName(name);
+		setOpenSendMailModal(true);
+	};
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
 	const [selectedFilterValue, setSelectedFilterValue] = useState('all');
 
@@ -99,7 +105,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 						},
 						{
 							title: 'Send email',
-							onClick: () => handleOpenMailModal(),
+							onClick: () => handleOpenMailModal(row.email, row.first_name),
 						},
 						{
 							title: 'Send notification',
@@ -200,6 +206,8 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 
 			<SendMailModal
 				open={openSendMailModal}
+				userEmail={userEmail}
+				user={userName}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal

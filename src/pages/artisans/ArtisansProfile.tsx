@@ -14,7 +14,7 @@ import {
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import BookingStatus from 'src/components/bookings/BookingStatus';
 import WalletContainer from 'src/components/artisan/WalletContainer';
-import { formatDateDmy } from 'src/utils/helpers';
+import { formatDateDmy, numberWithCommas } from 'src/utils/helpers';
 import { ArtisansServices } from 'src/service/ArtisansServices';
 import { useEffect, useState } from 'react';
 import { StyledProfileHeader } from 'src/components/admin/admin-style';
@@ -203,7 +203,8 @@ const ArtisansProfile = () => {
 				</div>
 				<div className='wallet_summary'>
 					<div className='summary_details'>
-						<h5>Wallet Balance</h5> <h3> ₦{walletBal.balance}</h3>
+						<h5>Wallet Balance</h5>{' '}
+						<h3> ₦{numberWithCommas(walletBal.balance)}</h3>
 					</div>
 					<img src={bookingsIcon} alt='' width={55} height='55px' />
 				</div>

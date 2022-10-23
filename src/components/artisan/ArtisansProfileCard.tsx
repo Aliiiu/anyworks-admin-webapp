@@ -21,7 +21,13 @@ const ArtisansProfileCard = ({
 		setOpenSendNotificationModal(false);
 
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
-	const handleOpenMailModal = () => setOpenSendMailModal(true);
+	const [userEmail, setUserEmail] = useState('');
+	const [userName, setUserName] = useState('');
+	const handleOpenMailModal = (email: string, name: string) => {
+		setUserEmail(email);
+		setUserName(name);
+		setOpenSendMailModal(true);
+	};
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
 
 	return (
@@ -40,6 +46,8 @@ const ArtisansProfileCard = ({
 			</div>
 			<SendMailModal
 				open={openSendMailModal}
+				userEmail={userEmail}
+				user={userName}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
@@ -54,11 +62,18 @@ const ArtisansProfileCard = ({
 							<a href='tel:+2348110658901'>
 								<img src={phone} alt='phone' />
 							</a>
-							<button onClick={() => handleOpenMailModal()}>
-								<img src={mail} alt='mail' />
+							<button
+								onClick={() =>
+									handleOpenMailModal(
+										artisanDetails.email,
+										artisanDetails.first_name
+									)
+								}
+							>
+								<img style={{ cursor: 'pointer' }} src={mail} alt='mail' />
 							</button>
 							<button onClick={handleOpenNotificationModal}>
-								<img src={chat} alt='chat' />
+								<img style={{ cursor: 'pointer' }} src={chat} alt='chat' />
 							</button>
 						</Flex>
 					</Flex>
