@@ -52,6 +52,7 @@ const ArtisansProfileCard = ({
 			/>
 			<SendNotificationModal
 				open={openSendNotificationModal}
+				userId={[artisanDetails._id || '']}
 				handleClose={handleCloseNotificationModal}
 			/>
 			<Flex gap='2rem' wrap='wrap'>

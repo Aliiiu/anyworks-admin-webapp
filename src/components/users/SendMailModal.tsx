@@ -11,6 +11,9 @@ import attach from 'src/assets/images/modal/attach.svg';
 import { theme } from 'src/styles/Theme';
 import { AdminServices } from 'src/service/AdminServices';
 import { toast, ToastContainer } from 'react-toastify';
+import { Editor } from 'react-draft-wysiwyg';
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState } from 'draft-js';
 
 const Wrapper = styled.div`
 	.heading {
@@ -116,6 +119,7 @@ export const SendMailModal: React.FC<{
 		bodyError: '',
 		subjectError: '',
 	});
+	const [text, setText] = React.useState(() => EditorState.createEmpty());
 
 	const handleSubjectChange = (e: any) => {
 		setMailPayload({
@@ -125,8 +129,8 @@ export const SendMailModal: React.FC<{
 		});
 	};
 
-	const handleBodyChange = (e: any) => {
-		setMailPayload({ ...mailPayload, body: e.target.value, bodyError: '' });
+	const handleBodyChange = (newText: string) => {
+		setMailPayload({ ...mailPayload, body: newText, bodyError: '' });
 	};
 
 	const submitHandler = (e: any) => {
@@ -211,11 +215,44 @@ export const SendMailModal: React.FC<{
 									</div>
 									<div className='to'>
 										<p className='label'>Body</p>
-										<textarea
+										<Editor
+											editorState={text}
+											onEditorStateChange={setText}
+											wrapperClassName='wrapperClassName'
+											editorClassName='editorClassName'
+											toolbarClassName='toolbarClassName'
+											editorStyle={{
+												height: 200,
+												marginTop: 2,
+												borderWidth: 0.5,
+												padding: 5,
+												border: '1px solid #c0c0c0',
+												borderRadius: '8px',
+											}}
+											toolbar={{
+												options: [
+													'inline',
+													'blockType',
+													'fontSize',
+													'list',
+													'textAlign',
+												],
+												inline: { inDropdown: true },
+												blockType: { inDropdown: true },
+												fontSize: { inDropdown: true },
+												list: { inDropdown: true },
+												textAlign: { inDropdown: true },
+												colorPicker: { inDropdown: true },
+												embedded: { inDropdown: true },
+												remove: { inDropdown: true },
+												history: { inDropdown: true },
+											}}
+										/>
+										{/* <textarea
 											name='body'
 											value={mailPayload.body}
 											onChange={handleBodyChange}
-										/>
+										/> */}
 										{mailPayload.bodyError && (
 											<h6 className='error'>{mailPayload.bodyError}</h6>
 										)}

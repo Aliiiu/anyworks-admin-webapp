@@ -16,7 +16,11 @@ import { ArtisanTableContainer, PopupContainer } from './artisan-style';
 const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 	const [openSendNotificationModal, setOpenSendNotificationModal] =
 		useState(false);
-	const handleOpenNotificationModal = () => setOpenSendNotificationModal(true);
+	const [userId, setUserId] = useState<string[]>([]);
+	const handleOpenNotificationModal = (id: string) => {
+		setOpenSendNotificationModal(true);
+		setUserId((prevState: string[]) => [...prevState, id]);
+	};
 	const handleCloseNotificationModal = () =>
 		setOpenSendNotificationModal(false);
 
@@ -109,7 +113,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 						},
 						{
 							title: 'Send notification',
-							onClick: () => handleOpenNotificationModal(),
+							onClick: () => handleOpenNotificationModal(row._id),
 						},
 					]}
 				/>
@@ -212,6 +216,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 			/>
 			<SendNotificationModal
 				open={openSendNotificationModal}
+				userId={userId}
 				handleClose={handleCloseNotificationModal}
 			/>
 			<Table
