@@ -1,16 +1,13 @@
 import { ProfileInfoContainer } from '../common/ProfileInfo';
 import Flex from '../ui/Flex';
-import dp from 'src/assets/images/profile/dp.svg';
 import phone from 'src/assets/images/profile/phone.svg';
 import mail from 'src/assets/images/profile/mail.svg';
 import chat from 'src/assets/images/profile/chat.svg';
 import close from 'src/assets/images/common/close.svg';
 import { Button, ButtonClass } from '../ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SendMailModal from '../users/SendMailModal';
 import SendNotificationModal from '../users/SendNotificationModal';
-import { ArtisansServices } from 'src/service/ArtisansServices';
-import { useParams } from 'react-router';
 
 const ArtisansProfileCard = ({
 	artisanDetails,
@@ -24,7 +21,13 @@ const ArtisansProfileCard = ({
 		setOpenSendNotificationModal(false);
 
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
-	const handleOpenMailModal = () => setOpenSendMailModal(true);
+	const [userEmail, setUserEmail] = useState('');
+	const [userName, setUserName] = useState('');
+	const handleOpenMailModal = (email: string, name: string) => {
+		setUserEmail(email);
+		setUserName(name);
+		setOpenSendMailModal(true);
+	};
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
 
 	return (
@@ -43,10 +46,13 @@ const ArtisansProfileCard = ({
 			</div>
 			<SendMailModal
 				open={openSendMailModal}
+				userEmail={userEmail}
+				user={userName}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
 				open={openSendNotificationModal}
+				userId={[artisanDetails._id || '']}
 				handleClose={handleCloseNotificationModal}
 			/>
 			<Flex gap='2rem' wrap='wrap'>
@@ -57,11 +63,18 @@ const ArtisansProfileCard = ({
 							<a href='tel:+2348110658901'>
 								<img src={phone} alt='phone' />
 							</a>
-							<button onClick={() => handleOpenMailModal()}>
-								<img src={mail} alt='mail' />
+							<button
+								onClick={() =>
+									handleOpenMailModal(
+										artisanDetails.email,
+										artisanDetails.first_name
+									)
+								}
+							>
+								<img style={{ cursor: 'pointer' }} src={mail} alt='mail' />
 							</button>
 							<button onClick={handleOpenNotificationModal}>
-								<img src={chat} alt='chat' />
+								<img style={{ cursor: 'pointer' }} src={chat} alt='chat' />
 							</button>
 						</Flex>
 					</Flex>
@@ -118,6 +131,10 @@ const ArtisansProfileCard = ({
 									</tr>
 									<tr>
 										<td className='text key'>Rating</td>
+										<td className='text value'>{artisanDetails.rating}</td>
+									</tr>
+									<tr>
+										<td className='text key'>Profile Stage</td>
 										<td className='text value'>
 											{artisanDetails.profile_stage}
 										</td>

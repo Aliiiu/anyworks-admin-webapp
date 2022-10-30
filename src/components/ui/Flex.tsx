@@ -1,4 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+	@media (max-width: ${(props) => props.theme.breakpoint.sm}) {
+		display: flex;
+		flex-direction: column;
+	} ;
+`;
 
 interface Props {
 	children?: any;
@@ -27,7 +35,7 @@ export const Flex: React.FC<Props> = ({
 	...rest
 }) => {
 	return (
-		<div
+		<StyledDiv
 			onClick={onclick}
 			style={{
 				display: 'flex',
@@ -43,7 +51,7 @@ export const Flex: React.FC<Props> = ({
 			className={className}
 		>
 			{children}
-		</div>
+		</StyledDiv>
 	);
 };
 

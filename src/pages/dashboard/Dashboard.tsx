@@ -13,15 +13,44 @@ import kyc from 'src/assets/images/metrics/kyc.svg';
 import booking from 'src/assets/images/metrics/booking.svg';
 import { Flex } from 'src/components/ui';
 import { theme } from 'src/styles/Theme';
-import KycData from 'src/service/KycData';
 import { DashboardService } from 'src/service/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
+import bookingAdminService from 'src/service/BookingAdmin';
+import userServices from 'src/service/userServices';
+import { formatTime, numberWithCommas } from 'src/utils';
+import { ScaleLoader } from 'react-spinners';
+import { useLoading } from 'src/hooks';
 
-const DashboardContainer = styled.div`
+export const DashboardContainer = styled.div`
 	.metrics__cards {
 		margin: 2rem 0;
 	}
+	.loader-container {
+		border-radius: 16px;
+		background: #ffffff;
+		height: 300px;
+		margin-top: 36px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 `;
+
+const initialBookingState: BookingMetricTypes = {
+	active_bookings: 0,
+	canceled_bookings: 0,
+	pending_bookings: 0,
+	total_bookings: 0,
+	completed_bookings: 0,
+};
+const initialWalletTrnxState: WalletTrnxTypes = {
+	created_at: '',
+	amount: 0,
+	type: '',
+	transaction_details: {
+		status: '',
+	},
+};
 
 const Dashboard = () => {
 	const [metricData, setMetricData] = useState<ArtisanMetricTypes>({
@@ -29,6 +58,13 @@ const Dashboard = () => {
 		pending_kyc: 0,
 		total_balance: 0,
 	});
+	const [adminBookings, setAdminBookings] =
+		useState<BookingMetricTypes>(initialBookingState);
+	const [totalUsers, setTotalUsers] = useState<number>(0);
+	const [recentBookings, setRecentBookings] = useState<BookingsTypes[]>([]);
+	const [recentWalletTrnx, setRecentWalletTrnx] = useState<WalletTrnxTypes[]>(
+		[]
+	);
 
 	useEffect(() => {
 		document.title = 'Dashboard';
@@ -37,15 +73,61 @@ const Dashboard = () => {
 	useEffect(() => {
 		DashboardService.ArtisansData()
 			.then((res) => {
-				console.log(res.data.message);
+				toast.success(res.data.payload.data);
 				setMetricData(res.data.payload.data);
 			})
 			.catch((err) => toast.error(err.response.data.error.message));
 	}, []);
 
+	useEffect(() => {
+		bookingAdminService
+			.dashboardData()
+			.then((res) => {
+				setAdminBookings(res?.data?.payload?.data || initialBookingState);
+			})
+			.catch((err: any) =>
+				toast.error(
+					err?.response?.data?.error?.message || 'Something went wrong'
+				)
+			);
+	}, []);
+
+	const { loading, startLoading, stopLoading } = useLoading();
+	const {
+		loading: fetchRecentTrx,
+		startLoading: startFetchingTnx,
+		stopLoading: stopFetchingTnx,
+	} = useLoading();
+
+	useEffect(() => {
+		userServices
+			.getUsers()
+			.then((res) => setTotalUsers(res?.data?.payload?.data.length))
+			.catch((err) => console.log(err?.response?.data?.error?.message));
+	}, []);
+
+	useEffect(() => {
+		startLoading();
+		DashboardService.RecentBookingHistory()
+			.then((res) => {
+				setRecentBookings(res?.data?.payload?.data);
+			})
+			.catch((err) => console.log(err.response))
+			.finally(() => stopLoading());
+	}, []);
+	useEffect(() => {
+		startFetchingTnx();
+		DashboardService.RecentWalletHistory()
+			.then((res) => {
+				setRecentWalletTrnx(res?.data?.payload?.data);
+			})
+			.catch((err) => console.log(err?.response?.data?.error?.message))
+			.finally(() => stopFetchingTnx());
+	}, []);
+
 	const metrics = [
 		{
-			count: '243',
+			count: totalUsers,
 			key: 'Total Users',
 			img: user,
 			color: theme.colors.purple,
@@ -59,11 +141,10 @@ const Dashboard = () => {
 			href: '/artisans',
 		},
 		{
-			count: `₦${metricData.total_balance}`,
+			count: `₦${numberWithCommas(metricData.total_balance)}`,
 			key: 'Total Wallet ',
 			img: wallet,
 			color: theme.colors.cyan,
-			href: '#',
 		},
 		{
 			count: metricData.pending_kyc,
@@ -73,11 +154,39 @@ const Dashboard = () => {
 			href: '/kyc',
 		},
 		{
-			count: '43',
-			key: 'Active Booking ',
+			count: adminBookings.total_bookings,
+			key: 'Total Booking ',
 			img: booking,
 			color: theme.colors.darkPurple,
-			href: '/bookings',
+			href: '/bookings?tabStatus=all',
+		},
+		{
+			count: adminBookings.active_bookings,
+			key: 'Active Booking ',
+			img: booking,
+			color: theme.colors.mustard,
+			href: '/bookings?tabStatus=active',
+		},
+		{
+			count: adminBookings.pending_bookings,
+			key: 'Pending Booking ',
+			img: booking,
+			color: theme.colors.cyan,
+			href: '/bookings?tabStatus=completed',
+		},
+		{
+			count: adminBookings.canceled_bookings,
+			key: 'Canceled Booking ',
+			img: booking,
+			color: theme.colors.red,
+			href: '/bookings?tabStatus=canceled',
+		},
+		{
+			count: adminBookings.completed_bookings,
+			key: 'Completed Booking ',
+			img: booking,
+			color: theme.colors.purple,
+			href: '/bookings?tabStatus=completed',
 		},
 	];
 	return (
@@ -97,8 +206,20 @@ const Dashboard = () => {
 						})}
 					</Flex>
 				</div>
-				<RecentBookingsTable />
-				<RecentTransactionsTable />
+				{loading ? (
+					<div className='loader-container'>
+						<ScaleLoader color='#7E00C4' height={50} width={8} />
+					</div>
+				) : (
+					<RecentBookingsTable rows={recentBookings} />
+				)}
+				{fetchRecentTrx ? (
+					<div className='loader-container'>
+						<ScaleLoader color='#7E00C4' height={50} width={8} />
+					</div>
+				) : (
+					<RecentTransactionsTable rows={recentWalletTrnx} />
+				)}
 			</DashboardContainer>
 		</DashboardLayout>
 	);

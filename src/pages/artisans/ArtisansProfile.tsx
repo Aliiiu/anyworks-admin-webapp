@@ -5,17 +5,24 @@ import styled from 'styled-components';
 import ArtisansProfileCard from 'src/components/artisan/ArtisansProfileCard';
 import bookingsIcon from 'src/assets/images/metrics/bookingSummary.svg';
 import BookingsTabs from 'src/components/bookings/BookingsTabs';
-import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+	Link,
+	useNavigate,
+	useParams,
+	useSearchParams,
+} from 'react-router-dom';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import BookingStatus from 'src/components/bookings/BookingStatus';
 import WalletContainer from 'src/components/artisan/WalletContainer';
-import { formatDateDmy } from 'src/utils/helpers';
+import { formatDateDmy, numberWithCommas } from 'src/utils/helpers';
 import { ArtisansServices } from 'src/service/ArtisansServices';
 import { useEffect, useState } from 'react';
 import { StyledProfileHeader } from 'src/components/admin/admin-style';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
+import { initialBookingState } from '../bookings/BookingDetails';
+import bookingAdminService from 'src/service/BookingAdmin';
+import { toast, ToastContainer } from 'react-toastify';
 
 const StyledLoader = styled.div`
 	border-radius: 16px;
@@ -55,8 +62,22 @@ const StyledBookingSummary = styled.div`
 
 const ArtisansProfile = () => {
 	let navigate = useNavigate();
+	const [artisanBookings, setArtisanBookings] = useState<BookingsTypes[]>([
+		initialBookingState,
+	]);
+	const { id } = useParams();
 
-	const rows = RECENT_BOOKINGS_TABLE_DATA();
+	useEffect(() => {
+		id &&
+			bookingAdminService
+				.artisanBookingHistory(id)
+				.then((res) => setArtisanBookings(res.data.payload.data))
+				.catch((err: any) => {
+					console.log(err?.response?.data?.error?.message);
+					toast.error(err?.response?.data?.error?.message);
+				});
+	}, [id]);
+
 	const [walletBal, setWalletBal] = useState<WalletDataTypes>({
 		balance: 0,
 		transactions: [],
@@ -68,6 +89,7 @@ const ArtisansProfile = () => {
 		email: '',
 		occupation: '',
 		profile_stage: '',
+		rating: 0,
 		phone: '',
 		status: '',
 		display_picture: '',
@@ -77,46 +99,82 @@ const ArtisansProfile = () => {
 			state: '',
 		},
 	});
-	const { id } = useParams();
 	const { loading, startLoading, stopLoading } = useLoading();
 	const fetchMe = (id: string) => {
 		startLoading();
 		ArtisansServices.getArtisan(id)
 			.then((res) => {
-				console.log(res.data.payload.data);
-				setWalletBal(res.data.payload.data.wallet);
-				setArtisanDetails(res.data.payload.data.artisan);
+				// console.log(res.data.payload.data);
+				setWalletBal(res?.data?.payload?.data?.wallet);
+				setArtisanDetails(res?.data?.payload?.data?.artisan);
 			})
-			.catch((err) => console.log(err))
+			.catch((err) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopLoading());
 	};
 
 	useEffect(() => {
 		id && fetchMe(id);
 	}, []);
+
+	const [totalBookings, setTotalBookings] = useState(0);
+	useEffect(() => {
+		bookingAdminService
+			.dashboardData()
+			.then((res) => {
+				setTotalBookings(res?.data?.payload?.data.total_bookings);
+			})
+			.catch((err: any) =>
+				toast.error(
+					err?.response?.data?.error?.message || 'Something went wrong'
+				)
+			);
+	}, []);
+
+	let [searchParams, setSearchParams] = useSearchParams();
+
+	const handleNavigate = (booking_id: string) => {
+		navigate(`/bookings/${booking_id}tabStatus=all`);
+	};
 	const BookingsTableHeaders = [
 		{
 			title: 'Artisan',
-			render: (row: any) => (
+			render: (row: BookingsTypes) => (
 				<Flex gap='10px' align='center'>
-					<img style={{ width: '40px' }} src={row.img} alt='' /> {row.artisan}
+					<img
+						style={{ width: '40px', height: 40, borderRadius: '50%' }}
+						src={row.artisan_meta.display_picture}
+						alt=''
+					/>{' '}
+					{row.artisan_meta.first_name} {row.artisan_meta.last_name}
 				</Flex>
 			),
 		},
-		{ title: 'Service', render: (row: any) => `${row.services}` },
-		{ title: 'Location', render: (row: any) => `${row.location}` },
-		{ title: 'Date', render: (row: any) => formatDateDmy(row.date) },
+		{ title: 'Service', render: (row: BookingsTypes) => `${row.service}` },
+		{
+			title: 'Location',
+			render: (row: BookingsTypes) =>
+				`${row.artisan_meta.address.house_address}, ${row.artisan_meta.address.city}, ${row.artisan_meta.address.state}`,
+		},
+		{
+			title: 'Date',
+			render: (row: BookingsTypes) => formatDateDmy(row.createdAt),
+		},
 		{
 			title: 'Status',
-			render: (row: any) => <BookingStatus status={row['status']} />,
+			render: (row: BookingsTypes) => <BookingStatus status={row['status']} />,
 		},
 	];
 
 	return (
 		<DashboardLayout>
+			<ToastContainer />
 			<StyledProfileHeader>
 				<h2>
-					{artisanDetails.first_name} {artisanDetails.last_name}'s profile
+					{artisanDetails.first_name &&
+						`${artisanDetails.first_name} ${artisanDetails.last_name}'s profile`}
 				</h2>
 				<Link to='/artisans'>
 					<Button
@@ -139,22 +197,25 @@ const ArtisansProfile = () => {
 			<StyledBookingSummary>
 				<div className='booking_summary'>
 					<div className='summary_details'>
-						<h5>Total Bookings</h5> <h3>24</h3>
+						<h5>Total Bookings</h5> <h3>{totalBookings}</h3>
 					</div>
 					<img src={bookingsIcon} alt='' width={55} height='55px' />
 				</div>
 				<div className='wallet_summary'>
 					<div className='summary_details'>
-						<h5>Wallet Balance</h5> <h3> ₦{walletBal.balance}</h3>
+						<h5>Wallet Balance</h5>{' '}
+						<h3> ₦{numberWithCommas(walletBal.balance)}</h3>
 					</div>
 					<img src={bookingsIcon} alt='' width={55} height='55px' />
 				</div>
 			</StyledBookingSummary>
 			<BookingsTabs
-				rows={rows}
+				rows={artisanBookings}
 				BookingsTableHeaders={BookingsTableHeaders}
 				title={<h1 className='title'>Bookings</h1>}
-				onRowClick={() => navigate('/bookings/booking-details')}
+				onRowClick={handleNavigate}
+				searchParams={searchParams}
+				setSearchParams={setSearchParams}
 			/>
 			<WalletContainer />
 		</DashboardLayout>

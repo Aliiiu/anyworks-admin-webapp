@@ -15,8 +15,9 @@ import BookingsPage from 'src/pages/bookings/Bookings';
 import BookingDetailsPage from 'src/pages/bookings/BookingDetails';
 import Artisan from 'src/pages/artisans/Artisan';
 import ArtisansProfile from 'src/pages/artisans/ArtisansProfile';
-import IsAuthenticatedRoute from './IsAuthenticatedRoute';
 import PrivateRoute from './PrivateRoute';
+import Occupation from 'src/pages/Others/Occupation';
+import Banks from 'src/pages/Others/Banks';
 
 const Router = () => {
 	return (
@@ -65,7 +66,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/users/profile'
+				path='/users/:id'
 				element={
 					<PrivateRoute>
 						<Profile />
@@ -112,6 +113,7 @@ const Router = () => {
 					</PrivateRoute>
 				}
 			/>
+
 			<Route
 				path='/bookings'
 				element={
@@ -121,10 +123,34 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/bookings/booking-details'
+				path='/bookings/:id'
 				element={
 					<PrivateRoute>
 						<BookingDetailsPage />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/banks'
+				element={
+					<PrivateRoute>
+						<Banks />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/occupations'
+				element={
+					<PrivateRoute>
+						<Occupation />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/banks'
+				element={
+					<PrivateRoute>
+						<Occupation />
 					</PrivateRoute>
 				}
 			/>

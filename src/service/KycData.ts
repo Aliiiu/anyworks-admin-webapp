@@ -1,14 +1,21 @@
-import {artisanServiceApi} from 'src/utils/ArtisanServiceApi';
+import adminServiceApi from 'src/utils/AdminServiceApi';
 
 const KycData = {
 	getAllPendingKyc: async () => {
-		return artisanServiceApi().get('kyc');
+		return adminServiceApi().get('artisan/v1/kyc');
 	},
 	getOnePendingKyc: async (artisan_id: string) => {
-		return artisanServiceApi().get(`kyc/${artisan_id}`);
+		return adminServiceApi().get(`artisan/v1/kyc/${artisan_id}`);
 	},
-	approveRejectKyc: async (data: { reason: string }, artisan_id: string, action: string) => {
-		return artisanServiceApi().put(`kyc/${artisan_id}/${action}`, data);
+	approveRejectKyc: async (
+		data: { reason: string },
+		artisan_id: string,
+		action: string
+	) => {
+		return adminServiceApi().put(
+			`artisan/v1/kyc/${artisan_id}/${action}`,
+			data
+		);
 	},
 };
 

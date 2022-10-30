@@ -20,6 +20,7 @@ import {
 } from 'src/components/admin/admin-style';
 import { useLoading } from 'src/hooks';
 import { ScaleLoader } from 'react-spinners';
+import { toast, ToastContainer } from 'react-toastify';
 
 const AdminProfile = () => {
 	const AdminActivityTableHeaders = [
@@ -68,10 +69,13 @@ const AdminProfile = () => {
 		startLoading();
 		AdminServices.getAdmin(id)
 			.then((res: any) => {
-				console.log(res.data.payload.data);
-				res.data.payload.data && setAdminEntry(res.data.payload.data);
+				// console.log(res.data.payload.data);
+				res?.data?.payload?.data && setAdminEntry(res?.data?.payload?.data);
 			})
-			.catch((err: any) => console.log(err.response))
+			.catch((err: any) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopLoading());
 	};
 	useEffect(() => {
@@ -80,6 +84,7 @@ const AdminProfile = () => {
 
 	return (
 		<DashboardLayout>
+			<ToastContainer />
 			<DateRangeFilter
 				open={openDateFilter}
 				handleClose={handleCloseDateFilter}
@@ -89,7 +94,8 @@ const AdminProfile = () => {
 			<StyledAdminProfileComponent>
 				<StyledProfileHeader>
 					<h2>
-						{adminEntry.first_name} {adminEntry.last_name}'s profile
+						{adminEntry.first_name &&
+							`${adminEntry.first_name} ${adminEntry.last_name}'s profile`}
 					</h2>
 					<Link to='/admins'>
 						<Button

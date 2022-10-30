@@ -16,12 +16,22 @@ import { ArtisanTableContainer, PopupContainer } from './artisan-style';
 const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 	const [openSendNotificationModal, setOpenSendNotificationModal] =
 		useState(false);
-	const handleOpenNotificationModal = () => setOpenSendNotificationModal(true);
+	const [userId, setUserId] = useState<string[]>([]);
+	const handleOpenNotificationModal = (id: string) => {
+		setOpenSendNotificationModal(true);
+		setUserId((prevState: string[]) => [...prevState, id]);
+	};
 	const handleCloseNotificationModal = () =>
 		setOpenSendNotificationModal(false);
 
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
-	const handleOpenMailModal = () => setOpenSendMailModal(true);
+	const [userEmail, setUserEmail] = useState('');
+	const [userName, setUserName] = useState('');
+	const handleOpenMailModal = (email: string, name: string) => {
+		setUserEmail(email);
+		setUserName(name);
+		setOpenSendMailModal(true);
+	};
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
 	const [selectedFilterValue, setSelectedFilterValue] = useState('all');
 
@@ -33,7 +43,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 	const [allowRowClick, setAllowRowClick] = useState(true);
 
 	const handleNavigate = (id: string) => {
-		navigate(`/artisans/${id}`);
+		navigate(`/artisans/${id}?tabStatus=all`);
 	};
 
 	const ArtisanTableHeaders = [
@@ -99,11 +109,11 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 						},
 						{
 							title: 'Send email',
-							onClick: () => handleOpenMailModal(),
+							onClick: () => handleOpenMailModal(row.email, row.first_name),
 						},
 						{
 							title: 'Send notification',
-							onClick: () => handleOpenNotificationModal(),
+							onClick: () => handleOpenNotificationModal(row._id),
 						},
 					]}
 				/>
@@ -200,10 +210,13 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 
 			<SendMailModal
 				open={openSendMailModal}
+				userEmail={userEmail}
+				user={userName}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
 				open={openSendNotificationModal}
+				userId={userId}
 				handleClose={handleCloseNotificationModal}
 			/>
 			<Table

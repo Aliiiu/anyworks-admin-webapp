@@ -6,24 +6,46 @@ import { useEffect, useState } from 'react';
 import { useLoading } from 'src/hooks';
 import { ArtisansServices } from 'src/service/ArtisansServices';
 import { Loader } from 'src/components/common';
+import { toast, ToastContainer } from 'react-toastify';
+import { Button, ButtonClass, Flex } from 'src/components/ui';
+import { theme } from 'src/styles/Theme';
+import { SendNotificationModal } from 'src/components/users';
 
 interface Props {
 	handleChangeSearch: (e: any) => void;
+	handleOpen: (e: any) => void;
 }
 
-export const RhsHeading: React.FC<Props> = ({ handleChangeSearch }) => (
-	<Input
-		icon={<img src={searchIcon} alt='searchIcon' />}
-		type='search'
-		placeholder='Search'
-		handleChange={handleChangeSearch}
-	/>
-);
+export const RhsHeading: React.FC<Props> = ({
+	handleChangeSearch,
+	handleOpen,
+}) => {
+	return (
+		<Flex wrap='wrap'>
+			<Input
+				icon={<img src={searchIcon} alt='searchIcon' />}
+				type='search'
+				placeholder='Search'
+				handleChange={handleChangeSearch}
+			/>
+			<Button
+				onClick={handleOpen}
+				classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
+				style={{ backgroundColor: theme.colors.purple, height: '48px' }}
+			>
+				<span>Notify all artisans</span>
+			</Button>
+		</Flex>
+	);
+};
 
 const Artisan = () => {
 	const [searchField, setSearchField] = useState('');
 	const [allArtisans, setAllArtisans] = useState([]);
 	const { loading, startLoading, stopLoading } = useLoading();
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	useEffect(() => {
 		document.title = "Artisan's Page";
@@ -33,13 +55,15 @@ const Artisan = () => {
 		startLoading();
 		ArtisansServices.getAllArtisans()
 			.then((res) => setAllArtisans(res.data.payload.data))
-			.catch((err: any) => console.log(err.response))
+			.catch((err: any) => {
+				console.log(err?.response?.data?.error?.message);
+				toast.error(err?.response?.data?.error?.message);
+			})
 			.finally(() => stopLoading());
 	};
 
 	useEffect(() => {
 		fetchAllArtisans();
-		console.log(allArtisans);
 	}, []);
 	const filteredData = allArtisans.filter((data: any) => {
 		return (
@@ -57,8 +81,19 @@ const Artisan = () => {
 	return (
 		<DashboardLayout
 			pageTitle='Artisans'
-			rhsHeading={<RhsHeading handleChangeSearch={handleChangeSearch} />}
+			rhsHeading={
+				<RhsHeading
+					handleChangeSearch={handleChangeSearch}
+					handleOpen={handleOpen}
+				/>
+			}
 		>
+			<SendNotificationModal
+				open={open}
+				userId={['']}
+				handleClose={handleClose}
+			/>
+			<ToastContainer />
 			{loading ? (
 				<div
 					style={{
@@ -69,8 +104,10 @@ const Artisan = () => {
 				>
 					<Loader>loading...</Loader>{' '}
 				</div>
-			) : (
+			) : filteredData.length > 0 ? (
 				<ArtisanTable filteredRow={filteredData} />
+			) : (
+				<p className='table-entry-status'>No Admin Found</p>
 			)}
 		</DashboardLayout>
 	);

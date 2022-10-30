@@ -38,7 +38,8 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 					height: '153px',
 					backgroundRepeat: 'no-repeat',
 					backgroundPosition: 'center',
-					backgroundSize: 'contain',
+					objectFit: 'cover',
+					backgroundSize: 'cover',
 					boxShadow:
 						'0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
 					borderRadius: '50%',
@@ -125,7 +126,8 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<label htmlFor='first_name'>Call Out Fee</label>
 						<Input
 							style={{ background: '#F2F4F7' }}
-							value={artisanKyc?.artisan?.call_out_fee}
+							// value={artisanKyc?.artisan?.call_out_fee}
+							defaultValue={artisanKyc?.artisan?.call_out_fee || ''}
 						/>
 					</Flex>
 				</Flex>

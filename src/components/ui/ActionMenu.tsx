@@ -4,7 +4,7 @@ import { Popover } from 'react-tiny-popover';
 import styled from 'styled-components';
 import actionTrigger from 'src/assets/images/common/action.svg';
 
-const ActionMenuListContainer = styled.button`
+const ActionMenuListContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
 	box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08),
 		0px 4px 6px -2px rgba(16, 24, 40, 0.03);
@@ -89,12 +89,7 @@ export const ActionMenu: React.FC<Props> = ({
 	children = null,
 	setAllowRowClick = () => null,
 }) => {
-	const {
-		value: isOpen,
-		setTrue: openAction,
-		setFalse: closeAction,
-		toggle,
-	} = useBoolean(false);
+	const { value: isOpen, setFalse: closeAction, toggle } = useBoolean(false);
 
 	useEffect(() => {
 		setAllowRowClick(!isOpen);
@@ -128,7 +123,6 @@ export const ActionMenu: React.FC<Props> = ({
 			onClickOutside={closeAction}
 		>
 			<ActionMenuTriggerButtonEl
-				type='button'
 				onClick={(event) => {
 					event.stopPropagation();
 					toggle();

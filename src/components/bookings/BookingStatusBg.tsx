@@ -1,59 +1,65 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  .item {
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
-  }
-  .completed_item {
-    background-color: rgba(0, 204, 205, 0.2);
-  }
+	.item {
+		padding: 10px;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 24px;
+	}
+	.completed_item {
+		background-color: rgba(0, 204, 205, 0.2);
+	}
+	.active_item {
+		background-color: rgba(0, 255, 255, 0.2);
+	}
+	.canceled_item {
+		background: rgba(225, 173, 1, 0.2);
+	}
 
-  .active_text {
-    color: ${(props) => props.theme.colors.blue};
-  }
-  .completed_text {
-    color: ${(props) => props.theme.colors.cyan};
-  }
-  .canceled_text {
-    color: ${(props) => props.theme.colors.mustard};
-  }
-`
+	.active_text {
+		color: ${(props) => props.theme.colors.blue};
+	}
+	.completed_text {
+		color: ${(props) => props.theme.colors.cyan};
+	}
+	.canceled_text {
+		color: ${(props) => props.theme.colors.mustard};
+	}
+`;
 
 interface Props {
-  status: string
+	status: string;
 }
 
 export const BookingStatusBg = ({ status }: Props) => {
-  const displayCompleted = () => (
-    <div className="item completed_item">
-      <p className="text completed_text">Completed</p>
-    </div>
-  )
+	const displayCompleted = () => (
+		<div className='item completed_item'>
+			<p className='text completed_text'>Completed</p>
+		</div>
+	);
 
-  const displayActive = () => (
-    <div className="item active_item">
-      <p className="text active_text">Active</p>
-    </div>
-  )
+	const displayActive = () => (
+		<div className='item active_item'>
+			<p className='text active_text'>Active</p>
+		</div>
+	);
 
-  const displayCanceled = () => (
-    <div className="item canceled_item">
-      <p className="text canceled_text">Canceled</p>
-    </div>
-  )
+	const displayCanceled = () => (
+		<div className='item canceled_item'>
+			<p className='text canceled_text'>Canceled</p>
+		</div>
+	);
 
-  return (
-    <Wrapper>
-      {status === 'Active' && displayActive()}
-      {status === 'Completed' && displayCompleted()}
-      {status === 'Canceled' && displayCanceled()}
-    </Wrapper>
-  )
-}
+	return (
+		<Wrapper>
+			{status === 'active' && displayActive()}
+			{status === 'completed' && displayCompleted()}
+			{status === 'canceled' && displayCanceled()}
+		</Wrapper>
+	);
+};
 
-export default BookingStatusBg
+export default BookingStatusBg;

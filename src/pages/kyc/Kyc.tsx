@@ -58,6 +58,7 @@ const KYCDataGrid = () => {
 		startFetchingPendingKycData();
 		KycData.getAllPendingKyc()
 			.then((res) => {
+				// console.log(res.data);
 				setPendingKycData(res?.data?.payload?.data || []);
 			})
 			.catch((err) => {
@@ -83,8 +84,10 @@ const KYCDataGrid = () => {
 					>
 						<Loader>loading...</Loader>{' '}
 					</div>
-				) : (
+				) : filteredData.length > 0 ? (
 					<KycTable rows={filteredData} />
+				) : (
+					<p className='table-entry-status'>No Pending KYC</p>
 				)}
 			</>
 		</DashboardLayout>
