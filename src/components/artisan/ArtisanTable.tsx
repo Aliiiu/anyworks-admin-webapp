@@ -87,6 +87,18 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 			),
 		},
 		{
+			title: 'Suspended',
+			render: (row: any) => (
+				<div
+					style={{
+						color: row.suspended === true ? '#EB5656' : '#55c4f1',
+					}}
+				>
+					{row.suspended === true ? 'suspended' : 'active'}
+				</div>
+			),
+		},
+		{
 			title: 'Gender',
 			render: (row: any) => `${row.gender}`,
 		},

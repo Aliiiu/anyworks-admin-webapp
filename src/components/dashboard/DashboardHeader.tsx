@@ -97,7 +97,7 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
 								/>
 								<div className='DashboardHeader__user-role-wrapper'>
 									<p className='DashboardHeader__user--text DashboardHeader__user--name'>
-										{authUser?.first_name} {authUser?.last_name}
+										{authUser?.first_name} Samson {authUser?.last_name}
 									</p>
 									<p className='DashboardHeader__user--text DashboardHeader__user--role'>
 										{adminProfileRoles[0]}
