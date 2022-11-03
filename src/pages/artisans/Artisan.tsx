@@ -54,7 +54,10 @@ const Artisan = () => {
 	const fetchAllArtisans = () => {
 		startLoading();
 		ArtisansServices.getAllArtisans()
-			.then((res) => setAllArtisans(res.data.payload.data))
+			.then((res) => {
+				console.log(res?.data?.payload?.data);
+				setAllArtisans(res?.data?.payload?.data);
+			})
 			.catch((err: any) => {
 				console.log(err?.response?.data?.error?.message);
 				toast.error(err?.response?.data?.error?.message);

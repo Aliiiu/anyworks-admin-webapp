@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Flex, Table } from 'src/components/ui';
-import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
 import { formatDateDmy, numberWithCommas } from 'src/utils';
 
 const RecentTransactionsTableContainer = styled.div`

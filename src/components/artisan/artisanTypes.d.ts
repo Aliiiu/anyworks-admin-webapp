@@ -8,6 +8,7 @@ interface ArtisanProfileDetails {
 	rating: number;
 	phone: string;
 	status: string;
+	suspended: boolean;
 	display_picture: string;
 	address: ArtisanAddress;
 }
@@ -19,6 +20,6 @@ interface ArtisanAddress {
 }
 
 interface WalletDataTypes {
-	balance: 0;
-	transactions: [];
+	balance: number;
+	transactions: WalletTrnxTypes[];
 }

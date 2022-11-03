@@ -44,6 +44,14 @@ export const ProfileInfoContainer = styled.div`
 				font-weight: 400;
 				padding-right: 100px;
 			}
+			.status-action {
+				font-size: 14px;
+				border-radius: 32px;
+				display: flex;
+				justify-content: center;
+				width: max-content;
+				padding: 6px 12px;
+			}
 		}
 	}
 `;
@@ -65,13 +73,13 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 			<div className='heading'>
 				<Flex justify='space-between' align='center' wrap='wrap'>
 					<h1 className='title'>Profile Information</h1>
-					<div>
+					{/* <div>
 						<Button classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}>
 							{' '}
 							<img src={close} alt='x' />
 							<span>Deactivate Account</span>
 						</Button>
-					</div>
+					</div> */}
 				</Flex>
 			</div>
 			<SendMailModal

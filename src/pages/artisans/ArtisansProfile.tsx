@@ -23,6 +23,7 @@ import { useLoading } from 'src/hooks';
 import { initialBookingState } from '../bookings/BookingDetails';
 import bookingAdminService from 'src/service/BookingAdmin';
 import { toast, ToastContainer } from 'react-toastify';
+import WalletTable from 'src/components/artisan/WalletTable';
 
 const StyledLoader = styled.div`
 	border-radius: 16px;
@@ -92,6 +93,7 @@ const ArtisansProfile = () => {
 		rating: 0,
 		phone: '',
 		status: '',
+		suspended: false,
 		display_picture: '',
 		address: {
 			house_address: '',
@@ -192,7 +194,10 @@ const ArtisansProfile = () => {
 					<ScaleLoader color='#7E00C4' height={50} width={8} />
 				</StyledLoader>
 			) : (
-				<ArtisansProfileCard artisanDetails={artisanDetails} />
+				<ArtisansProfileCard
+					getArtisan={fetchMe}
+					artisanDetails={artisanDetails}
+				/>
 			)}
 			<StyledBookingSummary>
 				<div className='booking_summary'>
@@ -217,7 +222,7 @@ const ArtisansProfile = () => {
 				searchParams={searchParams}
 				setSearchParams={setSearchParams}
 			/>
-			<WalletContainer />
+			<WalletTable rows={walletBal.transactions} />
 		</DashboardLayout>
 	);
 };

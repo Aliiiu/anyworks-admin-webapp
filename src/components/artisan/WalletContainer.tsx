@@ -1,13 +1,7 @@
 import WalletTable from './WalletTable';
 
-
 const WalletContainer = () => {
-	return (
-		<>
-		
-			<WalletTable />
-		</>
-	);
+	return <>{/* <WalletTable /> */}</>;
 };
 
 export default WalletContainer;
