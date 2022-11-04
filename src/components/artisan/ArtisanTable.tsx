@@ -48,7 +48,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 
 	const ArtisanTableHeaders = [
 		{
-			title: 'DP',
+			title: 'PhotoIcon',
 			render: (row: any) => (
 				<img
 					style={{
