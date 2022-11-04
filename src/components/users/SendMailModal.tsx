@@ -13,7 +13,8 @@ import { AdminServices } from 'src/service/AdminServices';
 import { toast, ToastContainer } from 'react-toastify';
 import { Editor } from 'react-draft-wysiwyg';
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 
 const Wrapper = styled.div`
 	.heading {
@@ -115,11 +116,10 @@ export const SendMailModal: React.FC<{
 	const [isDisabled, setIsDisabled] = React.useState<boolean>(false);
 	const [mailPayload, setMailPayload] = React.useState({
 		subject: '',
-		body: '',
+		body: EditorState.createEmpty(),
 		bodyError: '',
 		subjectError: '',
 	});
-	const [text, setText] = React.useState(() => EditorState.createEmpty());
 
 	const handleSubjectChange = (e: any) => {
 		setMailPayload({
@@ -129,30 +129,48 @@ export const SendMailModal: React.FC<{
 		});
 	};
 
-	const handleBodyChange = (newText: string) => {
-		setMailPayload({ ...mailPayload, body: newText, bodyError: '' });
+	const handleBodyChange = (editorState: any) => {
+		setMailPayload({
+			...mailPayload,
+			body: editorState,
+			bodyError: '',
+		});
 	};
 
 	const submitHandler = (e: any) => {
+		// convertToRaw(mailPayload.body.getCurrentContent())
+		// console.log(
+		// 	convertToRaw(mailPayload.body.getCurrentContent()).blocks.length === 1 &&
+		// 		convertToRaw(mailPayload.body.getCurrentContent()).blocks[0].text === ''
+		// );
 		e.preventDefault();
-		const { body, subject } = mailPayload;
+		const { subject } = mailPayload;
 		let bodyError = '';
 		let subjectError = '';
 		if (!mailPayload.subject) {
 			subjectError = 'Please Enter a Subject';
 		}
-		if (!mailPayload.body) {
-			bodyError = 'Please enter a the message';
+		if (
+			convertToRaw(mailPayload.body.getCurrentContent()).blocks.length === 1 &&
+			convertToRaw(mailPayload.body.getCurrentContent()).blocks[0].text === ''
+		) {
+			bodyError = 'Field cannot be empty';
 		}
 		if (bodyError || subjectError) {
-			setMailPayload({ ...mailPayload, bodyError, subjectError });
+			setMailPayload({ ...mailPayload, subjectError, bodyError });
 		} else {
 			if (isDisabled) {
 				return;
 			}
+			// console.log({
+			// 	body: draftToHtml(convertToRaw(mailPayload.body.getCurrentContent())),
+			// 	subject,
+			// 	email: userEmail,
+			// 	salutation: `Hello ${user}`,
+			// });
 			setIsDisabled(true);
 			AdminServices.sendMail({
-				body: body,
+				body: draftToHtml(convertToRaw(mailPayload.body.getCurrentContent())),
 				subject,
 				email: userEmail,
 				salutation: `Hello ${user}`,
@@ -164,7 +182,11 @@ export const SendMailModal: React.FC<{
 				.catch((err) => console.log(err?.response))
 				.finally(() => {
 					setIsDisabled(false);
-					setMailPayload({ ...mailPayload, subject: '', body: '' });
+					setMailPayload({
+						...mailPayload,
+						subject: '',
+						body: EditorState.createEmpty(),
+					});
 				});
 		}
 	};
@@ -216,8 +238,8 @@ export const SendMailModal: React.FC<{
 									<div className='to'>
 										<p className='label'>Body</p>
 										<Editor
-											editorState={text}
-											onEditorStateChange={setText}
+											editorState={mailPayload.body}
+											onEditorStateChange={handleBodyChange}
 											wrapperClassName='wrapperClassName'
 											editorClassName='editorClassName'
 											toolbarClassName='toolbarClassName'
