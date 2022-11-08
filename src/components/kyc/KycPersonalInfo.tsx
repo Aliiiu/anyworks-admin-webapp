@@ -52,7 +52,14 @@ const KycPersonalInfo = ({ artisanKyc }: Props) => {
 					<Input
 						disabled
 						placeholder='Admin Fullname'
-						value={artisanKyc?.kyc?.identity_resolved_value?.fullName}
+						value={
+							artisanKyc?.kyc?.identity_type === 'NIN'
+								? artisanKyc?.kyc?.identity_resolved_value?.firstname +
+								  ' ' +
+								  artisanKyc?.kyc?.identity_resolved_value?.surname
+								: artisanKyc?.kyc?.identity_resolved_value?.firstName +
+								  artisanKyc?.kyc?.identity_resolved_value?.lastName
+						}
 						style={{ background: '#F2F4F7' }}
 					/>
 				</div>
@@ -61,7 +68,11 @@ const KycPersonalInfo = ({ artisanKyc }: Props) => {
 					<Input
 						disabled
 						placeholder='08100033300'
-						value={artisanKyc?.kyc?.identity_resolved_value?.phone}
+						value={
+							artisanKyc?.kyc?.identity_type === 'NIN'
+								? artisanKyc?.kyc?.identity_resolved_value?.telephoneno
+								: artisanKyc?.kyc?.identity_resolved_value?.phoneNumber1
+						}
 						type={'number'}
 						style={{ background: '#F2F4F7' }}
 					/>
@@ -71,8 +82,12 @@ const KycPersonalInfo = ({ artisanKyc }: Props) => {
 					<Input
 						disabled
 						placeholder='18/05/1990'
-						value={formatDateYmd(artisanKyc?.kyc?.identity_resolved_value?.dob)}
-						type={'date'}
+						value={
+							artisanKyc?.kyc?.identity_type === 'NIN'
+								? artisanKyc?.kyc?.identity_resolved_value?.birthdate
+								: artisanKyc?.kyc?.identity_resolved_value?.dateOfBirth
+						}
+						type={'text'}
 						style={{ background: '#F2F4F7' }}
 					/>
 				</div>

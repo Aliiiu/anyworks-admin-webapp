@@ -54,7 +54,7 @@ const ArtisanKyc = () => {
 		KycData.getOnePendingKyc(artisan_id || '')
 			.then((res) => {
 				setArtisanKyc(res?.data?.payload?.data || []);
-				// console.log(res.data.payload.data);
+				console.log(res.data.payload.data);
 			})
 			.catch((err) => {
 				toast.error(err.response.data.error.message);
