@@ -69,10 +69,10 @@ export const Login = () => {
 			const { email, password } = loginDetails;
 			AdminAuth.login({ email, password })
 				.then((res: any) => {
-					setAuthUser(res.data.payload.data);
+					setAuthUser(res?.data?.payload?.data);
 					console.log(res.data.payload.data);
-					setAuthToken(res.data.payload.token);
-					toast.success(`${res.data.message}`, {
+					setAuthToken(res?.data?.payload?.token);
+					toast.success(`${res?.data?.message}`, {
 						position: 'top-center',
 						autoClose: 5000,
 						hideProgressBar: false,
@@ -84,9 +84,11 @@ export const Login = () => {
 					navigate('/dashboard');
 				})
 				.catch((err: any) => {
-					console.log(err.response);
-					err.response.data.error.message &&
-						toast.error(err.response.data.error.message);
+					console.error(err?.response?.data?.error?.message);
+					err?.response?.data?.error?.message &&
+						toast.error(
+							err?.response?.data?.error?.message || 'Something went wrong'
+						);
 				})
 				.finally(() => setIsSuccess(false));
 		}

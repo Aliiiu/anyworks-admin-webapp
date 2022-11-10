@@ -5,76 +5,72 @@ import { DashboardContainer } from '../dashboard/Dashboard';
 import miscService from 'src/service/miscServices';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
-import OccupationTable from 'src/components/Others/OccupationTable';
 import { RhsHeading } from '../admin/Admin';
 import AddOccupationModal from 'src/components/Others/AddOccupationModal';
+import CategoryTable from 'src/components/Others/CategoriesTable';
+import AddCategoriesModal from 'src/components/Others/AddCategoriesModal';
 
 type Props = {};
 
-const Occupation = (props: Props) => {
-	const [occupations, setOccupation] = useState([]);
+const Categories = (props: Props) => {
+	const [categories, setCategories] = useState([]);
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 	const [searchField, setSearchField] = useState('');
 
-	const {
-		loading: fetchingOccupation,
-		startLoading: startFetchingOccupation,
-		stopLoading: stopFetchingOccupation,
-	} = useLoading();
+	const { loading, startLoading, stopLoading } = useLoading();
 
-	const fetchAllOccupations = () => {
-		startFetchingOccupation();
+	const fetchAllCategories = () => {
+		startLoading();
 		miscService
-			.getOccupations()
+			.getCategories()
 			.then((res) => {
-				// console.log(res?.data?.payload?.data);
-				setOccupation(res?.data?.payload.data);
+				setCategories(res?.data?.payload.data);
 			})
 			.catch((err) => console.log(err.response))
-			.finally(() => stopFetchingOccupation());
+			.finally(() => stopLoading());
 	};
 
 	useEffect(() => {
-		fetchAllOccupations();
+		fetchAllCategories();
 	}, []);
 	const handleChange = (e: any) => {
 		setSearchField(e.target.value);
 	};
 
-	const filteredData = occupations.filter((data: any) => {
+	const filteredData = categories.filter((data: any) => {
 		return data.name.toLowerCase().includes(searchField.toLowerCase());
 	});
 
 	return (
 		<DashboardLayout
-			pageTitle='Occupations'
+			pageTitle='Categories'
 			rhsHeading={
 				<RhsHeading
 					handleChange={handleChange}
 					handleOpen={handleOpen}
-					action='Occupation'
+					action='Categories'
 				/>
 			}
 		>
 			<DashboardContainer>
 				<ToastContainer />
-				<AddOccupationModal
+				<AddCategoriesModal
 					open={open}
-					fetchOccupation={fetchAllOccupations}
+					fetchCategories={fetchAllCategories}
 					handleClose={handleClose}
 				/>
-				{fetchingOccupation ? (
+				{loading ? (
 					<div className='loader-container'>
 						<ScaleLoader color='#7E00C4' height={50} width={8} />
 					</div>
 				) : (
-					<OccupationTable rows={filteredData} />
+					<CategoryTable rows={filteredData} />
 				)}
 			</DashboardContainer>
 		</DashboardLayout>
 	);
 };
 
-export default Occupation;
+export default Categories;

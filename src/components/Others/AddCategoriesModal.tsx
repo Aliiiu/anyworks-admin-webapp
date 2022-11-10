@@ -13,7 +13,6 @@ import { Loading } from 'src/components/ui';
 import clsx from 'clsx';
 import ModalResponse from './ModalResponse';
 import miscService from 'src/service/miscServices';
-import DeleteIcon from '@mui/icons-material/Delete';
 // import { toast, ToastContainer } from 'react-toastify';
 
 const style = {
@@ -67,7 +66,6 @@ export const InputContainer = styled.div`
 	gap: 6px;
 	.validation_error {
 		color: #f04438;
-		font-size: 12px;
 	}
 	.file_wrapper {
 		position: relative;
@@ -115,21 +113,13 @@ export const InputContainer = styled.div`
 interface occupationTypes {
 	name: string;
 	nameError: string;
-	category: string;
-	categoryError: string;
-	display_picture: File[];
-}
-interface categoriesTypes {
-	_id: string;
-	name: string;
-	slug: string;
 }
 
-const AddOccupationModal: React.FC<{
+const AddCategoriesModal: React.FC<{
 	open: boolean;
-	fetchOccupation: Function;
+	fetchCategories: Function;
 	handleClose: () => void;
-}> = ({ open, handleClose, fetchOccupation }) => {
+}> = ({ open, handleClose, fetchCategories }) => {
 	const [openResponseModal, setOpenResponseModal] = useState(false);
 	const handleOpenModal = () => setOpenResponseModal(true);
 	const handleCloseModal = () => setOpenResponseModal(false);
@@ -137,23 +127,10 @@ const AddOccupationModal: React.FC<{
 	// const [showResponse, setShowResponse] = useState<boolean>(false);
 	const [showSuccessResponse, setShowSuccessResponse] =
 		useState<boolean>(false);
-	const [occupationDetails, setOccupationDetails] = useState<occupationTypes>({
+	const [categoriesDetails, setCategoriesDetails] = useState<occupationTypes>({
 		name: '',
 		nameError: '',
-		category: '',
-		categoryError: '',
-		display_picture: [],
 	});
-	// const [category, setCategory] = useState('');
-	const handleChange = (e: any) => {
-		setOccupationDetails((prevState) => ({
-			...prevState,
-			category: e.target.value,
-			categoryError: '',
-		}));
-	};
-
-	const [categories, setCategories] = useState<categoriesTypes[]>([]);
 
 	const submitHandler = (e: any) => {
 		e.preventDefault();
@@ -161,45 +138,32 @@ const AddOccupationModal: React.FC<{
 			return;
 		}
 		let nameError = '';
-		let categoryError = '';
-		if (!occupationDetails.name) {
-			nameError = 'Enter this field';
+		if (!categoriesDetails.name) {
+			nameError = "Email can't be empty";
 		}
-		if (!occupationDetails.category) {
-			categoryError = 'Select a category';
-		}
-		if (nameError || categoryError) {
-			setOccupationDetails({
-				...occupationDetails,
+		if (nameError) {
+			setCategoriesDetails({
+				...categoriesDetails,
 				nameError,
-				categoryError,
 			});
 		} else {
-			// console.log(occupationDetails);
 			setDisabled(true);
-			const newData = new FormData();
-			newData.append('name', occupationDetails.name);
-			newData.append('category_slug', occupationDetails.category);
-			newData.append('icon', occupationDetails.display_picture[0]);
 			miscService
-				.addOccupations(newData)
+				.addCategories({ name: categoriesDetails.name })
 				.then((res) => {
 					console.log(res.data);
 					setShowSuccessResponse(true);
-					fetchOccupation();
+					fetchCategories();
 				})
 				.catch((err: any) => {
 					setShowSuccessResponse(false);
 					console.log(err.response.data.error.message);
 				})
 				.finally(() => {
-					setOccupationDetails((prevState) => ({
+					setCategoriesDetails((prevState) => ({
 						...prevState,
 						name: '',
 						nameError: '',
-						category: '',
-						categoryError: '',
-						display_picture: [],
 					}));
 					setDisabled(false);
 					handleOpenModal();
@@ -210,22 +174,13 @@ const AddOccupationModal: React.FC<{
 
 	useEffect(() => {
 		setShowSuccessResponse(false);
-		setOccupationDetails((prevState) => ({
-			...prevState,
-			name: '',
-			nameError: '',
-			category: '',
-			categoryError: '',
-			display_picture: [],
-		}));
 	}, []);
 
 	useEffect(() => {
 		miscService
 			.getCategories()
 			.then((res) => {
-				// console.log(res?.data?.payload);
-				setCategories(res?.data?.payload.data);
+				console.log(res.data);
 			})
 			.catch((err: any) => {
 				console.log(err.response.data.error.message);
@@ -257,15 +212,16 @@ const AddOccupationModal: React.FC<{
 
 						<div style={{ width: '100%' }}>
 							<Typography id='transition-modal-title' variant='h3' gutterBottom>
-								Add New Occupation
+								Add New Categories
 							</Typography>
 							<StyledForm onSubmit={submitHandler}>
 								<InputContainer>
-									<label htmlFor='First Name'>Occupation</label>
+									<label htmlFor='name'>Name</label>
 									<Input
-										value={occupationDetails.name}
+										id='name'
+										value={categoriesDetails.name}
 										onChange={(e: any) =>
-											setOccupationDetails((prevState) => ({
+											setCategoriesDetails((prevState) => ({
 												...prevState,
 												name: e.target.value,
 												nameError: '',
@@ -274,100 +230,17 @@ const AddOccupationModal: React.FC<{
 										placeholder='name'
 										style={{
 											width: '100%',
-											borderColor: occupationDetails.nameError && '#F04438',
-											background: occupationDetails.nameError && '#F9FAFB',
+											borderColor: categoriesDetails.nameError && '#F04438',
+											background: categoriesDetails.nameError && '#F9FAFB',
 										}}
 										className={clsx()}
 										required
 									/>
-									{occupationDetails.nameError && (
+									{categoriesDetails.nameError && (
 										<h6 className='validation_error'>
-											{occupationDetails.nameError}
+											{categoriesDetails.nameError}
 										</h6>
 									)}
-								</InputContainer>
-								<div>
-									<label htmlFor='categories' className='mb-1'>
-										Select Category
-									</label>
-									<select
-										id='categories'
-										value={occupationDetails.category}
-										placeholder='Select a category'
-										style={{
-											width: '100%',
-											borderColor: occupationDetails.nameError && '#F04438',
-											background: occupationDetails.nameError && '#F9FAFB',
-										}}
-										onChange={handleChange}
-										className='border border-[#98a2b3] text-sm rounded-lg placeholder:text-[#98a2b3] block w-full px-[10px] py-[14px]'
-									>
-										<option></option>
-										{categories.map((category) => (
-											<option key={category._id} value={category.slug}>
-												{category.name}
-											</option>
-										))}
-									</select>
-									{occupationDetails.categoryError && (
-										<h6 className='text-[12px] text-[#f04438]'>
-											{occupationDetails.categoryError}
-										</h6>
-									)}
-								</div>
-								<InputContainer>
-									<label htmlFor='dropzone-file'>Occupation Icon</label>
-									<div className='file_wrapper'>
-										{occupationDetails.display_picture[0] &&
-										occupationDetails.display_picture.length > 0 ? (
-											<div className='upload_item'>
-												{/* <img src={ImageConfig['png']} alt='' width={'40px'} /> */}
-												<div className='upload_item_container'>
-													<p>{occupationDetails.display_picture[0].name}</p>
-													<div>
-														<DeleteIcon
-															onClick={() => {
-																setOccupationDetails((prevState) => ({
-																	...prevState,
-																	display_picture: [],
-																}));
-															}}
-															className='delete_icon'
-														/>
-													</div>
-												</div>
-											</div>
-										) : (
-											<div className='file_item'>
-												<div className=' rounded-[28px] border-8 border-[#F9FAFB]'>
-													<div className='w-[30px] h-[30px] flex justify-center items-center rounded-[100%] bg-[#F2F4F7]'>
-														<PhotoCamera />
-													</div>
-												</div>
-												<p>
-													<span>Click to upload </span>
-													or drag and drop
-												</p>
-												<p>SVG, PNG, JPG (max. 800x400px)</p>
-												<input
-													id='dropzone-file'
-													type='file'
-													onChange={(
-														e: React.ChangeEvent<HTMLInputElement>
-													) => {
-														const filesArr: File[] = Array.from(
-															e.target.files!
-														);
-														setOccupationDetails((prevState) => ({
-															...prevState,
-															display_picture: filesArr,
-														}));
-													}}
-													className='absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer'
-												/>
-											</div>
-										)}
-									</div>
 								</InputContainer>
 								<button
 									disabled={disabled}
@@ -382,6 +255,7 @@ const AddOccupationModal: React.FC<{
 				</Fade>
 			</Modal>
 			<ModalResponse
+				categories
 				openModal={openResponseModal}
 				handleClose={handleCloseModal}
 				success={showSuccessResponse}
@@ -390,4 +264,4 @@ const AddOccupationModal: React.FC<{
 	);
 };
 
-export default AddOccupationModal;
+export default AddCategoriesModal;
