@@ -65,9 +65,11 @@ export default function ModalResponse({
 	success,
 	openModal,
 	handleClose,
+	categories,
 }: {
 	success: boolean;
 	openModal: boolean;
+	categories?: boolean;
 	handleClose: () => void;
 }) {
 	return (
@@ -96,11 +98,19 @@ export default function ModalResponse({
 						alt=''
 					/>
 					<h3>{success ? 'Added Successfully' : 'Unsuccessfull attempt'}</h3>
-					<p>
-						{success
-							? 'Occupation has been created successfully'
-							: 'There was an error creating the account, kindly contact webmaster for more information'}
-					</p>
+					{categories ? (
+						<p>
+							{success
+								? 'Categories has been added successfully'
+								: 'There was an error adding this category, Kindly contact admin'}
+						</p>
+					) : (
+						<p>
+							{success
+								? 'Occupation has been added successfully'
+								: 'There was an error adding occupation, kindly contact admin'}
+						</p>
+					)}
 				</StyledWarningContainer>
 			</Box>
 		</Modal>

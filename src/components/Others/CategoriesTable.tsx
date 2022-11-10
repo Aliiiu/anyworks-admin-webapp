@@ -5,28 +5,11 @@ import { Table } from '../ui';
 
 type Props = { rows: any };
 
-const OccupationTable = ({ rows }: Props) => {
+const CategoryTable = ({ rows }: Props) => {
 	const TableHeaders = [
-		{
-			title: 'Icon',
-			render: (row: any) => (
-				<img
-					style={{
-						width: '40px',
-						height: 40,
-						borderRadius: '50%',
-						objectFit: 'cover',
-					}}
-					src={row?.image || ''}
-					alt=''
-				/>
-			),
-		},
-		{ title: 'Occupations', render: (row: any) => `${row?.name || ''}` },
-		{
-			title: 'Category',
-			render: (row: any) => `${row?.category_slug || ''}`,
-		},
+		// { title: 'ID', render: (row: any) => `${row.id}` },
+		{ title: 'Name', render: (row: any) => `${row.name}` },
+		{ title: 'Slug Name', render: (row: any) => `${row.slug}` },
 	];
 	const { page, limit, Pagination } = usePagination({
 		page: 1,
@@ -38,19 +21,18 @@ const OccupationTable = ({ rows }: Props) => {
 	return (
 		<AdminTableContainer>
 			<div className='heading'>
-				<p className='count'>{rows.length} Occupations</p>
+				<p className='count'>{rows.length} Categories</p>
 			</div>
 			{paginatedRows.length > 0 ? (
 				<Table rows={paginatedRows} headers={TableHeaders} showHead={true} />
 			) : (
 				<div className='flex justify-center py-4'>
 					{' '}
-					No Available Occupation{' '}
+					No Available Categories{' '}
 				</div>
 			)}
-
 			<Pagination />
 		</AdminTableContainer>
 	);
 };
-export default OccupationTable;
+export default CategoryTable;

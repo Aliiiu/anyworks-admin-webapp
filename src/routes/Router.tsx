@@ -18,6 +18,7 @@ import ArtisansProfile from 'src/pages/artisans/ArtisansProfile';
 import PrivateRoute from './PrivateRoute';
 import Occupation from 'src/pages/Others/Occupation';
 import Banks from 'src/pages/Others/Banks';
+import Categories from 'src/pages/Others/Categories';
 
 const Router = () => {
 	return (
@@ -147,10 +148,10 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/banks'
+				path='/categories'
 				element={
 					<PrivateRoute>
-						<Occupation />
+						<Categories />
 					</PrivateRoute>
 				}
 			/>
