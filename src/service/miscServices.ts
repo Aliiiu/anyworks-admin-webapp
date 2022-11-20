@@ -7,6 +7,12 @@ const miscService = {
 	addOccupations: async (data: any) => {
 		return adminServiceApi().post('admin/v1/misc/occupation', data);
 	},
+	editOccupations: async (id: string, data: any) => {
+		return adminServiceApi().put(`admin/v1/misc/occupation/${id}`, data);
+	},
+	deleteOccupations: async (id: string) => {
+		return adminServiceApi().delete(`admin/v1/misc/occupation/${id}`);
+	},
 	addCategories: async (data: any) => {
 		return adminServiceApi().post('admin/v1/misc/occupation/category', data);
 	},

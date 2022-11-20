@@ -107,8 +107,8 @@ export default function ModalResponse({
 					) : (
 						<p>
 							{success
-								? 'Occupation has been added successfully'
-								: 'There was an error adding occupation, kindly contact admin'}
+								? 'Occupation list has been updated successfully'
+								: 'There was an error updating occupation list, kindly contact admin'}
 						</p>
 					)}
 				</StyledWarningContainer>

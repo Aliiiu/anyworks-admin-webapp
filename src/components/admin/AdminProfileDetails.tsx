@@ -175,8 +175,9 @@ const AdminProfileDetails: FC<{
 					<img
 						src={adminEntry.display_picture}
 						alt=''
-						width={150}
-						height='151px'
+						// width={150}
+						// height='151px'
+						className='rounded-full w-36 h-36 object-contain'
 					/>
 					<div className='profile_details'>
 						<h4>
