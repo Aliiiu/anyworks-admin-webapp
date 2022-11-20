@@ -95,7 +95,7 @@ const Users = () => {
 				) : filteredData.length > 0 ? (
 					<UsersTable rows={filteredData} />
 				) : (
-					<p className='table-entry-status'>No Admin Found</p>
+					<p className='table-entry-status'>No User Found</p>
 				)}
 			</UsersContainer>
 		</DashboardLayout>

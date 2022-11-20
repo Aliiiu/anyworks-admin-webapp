@@ -91,10 +91,10 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 			render: (row: any) => (
 				<div
 					style={{
-						color: row.suspended === true ? '#EB5656' : '#55c4f1',
+						color: row.suspended ? '#EB5656' : '#55c4f1',
 					}}
 				>
-					{row.suspended === true ? 'suspended' : 'active'}
+					{row.suspended ? 'true' : 'false'}
 				</div>
 			),
 		},

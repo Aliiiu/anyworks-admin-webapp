@@ -29,7 +29,7 @@ const Occupation = (props: Props) => {
 		miscService
 			.getOccupations()
 			.then((res) => {
-				// console.log(res?.data?.payload?.data);
+				console.log(res?.data?.payload?.data);
 				setOccupation(res?.data?.payload.data);
 			})
 			.catch((err) => console.log(err.response))
@@ -70,7 +70,10 @@ const Occupation = (props: Props) => {
 						<ScaleLoader color='#7E00C4' height={50} width={8} />
 					</div>
 				) : (
-					<OccupationTable rows={filteredData} />
+					<OccupationTable
+						rows={filteredData}
+						fetchOccupation={fetchAllOccupations}
+					/>
 				)}
 			</DashboardContainer>
 		</DashboardLayout>

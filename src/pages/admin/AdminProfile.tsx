@@ -116,7 +116,7 @@ const AdminProfile = () => {
 					<AdminProfileDetails adminEntry={adminEntry} getAdmin={getAdmin} />
 				)}
 
-				<AdminActivityTableContainer>
+				{/* <AdminActivityTableContainer>
 					<div className='heading'>
 						<Flex justify='space-between' align='center'>
 							<p className='title'> Activity Log</p>
@@ -133,7 +133,7 @@ const AdminProfile = () => {
 						showHead
 						allowRowClick={false}
 					/>
-				</AdminActivityTableContainer>
+				</AdminActivityTableContainer> */}
 			</StyledAdminProfileComponent>
 		</DashboardLayout>
 	);

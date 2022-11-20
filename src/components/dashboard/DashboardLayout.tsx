@@ -64,7 +64,7 @@ const DashboardLayoutElement = styled.div`
 		align-items: center;
 		height: 100px;
 		font-weight: 700;
-		font-size: 32px;
+		font-size: 24px;
 		font-style: italic;
 	}
 `;

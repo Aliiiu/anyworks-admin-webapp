@@ -107,7 +107,7 @@ export const ActionMenu: React.FC<Props> = ({
 							<li key={index}>
 								<button
 									type='button'
-									className={action.classes || ''}
+									className={action.classes || 'flex justify-between'}
 									onClick={() => {
 										if (action.onClick) action.onClick();
 										closeAction();
