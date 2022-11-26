@@ -83,7 +83,7 @@ const Artisan = () => {
 	};
 	return (
 		<DashboardLayout
-			pageTitle='Artisans'
+			pageTitle='Vendor'
 			rhsHeading={
 				<RhsHeading
 					handleChangeSearch={handleChangeSearch}
@@ -110,7 +110,7 @@ const Artisan = () => {
 			) : filteredData.length > 0 ? (
 				<ArtisanTable filteredRow={filteredData} />
 			) : (
-				<p className='table-entry-status'>No Admin Found</p>
+				<p className='table-entry-status'>No Vendor Found</p>
 			)}
 		</DashboardLayout>
 	);

@@ -28,13 +28,13 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			activeIcon: kycActiveIcon,
 		},
 		{
-			text: 'Users',
+			text: 'Customers',
 			url: '/users',
 			icon: usersIcon,
 			activeIcon: usersActiveIcon,
 		},
 		{
-			text: 'Artisan',
+			text: 'Vendor',
 			url: '/artisans',
 			icon: artisanIcon,
 			activeIcon: artisanActiveIcon,

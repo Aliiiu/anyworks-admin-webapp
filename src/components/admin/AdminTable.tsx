@@ -46,20 +46,6 @@ const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 		{ title: 'First Name', render: (row: any) => `${row.first_name}` },
 		{ title: 'Last Name', render: (row: any) => `${row.last_name}` },
 		{ title: 'Email', render: (row: any) => `${row.email}` },
-		// {
-		// 	title: 'Roles',
-		// 	render: (row: any) => (
-		// 		<div style={{ display: 'flex', flexWrap: 'wrap', width: 350 }}>
-		// 			<span
-		// 				style={{
-		// 					marginRight: 5,
-		// 				}}
-		// 			>
-		// 				{row.role.join(', ')}
-		// 			</span>
-		// 		</div>
-		// 	),
-		// },
 		{
 			title: 'Status',
 			render: (row: any) => (

@@ -95,7 +95,7 @@ const SettingsContainer = styled.div`
 			}
 			.action_btn {
 				background: #7e00c4;
-				width: 153px;
+				// width: 153px;
 				display: flex;
 				justify-content: center;
 				padding: 12px 20px;

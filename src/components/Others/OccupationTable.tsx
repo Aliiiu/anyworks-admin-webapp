@@ -7,10 +7,17 @@ import EditOccupationModal from './EditOccupation';
 import { CiEdit } from 'react-icons/ci';
 import { IoTrashBin } from 'react-icons/io5';
 import { toast, ToastContainer } from 'react-toastify';
+import { logout } from 'src/utils/AuthUtils';
+import ModalContent from '../common/ModalContent';
+import AppModal from '../ui/widget/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
 
 type Props = { rows: any; fetchOccupation: Function };
 
 const OccupationTable = ({ rows, fetchOccupation }: Props) => {
+	// let navigate = useNavigate();
+	const [rowId, setRowId] = useState('');
+	const [showModal, setShowModal] = useState<boolean | null>(false);
 	const [allowRowClick, setAllowRowClick] = useState(true);
 	const [occupationID, setOccupationID] = useState('');
 	const [open, setOpen] = useState(false);
@@ -30,7 +37,10 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 				console.error(err.response);
 				toast.error(err.response);
 			})
-			.finally(() => fetchOccupation());
+			.finally(() => {
+				fetchOccupation();
+				// setShowModal(false);
+			});
 	};
 
 	const TableHeaders = [
@@ -84,7 +94,9 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 								</div>
 							),
 							onClick: () => {
-								deleteOccupationHandler(row._id);
+								// deleteOccupationHandler(row._id);
+								setRowId(row._id);
+								setShowModal(true);
 							},
 						},
 					]}
@@ -121,6 +133,21 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 			)}
 
 			<Pagination />
+			<AppModal
+				open={showModal}
+				onClose={() => setShowModal(false)}
+				content={
+					<ModalContent
+						content1={rowId}
+						content2='Are you sure you want to delete this occupation?'
+						btnAction={() => {
+							deleteOccupationHandler(rowId);
+						}}
+						linkContent='Delete'
+						onClick={() => setShowModal(false)}
+					/>
+				}
+			/>
 		</AdminTableContainer>
 	);
 };

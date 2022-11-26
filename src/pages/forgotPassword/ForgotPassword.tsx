@@ -50,7 +50,7 @@ const ForgotPassword = () => {
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
 				<Link to='/'>
-					<Image src='/images/logo.png' alt='anyworks logo' />
+					<Image src='/images/logo.png' alt='anyworkx logo' />
 				</Link>
 				<ToastContainer />
 				<LoginCard>

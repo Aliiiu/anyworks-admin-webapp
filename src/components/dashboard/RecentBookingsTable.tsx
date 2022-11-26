@@ -81,14 +81,21 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 		<RecentBookingsTableContainer>
 			<div className='heading'>
 				<p className='title'>Recent Bookings</p>
-				<p className='info'>Bookings in the last 24 hours</p>
+				<p className='info'>Top 10 Most Recent Bookings</p>
 			</div>
-			<Table
-				rows={rows}
-				headers={RecentBookingsTableHeaders}
-				showHead={true}
-				onRowClick={handleNavigate}
-			/>
+			{rows.length > 0 ? (
+				<Table
+					rows={rows}
+					headers={RecentBookingsTableHeaders}
+					showHead={true}
+					onRowClick={handleNavigate}
+				/>
+			) : (
+				<h5 className='font-bold text-center py-8 italic text-2xl'>
+					{' '}
+					No recent Bookings
+				</h5>
+			)}
 		</RecentBookingsTableContainer>
 	);
 };

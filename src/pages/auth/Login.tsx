@@ -98,11 +98,11 @@ export const Login = () => {
 	return (
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
-				<Image src='/images/logo.png' alt='anyworks logo' />
+				<Image src='/images/logo-new.png' alt='anyworkx logo' />
 				<ToastContainer />
 				<LoginCard>
 					<CardHeader>log in</CardHeader>
-					<h4>Welcome to Anyworks</h4>
+					<h4>Welcome to Anyworkx</h4>
 					<form onSubmit={handleSubmit}>
 						<div className='input-container'>
 							<label htmlFor='email'>Email</label>

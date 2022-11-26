@@ -1,4 +1,4 @@
-const TOKEN_KEY = 'anyworks_admin_token';
+const TOKEN_KEY = 'anyworkx_admin_token';
 
 export const setAuthToken = (token: string) => {
 	return localStorage.setItem(TOKEN_KEY, JSON.stringify(token));

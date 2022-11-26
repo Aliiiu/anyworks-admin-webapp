@@ -94,7 +94,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 						color: row.suspended ? '#EB5656' : '#55c4f1',
 					}}
 				>
-					{row.suspended ? 'true' : 'false'}
+					{row.suspended ? 'Yes' : 'No'}
 				</div>
 			),
 		},
@@ -161,7 +161,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 		<ArtisanTableContainer>
 			<div className='heading'>
 				<Flex justify='space-between' align='center'>
-					<p className='count'>{sortedData().length} Artisans</p>
+					<p className='count'>{sortedData().length} Vendors</p>
 					<Popover
 						isOpen={isOpen}
 						padding={1}

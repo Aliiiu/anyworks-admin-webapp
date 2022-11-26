@@ -128,14 +128,14 @@ const Dashboard = () => {
 	const metrics = [
 		{
 			count: totalUsers,
-			key: 'Total Users',
+			key: 'Total Customers',
 			img: user,
 			color: theme.colors.purple,
 			href: '/users',
 		},
 		{
 			count: metricData.artisans,
-			key: 'Total Artisans',
+			key: 'Total Vendor',
 			img: artisan,
 			color: theme.colors.blue,
 			href: '/artisans',
