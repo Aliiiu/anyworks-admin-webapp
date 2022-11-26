@@ -77,7 +77,7 @@ const Users = () => {
 
 	return (
 		<DashboardLayout
-			pageTitle='Users'
+			pageTitle='Customers'
 			rhsHeading={<RhsHeading handleChange={handleChange} />}
 		>
 			<ToastContainer />
@@ -95,7 +95,7 @@ const Users = () => {
 				) : filteredData.length > 0 ? (
 					<UsersTable rows={filteredData} />
 				) : (
-					<p className='table-entry-status'>No User Found</p>
+					<p className='table-entry-status'>No Customer Found</p>
 				)}
 			</UsersContainer>
 		</DashboardLayout>

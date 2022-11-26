@@ -122,7 +122,7 @@ const ArtisanKyc = () => {
 
 			<ArtisankycContainer>
 				<Flex justify='space-between' align='center' className='pageHeader'>
-					<h2>Artisan KYC</h2>
+					<h2>Vendor KYC</h2>
 					<Link to='/kyc'>
 						<Button
 							classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}

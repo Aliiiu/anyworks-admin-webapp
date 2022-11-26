@@ -113,7 +113,7 @@ const NewPassword = () => {
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
 				<Link to='/'>
-					<Image src='/images/logo.png' alt='anyworks logo' />
+					<Image src='/images/logo.png' alt='anyworkx logo' />
 				</Link>
 				<LoginCard>
 					<CardHeader style={{ textAlign: 'center' }}>New Password</CardHeader>

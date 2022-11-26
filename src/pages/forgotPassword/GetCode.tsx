@@ -100,7 +100,7 @@ const GetCode = () => {
 		<StyledWrapper>
 			<Container>
 				<Link to='/'>
-					<Image src='/images/logo.png' alt='anyworks logo' />
+					<Image src='/images/logo.png' alt='anyworkx logo' />
 				</Link>
 				<ToastContainer />
 				<LoginCard>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { HamburgerMenu } from 'src/components/ui/HamburgerMenu';
 import clsx from 'clsx';
-import logo from 'src/assets/images/header/logo.png';
+import logo from 'src/assets/images/header/logo-new.png';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { Link } from 'react-router-dom';
 import { auth } from 'src/store/Auth';
@@ -110,7 +110,7 @@ export const DashboardSidebarHeader: React.FC<Props> = ({
 			className={clsx('DashboardSidebarHeader', { showOnDesktop })}
 		>
 			<Link to='/dashboard'>
-				<img className='brand-logo' src={logo} alt='anyworks' />
+				<img className='brand-logo' src={logo} alt='anyworkx' />
 			</Link>
 			<div className='tooltip__avatar'>
 				<img

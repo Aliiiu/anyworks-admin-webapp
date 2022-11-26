@@ -76,7 +76,7 @@ export const RecentTransactionsTable: FC<{ rows: WalletTrnxTypes[] }> = ({
 		<RecentTransactionsTableContainer>
 			<div className='heading'>
 				<p className='title'>Recent Transactions</p>
-				<p className='info'>Transactions in the last 24 hours</p>
+				<p className='info'>Top 10 Most Recent Wallet Transactions</p>
 			</div>
 			{rows.length > 0 ? (
 				<Table

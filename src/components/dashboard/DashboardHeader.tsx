@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { DashboardSidebarHeader } from 'src/components/dashboard';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
@@ -7,6 +7,8 @@ import logoutIcon from 'src/assets/images/header/logout.svg';
 import { useNavigate } from 'react-router';
 import { logout } from 'src/utils/AuthUtils';
 import { auth } from 'src/store/Auth';
+import AppModal from '../ui/widget/Modal/Modal';
+import ModalContent from '../common/ModalContent';
 
 const DashboardHeaderContainer = styled.header`
 	.DashboardSidebar__header {
@@ -76,6 +78,7 @@ interface Props {
 
 export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
 	let navigate = useNavigate();
+	const [showModal, setShowModal] = useState<boolean | null>(false);
 	const { authUser } = auth.use();
 	const adminProfileRoles = authUser?.role || [];
 	return (
@@ -108,9 +111,7 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
 					</div>
 
 					<Button
-						onClick={() => {
-							logout(() => navigate('/'));
-						}}
+						onClick={() => setShowModal(true)}
 						classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
 					>
 						{' '}
@@ -119,6 +120,20 @@ export const DashboardHeader: React.FC<Props> = ({ isOpen, toggleSidebar }) => {
 					</Button>
 				</Flex>
 			</div>
+			<AppModal
+				open={showModal}
+				onClose={() => setShowModal(false)}
+				content={
+					<ModalContent
+						content2='Are you sure you want to logout?'
+						btnAction={() => {
+							logout(() => navigate('/'));
+						}}
+						linkContent='logout'
+						onClick={() => setShowModal(false)}
+					/>
+				}
+			/>
 		</DashboardHeaderContainer>
 	);
 };
