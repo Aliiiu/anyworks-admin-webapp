@@ -34,7 +34,7 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 			activeIcon: usersActiveIcon,
 		},
 		{
-			text: 'Vendor',
+			text: 'Vendors',
 			url: '/artisans',
 			icon: artisanIcon,
 			activeIcon: artisanActiveIcon,
