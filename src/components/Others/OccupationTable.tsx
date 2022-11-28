@@ -138,7 +138,7 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 				onClose={() => setShowModal(false)}
 				content={
 					<ModalContent
-						content1={rowId}
+						// content1={rowId}
 						content2='Are you sure you want to delete this occupation?'
 						btnAction={() => {
 							deleteOccupationHandler(rowId);

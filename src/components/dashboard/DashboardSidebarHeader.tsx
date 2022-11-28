@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { HamburgerMenu } from 'src/components/ui/HamburgerMenu';
 import clsx from 'clsx';
-import logo from 'src/assets/images/header/logo-new.png';
+import logo from 'src/assets/images/header/header.png';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { Link } from 'react-router-dom';
 import { auth } from 'src/store/Auth';
@@ -22,7 +22,7 @@ const DashboardSidebarHeaderContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
 
 	.brand-logo {
-		width: 112px;
+		width: 142px;
 	}
 
 	@media (max-width: ${(props) => props.theme.breakpoint.md}) {

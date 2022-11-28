@@ -17,6 +17,13 @@ const KycData = {
 			data
 		);
 	},
+	retryVerification: async (data: {
+		identity_type: string;
+		identity_no: string;
+		artisan_id: string;
+	}) => {
+		return adminServiceApi().post(`artisan/v1/kyc/verify-identity/retry`, data);
+	},
 };
 
 export default KycData;

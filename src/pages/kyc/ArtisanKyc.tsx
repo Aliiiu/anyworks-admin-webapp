@@ -49,7 +49,7 @@ const ArtisanKyc = () => {
 		startLoading: startFetchingArtisanKyc,
 		stopLoading: stopFetchingArtisanKyc,
 	} = useLoading(false);
-	useEffect(() => {
+	const fetchingArtisanKycData = () => {
 		startFetchingArtisanKyc();
 		KycData.getOnePendingKyc(artisan_id || '')
 			.then((res) => {
@@ -62,6 +62,9 @@ const ArtisanKyc = () => {
 			.finally(() => {
 				stopFetchingArtisanKyc();
 			});
+	};
+	useEffect(() => {
+		fetchingArtisanKycData();
 	}, []);
 
 	const {
@@ -147,7 +150,10 @@ const ArtisanKyc = () => {
 				) : (
 					<>
 						{' '}
-						<KycPersonalInfo artisanKyc={artisanKyc} />
+						<KycPersonalInfo
+							artisanKyc={artisanKyc}
+							fetchData={fetchingArtisanKycData}
+						/>
 						<KycProfileInfo artisanKyc={artisanKyc} />
 						<br />
 						<Flex>
