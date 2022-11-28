@@ -2,6 +2,10 @@ import { Input } from 'src/styles/commonStyle';
 import styled from 'styled-components';
 import { formatDateYmd } from 'src/utils/helpers';
 import ImageMagnifier from './ImageMagnifier';
+import KycData from 'src/service/KycData';
+import { useLoading } from 'src/hooks';
+import { ClipLoader } from 'react-spinners';
+import { toast, ToastContainer } from 'react-toastify';
 
 const InfoContainer = styled.div`
 	display: flex;
@@ -31,12 +35,57 @@ const InfoContainer = styled.div`
 
 interface Props {
 	artisanKyc: any;
+	fetchData: Function;
 }
-const KycPersonalInfo = ({ artisanKyc }: Props) => {
+const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
+	const { loading, startLoading, stopLoading } = useLoading();
+	const RetryKYC = (
+		identity_type: string,
+		identity_no: string,
+		artisan_id: string
+	) => {
+		startLoading();
+		KycData.retryVerification({
+			identity_type,
+			identity_no,
+			artisan_id,
+		})
+			.then((res) => {
+				console.log(res.data);
+				toast.success(res.data.message);
+				fetchData();
+			})
+			.catch((err) => console.log(err.response))
+			.finally(() => stopLoading());
+	};
 	return (
 		<InfoContainer>
+			<ToastContainer />
 			<div className='personal_info_container'>
-				<h3>Personal Information</h3>
+				<div className='flex justify-between items-center'>
+					<h3>Personal Information</h3>
+					{(!artisanKyc?.kyc?.identity_resolved_value?.firstname ||
+						!artisanKyc?.kyc?.identity_resolved_value?.surname ||
+						!artisanKyc?.kyc?.identity_resolved_value?.lastname) && (
+						<button
+							onClick={() =>
+								RetryKYC(
+									artisanKyc.kyc.identity_type,
+									String(artisanKyc.kyc.identity_no),
+									artisanKyc.kyc.artisan
+								)
+							}
+							disabled={loading}
+							className='bg-[#7E00C4] cursor-pointer disabled:cursor-not-allowed text-white min-w-[80px] rounded-lg px-4 py-2'
+						>
+							{loading ? (
+								<ClipLoader size={20} color={'#FFFFFF'} className='' />
+							) : (
+								'Retry'
+							)}
+						</button>
+					)}
+				</div>
 				<div className='input_container'>
 					<label htmlFor='nin'>{artisanKyc?.kyc?.identity_type} Number</label>
 					<Input
