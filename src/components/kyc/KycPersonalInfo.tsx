@@ -6,6 +6,7 @@ import KycData from 'src/service/KycData';
 import { useLoading } from 'src/hooks';
 import { ClipLoader } from 'react-spinners';
 import { toast, ToastContainer } from 'react-toastify';
+import { useEffect } from 'react';
 
 const InfoContainer = styled.div`
 	display: flex;
@@ -58,15 +59,46 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 			.catch((err) => console.log(err.response))
 			.finally(() => stopLoading());
 	};
+	useEffect(() => {
+		console.log(
+			artisanKyc?.kyc?.identity_no ||
+				'' + artisanKyc?.kyc?.identity_resolved_value?.lastname ||
+				''
+		);
+	}, []);
 	return (
 		<InfoContainer>
 			<ToastContainer />
 			<div className='personal_info_container'>
 				<div className='flex justify-between items-center'>
 					<h3>Personal Information</h3>
-					{(!artisanKyc?.kyc?.identity_resolved_value?.firstname ||
-						!artisanKyc?.kyc?.identity_resolved_value?.surname ||
-						!artisanKyc?.kyc?.identity_resolved_value?.lastname) && (
+					{artisanKyc?.kyc?.identity_type === 'NIN' ? (
+						artisanKyc?.kyc?.identity_resolved_value?.firstname &&
+						artisanKyc?.kyc?.identity_resolved_value?.surname ? (
+							''
+						) : (
+							<button
+								onClick={() =>
+									RetryKYC(
+										artisanKyc.kyc.identity_type,
+										String(artisanKyc.kyc.identity_no),
+										artisanKyc.kyc.artisan
+									)
+								}
+								disabled={loading}
+								className='bg-[#7E00C4] cursor-pointer disabled:cursor-not-allowed text-white min-w-[80px] rounded-lg px-4 py-2'
+							>
+								{loading ? (
+									<ClipLoader size={20} color={'#FFFFFF'} className='' />
+								) : (
+									'Retry NIN'
+								)}
+							</button>
+						)
+					) : artisanKyc?.kyc?.identity_resolved_value?.firstName &&
+					  artisanKyc?.kyc?.identity_resolved_value?.lastName ? (
+						''
+					) : (
 						<button
 							onClick={() =>
 								RetryKYC(
@@ -81,7 +113,7 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 							{loading ? (
 								<ClipLoader size={20} color={'#FFFFFF'} className='' />
 							) : (
-								'Retry'
+								'Retry BVN'
 							)}
 						</button>
 					)}
