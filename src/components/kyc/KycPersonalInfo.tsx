@@ -135,9 +135,12 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 						placeholder='Admin Fullname'
 						value={
 							artisanKyc?.kyc?.identity_type === 'NIN'
-								? artisanKyc?.kyc?.identity_resolved_value?.firstname +
-								  ' ' +
-								  artisanKyc?.kyc?.identity_resolved_value?.surname
+								? artisanKyc?.kyc?.identity_resolved_value?.firstname ||
+								  'First Name' +
+										' ' +
+										(artisanKyc?.kyc?.identity_resolved_value?.surname
+											? 'Last Name'
+											: artisanKyc?.kyc?.identity_resolved_value?.surname)
 								: artisanKyc?.kyc?.identity_resolved_value?.firstName +
 								  artisanKyc?.kyc?.identity_resolved_value?.lastName
 						}
