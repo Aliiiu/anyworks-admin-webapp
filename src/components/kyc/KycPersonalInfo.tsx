@@ -135,13 +135,17 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 						placeholder='Admin Fullname'
 						value={
 							artisanKyc?.kyc?.identity_type === 'NIN'
-								? artisanKyc?.kyc?.identity_resolved_value?.firstname ||
-								  'First Name' +
-										' ' +
-										(artisanKyc?.kyc?.identity_resolved_value?.surname
-											? 'Last Name'
-											: artisanKyc?.kyc?.identity_resolved_value?.surname)
+								? artisanKyc?.kyc?.identity_resolved_value?.firstname ===
+								  undefined
+									? ''
+									: artisanKyc?.kyc?.identity_resolved_value?.firstname +
+									  ' ' +
+									  artisanKyc?.kyc?.identity_resolved_value?.surname
+								: artisanKyc?.kyc?.identity_resolved_value?.firstName ===
+								  undefined
+								? ''
 								: artisanKyc?.kyc?.identity_resolved_value?.firstName +
+								  ' ' +
 								  artisanKyc?.kyc?.identity_resolved_value?.lastName
 						}
 						style={{ background: '#F2F4F7' }}
@@ -151,7 +155,7 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 					<label htmlFor='phone_no'>Phone number</label>
 					<Input
 						disabled
-						placeholder='08100033300'
+						placeholder='Phone Number'
 						value={
 							artisanKyc?.kyc?.identity_type === 'NIN'
 								? artisanKyc?.kyc?.identity_resolved_value?.telephoneno
@@ -165,7 +169,7 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 					<label htmlFor='dob'>Date of birth</label>
 					<Input
 						disabled
-						placeholder='18/05/1990'
+						placeholder='Date of birth'
 						value={
 							artisanKyc?.kyc?.identity_type === 'NIN'
 								? artisanKyc?.kyc?.identity_resolved_value?.birthdate
