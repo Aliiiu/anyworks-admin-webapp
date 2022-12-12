@@ -2,6 +2,10 @@ import { Input } from 'src/styles/commonStyle';
 import styled from 'styled-components';
 import { formatDateYmd } from 'src/utils/helpers';
 import { Flex } from 'src/components/ui';
+import { useEffect, useState } from 'react';
+import KycData from 'src/service/KycData';
+import { ClipLoader } from 'react-spinners';
+import useLoading from 'src/hooks/useLoading';
 
 const ProfileContainer = styled.div`
 	padding: 40px;
@@ -26,6 +30,25 @@ interface Props {
 }
 
 const KycProfileInfo = ({ artisanKyc }: Props) => {
+	const [callOutFee, setCallOutFee] = useState('');
+	const [showBtn, setShowBtn] = useState(false);
+	const { loading, startLoading, stopLoading } = useLoading(false);
+
+	useEffect(() => {
+		// console.log(artisanKyc.artisan._id);
+		setCallOutFee(artisanKyc?.artisan?.call_out_fee);
+	}, [artisanKyc?.artisan?.call_out_fee]);
+
+	const updateCalloutFee = () => {
+		// console.log(callOutFee);
+		startLoading();
+		KycData.updateCalloutFee(artisanKyc?.artisan?._id || '', {
+			callout_fee: callOutFee,
+		})
+			.then((res) => console.log(res.data.message))
+			.catch((err) => console.log(err.response))
+			.finally(() => stopLoading());
+	};
 	return (
 		<ProfileContainer>
 			<h3>Profile Information</h3>
@@ -124,11 +147,27 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 				<Flex>
 					<Flex direction='column' style={{ width: '50%' }}>
 						<label htmlFor='first_name'>Call Out Fee</label>
-						<Input
-							style={{ background: '#F2F4F7' }}
-							// value={artisanKyc?.artisan?.call_out_fee}
-							defaultValue={artisanKyc?.artisan?.call_out_fee || ''}
-						/>
+						<div className='flex h-[50px] border border-[#98a2b3] rounded-lg overflow-hidden'>
+							<input
+								className='bg-[#F2F4F7] w-full outline-none focus:bg-white px-4 h-full'
+								value={callOutFee}
+								onChange={(e) => setCallOutFee(e.target.value)}
+								onFocus={() => setShowBtn(true)}
+								// defaultValue={artisanKyc?.artisan?.call_out_fee || ''}
+							/>
+							{showBtn && (
+								<button
+									onClick={updateCalloutFee}
+									className='bg-[#7E00C4] text-white text-sm px-2 min-w-[100px] h-full'
+								>
+									{loading ? (
+										<ClipLoader size={20} color={'#FFFFFF'} className='' />
+									) : (
+										'Update'
+									)}
+								</button>
+							)}
+						</div>
 					</Flex>
 				</Flex>
 			</Flex>

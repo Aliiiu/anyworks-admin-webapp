@@ -24,6 +24,15 @@ const KycData = {
 	}) => {
 		return adminServiceApi().post(`artisan/v1/kyc/verify-identity/retry`, data);
 	},
+	updateCalloutFee: async (
+		artisan_id: string,
+		data: { callout_fee: string }
+	) => {
+		return adminServiceApi().put(
+			`artisan/v1/kyc/${artisan_id}/callout-fee`,
+			data
+		);
+	},
 };
 
 export default KycData;
