@@ -6,14 +6,14 @@ export const theme = {
 		black: '#000000',
 		blue: '#55C4F1',
 		red: '#EB5656',
-		text_01: '#1D2939',
+		text_01: '#4D4D4D',
 		text_02: '#98a2b3',
 		gray_01: '#d9d9d9',
 		gray_02: '#F9FAFB',
 		gray_03: '#EAECF0',
 		gray_04: '#F2F4F7',
 		gray_05: '#D0D5DD',
-		purple: '#7E00C4',
+		purple: '#7607BD',
 		lilac: '#F9F5FF',
 		darkPurple: '#210639',
 		text_04: '#828282',
@@ -58,7 +58,7 @@ a {
   text-decoration: none;
 }
 button {
-  border: 0;
+  // border: 0;
   background-color: transparent;
 }
 img{

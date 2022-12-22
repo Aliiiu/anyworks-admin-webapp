@@ -22,6 +22,9 @@ const miscService = {
 	getCategories: async () => {
 		return adminServiceApi().get('admin/v1/misc/occupation/category');
 	},
+	delCache: async () => {
+		return adminServiceApi().delete('admin/v1/cache');
+	},
 };
 
 export default miscService;

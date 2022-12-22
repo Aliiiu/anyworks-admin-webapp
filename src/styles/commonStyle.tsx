@@ -12,7 +12,7 @@ export const Container = styled.div`
 	align-items: center;
 	margin: 0 auto;
 	padding: 0 20px;
-	background-image: url('/images/bgPattern.png');
+	background-image: url('/images/bgAuth.png');
 	@media (min-width: ${(props) => props.theme.breakpoint.md}) {
 		padding: 0px;
 	}

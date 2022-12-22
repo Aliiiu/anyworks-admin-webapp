@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { HamburgerMenu } from 'src/components/ui/HamburgerMenu';
 import clsx from 'clsx';
-import logo from 'src/assets/images/header/header.png';
+import logo from 'src/assets/images/header/dashboard-logo.svg';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { Link } from 'react-router-dom';
 import { auth } from 'src/store/Auth';
@@ -23,6 +23,7 @@ const DashboardSidebarHeaderContainer = styled.div`
 
 	.brand-logo {
 		width: 142px;
+		// height: 36px;
 	}
 
 	@media (max-width: ${(props) => props.theme.breakpoint.md}) {

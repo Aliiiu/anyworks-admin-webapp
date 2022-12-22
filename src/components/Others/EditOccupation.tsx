@@ -256,7 +256,7 @@ const EditOccupationModal: React.FC<{
 
 						<div style={{ width: '100%' }}>
 							<Typography id='transition-modal-title' variant='h3' gutterBottom>
-								Add New Occupation
+								Edit Occupation
 							</Typography>
 							<StyledForm onSubmit={submitHandler}>
 								<InputContainer>

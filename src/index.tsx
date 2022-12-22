@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
 	typography: {
-		fontFamily: 'Raleway',
+		fontFamily: 'Blinker',
 		h3: {
 			fontSize: '28px',
 			fontWeight: 500,
