@@ -97,8 +97,9 @@ const style = {
 export const SendNotificationModal: React.FC<{
 	open: boolean;
 	userId?: string[];
+	artisan?: boolean;
 	handleClose: () => void;
-}> = ({ open, handleClose, userId }) => {
+}> = ({ open, handleClose, userId, artisan = true }) => {
 	const [isDisabled, setIsDisabled] = React.useState<boolean>(false);
 	const [notificationPayload, setNotificationPayload] = React.useState({
 		title: '',
@@ -140,7 +141,7 @@ export const SendNotificationModal: React.FC<{
 				id: userId,
 				body: notificationPayload.body,
 				title: notificationPayload.title,
-				target: 'artisan',
+				target: artisan ? 'artisan' : 'customer',
 			})
 				.then((res) => {
 					console.log(res?.data);

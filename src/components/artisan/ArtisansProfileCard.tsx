@@ -218,7 +218,7 @@ const ArtisansProfileCard = ({
 												}}
 												className='status-action'
 											>
-												{artisanDetails.suspended ? 'Suspended' : 'Active'}
+												{artisanDetails.suspended ? 'Yes' : 'No'}
 											</div>
 										</td>
 									</tr>

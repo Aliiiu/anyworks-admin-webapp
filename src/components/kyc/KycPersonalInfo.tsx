@@ -10,10 +10,10 @@ import { useEffect } from 'react';
 
 const InfoContainer = styled.div`
 	display: flex;
-	gap: 50px;
 	margin-top: 40px;
 	.personal_info_container {
 		width: 40%;
+		margin-right: 50px;
 	}
 	.moi_info_container {
 		width: 60%;
@@ -59,19 +59,15 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 			.catch((err) => console.log(err.response))
 			.finally(() => stopLoading());
 	};
-	useEffect(() => {
-		console.log(
-			artisanKyc?.kyc?.identity_no ||
-				'' + artisanKyc?.kyc?.identity_resolved_value?.lastname ||
-				''
-		);
-	}, []);
+
 	return (
 		<InfoContainer>
 			<ToastContainer />
 			<div className='personal_info_container'>
 				<div className='flex justify-between items-center'>
-					<h3>Personal Information</h3>
+					<h3 className='text-neutral font-semibold text-[28px]'>
+						Personal Information
+					</h3>
 					{artisanKyc?.kyc?.identity_type === 'NIN' ? (
 						artisanKyc?.kyc?.identity_resolved_value?.firstname &&
 						artisanKyc?.kyc?.identity_resolved_value?.surname ? (
@@ -86,7 +82,7 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 									)
 								}
 								disabled={loading}
-								className='bg-[#7E00C4] cursor-pointer disabled:cursor-not-allowed text-white min-w-[80px] rounded-lg px-4 py-2'
+								className='bg-primary cursor-pointer disabled:cursor-not-allowed text-white min-w-[80px] rounded-lg px-4 py-2'
 							>
 								{loading ? (
 									<ClipLoader size={20} color={'#FFFFFF'} className='' />
@@ -132,7 +128,7 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 					<label htmlFor='name'>Full name</label>
 					<Input
 						disabled
-						placeholder='Admin Fullname'
+						placeholder='Fullname'
 						value={
 							artisanKyc?.kyc?.identity_type === 'NIN'
 								? artisanKyc?.kyc?.identity_resolved_value?.firstname ===
@@ -182,7 +178,9 @@ const KycPersonalInfo = ({ artisanKyc, fetchData }: Props) => {
 			</div>
 			<div className='moi_info_container'>
 				<div>
-					<h3 style={{ marginBottom: 30 }}>Means of Identification</h3>
+					<h3 className='mb-8 font-semibold text-neutral text-[28px]'>
+						Means of Identification
+					</h3>
 					<div
 						style={{
 							display: 'flex',

@@ -55,7 +55,7 @@ const Artisan = () => {
 		startLoading();
 		ArtisansServices.getAllArtisans()
 			.then((res) => {
-				console.log(res?.data?.payload?.data);
+				// console.log(res?.data?.payload?.data);
 				setAllArtisans(res?.data?.payload?.data);
 			})
 			.catch((err: any) => {

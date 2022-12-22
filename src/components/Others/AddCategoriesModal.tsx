@@ -212,7 +212,7 @@ const AddCategoriesModal: React.FC<{
 
 						<div style={{ width: '100%' }}>
 							<Typography id='transition-modal-title' variant='h3' gutterBottom>
-								Add New Categories
+								Add Category
 							</Typography>
 							<StyledForm onSubmit={submitHandler}>
 								<InputContainer>

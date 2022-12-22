@@ -22,6 +22,12 @@ const AdminAuth = {
 	}) => {
 		return adminServiceApi().post('admin/v1/auth/reset-password', data);
 	},
+	serviceFeeRange: async (data: { min: string; max: string }) => {
+		return adminServiceApi().post('admin/v1/misc/service-fee', data);
+	},
+	getServiceFeeRange: async () => {
+		return adminServiceApi().get('admin/v1/misc/service-fee');
+	},
 };
 
 export default AdminAuth;

@@ -98,7 +98,7 @@ export const Login = () => {
 	return (
 		<div style={{ background: '#7e00c4' }}>
 			<Container>
-				<Image src='/images/logo-new.png' alt='anyworkx logo' />
+				<Image src='/svgs/logo-one.svg' alt='anyworkx logo' />
 				<ToastContainer />
 				<LoginCard>
 					<CardHeader>log in</CardHeader>

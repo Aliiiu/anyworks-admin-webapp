@@ -26,7 +26,7 @@ const KycData = {
 	},
 	updateCalloutFee: async (
 		artisan_id: string,
-		data: { callout_fee: string }
+		data: { callout_fee_min: string; callout_fee_max: string }
 	) => {
 		return adminServiceApi().put(
 			`artisan/v1/kyc/${artisan_id}/callout-fee`,

@@ -35,6 +35,7 @@ export const UsersTable = ({ rows }: Props) => {
 	const navigate = useNavigate();
 	const [userEmail, setUserEmail] = useState('');
 	const [userName, setUserName] = useState('');
+	const [userId, setUserId] = useState<string[]>([]);
 	const handleNavigate = (id: string) => {
 		navigate(`/users/${id}?tabStatus=all`);
 	};
@@ -43,8 +44,10 @@ export const UsersTable = ({ rows }: Props) => {
 
 	const [openSendNotificationModal, setOpenSendNotificationModal] =
 		useState(false);
-	const handleOpenSendNotificationModal = () =>
+	const handleOpenSendNotificationModal = (id: string) => {
 		setOpenSendNotificationModal(true);
+		setUserId((prevState: string[]) => [...prevState, id]);
+	};
 	const handleCloseSendNotificationModal = () =>
 		setOpenSendNotificationModal(false);
 
@@ -96,7 +99,7 @@ export const UsersTable = ({ rows }: Props) => {
 						{
 							title: 'Send notification',
 							onClick: () => {
-								handleOpenSendNotificationModal();
+								handleOpenSendNotificationModal(row._id);
 							},
 						},
 					]}
@@ -125,6 +128,8 @@ export const UsersTable = ({ rows }: Props) => {
 			/>
 			<SendNotificationModal
 				open={openSendNotificationModal}
+				userId={userId}
+				artisan={false}
 				handleClose={handleCloseSendNotificationModal}
 			/>
 			<Table

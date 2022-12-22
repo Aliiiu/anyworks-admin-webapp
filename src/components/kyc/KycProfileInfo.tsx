@@ -6,6 +6,10 @@ import { useEffect, useState } from 'react';
 import KycData from 'src/service/KycData';
 import { ClipLoader } from 'react-spinners';
 import useLoading from 'src/hooks/useLoading';
+import AdminAuth from 'src/service/AdminAuth';
+import { Controller, useForm } from 'react-hook-form';
+import { NumberInput } from '../inputs/NumberInput';
+import { toast } from 'react-toastify';
 
 const ProfileContainer = styled.div`
 	padding: 40px;
@@ -30,28 +34,69 @@ interface Props {
 }
 
 const KycProfileInfo = ({ artisanKyc }: Props) => {
-	const [callOutFee, setCallOutFee] = useState('');
-	const [showBtn, setShowBtn] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		control,
+		setValue,
+		reset,
+		formState: { errors },
+	} = useForm({
+		mode: 'onChange',
+		// defaultValues: {
+		// 	callout_fee_min: 200,
+		// 	callout_fee_max: 1000,
+		// },
+	});
+	const [minServiceFee, setMinServiceFee] = useState('');
+	const [maxServiceFee, setMaxServiceFee] = useState('');
+	const [serviceFee, setServiceFee] = useState({ min: '', max: '' });
 	const { loading, startLoading, stopLoading } = useLoading(false);
 
 	useEffect(() => {
 		// console.log(artisanKyc.artisan._id);
-		setCallOutFee(artisanKyc?.artisan?.call_out_fee);
-	}, [artisanKyc?.artisan?.call_out_fee]);
+		setMinServiceFee(artisanKyc?.artisan?.call_out_fee?.min || '');
+		// reset({ callout_fee_min: 50 });
+		setValue('callout_fee_min', artisanKyc?.artisan?.call_out_fee?.min || '');
+		setValue('callout_fee_max', artisanKyc?.artisan?.call_out_fee?.max || '');
+		setMaxServiceFee(artisanKyc?.artisan?.call_out_fee?.max || '');
+	}, [artisanKyc?.artisan?.call_out_fee, reset]);
 
 	const updateCalloutFee = () => {
-		// console.log(callOutFee);
+		console.log({
+			min: minServiceFee,
+			max: maxServiceFee,
+		});
 		startLoading();
-		KycData.updateCalloutFee(artisanKyc?.artisan?._id || '', {
-			callout_fee: callOutFee,
+		KycData.updateCalloutFee(artisanKyc?.artisan._id, {
+			callout_fee_min: minServiceFee,
+			callout_fee_max: maxServiceFee,
 		})
 			.then((res) => console.log(res.data.message))
 			.catch((err) => console.log(err.response))
 			.finally(() => stopLoading());
 	};
+
+	useEffect(() => {
+		AdminAuth.getServiceFeeRange()
+			.then((res) => {
+				console.log(res.data);
+				setServiceFee(res.data.payload.data.service_fee_range);
+			})
+			.catch((err) => console.log(err.response));
+	}, []);
+
+	const onSubmit = (data: any) => {
+		console.log(data);
+		startLoading();
+		KycData.updateCalloutFee(artisanKyc?.artisan._id, data)
+			.then((res) => toast.success(res?.data?.message))
+			.catch((err) => toast.error(err?.response?.data?.error?.message))
+			.finally(() => stopLoading());
+	};
 	return (
 		<ProfileContainer>
-			<h3>Profile Information</h3>
+			<h3 className='text-neutral text-3xl'>Profile Information</h3>
 			<div
 				style={{
 					backgroundImage: `url(${
@@ -144,32 +189,49 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						/>
 					</Flex>
 				</Flex>
-				<Flex>
-					<Flex direction='column' style={{ width: '50%' }}>
-						<label htmlFor='first_name'>Call Out Fee</label>
-						<div className='flex h-[50px] border border-[#98a2b3] rounded-lg overflow-hidden'>
-							<input
-								className='bg-[#F2F4F7] w-full outline-none focus:bg-white px-4 h-full'
-								value={callOutFee}
-								onChange={(e) => setCallOutFee(e.target.value)}
-								onFocus={() => setShowBtn(true)}
-								// defaultValue={artisanKyc?.artisan?.call_out_fee || ''}
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<Flex align='end'>
+						<Flex gap='5px' direction='column' style={{ width: '154px' }}>
+							<NumberInput
+								label={`Service Fee Minimum (${serviceFee?.min})`}
+								control={control}
+								{...register('callout_fee_min', {
+									required: true,
+									min: serviceFee?.min,
+								})}
+								error={errors.callout_fee_min}
 							/>
-							{showBtn && (
-								<button
-									onClick={updateCalloutFee}
-									className='bg-[#7E00C4] text-white text-sm px-2 min-w-[100px] h-full'
-								>
-									{loading ? (
-										<ClipLoader size={20} color={'#FFFFFF'} className='' />
-									) : (
-										'Update'
-									)}
-								</button>
-							)}
+						</Flex>
+						<div className='h-12 flex items-center'>
+							<div className='text-black h-[1px] w-2 bg-black' />
 						</div>
+						<Flex gap='5px' direction='column' style={{ width: '174px' }}>
+							<NumberInput
+								label={`Service Fee Maximum (${serviceFee?.max})`}
+								control={control}
+								{...register('callout_fee_max', {
+									required: true,
+									max: serviceFee?.max,
+								})}
+								error={errors.callout_fee_max}
+							/>
+						</Flex>
+						<button
+							// onClick={updateCalloutFee}
+							className='text-primary border border-primary active:bg-primary active:text-white font-semibold rounded-lg text-sm px-2 py-3 min-w-[112px] h-full'
+						>
+							{loading ? (
+								<ClipLoader
+									size={20}
+									color={'#7607BD'}
+									className='text-primary'
+								/>
+							) : (
+								'Update'
+							)}
+						</button>
 					</Flex>
-				</Flex>
+				</form>
 			</Flex>
 		</ProfileContainer>
 	);
