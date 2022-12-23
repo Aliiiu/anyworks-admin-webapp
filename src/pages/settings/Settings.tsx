@@ -300,56 +300,54 @@ const Settings = () => {
 						</Form>
 					</Formik>
 				</div>
-				<div className='mb-4'>
-					<p className='mb-1 text-2xl font-semibold'>Set Service Fee</p>
-					<Flex align='end'>
-						<Flex gap='5px' direction='column' style={{ width: '154px' }}>
-							<label>Service Fee Minimum</label>
-							<input
-								className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
-								value={minServiceFee}
-								onChange={(e) => setMinServiceFee(e.target.value)}
-							/>
-						</Flex>
-						<div className='h-12 flex items-center'>
-							<div className='text-black h-[1px] w-2 bg-black' />
-						</div>
-						<Flex gap='5px' direction='column' style={{ width: '154px' }}>
-							<label>Service Fee Maximum</label>
-							<input
-								className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
-								value={maxServiceFee}
-								onChange={(e) => setMaxServiceFee(e.target.value)}
-							/>
-						</Flex>
-						<button
-							onClick={updateCalloutFee}
-							className='text-primary border border-primary active:bg-primary active:text-white font-semibold rounded-lg text-sm px-2 py-3 min-w-[112px] h-full'
-						>
-							{getServiceFee ? (
-								<ClipLoader
-									size={20}
-									color={'#7607BD'}
-									className='text-primary'
-								/>
-							) : (
-								'Set Service Fee'
-							)}
-						</button>
-					</Flex>
-				</div>
-				<div className='mb-10'>
-					<h2 className='font-semibold text-2xl'>
-						Clean up memory to save space for new information
-					</h2>
-					<button
-						onClick={cacheHandler}
-						className='bg-primary px-4 py-3 flex justify-center text-white min-w-[100px] rounded-lg mt-2'
-					>
-						{loading ? <Loading color='white' /> : 'Click here'}
-					</button>
-				</div>
 			</SettingsContainer>
+			<div className='my-10 p-[35px] rounded-2xl bg-white'>
+				<p className='mb-1 text-2xl font-semibold'>Set Service Fee</p>
+				<Flex align='end'>
+					<Flex gap='5px' direction='column' style={{ width: '154px' }}>
+						<label>Service Fee Minimum</label>
+						<input
+							className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
+							value={minServiceFee}
+							onChange={(e) => setMinServiceFee(e.target.value)}
+						/>
+					</Flex>
+					<div className='h-12 flex items-center'>
+						<div className='text-black h-[1px] w-2 bg-black' />
+					</div>
+					<Flex gap='5px' direction='column' style={{ width: '154px' }}>
+						<label>Service Fee Maximum</label>
+						<input
+							className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
+							value={maxServiceFee}
+							onChange={(e) => setMaxServiceFee(e.target.value)}
+						/>
+					</Flex>
+					<button
+						onClick={updateCalloutFee}
+						className='text-primary border border-primary active:bg-primary active:text-white font-semibold rounded-lg text-sm px-2 py-3 min-w-[112px] h-full'
+					>
+						{getServiceFee ? (
+							<ClipLoader
+								size={20}
+								color={'#7607BD'}
+								className='text-primary'
+							/>
+						) : (
+							'Set Service Fee'
+						)}
+					</button>
+				</Flex>
+			</div>
+			<div className='my-10 p-[35px] rounded-2xl bg-white'>
+				<h2 className='font-semibold text-2xl'>Clear Cache</h2>
+				<button
+					onClick={cacheHandler}
+					className='bg-primary px-4 py-3 flex justify-center text-white min-w-[100px] rounded-lg mt-2'
+				>
+					{loading ? <Loading color='white' /> : 'Click here'}
+				</button>
+			</div>
 		</DashboardLayout>
 	);
 };

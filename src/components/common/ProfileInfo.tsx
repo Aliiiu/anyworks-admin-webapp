@@ -84,7 +84,7 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 			</div>
 			<SendMailModal
 				open={openSendMailModal}
-				userEmail={userDetails.email || ''}
+				userEmail={userDetails?.email || ''}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
