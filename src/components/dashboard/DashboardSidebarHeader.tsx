@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { HamburgerMenu } from 'src/components/ui/HamburgerMenu';
 import clsx from 'clsx';
-import logo from 'src/assets/images/header/dashboard-logo.svg';
+import logo from 'src/assets/images/header/dashboardLogo.png';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { Link } from 'react-router-dom';
 import { auth } from 'src/store/Auth';

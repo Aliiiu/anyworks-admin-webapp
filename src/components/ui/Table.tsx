@@ -165,7 +165,7 @@ export const Table: React.FC<Props> = ({
 				<tbody>
 					{rows.map((row: any) => (
 						<tr
-							key={row._id}
+							key={row?._id || row?.transaction_details?.id}
 							onClick={allowRowClick ? () => onRowClick(row._id) : undefined}
 							className={clsx({ clickable: allowRowClick })}
 						>
