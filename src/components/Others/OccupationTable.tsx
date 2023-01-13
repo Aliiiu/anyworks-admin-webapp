@@ -20,6 +20,7 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 	const [showModal, setShowModal] = useState<boolean | null>(false);
 	const [allowRowClick, setAllowRowClick] = useState(true);
 	const [occupationID, setOccupationID] = useState('');
+	const [occupationDetails, setOccupationDetails] = useState({});
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	// console.log(id);
@@ -70,25 +71,25 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 				<ActionMenu
 					setAllowRowClick={(bool: boolean) => {
 						setAllowRowClick(bool);
-						// setOccupationID(row._id)
 					}}
 					actions={[
 						{
 							title: (
-								<div className='w-full flex items-center gap-4'>
+								<div className='w-full flex cursor-pointer items-center gap-4'>
 									<CiEdit size={15} />
 									<span>Edit</span>
 								</div>
 							),
 							onClick: () => {
+								setOccupationDetails(row);
+								// console.log(row?.name);
 								handleOpen();
 								setOccupationID(row._id);
-								// console.log(row._id);
 							},
 						},
 						{
 							title: (
-								<div className='w-full flex items-center gap-4'>
+								<div className='w-full flex cursor-pointer items-center gap-4'>
 									<IoTrashBin size={15} className='text-red-500' />
 									<span>Delete</span>
 								</div>
@@ -119,6 +120,7 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 			</div>
 			<EditOccupationModal
 				id={occupationID}
+				data={occupationDetails}
 				open={open}
 				fetchOccupation={fetchOccupation}
 				handleClose={handleClose}

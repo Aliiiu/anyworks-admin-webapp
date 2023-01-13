@@ -11,7 +11,7 @@ const ModalContent: React.FC<{
 }> = ({ onClick, content1, content2, link, btnAction, linkContent }) => {
 	return (
 		<div className='flex w-full bg-white flex-col items-center gap-y-[24px] rounded-lg p-6'>
-			<div className='fixed right-0 top-0'>
+			<div className='fixed right-0 cursor-pointer top-0'>
 				<IoCloseOutline onClick={onClick} size={30} />
 			</div>
 			<h2 className='font-semibold text-2xl'>{content1}</h2>
@@ -19,7 +19,7 @@ const ModalContent: React.FC<{
 			<div className='flex items-center justify-between gap-6 w-full'>
 				<button
 					onClick={onClick}
-					className='py-2 px-4 rounded-[8px] text-white bg-[#E25C5C]'
+					className='py-2 px-4 rounded-[8px] text-base text-white bg-[#E25C5C]'
 				>
 					Cancel
 				</button>
@@ -34,7 +34,7 @@ const ModalContent: React.FC<{
 				{btnAction && (
 					<button
 						onClick={btnAction}
-						className='border py-2 px-4 rounded-[8px] bg-[#0075FF] text-white'
+						className='border py-2 px-4 rounded-[8px] text-base bg-[#0075FF] text-white'
 					>
 						{linkContent}
 					</button>
