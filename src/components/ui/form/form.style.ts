@@ -40,63 +40,63 @@ export const PassType = styled.div`
 `;
 
 export const SelectInput = styled.fieldset`
-  display: flex;
-  /* justify-content: flex-start; */
-  border-radius: 8px;
-  box-sizing: border-box;
-  padding: 0 ${(props) => props.padX || '1em'};
-  padding-bottom: ${(props) => props.padB || '10em'}
-  font-size: 13px;
-  text-align:left;
-  legend {
-    color: #000;
-    font-size: 12px;
-    opacity: 0.7;
-    font-weight: 500;
-    /* background-color:red */
-  }
-  input,
-  textarea {
-    outline: none;
-    border: none;
-    font-size: 14px;
-    background: transparent;
-    width: 100%;
-    box-sizing: border-box;
-    height: ${(props) => props.height || '38px'};
-    padding-bottom: 0.5em;
-  }
-  textarea {
-    min-height: 8em;
-    max-height: 8em;
-  }
-  .list-btn {
-    box-sizing: border-box;
-    height: 38px;
-    padding-bottom: 0.5em;
-  }
-  input::placeholder {
-    font-size: 14px;
-  }
-  #banks {
-    background-color: #fff !important;
-    option {
-      background-color: #fff !important;
-      color: #000;
-    }
-  }
-  .select-field {
-    border: none !important;
-    /* background-color: red; */
-  }
-  .css-1s2u09g-control{
-    border-width: 0;
-    outline: none;
-    &&::focus{
-      background-color: red;
-      outline: none;
-    }
-  }
+	display: flex;
+	/* justify-content: flex-start; */
+	border-radius: 8px;
+	box-sizing: border-box;
+	padding: 0 1em;
+	padding-bottom: 10em;
+	font-size: 13px;
+	text-align: left;
+	legend {
+		color: #000;
+		font-size: 12px;
+		opacity: 0.7;
+		font-weight: 500;
+		/* background-color:red */
+	}
+	input,
+	textarea {
+		outline: none;
+		border: none;
+		font-size: 14px;
+		background: transparent;
+		width: 100%;
+		box-sizing: border-box;
+		height: 38px;
+		padding-bottom: 0.5em;
+	}
+	textarea {
+		min-height: 8em;
+		max-height: 8em;
+	}
+	.list-btn {
+		box-sizing: border-box;
+		height: 38px;
+		padding-bottom: 0.5em;
+	}
+	input::placeholder {
+		font-size: 14px;
+	}
+	#banks {
+		background-color: #fff !important;
+		option {
+			background-color: #fff !important;
+			color: #000;
+		}
+	}
+	.select-field {
+		border: none !important;
+		/* background-color: red; */
+	}
+	.css-1s2u09g-control {
+		border-width: 0;
+		outline: none;
+		&&::focus {
+			background-color: red;
+			outline: none;
+		}
+	}
 `;
 
 export const ToggleContainer = styled.div`

@@ -5,16 +5,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, ButtonClass, Flex } from 'src/components/ui';
 import { DashboardLayout } from 'src/components/dashboard';
 import styled from 'styled-components';
-import KycPersonalInfo from '../../components/kyc/KycPersonalInfo';
-import KycProfileInfo from '../../components/kyc/KycProfileInfo';
+import KycProfileInfo from '../../components/kyc/VendorProfileInfo';
 import KycApprovedModal from 'src/components/kyc/kycModals/KycApprovedModal';
 import RejectionModal from 'src/components/kyc/kycModals/RejectionModal';
 import ConfirmApproveKycModal from 'src/components/kyc/kycModals/ConfirmApproveKycModal';
 import { useParams } from 'react-router-dom';
 import { useLoading } from 'src/hooks';
-import KycData from 'src/service/KycData';
+import KycData from 'src/service/VerifyService';
 import { toast, ToastContainer } from 'react-toastify';
 import { Loader } from 'src/components/common';
+import NinValidation from 'src/components/kyc/NinValidation';
 
 const ArtisankycContainer = styled.div`
 	.pageHeader {
@@ -25,7 +25,7 @@ const ArtisankycContainer = styled.div`
 		}
 	}
 `;
-const ArtisanKyc = () => {
+const CustomerKyc = () => {
 	const [open, setOpen] = useState(false);
 	const [openReject, setOpenReject] = useState(false);
 	const [openConfirmApproveKycModal, setOpenConfirmApproveKycModal] =
@@ -49,23 +49,23 @@ const ArtisanKyc = () => {
 		startLoading: startFetchingArtisanKyc,
 		stopLoading: stopFetchingArtisanKyc,
 	} = useLoading(false);
-	const fetchingArtisanKycData = () => {
-		startFetchingArtisanKyc();
-		KycData.getOnePendingKyc(artisan_id || '')
-			.then((res) => {
-				setArtisanKyc(res?.data?.payload?.data || []);
-				console.log(res.data.payload.data);
-			})
-			.catch((err) => {
-				toast.error(err.response.data.error.message);
-			})
-			.finally(() => {
-				stopFetchingArtisanKyc();
-			});
-	};
-	useEffect(() => {
-		fetchingArtisanKycData();
-	}, []);
+	// const fetchingArtisanKycData = () => {
+	// 	startFetchingArtisanKyc();
+	// 	KycData.getOnePendingKyc(artisan_id || '')
+	// 		.then((res) => {
+	// 			setArtisanKyc(res?.data?.payload?.data || []);
+	// 			console.log(res.data.payload.data);
+	// 		})
+	// 		.catch((err) => {
+	// 			toast.error(err.response.data.error.message);
+	// 		})
+	// 		.finally(() => {
+	// 			stopFetchingArtisanKyc();
+	// 		});
+	// };
+	// useEffect(() => {
+	// 	fetchingArtisanKycData();
+	// }, []);
 
 	const {
 		loading: approvingKyc,
@@ -73,51 +73,51 @@ const ArtisanKyc = () => {
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 	let navigate = useNavigate();
-	const handleApproveKyc = () => {
-		startApprovingKyc();
-		artisan_id &&
-			KycData.approveRejectKyc({ reason: '' }, artisan_id, 'approve')
-				.then((res) => {
-					console.log(res.data);
-					handleConfirmApproveKycModalClose();
-					setTimeout(() => handleOpen(), 1000);
-				})
-				.catch((err) => {
-					toast.error(err.response.data.error.message);
-				})
-				.finally(() => {
-					stopApprovingKyc();
-					navigate('/artisans');
-				});
-	};
+	// const handleApproveKyc = () => {
+	// 	startApprovingKyc();
+	// 	artisan_id &&
+	// 		KycData.approveRejectKyc({ reason: '' }, artisan_id, 'approve')
+	// 			.then((res) => {
+	// 				console.log(res.data);
+	// 				handleConfirmApproveKycModalClose();
+	// 				setTimeout(() => handleOpen(), 1000);
+	// 			})
+	// 			.catch((err) => {
+	// 				toast.error(err.response.data.error.message);
+	// 			})
+	// 			.finally(() => {
+	// 				stopApprovingKyc();
+	// 				navigate('/artisans');
+	// 			});
+	// };
 
-	const {
-		loading: rejectingKyc,
-		startLoading: startRejectingKyc,
-		stopLoading: stopRejectingKyc,
-	} = useLoading(false);
+	// const {
+	// 	loading: rejectingKyc,
+	// 	startLoading: startRejectingKyc,
+	// 	stopLoading: stopRejectingKyc,
+	// } = useLoading(false);
 
-	const handleRejectKyc = () => {
-		startRejectingKyc();
-		artisan_id &&
-			KycData.approveRejectKyc(
-				{ reason: rejectionReason },
-				artisan_id,
-				'reject'
-			)
-				.then((res) => {
-					console.log(res.data);
-					toast.success(res?.data?.message || []);
-					handleRejectClose();
-				})
-				.catch((err) => {
-					toast.error(err.response.data.error.message);
-				})
-				.finally(() => {
-					stopRejectingKyc();
-					navigate('/kyc');
-				});
-	};
+	// const handleRejectKyc = () => {
+	// 	startRejectingKyc();
+	// 	artisan_id &&
+	// 		KycData.approveRejectKyc(
+	// 			{ reason: rejectionReason },
+	// 			artisan_id,
+	// 			'reject'
+	// 		)
+	// 			.then((res) => {
+	// 				console.log(res.data);
+	// 				toast.success(res?.data?.message || []);
+	// 				handleRejectClose();
+	// 			})
+	// 			.catch((err) => {
+	// 				toast.error(err.response.data.error.message);
+	// 			})
+	// 			.finally(() => {
+	// 				stopRejectingKyc();
+	// 				navigate('/kyc');
+	// 			});
+	// };
 
 	return (
 		<DashboardLayout>
@@ -125,7 +125,7 @@ const ArtisanKyc = () => {
 
 			<ArtisankycContainer>
 				<Flex justify='space-between' align='center' className='pageHeader'>
-					<h2>Vendor KYC</h2>
+					<h2>Customer Verification</h2>
 					<Link to='/kyc'>
 						<Button
 							classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
@@ -133,7 +133,7 @@ const ArtisanKyc = () => {
 						>
 							{' '}
 							<img src={arrowLeft} alt='back' />
-							<span>Back to KYC</span>
+							<span>Back</span>
 						</Button>
 					</Link>
 				</Flex>
@@ -150,13 +150,14 @@ const ArtisanKyc = () => {
 				) : (
 					<>
 						{' '}
-						<KycPersonalInfo
+						{/* <KycPersonalInfo
 							artisanKyc={artisanKyc}
 							fetchData={fetchingArtisanKycData}
-						/>
-						<KycProfileInfo artisanKyc={artisanKyc} />
+						/> */}
+						{/* <KycProfileInfo artisanKyc={artisanKyc} /> */}
+						{/* <NinValidation /> */}
 						<br />
-						<Flex>
+						{/* <Flex>
 							<div>
 								<Button
 									onClick={handleConfirmApproveKycModalOpen}
@@ -188,7 +189,7 @@ const ArtisanKyc = () => {
 									Reject
 								</Button>
 							</div>
-						</Flex>
+						</Flex> */}
 					</>
 				)}
 
@@ -197,7 +198,7 @@ const ArtisanKyc = () => {
 					handleClose={handleClose}
 					artisanName={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
 				/>
-				<RejectionModal
+				{/* <RejectionModal
 					open={openReject}
 					handleRejectKyc={handleRejectKyc}
 					handleClose={handleRejectClose}
@@ -211,10 +212,10 @@ const ArtisanKyc = () => {
 					handleClose={handleConfirmApproveKycModalClose}
 					artisanName={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
 					approvingKyc={approvingKyc}
-				/>
+				/> */}
 			</ArtisankycContainer>
 		</DashboardLayout>
 	);
 };
 
-export default ArtisanKyc;
+export default CustomerKyc;

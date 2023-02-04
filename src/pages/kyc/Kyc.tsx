@@ -4,7 +4,7 @@ import { KycTable } from 'src/components/kyc/KycTable';
 import { Input } from 'src/components/inputs';
 import searchIcon from 'src/assets/images/input/searchIcon.svg';
 import { useLoading } from 'src/hooks';
-import KycData from 'src/service/KycData';
+import KycData from 'src/service/VerifyService';
 import { toast, ToastContainer } from 'react-toastify';
 import { Loader } from 'src/components/common';
 
@@ -54,18 +54,18 @@ const KYCDataGrid = () => {
 		document.title = 'KYC Page';
 	}, []);
 
-	useEffect(() => {
-		startFetchingPendingKycData();
-		KycData.getAllPendingKyc()
-			.then((res) => {
-				// console.log(res.data);
-				setPendingKycData(res?.data?.payload?.data || []);
-			})
-			.catch((err) => {
-				toast.error(err.response.data.error.message);
-			})
-			.finally(() => stopFetchingPendingKycData());
-	}, []);
+	// useEffect(() => {
+	// 	startFetchingPendingKycData();
+	// 	KycData.getAllPendingKyc()
+	// 		.then((res) => {
+	// 			// console.log(res.data);
+	// 			setPendingKycData(res?.data?.payload?.data || []);
+	// 		})
+	// 		.catch((err) => {
+	// 			toast.error(err.response.data.error.message);
+	// 		})
+	// 		.finally(() => stopFetchingPendingKycData());
+	// }, []);
 
 	return (
 		<DashboardLayout

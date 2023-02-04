@@ -10,6 +10,8 @@ import logoutIcon from 'src/assets/images/header/logout.svg';
 import { useNavigate } from 'react-router';
 import { logout } from 'src/utils/AuthUtils';
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
+import { Disclosure } from '@headlessui/react';
+import { MdKeyboardArrowRight } from 'react-icons/md';
 
 const DashboardSidebarContainer = styled.div`
 	position: fixed;
@@ -205,45 +207,103 @@ export const DashboardSidebar: React.FC<Props> = ({
 
 		if (sublinks.length) {
 			return (
-				<li key={nav.text} className={clsx({ isActiveNav })}>
-					<details onClick={() => setOpen((prevState) => !prevState)}>
-						<summary>
-							<i
-								style={{
-									backgroundImage: `url(${
-										isActiveNav ? nav.activeIcon : nav.icon
-									})`,
-								}}
-							/>
-							<span>{nav.text}</span>
-							{open ? <IoIosArrowDown /> : <IoIosArrowForward />}
-						</summary>
+				// <li key={nav.text} className={clsx({ isActiveNav })}>
+				// 	<details onClick={() => setOpen((prevState) => !prevState)}>
+				// 		<summary>
+				// 			<i
+				// 				style={{
+				// 					backgroundImage: `url(${
+				// 						isActiveNav ? nav.activeIcon : nav.icon
+				// 					})`,
+				// 				}}
+				// 			/>
+				// 			<span>{nav.text}</span>
+				// 			{open ? <IoIosArrowDown /> : <IoIosArrowForward />}
+				// 		</summary>
 
-						<ul>
-							{sublinks.map((subnav: any) => {
-								const isActiveSubNav = location.pathname === subnav.url;
-								return (
-									<li key={subnav.text} className={clsx({ isActiveSubNav })}>
-										<Link
-											to={subnav.url}
-											className='DashboardSidebar__subnav__link'
-										>
-											<div
-												style={{
-													background: `${
-														isActiveSubNav ? '#7E00C4' : 'transparent'
-													}`,
-												}}
-												className='sublink_nav'
-											></div>
-											{subnav.text}
-										</Link>
-									</li>
-								);
-							})}
-						</ul>
-					</details>
-				</li>
+				// 		<ul>
+				// 			{sublinks.map((subnav: any) => {
+				// 				const isActiveSubNav = location.pathname === subnav.url;
+				// 				return (
+				// 					<li key={subnav.text} className={clsx({ isActiveSubNav })}>
+				// 						<Link
+				// 							to={subnav.url}
+				// 							className='DashboardSidebar__subnav__link'
+				// 						>
+				// 							<div
+				// 								style={{
+				// 									background: `${
+				// 										isActiveSubNav ? '#7E00C4' : 'transparent'
+				// 									}`,
+				// 								}}
+				// 								className='sublink_nav'
+				// 							></div>
+				// 							{subnav.text}
+				// 						</Link>
+				// 					</li>
+				// 				);
+				// 			})}
+				// 		</ul>
+				// 	</details>
+				// </li>
+				<Disclosure key={nav.text}>
+					{({ open }) => (
+						<>
+							<Disclosure.Button
+								className={`flex w-full gap-4 items-center pr-4 pl-[37px] py-2 font-medium text-[#B3B3B3] h-[3.5rem] border-l-white border-l-[7px] focus:outline-none ${
+									isActiveNav ? 'bg-[#F2F4F7]' : 'bg-white'
+								}`}
+							>
+								<i
+									style={{
+										backgroundImage: `url(${open ? nav.activeIcon : nav.icon})`,
+									}}
+									className='w-[31px] h-[31px] bg-center bg-no-repeat'
+								/>
+								<span className='text-[17px] font-medium'>{nav.text}</span>
+								<MdKeyboardArrowRight
+									className={`${
+										open ? 'rotate-90 transform' : ''
+									} h-5 w-5 text-[#b3b3b3]`}
+								/>
+							</Disclosure.Button>
+							<Disclosure.Panel className='pr-4 pl-[37px] py-4 text-gray-500'>
+								<ul className='flex flex-col gap-2'>
+									{sublinks.map((subnav: any) => {
+										const isActiveSubNav = location.pathname === subnav.url;
+										return (
+											<li
+												key={subnav.text}
+												className={clsx({ isActiveSubNav })}
+											>
+												<Link
+													to={subnav.url}
+													className='flex gap-4 items-center border-l-white border-l-[7px]'
+												>
+													<div
+														style={{
+															background: `${
+																isActiveSubNav ? '#7E00C4' : 'transparent'
+															}`,
+														}}
+														className='w-[24px] h-[24px] border border-[#B3B3B3] rounded-full'
+													></div>
+													<span
+														className={`text-[17px] font-medium ${
+															isActiveSubNav ? 'text-[#7E00C4]' : ''
+														}`}
+													>
+														{subnav.text}
+													</span>
+												</Link>
+											</li>
+										);
+									})}
+								</ul>
+							</Disclosure.Panel>
+						</>
+					)}
+				</Disclosure>
 			);
 		}
 

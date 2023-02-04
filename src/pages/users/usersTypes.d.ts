@@ -18,6 +18,7 @@ interface UsersDetailsType {
 	last_name: string;
 	phone: string;
 	rating: number;
+	tier: number;
 	suspended: boolean;
 	updatedAt: string;
 	uuid: string;

@@ -43,7 +43,7 @@ const AppModal = (props: any) => {
 					>
 						<div
 							// onClick={props.onClose}
-							className='inline-block align-top max-w-fit overflow-hidden transform transition-all sm:my-8 sm:align-middle'
+							className='inline-block align-top max-w-fit transform transition-all sm:my-8 sm:align-middle'
 						>
 							{props.content}
 						</div>
