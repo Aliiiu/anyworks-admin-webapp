@@ -5,7 +5,7 @@ import ForgotPassword from 'src/pages/forgotPassword/ForgotPassword';
 import GetCode from 'src/pages/forgotPassword/GetCode';
 import NewPassword from 'src/pages/forgotPassword/NewPassword';
 import Login from 'src/pages/auth/Login';
-import ArtisanKyc from 'src/pages/kyc/ArtisanKyc';
+import ArtisanKyc from 'src/pages/kyc/CustomerKyc';
 import Settings from 'src/pages/settings/Settings';
 import Admin from 'src/pages/admin/Admin';
 import AdminProfile from 'src/pages/admin/AdminProfile';
@@ -19,6 +19,15 @@ import PrivateRoute from './PrivateRoute';
 import Occupation from 'src/pages/Others/Occupation';
 import Banks from 'src/pages/Others/Banks';
 import Categories from 'src/pages/Others/Categories';
+import Wallet from 'src/pages/wallet/Wallet';
+import CustomerVerification from 'src/pages/kyc/CustomerVerification';
+import VendorVerification from 'src/pages/kyc/VendorVerification';
+import VendorKyc from 'src/pages/kyc/VendorKyc';
+import CustomerKyc from 'src/pages/kyc/CustomerKyc';
+import VerificationRoute from './CustomerVerificationRoute/VerificationRoute.route';
+import VendorVerificationRoute from './VendorVerificationRoute/VendorVerification.route';
+import DisputePage from 'src/pages/dispute';
+import DisputeDetails from 'src/pages/dispute/DisputeDetails';
 
 const Router = () => {
 	return (
@@ -43,18 +52,35 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/kyc'
+				path='/verification/customer'
 				element={
 					<PrivateRoute>
-						<Kyc />
+						<CustomerVerification />
 					</PrivateRoute>
 				}
 			/>
 			<Route
-				path='/kyc/:artisan_id'
+				path='/verification/vendor'
 				element={
 					<PrivateRoute>
-						<ArtisanKyc />
+						<VendorVerification />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/verification/customer/:user_id/*'
+				element={
+					<PrivateRoute>
+						<VerificationRoute />
+						{/* <CustomerKyc /> */}
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/verification/vendor/:artisan_id/*'
+				element={
+					<PrivateRoute>
+						<VendorVerificationRoute />
 					</PrivateRoute>
 				}
 			/>
@@ -107,6 +133,14 @@ const Router = () => {
 				}
 			/>
 			<Route
+				path='/wallet'
+				element={
+					<PrivateRoute>
+						<Wallet />
+					</PrivateRoute>
+				}
+			/>
+			<Route
 				path='/settings'
 				element={
 					<PrivateRoute>
@@ -132,7 +166,23 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/banks'
+				path='/dispute'
+				element={
+					<PrivateRoute>
+						<DisputePage />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/dispute/:id'
+				element={
+					<PrivateRoute>
+						<DisputeDetails />
+					</PrivateRoute>
+				}
+			/>
+			<Route
+				path='/misc/banks'
 				element={
 					<PrivateRoute>
 						<Banks />
@@ -140,7 +190,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/occupations'
+				path='/misc/occupations'
 				element={
 					<PrivateRoute>
 						<Occupation />
@@ -148,7 +198,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/categories'
+				path='/misc/categories'
 				element={
 					<PrivateRoute>
 						<Categories />

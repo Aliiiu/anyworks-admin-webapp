@@ -95,7 +95,7 @@ const Admin = () => {
 		return (
 			data.first_name.toLowerCase().includes(searchField.toLowerCase()) ||
 			data.last_name.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.suspended.toLowerCase().includes(searchField.toLowerCase())
+			data.email.toLowerCase().includes(searchField.toLowerCase())
 		);
 	});
 	const handleChange = (e: any) => {

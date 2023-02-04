@@ -13,9 +13,7 @@ export const NumberInput = React.forwardRef<
 >(({ label, control, error, name, value }, ref) => {
 	return (
 		<div>
-			<label className={`sm:text-sm text-xs ${error && 'text-red-500'}`}>
-				{label}
-			</label>
+			<label className={`sm:text-xs ${error && 'text-red-500'}`}>{label}</label>
 			<Controller
 				name={name}
 				render={({ field: { onChange, value } }) => (

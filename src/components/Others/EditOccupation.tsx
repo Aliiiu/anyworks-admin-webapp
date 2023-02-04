@@ -5,7 +5,7 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { Input } from 'src/styles/commonStyle';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import closeModal from 'src/assets/images/common/closeModal.svg';
 import { PhotoCamera } from '@mui/icons-material';
 import { AdminServices } from 'src/service/AdminServices';
@@ -129,8 +129,9 @@ const EditOccupationModal: React.FC<{
 	open: boolean;
 	id: string;
 	fetchOccupation: Function;
+	data: any;
 	handleClose: () => void;
-}> = ({ open, handleClose, fetchOccupation, id }) => {
+}> = ({ open, handleClose, fetchOccupation, id, data }) => {
 	const [openResponseModal, setOpenResponseModal] = useState(false);
 	const handleOpenModal = () => setOpenResponseModal(true);
 	const handleCloseModal = () => setOpenResponseModal(false);
@@ -153,6 +154,20 @@ const EditOccupationModal: React.FC<{
 			categoryError: '',
 		}));
 	};
+
+	useLayoutEffect(() => {
+		// console.log({ data, id });
+		setOccupationDetails((prevState) => ({
+			...prevState,
+			name: data?.name,
+			nameError: '',
+		}));
+		setOccupationDetails((prevState) => ({
+			...prevState,
+			category: data?.category_slug,
+			categoryError: '',
+		}));
+	}, [data, id]);
 
 	const [categories, setCategories] = useState<categoriesTypes[]>([]);
 

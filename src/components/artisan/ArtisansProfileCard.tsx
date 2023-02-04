@@ -12,6 +12,7 @@ import { ArtisansServices } from 'src/service/ArtisansServices';
 import { toast } from 'react-toastify';
 import { useLoading } from 'src/hooks';
 import { ClipLoader } from 'react-spinners';
+import { Link } from 'react-router-dom';
 
 const ArtisansProfileCard = ({
 	artisanDetails,
@@ -74,7 +75,7 @@ const ArtisansProfileCard = ({
 		<ProfileInfoContainer>
 			<div className='heading'>
 				<Flex justify='space-between' align='center' wrap='wrap'>
-					<h1 className='title'>Profile Information</h1>
+					<h1 className='text-2xl font-semibold'>Profile Information</h1>
 					<div>
 						<Button
 							onClick={() => {
@@ -138,6 +139,12 @@ const ArtisansProfileCard = ({
 								<img style={{ cursor: 'pointer' }} src={chat} alt='chat' />
 							</button>
 						</Flex>
+						<Link
+							to={`/verification/vendor/${artisanDetails._id}/nin-validation`}
+							className=' bg-primary py-3 px-5 text-white rounded-lg'
+						>
+							View Verification
+						</Link>
 					</Flex>
 				</div>
 				<div
@@ -146,8 +153,8 @@ const ArtisansProfileCard = ({
 					}}
 					className='profile-info--rhs'
 				>
-					<Flex direction='column' gap='1.5rem'>
-						<h3 className='name'>
+					<Flex direction='column' gap='1.0rem'>
+						<h3 className='text-xl font-semibold'>
 							{artisanDetails.first_name} {artisanDetails.last_name}
 						</h3>
 						<div className='details'>
@@ -192,7 +199,10 @@ const ArtisansProfileCard = ({
 									</tr> */}
 									<tr>
 										<td className='text key'>Rating</td>
-										<td className='text value'>{artisanDetails.rating}</td>
+										<td className='text value flex items-center gap-1'>
+											<p>{artisanDetails.rating}</p>
+											<img src='/svgs/star.svg' alt='' className='w-4 h-4' />
+										</td>
 									</tr>
 									<tr>
 										<td className='text key'>Profile Stage</td>

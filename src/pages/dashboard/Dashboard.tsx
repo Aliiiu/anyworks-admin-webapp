@@ -42,6 +42,7 @@ const initialBookingState: BookingMetricTypes = {
 	pending_bookings: 0,
 	total_bookings: 0,
 	completed_bookings: 0,
+	bookings: [],
 };
 const initialWalletTrnxState: WalletTrnxTypes = {
 	created_at: '',
@@ -53,10 +54,16 @@ const initialWalletTrnxState: WalletTrnxTypes = {
 };
 
 const Dashboard = () => {
-	const [metricData, setMetricData] = useState<ArtisanMetricTypes>({
-		artisans: 0,
-		pending_kyc: 0,
-		total_balance: 0,
+	const [metricData, setMetricData] = useState<MetricTypes>({
+		bookingData: initialBookingState,
+		userData: {
+			pending_verification: 0,
+			users: 0,
+		},
+		artisanData: {
+			pending_verification: 0,
+			artisans: 0,
+		},
 	});
 	const [adminBookings, setAdminBookings] =
 		useState<BookingMetricTypes>(initialBookingState);
@@ -73,8 +80,29 @@ const Dashboard = () => {
 	useEffect(() => {
 		DashboardService.ArtisansData()
 			.then((res) => {
-				toast.success(res.data.payload.data);
-				setMetricData(res.data.payload.data);
+				setMetricData((prevState) => ({
+					...prevState,
+					artisanData: res.data.payload.data,
+				}));
+				// console.log(res.data.payload.data);
+			})
+			.catch((err) => toast.error(err.response.data.error.message));
+		DashboardService.CustomerData()
+			.then((res) => {
+				// console.log(res.data.payload.data);
+				setMetricData((prevState) => ({
+					...prevState,
+					userData: res.data.payload.data,
+				}));
+			})
+			.catch((err) => toast.error(err.response.data.error.message));
+		DashboardService.BookingData()
+			.then((res) => {
+				setMetricData((prevState) => ({
+					...prevState,
+					bookingData: res.data.payload.data,
+				}));
+				console.log(res.data.payload.data);
 			})
 			.catch((err) => toast.error(err.response.data.error.message));
 	}, []);
@@ -99,22 +127,23 @@ const Dashboard = () => {
 		stopLoading: stopFetchingTnx,
 	} = useLoading();
 
-	useEffect(() => {
-		userServices
-			.getUsers()
-			.then((res) => setTotalUsers(res?.data?.payload?.data.length))
-			.catch((err) => console.log(err?.response?.data?.error?.message));
-	}, []);
+	// useEffect(() => {
+	// 	userServices
+	// 		.getUsers()
+	// 		.then((res) => setTotalUsers(res?.data?.payload?.data.length))
+	// 		.catch((err) => console.log(err?.response?.data?.error?.message));
+	// }, []);
 
-	useEffect(() => {
-		startLoading();
-		DashboardService.RecentBookingHistory()
-			.then((res) => {
-				setRecentBookings(res?.data?.payload?.data);
-			})
-			.catch((err) => console.log(err.response))
-			.finally(() => stopLoading());
-	}, []);
+	// useEffect(() => {
+	// 	startLoading();
+	// 	DashboardService.RecentBookingHistory()
+	// 		.then((res) => {
+	// 			setRecentBookings(res?.data?.payload?.data);
+	// 		})
+	// 		.catch((err) => console.log(err.response))
+	// 		.finally(() => stopLoading());
+	// }, []);
+
 	useEffect(() => {
 		startFetchingTnx();
 		DashboardService.RecentWalletHistory()
@@ -125,64 +154,68 @@ const Dashboard = () => {
 			.finally(() => stopFetchingTnx());
 	}, []);
 
+	console.log(metricData?.artisanData);
+
 	const metrics = [
 		{
-			count: totalUsers,
+			count: metricData?.userData?.users || 0,
 			key: 'Total Customers',
 			img: user,
 			color: theme.colors.purple,
 			href: '/users',
 		},
 		{
-			count: metricData.artisans,
+			count: metricData?.artisanData?.artisans || 0,
 			key: 'Total Vendor',
 			img: artisan,
 			color: theme.colors.blue,
 			href: '/artisans',
 		},
+		// {
+		// 	count: `₦${numberWithCommas(metricData.total_balance)}`,
+		// 	key: 'Total Wallet ',
+		// 	img: wallet,
+		// 	color: theme.colors.cyan,
+		// },
 		{
-			count: `₦${numberWithCommas(metricData.total_balance)}`,
-			key: 'Total Wallet ',
-			img: wallet,
-			color: theme.colors.cyan,
-		},
-		{
-			count: metricData.pending_kyc,
+			count:
+				(metricData?.artisanData?.pending_verification || 0) +
+				(metricData?.userData?.pending_verification || 0),
 			key: 'Pending KYC ',
 			img: kyc,
 			color: theme.colors.mustard,
 			href: '/kyc',
 		},
 		{
-			count: adminBookings.total_bookings,
+			count: metricData?.bookingData?.total_bookings || 0,
 			key: 'Total Booking ',
 			img: booking,
 			color: theme.colors.darkPurple,
 			href: '/bookings?tabStatus=all',
 		},
 		{
-			count: adminBookings.active_bookings,
+			count: metricData?.bookingData?.active_bookings || 0,
 			key: 'Active Booking ',
 			img: booking,
-			color: theme.colors.mustard,
+			color: theme.colors.purple,
 			href: '/bookings?tabStatus=active',
 		},
 		{
-			count: adminBookings.pending_bookings,
+			count: metricData?.bookingData?.pending_bookings,
 			key: 'Pending Booking ',
 			img: booking,
 			color: theme.colors.cyan,
 			href: '/bookings?tabStatus=completed',
 		},
 		{
-			count: adminBookings.canceled_bookings,
+			count: metricData?.bookingData?.canceled_bookings,
 			key: 'Canceled Booking ',
 			img: booking,
 			color: theme.colors.red,
 			href: '/bookings?tabStatus=canceled',
 		},
 		{
-			count: adminBookings.completed_bookings,
+			count: metricData?.bookingData?.completed_bookings,
 			key: 'Completed Booking ',
 			img: booking,
 			color: theme.colors.purple,
@@ -213,13 +246,13 @@ const Dashboard = () => {
 				) : (
 					<RecentBookingsTable rows={recentBookings} />
 				)}
-				{fetchRecentTrx ? (
+				{/* {fetchRecentTrx ? (
 					<div className='loader-container'>
 						<ScaleLoader color='#7E00C4' height={50} width={8} />
 					</div>
 				) : (
 					<RecentTransactionsTable rows={recentWalletTrnx} />
-				)}
+				)} */}
 			</DashboardContainer>
 		</DashboardLayout>
 	);

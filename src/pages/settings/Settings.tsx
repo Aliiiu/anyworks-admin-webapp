@@ -14,6 +14,8 @@ import Visibility from 'src/components/common/Visibility';
 import miscService from 'src/service/miscServices';
 import { useLoading } from 'src/hooks';
 import AdminAuth from 'src/service/AdminAuth';
+import AppModal from 'src/components/ui/widget/Modal/Modal';
+import ModalContent from 'src/components/common/ModalContent';
 
 const InputField = styled(Field)`
 	border-radius: 8px;
@@ -113,6 +115,7 @@ const Settings = () => {
 	const { value, toggle } = useBoolean(false);
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [serviceFee, setServiceFee] = useState({ min: '', max: '' });
 	const imageFileRef = useRef<HTMLInputElement | null>(null);
 	const settingSchema = Yup.object().shape({
 		old_password: Yup.string().required('Enter your old password'),
@@ -138,7 +141,14 @@ const Settings = () => {
 	};
 
 	useEffect(() => {
-		document.title = 'Settings';
+		AdminAuth.getServiceFeeRange()
+			.then((res) => {
+				console.log(res.data);
+				setServiceFee(res?.data?.payload?.data?.service_fee_range);
+				setMaxServiceFee(res?.data?.payload?.data?.service_fee_range?.max);
+				setMinServiceFee(res?.data?.payload?.data?.service_fee_range?.min);
+			})
+			.catch((err) => console.log(err.response));
 	}, []);
 
 	const fetchMe = () => {
@@ -184,13 +194,17 @@ const Settings = () => {
 			.delCache()
 			.then((res) => {
 				toast.success(res.data.message);
-				stopLoading();
 			})
-			.catch((err) => console.log(err.response.data.message));
+			.catch((err) => console.log(err.response.data.message))
+			.finally(() => {
+				stopLoading();
+				setShowModal(false);
+			});
 	};
 
 	const [minServiceFee, setMinServiceFee] = useState('');
 	const [maxServiceFee, setMaxServiceFee] = useState('');
+	const [showModal, setShowModal] = useState<boolean | null>(false);
 
 	const updateCalloutFee = () => {
 		startFetchingServiceFee();
@@ -209,6 +223,10 @@ const Settings = () => {
 			})
 			.catch((err) => console.log(err.response));
 	};
+
+	useEffect(() => {
+		document.title = 'Settings';
+	}, []);
 	return (
 		<DashboardLayout pageTitle='Settings'>
 			<ToastContainer />
@@ -302,52 +320,85 @@ const Settings = () => {
 				</div>
 			</SettingsContainer>
 			<div className='my-10 p-[35px] rounded-2xl bg-white'>
-				<p className='mb-1 text-2xl font-semibold'>Set Service Fee</p>
-				<Flex align='end'>
-					<Flex gap='5px' direction='column' style={{ width: '154px' }}>
-						<label>Service Fee Minimum</label>
-						<input
-							className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
-							value={minServiceFee}
-							onChange={(e) => setMinServiceFee(e.target.value)}
-						/>
-					</Flex>
-					<div className='h-12 flex items-center'>
-						<div className='text-black h-[1px] w-2 bg-black' />
+				<div>
+					<p className='mb-1 text-2xl font-semibold'>Variable Fee</p>
+					<div className='flex items-center'>
+						<div className='flex flex-col gap-4'>
+							<label>Distance Fee</label>
+							<div className='flex items-center gap-1'>
+								<input className='bg-[#F2F4F7] max-w-[154px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full' />
+								<span className='text-[#4D4D4D] font-light'>per KM</span>
+							</div>
+						</div>
+						<div className='w-[1px] h-[118px] bg-[#F2F2F2] mx-[68px]'></div>
+						<div className='flex flex-col gap-4'>
+							<label>Time Interval Fee</label>
+							<input className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full' />
+						</div>
 					</div>
-					<Flex gap='5px' direction='column' style={{ width: '154px' }}>
-						<label>Service Fee Maximum</label>
-						<input
-							className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
-							value={maxServiceFee}
-							onChange={(e) => setMaxServiceFee(e.target.value)}
-						/>
-					</Flex>
-					<button
-						onClick={updateCalloutFee}
-						className='text-primary border border-primary active:bg-primary active:text-white font-semibold rounded-lg text-sm px-2 py-3 min-w-[112px] h-full'
-					>
-						{getServiceFee ? (
-							<ClipLoader
-								size={20}
-								color={'#7607BD'}
-								className='text-primary'
+				</div>
+				<div className=''>
+					<p className='mb-1 text-2xl font-semibold'>Set Service Fee</p>
+					<Flex align='end'>
+						<Flex gap='5px' direction='column' style={{ width: '154px' }}>
+							<label>Service Fee Minimum</label>
+							<input
+								className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
+								value={minServiceFee}
+								onChange={(e) => setMinServiceFee(e.target.value)}
 							/>
-						) : (
-							'Set Service Fee'
-						)}
-					</button>
-				</Flex>
+						</Flex>
+						<div className='h-12 flex items-center'>
+							<div className='text-black h-[1px] w-2 bg-black' />
+						</div>
+						<Flex gap='5px' direction='column' style={{ width: '154px' }}>
+							<label>Service Fee Maximum</label>
+							<input
+								className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full'
+								value={maxServiceFee}
+								onChange={(e) => setMaxServiceFee(e.target.value)}
+							/>
+						</Flex>
+						<button
+							onClick={updateCalloutFee}
+							className='text-primary border border-primary active:bg-primary active:text-white font-semibold rounded-lg text-sm px-2 py-3 min-w-[112px] h-full'
+						>
+							{getServiceFee ? (
+								<ClipLoader
+									size={20}
+									color={'#7607BD'}
+									className='text-primary'
+								/>
+							) : (
+								'Set Service Fee'
+							)}
+						</button>
+					</Flex>
+				</div>
 			</div>
 			<div className='my-10 p-[35px] rounded-2xl bg-white'>
 				<h2 className='font-semibold text-2xl'>Clear Cache</h2>
 				<button
-					onClick={cacheHandler}
+					onClick={() => setShowModal(true)}
 					className='bg-primary px-4 py-3 flex justify-center text-white min-w-[100px] rounded-lg mt-2'
 				>
-					{loading ? <Loading color='white' /> : 'Click here'}
+					{'Click here'}
 				</button>
 			</div>
+			<AppModal
+				open={showModal}
+				onClose={() => setShowModal(false)}
+				content={
+					<ModalContent
+						content1='Clear Cache'
+						content2='Are you sure you want to clear the cache?'
+						btnAction={cacheHandler}
+						linkContent='Yes, Clear'
+						loading={loading}
+						onClick={() => setShowModal(false)}
+					/>
+				}
+			/>
 		</DashboardLayout>
 	);
 };

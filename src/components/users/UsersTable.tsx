@@ -75,7 +75,7 @@ export const UsersTable = ({ rows }: Props) => {
 		},
 		{ title: 'Email', render: (row: UsersListTypes) => `${row.email}` },
 		{ title: 'Gender', render: (row: UsersListTypes) => `${row.gender}` },
-		// { title: 'Last Login', render: (row: UsersListTypes) => `${row.registrationDate}` },
+		{ title: 'Last Login', render: (row: UsersListTypes) => `${row.gender}` },
 		{
 			title: '',
 			render: (row: UsersListTypes) => (

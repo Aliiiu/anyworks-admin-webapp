@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import { formatDateYmd } from 'src/utils/helpers';
 import { Flex } from 'src/components/ui';
 import { useEffect, useState } from 'react';
-import KycData from 'src/service/KycData';
+import KycData from 'src/service/VerifyService';
 import { ClipLoader } from 'react-spinners';
 import useLoading from 'src/hooks/useLoading';
 import AdminAuth from 'src/service/AdminAuth';
 import { Controller, useForm } from 'react-hook-form';
 import { NumberInput } from '../inputs/NumberInput';
 import { toast } from 'react-toastify';
+import VerificationService from 'src/service/VerifyService';
 
 const ProfileContainer = styled.div`
 	padding: 40px;
@@ -30,10 +31,10 @@ const ProfileContainer = styled.div`
 `;
 
 interface Props {
-	artisanKyc: any;
+	verifyData: any;
 }
 
-const KycProfileInfo = ({ artisanKyc }: Props) => {
+const VendorProfileInfo = ({ verifyData }: Props) => {
 	const {
 		register,
 		handleSubmit,
@@ -54,13 +55,11 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 	const { loading, startLoading, stopLoading } = useLoading(false);
 
 	useEffect(() => {
-		// console.log(artisanKyc.artisan._id);
-		setMinServiceFee(artisanKyc?.artisan?.call_out_fee?.min || '');
-		// reset({ callout_fee_min: 50 });
-		setValue('callout_fee_min', artisanKyc?.artisan?.call_out_fee?.min || '');
-		setValue('callout_fee_max', artisanKyc?.artisan?.call_out_fee?.max || '');
-		setMaxServiceFee(artisanKyc?.artisan?.call_out_fee?.max || '');
-	}, [artisanKyc?.artisan?.call_out_fee, reset]);
+		setMinServiceFee(verifyData?.artisan?.service_fee?.min || '');
+		setValue('callout_fee_min', verifyData?.artisan?.service_fee?.min || '');
+		setValue('callout_fee_max', verifyData?.artisan?.service_fee?.max || '');
+		setMaxServiceFee(verifyData?.artisan?.service_fee?.max || '');
+	}, [setValue, verifyData?.artisan?.service_fee]);
 
 	const updateCalloutFee = () => {
 		console.log({
@@ -68,7 +67,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 			max: maxServiceFee,
 		});
 		startLoading();
-		KycData.updateCalloutFee(artisanKyc?.artisan._id, {
+		KycData.updateCalloutFee(verifyData?.artisan._id, {
 			callout_fee_min: minServiceFee,
 			callout_fee_max: maxServiceFee,
 		})
@@ -89,7 +88,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 	const onSubmit = (data: any) => {
 		console.log(data);
 		startLoading();
-		KycData.updateCalloutFee(artisanKyc?.artisan._id, data)
+		VerificationService.updateCalloutFee(verifyData?.artisan._id, data)
 			.then((res) => toast.success(res?.data?.message))
 			.catch((err) => toast.error(err?.response?.data?.error?.message))
 			.finally(() => stopLoading());
@@ -100,7 +99,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 			<div
 				style={{
 					backgroundImage: `url(${
-						artisanKyc?.artisan?.display_picture || '/images/profilePics.png'
+						verifyData?.artisan?.display_picture || '/images/profilePics.png'
 					})`,
 					width: '153px',
 					height: '153px',
@@ -122,7 +121,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<Input
 							disabled
 							style={{ background: '#F2F4F7' }}
-							value={artisanKyc?.artisan?.first_name}
+							value={verifyData?.artisan?.first_name || ''}
 						/>
 					</Flex>
 					<Flex direction='column' style={{ width: '50%' }}>
@@ -130,7 +129,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<Input
 							disabled
 							style={{ background: '#F2F4F7' }}
-							value={artisanKyc?.artisan?.last_name}
+							value={verifyData?.artisan?.last_name || ''}
 						/>
 					</Flex>
 				</Flex>
@@ -139,8 +138,9 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<label htmlFor='first_name'>Occupation</label>
 						<Input
 							disabled
+							type='text'
 							style={{ background: '#F2F4F7' }}
-							value={artisanKyc?.artisan?.occupation}
+							value={verifyData?.artisan?.occupation}
 						/>
 					</Flex>
 					<Flex direction='column' style={{ width: '50%' }}>
@@ -149,7 +149,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 							disabled
 							type='date'
 							style={{ background: '#F2F4F7' }}
-							value={formatDateYmd(artisanKyc?.artisan?.dob)}
+							value={formatDateYmd(verifyData?.artisan?.dob)}
 						/>
 					</Flex>
 				</Flex>
@@ -159,7 +159,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<Input
 							disabled
 							style={{ background: '#F2F4F7' }}
-							value={`${artisanKyc?.artisan?.address?.house_address},${artisanKyc?.artisan?.address?.city}, ${artisanKyc?.artisan?.address?.state}`}
+							value={`${verifyData?.artisan?.address?.house_address},${verifyData?.artisan?.address?.city}, ${verifyData?.artisan?.address?.state}`}
 						/>
 					</Flex>
 					<Flex direction='column' style={{ width: '50%' }}>
@@ -167,7 +167,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<Input
 							disabled
 							style={{ background: '#F2F4F7' }}
-							value={artisanKyc?.artisan?.gender}
+							value={verifyData?.artisan?.gender}
 						/>
 					</Flex>
 				</Flex>
@@ -177,7 +177,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<Input
 							disabled
 							style={{ background: '#F2F4F7' }}
-							value={artisanKyc?.artisan?.email}
+							value={verifyData?.artisan?.email}
 						/>
 					</Flex>
 					<Flex direction='column' style={{ width: '50%' }}>
@@ -185,7 +185,7 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 						<Input
 							disabled
 							style={{ background: '#F2F4F7' }}
-							value={artisanKyc?.artisan?.phone}
+							value={verifyData?.artisan?.phone}
 						/>
 					</Flex>
 				</Flex>
@@ -237,4 +237,4 @@ const KycProfileInfo = ({ artisanKyc }: Props) => {
 	);
 };
 
-export default KycProfileInfo;
+export default VendorProfileInfo;

@@ -8,6 +8,7 @@ import { FC, useState } from 'react';
 import SendMailModal from '../users/SendMailModal';
 import { SendNotificationModal } from '../users/SendNotificationModal';
 import avatar from '../../assets/images/header/avatar.svg';
+import { Link } from 'react-router-dom';
 
 export const ProfileInfoContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -72,7 +73,7 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 		<ProfileInfoContainer>
 			<div className='heading'>
 				<Flex justify='space-between' align='center' wrap='wrap'>
-					<h1 className='title'>Profile Information</h1>
+					<h1 className='font-semibold text-2xl'>Profile Information</h1>
 					{/* <div>
 						<Button classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}>
 							{' '}
@@ -116,11 +117,17 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 								<img src={chat} alt='chat' />
 							</button>
 						</Flex>
+						<Link
+							to={`/verification/customer/${userDetails._id}/nin-validation`}
+							className=' bg-primary py-3 px-5 text-white rounded-lg'
+						>
+							View Verification
+						</Link>
 					</Flex>
 				</div>
 				<div className='profile-info--rhs'>
 					<Flex direction='column' gap='1.5rem'>
-						<h3 className='name'>
+						<h3 className='text-xl font-semibold'>
 							{userDetails?.first_name || ''} {userDetails?.last_name || ''}
 						</h3>
 						<div className='details'>
@@ -154,7 +161,14 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 									</tr>
 									<tr>
 										<td className='text key'>Rating</td>
-										<td className='text value'>{userDetails?.rating || ''}</td>
+										<td className='text value flex items-center gap-1'>
+											<p>{userDetails?.rating || ''}</p>
+											<img src='/svgs/star.svg' alt='' className='w-4 h-4' />
+										</td>
+									</tr>
+									<tr>
+										<td className='text key'>Tier</td>
+										<td className='text value'>{userDetails?.tier || ''}</td>
 									</tr>
 								</tbody>
 							</table>

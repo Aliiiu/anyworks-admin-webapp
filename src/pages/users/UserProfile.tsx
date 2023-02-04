@@ -8,7 +8,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { Flex, Button, ButtonClass } from 'src/components/ui';
 import { BookingStatus } from 'src/components/bookings';
 import { useNavigate } from 'react-router-dom';
-import { formatDateDmy } from 'src/utils/helpers';
+import { formatDateDmy, numberWithCommas } from 'src/utils/helpers';
 import { useLoading } from 'src/hooks';
 import userServices from 'src/service/userServices';
 import { useEffect, useState } from 'react';
@@ -17,6 +17,8 @@ import bookingAdminService from 'src/service/BookingAdmin';
 import { initialBookingState } from '../bookings/BookingDetails';
 import { toast, ToastContainer } from 'react-toastify';
 import avatar from '../../assets/images/header/avatar.svg';
+import bookingsIcon from 'src/assets/images/metrics/bookingSummary.svg';
+import WalletTable from 'src/components/artisan/WalletTable';
 
 const UserProfileContainer = styled.div`
 	.loader-container {
@@ -27,6 +29,32 @@ const UserProfileContainer = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+`;
+
+const StyledBookingSummary = styled.div`
+	margin: 32px 0px;
+	display: flex;
+	gap: 36px;
+	.booking_summary,
+	.wallet_summary {
+		background: #ffffff;
+		border-radius: 16px;
+		padding: 24px 24px 33px 41px;
+		display: flex;
+		gap: 28px;
+		.summary_details {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			h5 {
+				font-size: 16px;
+				font-weight: 500;
+			}
+			h3 {
+				font-size: 36px;
+			}
+		}
 	}
 `;
 
@@ -60,6 +88,7 @@ const initialUserDetails: UsersDetailsType = {
 	last_name: '',
 	phone: '',
 	rating: 0,
+	tier: 0,
 	suspended: false,
 	updatedAt: '',
 	uuid: '',
@@ -73,6 +102,10 @@ const UserProfile = () => {
 	const [userDetails, setUserDetails] =
 		useState<UsersDetailsType>(initialUserDetails);
 	const { loading, startLoading, stopLoading } = useLoading();
+	const [userWalletDetails, setUserWalletDetails] = useState<WalletDataTypes>({
+		balance: 0,
+		transactions: [],
+	});
 	const [userBookings, setUserBookings] = useState<BookingsTypes[]>([
 		initialBookingState,
 	]);
@@ -81,7 +114,9 @@ const UserProfile = () => {
 		userServices
 			.getUser(id)
 			.then((res: any) => {
-				setUserDetails(res?.data?.payload?.data);
+				setUserDetails(res?.data?.payload?.data?.user);
+				setUserWalletDetails(res?.data?.payload?.data?.wallet);
+				// console.log(res?.data?.payload?.data);
 				// res.data.payload.data && setAdminEntry(res.data.payload.data);
 			})
 			.catch((err: any) => {
@@ -163,6 +198,21 @@ const UserProfile = () => {
 				) : (
 					<ProfileInfo userDetails={userDetails} />
 				)}
+				<StyledBookingSummary>
+					<div className='booking_summary'>
+						<div className='summary_details'>
+							<h5>Total Bookings</h5> <h3>0</h3>
+						</div>
+						<img src={bookingsIcon} alt='' width={55} height='55px' />
+					</div>
+					<div className='wallet_summary'>
+						<div className='summary_details'>
+							<h5>Wallet Balance</h5>{' '}
+							<h3> ₦{numberWithCommas(userWalletDetails?.balance)}</h3>
+						</div>
+						<img src={bookingsIcon} alt='' width={55} height='55px' />
+					</div>
+				</StyledBookingSummary>
 				<BookingsTabs
 					rows={userBookings}
 					BookingsTableHeaders={BookingsTableHeaders}
@@ -171,6 +221,7 @@ const UserProfile = () => {
 					searchParams={searchParams}
 					setSearchParams={setSearchParams}
 				/>
+				<WalletTable rows={userWalletDetails?.transactions} />
 			</UserProfileContainer>
 		</DashboardLayout>
 	);

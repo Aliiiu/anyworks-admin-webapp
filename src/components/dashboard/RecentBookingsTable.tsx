@@ -30,7 +30,7 @@ const RecentBookingsTableContainer = styled.div`
 
 const RecentBookingsTableHeaders = [
 	{
-		title: 'Artisan',
+		title: 'Vendor',
 		render: (row: BookingsTypes) => (
 			<Flex gap='10px' align='center'>
 				<img
@@ -44,7 +44,7 @@ const RecentBookingsTableHeaders = [
 	},
 	{ title: 'Service', render: (row: BookingsTypes) => `${row.service}` },
 	{
-		title: 'User',
+		title: 'Customer',
 		render: (row: BookingsTypes) => (
 			<Flex gap='10px' align='center'>
 				<img

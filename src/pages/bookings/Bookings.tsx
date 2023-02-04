@@ -118,7 +118,7 @@ const BookingsPage = () => {
 
 	const BookingsTableHeaders = [
 		{
-			title: 'Artisan',
+			title: 'Customer',
 			render: (row: BookingsTypes) => (
 				<Flex gap='10px' align='center'>
 					<img
@@ -131,7 +131,7 @@ const BookingsPage = () => {
 			),
 		},
 		{
-			title: 'User',
+			title: 'Vendor',
 			render: (row: BookingsTypes) => (
 				<Flex gap='10px' align='center'>
 					<img

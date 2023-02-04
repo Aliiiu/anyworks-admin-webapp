@@ -9,7 +9,20 @@ interface BookingMetricTypes {
 	pending_bookings: number;
 	total_bookings: number;
 	completed_bookings: number;
+	bookings: {}[];
 }
+
+type MetricTypes = {
+	bookingData: BookingMetricTypes;
+	userData: {
+		pending_verification: number;
+		users: number;
+	};
+	artisanData: {
+		pending_verification: number;
+		artisans: number;
+	};
+};
 interface WalletTrnxTypes {
 	created_at: string;
 	amount: number;
