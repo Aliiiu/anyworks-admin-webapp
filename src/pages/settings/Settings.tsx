@@ -16,6 +16,8 @@ import { useLoading } from 'src/hooks';
 import AdminAuth from 'src/service/AdminAuth';
 import AppModal from 'src/components/ui/widget/Modal/Modal';
 import ModalContent from 'src/components/common/ModalContent';
+import { AiOutlinePlus } from 'react-icons/ai';
+import DaysRangePicker from 'src/components/common/daysRangePicker';
 
 const InputField = styled(Field)`
 	border-radius: 8px;
@@ -332,8 +334,28 @@ const Settings = () => {
 						</div>
 						<div className='w-[1px] h-[118px] bg-[#F2F2F2] mx-[68px]'></div>
 						<div className='flex flex-col gap-4'>
-							<label>Time Interval Fee</label>
-							<input className='bg-[#F2F4F7] w-full border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full' />
+							<div className='flex justify-between'>
+								<label>Time Interval Fee</label>
+								<div className='flex items-center gap-2'>
+									<AiOutlinePlus className='text-primary' />
+									<span className='text-primary'>Add</span>
+								</div>
+							</div>
+							<div className='flex justify-between items-center'>
+								<input className='bg-[#F2F4F7] max-w-[154px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-full' />
+								{/* <DaysRangePicker /> */}
+								<div className='flex pl-4 items-center gap-4'>
+									<p className='text-[#999999]'>Mon - Fri</p>
+									<div className='flex gap-1 items-center'>
+										<p className='text-[#999999]'>8AM - 4PM</p>
+										<img
+											src='/svgs/calendar-new.svg'
+											alt=''
+											className='w-6 h-6'
+										/>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
