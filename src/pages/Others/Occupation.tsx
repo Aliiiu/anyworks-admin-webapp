@@ -29,7 +29,7 @@ const Occupation = (props: Props) => {
 		miscService
 			.getOccupations()
 			.then((res) => {
-				console.log(res?.data?.payload?.data);
+				// console.log(res?.data?.payload?.data);
 				setOccupation(res?.data?.payload.data);
 			})
 			.catch((err) => console.log(err.response))

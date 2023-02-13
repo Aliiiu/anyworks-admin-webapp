@@ -29,6 +29,7 @@ import CustomerProfileInfo from 'src/components/kyc/CusomerProfileInfo';
 import VerificationService from 'src/service/VerifyService';
 import { ScaleLoader } from 'react-spinners';
 import { BsCheck2 } from 'react-icons/bs';
+import Certificate from 'src/pages/kyc/Certificate';
 
 const ArtisankycContainer = styled.div`
 	.pageHeader {
@@ -110,6 +111,14 @@ const VerificationRoute = () => {
 			href: 'social-media-linking',
 			verified: userVerify?.user?.verified?.social_media,
 		},
+		{
+			id: 6,
+			title: 'Tier 6',
+			content: 'Uploading professional Certificates',
+			img: '/svgs/tier6.svg',
+			href: 'certificate',
+			verified: userVerify?.user?.verified?.social_media,
+		},
 	];
 
 	return (
@@ -166,12 +175,15 @@ const VerificationRoute = () => {
 															</div>
 															<p className='text-[#999999]'>{item.content}</p>
 														</div>
-														{item.verified && (
+														{item.verified ? (
 															<div className='w-8 h-8 rounded-full flex justify-center items-center bg-primary'>
 																<BsCheck2 className='text-white text-xl' />
 															</div>
+														) : (
+															<div className='bg-[#00A7D7] text-white py-1 px-2 rounded-2xl'>
+																Pending
+															</div>
 														)}
-														{/* {item.verified} */}
 													</div>
 												</div>
 											</Link>
@@ -183,13 +195,18 @@ const VerificationRoute = () => {
 								<Route
 									path='/nin-validation'
 									element={
-										<NinValidation id={user_id || ''} verifyData={userVerify} />
+										<NinValidation
+											who='user'
+											id={user_id || ''}
+											verifyData={userVerify}
+										/>
 									}
 								/>
 								<Route
 									path='/document-upload'
 									element={
 										<DocumentUpload
+											who='user'
 											id={user_id || ''}
 											verifyData={userVerify}
 										/>
@@ -197,28 +214,48 @@ const VerificationRoute = () => {
 								/>
 								<Route
 									path='/address-verification'
-									element={<AddressVerification />}
+									element={
+										<AddressVerification
+											who='user'
+											id={user_id || ''}
+											verifyData={userVerify}
+										/>
+									}
 								/>
-								<Route path='/face-recognition' element={<FaceRecognition />} />
-								<Route path='/social-media-linking' element={<Socials />} />
+								<Route
+									path='/face-recognition'
+									element={
+										<FaceRecognition
+											who='user'
+											id={user_id || ''}
+											verifyData={userVerify}
+										/>
+									}
+								/>
+								<Route
+									path='/social-media-linking'
+									element={
+										<Socials
+											who='user'
+											id={user_id || ''}
+											verifyData={userVerify}
+										/>
+									}
+								/>
+								<Route
+									path='/certificate'
+									element={
+										<Certificate
+											who='user'
+											id={user_id || ''}
+											verifyData={userVerify}
+										/>
+									}
+								/>
 							</Routes>
 						</div>
 					</>
 				)}
-
-				{/* <KycApprovedModal
-					open={open}
-					handleClose={handleClose}
-					artisanName={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
-				/>
-				
-				<ConfirmApproveKycModal
-					open={openConfirmApproveKycModal}
-					handleApproveKyc={handleApproveKyc}
-					handleClose={handleConfirmApproveKycModalClose}
-					artisanName={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
-					approvingKyc={approvingKyc}
-				/> */}
 			</ArtisankycContainer>
 		</DashboardLayout>
 	);

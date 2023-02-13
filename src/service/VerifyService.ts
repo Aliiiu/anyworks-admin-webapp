@@ -13,23 +13,27 @@ const VerificationService = {
 	getVendorVerification: async (artisan_id: string) => {
 		return adminServiceApi().get(`artisan/v1/verification/${artisan_id}`);
 	},
-	approveRejectVendor: async (
+	approveRejectVerification: async (
 		data: { reason: string },
 		artisan_id: string,
 		action: string,
-		type: string
+		type: string,
+		who: string
 	) => {
 		return adminServiceApi().put(
-			`artisan/v1/verification/${artisan_id}/${action}?type=${type}`,
+			`${who}/v1/verification/${artisan_id}/${action}?type=${type}`,
 			data
 		);
 	},
-	retryNinVerification: async (data: {
-		identity_type: string;
-		identity_no: string;
-		artisan_id: string;
-	}) => {
-		return adminServiceApi().post(`artisan/v1/verification/nin/retry`, data);
+	retryNinVerification: async (
+		data: {
+			identity_type: string;
+			identity_no: string;
+			artisan_id: string;
+		},
+		who: string
+	) => {
+		return adminServiceApi().post(`${who}/v1/verification/nin/retry`, data);
 	},
 	updateCalloutFee: async (
 		artisan_id: string,

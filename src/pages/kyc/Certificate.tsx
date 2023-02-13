@@ -1,14 +1,13 @@
 import { FC, useState } from 'react';
+import Button from 'src/components/ui/widget/Button';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import KycApprovedModal from 'src/components/kyc/kycModals/KycApprovedModal';
 import RejectionModal from 'src/components/kyc/kycModals/RejectionModal';
-import { TextField } from 'src/components/ui/form/FormComponent';
-import Button from 'src/components/ui/widget/Button';
 import { useLoading } from 'src/hooks';
 import VerificationService from 'src/service/VerifyService';
 
-const AddressVerification: FC<{
+const Certificate: FC<{
 	id: string;
 	who: string;
 	verifyData: { [key: string]: any };
@@ -16,6 +15,7 @@ const AddressVerification: FC<{
 	const { formState, handleSubmit, register, control, setValue } = useForm({
 		mode: 'onChange',
 	});
+
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -37,7 +37,7 @@ const AddressVerification: FC<{
 				{ reason: 'rejectionReason' },
 				id,
 				'reject',
-				'address',
+				'certificate',
 				who
 			)
 				.then((res) => {
@@ -68,7 +68,7 @@ const AddressVerification: FC<{
 			{ reason: '' },
 			id,
 			'approve',
-			'address',
+			'certificate',
 			who
 		)
 			.then((res) => {
@@ -89,42 +89,21 @@ const AddressVerification: FC<{
 			onSubmit={handleSubmit(onSubmit)}
 			className='w-[60%] pb-[29px] pt-[74px]'
 		>
-			<div className='flex flex-col justify-between h-full'>
+			<div className='flex flex-col justify-between items-center h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
-					<h3 className='font-medium text-2xl'>Address Verification</h3>
-					<div className='mt-10'>
-						<TextField
-							label={'Residential Address'}
-							type='text'
-							control={control}
-							error={formState.errors.address}
-							{...register('address', { required: false })}
-						/>
-						<TextField
-							label={'City'}
-							type='text'
-							control={control}
-							error={formState.errors.city}
-							{...register('city', { required: false })}
-						/>
-						<TextField
-							label={'State'}
-							type='text'
-							control={control}
-							error={formState.errors.state}
-							{...register('state', { required: false })}
-						/>
-						<TextField
-							label={'Description'}
-							type='text'
-							control={control}
-							error={formState.errors.description}
-							{...register('description', { required: false })}
-						/>
+					<h3 className='font-medium text-2xl'>Professional Certificates</h3>
+					<div className='mt-10 border border-dashed flex flex-col justify-between rounded-lg border-[#B3B3B3] w-[420px] h-[114px] mx-auto p-[16px]'>
+						<div>
+							<h3 className='text-[#4D4D4D]'>legal-tenure.pdf</h3>
+							<small className='text-[#7607BD99]'>2MB</small>
+						</div>
+						<small className='text-[#7E00C4] cursor-pointer text-center'>
+							Download{' '}
+						</small>
 					</div>
 				</div>
-				{verifyData?.artisan?.verified?.address ||
-				verifyData?.user?.verified?.address ? (
+				{verifyData?.artisan?.verified?.face_capture ||
+				verifyData?.user?.verified?.face_capture ? (
 					<div className='flex gap-2 items-center justify-center'>
 						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
 						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
@@ -163,4 +142,4 @@ const AddressVerification: FC<{
 	);
 };
 
-export default AddressVerification;
+export default Certificate;

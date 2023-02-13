@@ -99,8 +99,7 @@ const initialUserDetails: UsersDetailsType = {
 const UserProfile = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
-	const [userDetails, setUserDetails] =
-		useState<UsersDetailsType>(initialUserDetails);
+	const [userDetails, setUserDetails] = useState<{ [key: string]: any }>({});
 	const { loading, startLoading, stopLoading } = useLoading();
 	const [userWalletDetails, setUserWalletDetails] = useState<WalletDataTypes>({
 		balance: 0,
@@ -114,7 +113,7 @@ const UserProfile = () => {
 		userServices
 			.getUser(id)
 			.then((res: any) => {
-				setUserDetails(res?.data?.payload?.data?.user);
+				setUserDetails(res?.data?.payload?.data);
 				setUserWalletDetails(res?.data?.payload?.data?.wallet);
 				// console.log(res?.data?.payload?.data);
 				// res.data.payload.data && setAdminEntry(res.data.payload.data);
@@ -184,8 +183,8 @@ const UserProfile = () => {
 	return (
 		<DashboardLayout
 			pageTitle={
-				userDetails?.first_name &&
-				`${userDetails?.first_name} ${userDetails?.last_name}’s Profile`
+				userDetails?.user?.first_name &&
+				`${userDetails?.user?.first_name} ${userDetails?.user?.last_name}’s Profile`
 			}
 			rhsHeading={<RhsHeading />}
 		>

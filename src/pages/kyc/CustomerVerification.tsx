@@ -9,6 +9,7 @@ import KycTable from 'src/components/kyc/KycTable';
 import { CustomerData } from 'src/constants/KYCDATA';
 import userServices from 'src/service/userServices';
 import { IoWarning } from 'react-icons/io5';
+import { useLoading } from 'src/hooks';
 
 interface Props {
 	handleChange: (e: any) => void;
@@ -36,6 +37,7 @@ type CustomerDataType = {
 const CustomerVerification = () => {
 	const [searchField, setSearchField] = useState('');
 	const [customerData, setCustomerData] = useState([]);
+	const { loading, startLoading, stopLoading } = useLoading(false);
 
 	const handleChange = (e: any) => {
 		console.log(e.target.value);
@@ -43,13 +45,15 @@ const CustomerVerification = () => {
 	};
 
 	useEffect(() => {
+		startLoading();
 		userServices
 			.getUsersVerification()
 			.then((res) => {
 				console.log(res?.data?.payload?.data);
 				setCustomerData(res?.data?.payload?.data);
 			})
-			.catch((err) => console.log(err.response.data.error.message));
+			.catch((err) => console.log(err.response.data.error.message))
+			.finally(() => stopLoading());
 	}, []);
 
 	const filteredData = customerData.filter((data: CustomerDataType) => {
@@ -106,13 +110,9 @@ const CustomerVerification = () => {
 		{
 			title: 'Status',
 			render: (row: any) => (
-				<span
-					className={`${
-						row.status === 'Upgrade' ? 'text-[#7E00C4]' : 'text-[#b3b3b3]'
-					}`}
-				>
-					{row.status}
-				</span>
+				<p className={`${row?.tier < 1 ? 'text-[#B3B3B3]' : 'text-[#7E00C4]'}`}>
+					{row?.tier < 1 ? 'Pending' : 'Upgrade'}
+				</p>
 			),
 		},
 	];
@@ -124,7 +124,7 @@ const CustomerVerification = () => {
 		>
 			<>
 				<ToastContainer />
-				{false ? (
+				{loading ? (
 					<div
 						style={{
 							display: 'flex',

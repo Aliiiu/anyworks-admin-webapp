@@ -14,6 +14,8 @@ import clsx from 'clsx';
 import ModalResponse from './ModalResponse';
 import miscService from 'src/service/miscServices';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { SelectField, TextField } from '../ui/form/FormComponent';
 // import { toast, ToastContainer } from 'react-toastify';
 
 const style = {
@@ -113,10 +115,6 @@ export const InputContainer = styled.div`
 `;
 
 interface occupationTypes {
-	name: string;
-	nameError: string;
-	category: string;
-	categoryError: string;
 	display_picture: File[];
 }
 interface categoriesTypes {
@@ -124,12 +122,16 @@ interface categoriesTypes {
 	name: string;
 	slug: string;
 }
-
+type formTypes = { name: string; base_fee: string; category_slug: string };
 const AddOccupationModal: React.FC<{
 	open: boolean;
 	fetchOccupation: Function;
 	handleClose: () => void;
 }> = ({ open, handleClose, fetchOccupation }) => {
+	const { formState, handleSubmit, register, control, setValue, reset } =
+		useForm<formTypes>({
+			mode: 'onChange',
+		});
 	const [openResponseModal, setOpenResponseModal] = useState(false);
 	const handleOpenModal = () => setOpenResponseModal(true);
 	const handleCloseModal = () => setOpenResponseModal(false);
@@ -138,10 +140,6 @@ const AddOccupationModal: React.FC<{
 	const [showSuccessResponse, setShowSuccessResponse] =
 		useState<boolean>(false);
 	const [occupationDetails, setOccupationDetails] = useState<occupationTypes>({
-		name: '',
-		nameError: '',
-		category: '',
-		categoryError: '',
 		display_picture: [],
 	});
 	// const [category, setCategory] = useState('');
@@ -155,67 +153,10 @@ const AddOccupationModal: React.FC<{
 
 	const [categories, setCategories] = useState<categoriesTypes[]>([]);
 
-	const submitHandler = (e: any) => {
-		e.preventDefault();
-		if (disabled) {
-			return;
-		}
-		let nameError = '';
-		let categoryError = '';
-		if (!occupationDetails.name) {
-			nameError = 'Enter this field';
-		}
-		if (!occupationDetails.category) {
-			categoryError = 'Select a category';
-		}
-		if (nameError || categoryError) {
-			setOccupationDetails({
-				...occupationDetails,
-				nameError,
-				categoryError,
-			});
-		} else {
-			// console.log(occupationDetails);
-			setDisabled(true);
-			const newData = new FormData();
-			newData.append('name', occupationDetails.name);
-			newData.append('category_slug', occupationDetails.category);
-			newData.append('icon', occupationDetails.display_picture[0]);
-			miscService
-				.addOccupations(newData)
-				.then((res) => {
-					console.log(res.data);
-					setShowSuccessResponse(true);
-					fetchOccupation();
-				})
-				.catch((err: any) => {
-					setShowSuccessResponse(false);
-					console.log(err.response.data.error.message);
-				})
-				.finally(() => {
-					setOccupationDetails((prevState) => ({
-						...prevState,
-						name: '',
-						nameError: '',
-						category: '',
-						categoryError: '',
-						display_picture: [],
-					}));
-					setDisabled(false);
-					handleOpenModal();
-					handleClose();
-				});
-		}
-	};
-
 	useEffect(() => {
 		setShowSuccessResponse(false);
 		setOccupationDetails((prevState) => ({
 			...prevState,
-			name: '',
-			nameError: '',
-			category: '',
-			categoryError: '',
 			display_picture: [],
 		}));
 	}, []);
@@ -231,6 +172,41 @@ const AddOccupationModal: React.FC<{
 				console.log(err.response.data.error.message);
 			});
 	}, []);
+
+	const submitHandler: SubmitHandler<formTypes> = (data) => {
+		if (disabled) {
+			return;
+		}
+
+		console.log(data);
+		setDisabled(true);
+		const newData = new FormData();
+		newData.append('name', data?.name);
+		newData.append('category_slug', data?.category_slug);
+		newData.append('base_fee', data?.base_fee);
+		newData.append('icon', occupationDetails.display_picture[0]);
+		miscService
+			.addOccupations(newData)
+			.then((res) => {
+				console.log(res.data);
+				setShowSuccessResponse(true);
+				fetchOccupation();
+			})
+			.catch((err: any) => {
+				setShowSuccessResponse(false);
+				console.log(err.response.data.error.message);
+			})
+			.finally(() => {
+				setOccupationDetails((prevState) => ({
+					...prevState,
+					display_picture: [],
+				}));
+				reset();
+				setDisabled(false);
+				handleOpenModal();
+				handleClose();
+			});
+	};
 
 	return (
 		<div>
@@ -259,47 +235,29 @@ const AddOccupationModal: React.FC<{
 							<Typography id='transition-modal-title' variant='h3' gutterBottom>
 								Add Occupation
 							</Typography>
-							<StyledForm onSubmit={submitHandler}>
-								<InputContainer>
-									<label htmlFor='First Name'>Occupation</label>
-									<Input
-										value={occupationDetails.name}
-										onChange={(e: any) =>
-											setOccupationDetails((prevState) => ({
-												...prevState,
-												name: e.target.value,
-												nameError: '',
-											}))
-										}
-										placeholder='name'
-										style={{
-											width: '100%',
-											borderColor: occupationDetails.nameError && '#F04438',
-											background: occupationDetails.nameError && '#F9FAFB',
-										}}
-										className={clsx()}
-										required
-									/>
-									{occupationDetails.nameError && (
-										<h6 className='validation_error'>
-											{occupationDetails.nameError}
-										</h6>
-									)}
-								</InputContainer>
-								<div>
+							<StyledForm onSubmit={handleSubmit(submitHandler)}>
+								<TextField
+									label={'Occupation'}
+									type='text'
+									control={control}
+									error={formState.errors.name}
+									{...register('name', { required: true })}
+								/>
+								{/* <div>
 									<label htmlFor='categories' className='mb-1'>
 										Select Category
 									</label>
 									<select
 										id='categories'
-										value={occupationDetails.category}
+										// value={occupationDetails.category}
 										placeholder='Select a category'
 										style={{
 											width: '100%',
 											borderColor: occupationDetails.nameError && '#F04438',
 											background: occupationDetails.nameError && '#F9FAFB',
 										}}
-										onChange={handleChange}
+										// onChange={handleChange}
+										{...register('category_slug')}
 										className='border border-[#98a2b3] text-sm rounded-lg placeholder:text-[#98a2b3] block w-full px-[10px] py-[14px]'
 									>
 										<option></option>
@@ -314,7 +272,21 @@ const AddOccupationModal: React.FC<{
 											{occupationDetails.categoryError}
 										</h6>
 									)}
-								</div>
+								</div> */}
+								<SelectField
+									label='Category'
+									placeholder='Select category'
+									error={formState.errors.category_slug}
+									selectArr={categories}
+									{...register('category_slug', { required: true })}
+								/>
+								<TextField
+									label={'Base Fee'}
+									type='text'
+									control={control}
+									error={formState.errors.base_fee}
+									{...register('base_fee', { required: true })}
+								/>
 								<InputContainer>
 									<label htmlFor='dropzone-file'>Occupation Icon</label>
 									<div className='file_wrapper'>
@@ -369,11 +341,7 @@ const AddOccupationModal: React.FC<{
 										)}
 									</div>
 								</InputContainer>
-								<button
-									disabled={disabled}
-									onClick={submitHandler}
-									className='btn_action'
-								>
+								<button disabled={disabled} className='btn_action'>
 									{disabled ? <Loading color='white' /> : 'Create'}
 								</button>
 							</StyledForm>
