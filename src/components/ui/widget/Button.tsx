@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { ClipLoader } from 'react-spinners';
 
 type Props = {
 	classes?: string;
@@ -15,7 +16,7 @@ const Button = ({ classes, children, onClick, dataIndex, disabled }: Props) => {
 			onClick={onClick}
 			className={`rounded-lg w-[150px] disabled:cursor-not-allowed ${classes}`}
 		>
-			{children}
+			{disabled ? <ClipLoader color='#ffffff' /> : children}
 		</button>
 	);
 };

@@ -102,7 +102,7 @@ const Dashboard = () => {
 					...prevState,
 					bookingData: res.data.payload.data,
 				}));
-				console.log(res.data.payload.data);
+				// console.log(res.data.payload.data);
 			})
 			.catch((err) => toast.error(err.response.data.error.message));
 	}, []);
@@ -154,8 +154,6 @@ const Dashboard = () => {
 			.finally(() => stopFetchingTnx());
 	}, []);
 
-	console.log(metricData?.artisanData);
-
 	const metrics = [
 		{
 			count: metricData?.userData?.users || 0,
@@ -178,10 +176,15 @@ const Dashboard = () => {
 		// 	color: theme.colors.cyan,
 		// },
 		{
-			count:
-				(metricData?.artisanData?.pending_verification || 0) +
-				(metricData?.userData?.pending_verification || 0),
-			key: 'Pending KYC ',
+			count: metricData?.artisanData?.pending_verification || 0,
+			key: 'Total Pending Vendor Verification',
+			img: kyc,
+			color: theme.colors.mustard,
+			href: '/kyc',
+		},
+		{
+			count: metricData?.userData?.pending_verification || 0,
+			key: 'Total Pending Customer Verification',
 			img: kyc,
 			color: theme.colors.mustard,
 			href: '/kyc',
@@ -201,21 +204,21 @@ const Dashboard = () => {
 			href: '/bookings?tabStatus=active',
 		},
 		{
-			count: metricData?.bookingData?.pending_bookings,
+			count: metricData?.bookingData?.pending_bookings || 0,
 			key: 'Pending Booking ',
 			img: booking,
 			color: theme.colors.cyan,
 			href: '/bookings?tabStatus=completed',
 		},
 		{
-			count: metricData?.bookingData?.canceled_bookings,
+			count: metricData?.bookingData?.canceled_bookings || 0,
 			key: 'Canceled Booking ',
 			img: booking,
 			color: theme.colors.red,
 			href: '/bookings?tabStatus=canceled',
 		},
 		{
-			count: metricData?.bookingData?.completed_bookings,
+			count: metricData?.bookingData?.completed_bookings || 0,
 			key: 'Completed Booking ',
 			img: booking,
 			color: theme.colors.purple,

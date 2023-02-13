@@ -9,6 +9,8 @@ import SendMailModal from '../users/SendMailModal';
 import { SendNotificationModal } from '../users/SendNotificationModal';
 import avatar from '../../assets/images/header/avatar.svg';
 import { Link } from 'react-router-dom';
+import { Disclosure } from '@headlessui/react';
+import { FiChevronUp } from 'react-icons/fi';
 
 export const ProfileInfoContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -57,7 +59,7 @@ export const ProfileInfoContainer = styled.div`
 	}
 `;
 
-export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
+export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 	userDetails,
 }) => {
 	const [openSendNotificationModal, setOpenSendNotificationModal] =
@@ -85,18 +87,18 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 			</div>
 			<SendMailModal
 				open={openSendMailModal}
-				userEmail={userDetails?.email || ''}
+				userEmail={userDetails?.user?.email || ''}
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
 				open={openSendNotificationModal}
 				handleClose={handleCloseNotificationModal}
 			/>
-			<Flex gap='2rem' wrap='wrap'>
+			<Flex gap='2rem'>
 				<div className='profile-info--lhs'>
 					<Flex direction='column' align='center' gap='1.5rem'>
 						<img
-							src={userDetails?.display_picture || avatar}
+							src={userDetails?.user?.display_picture || avatar}
 							alt='dp'
 							className='dp'
 						/>
@@ -119,7 +121,7 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 						</Flex>
 						<Link
 							to={`/verification/customer/${userDetails._id}/nin-validation`}
-							className=' bg-primary py-3 px-5 text-white rounded-lg'
+							className=' bg-primary py-3 px-2 2xl:px-5 text-white rounded-lg'
 						>
 							View Verification
 						</Link>
@@ -128,47 +130,85 @@ export const ProfileInfo: FC<{ userDetails: UsersDetailsType }> = ({
 				<div className='profile-info--rhs'>
 					<Flex direction='column' gap='1.5rem'>
 						<h3 className='text-xl font-semibold'>
-							{userDetails?.first_name || ''} {userDetails?.last_name || ''}
+							{userDetails?.user?.first_name || ''}{' '}
+							{userDetails?.user?.last_name || ''}
 						</h3>
 						<div className='details'>
 							<table>
 								<tbody>
 									<tr>
 										<td className='text key'>Email</td>
-										<td className='text value'>{userDetails?.email || ''}</td>
+										<td className='text value'>
+											{userDetails?.user?.email || ''}
+										</td>
 									</tr>
 									<tr>
 										<td className='text key'>Phone number</td>
-										<td className='text value'>{userDetails?.phone || ''}</td>
-									</tr>
-									<tr>
-										<td className='text key'>Address</td>
 										<td className='text value'>
-											{userDetails?.address?.house_address || ''}
+											{userDetails?.user?.phone || ''}
+										</td>
+									</tr>
+									<tr className=''>
+										<td className='text key'>Address</td>
+										<td>
+											<div className='rounded-2xl bg-white'>
+												{/* {userDetails?.address?.[0]?.house_address || ''} */}
+												<Disclosure>
+													{({ open }) => (
+														<>
+															<Disclosure.Button className='flex gap-4 w-full text-left text-sm font-semibold text-[#4D4D4D] '>
+																<p className='flex gap-1 items-center'>
+																	<span className=' text-[#7E00C4]'>
+																		(Default)
+																	</span>
+																	<span className=''>
+																		{userDetails?.address?.[0]?.house_address ||
+																			''}
+																	</span>
+																</p>
+																<FiChevronUp
+																	className={`${
+																		open ? 'rotate-180 transform' : ''
+																	} h-5 w-5 text-[#999999]`}
+																/>
+															</Disclosure.Button>
+															<Disclosure.Panel className='px-4 py-2 text-sm bg-[#F9FAFB] rounded-lg text-gray-500'>
+																{userDetails?.address?.map((item: any) => (
+																	<p className='text-[#4D4D4D]'>
+																		{item?.house_address}
+																	</p>
+																))}
+															</Disclosure.Panel>
+														</>
+													)}
+												</Disclosure>
+											</div>
 										</td>
 									</tr>
 									<tr>
 										<td className='text key'>City</td>
 										<td className='text value'>
-											{userDetails?.address?.city || ''}
+											{userDetails?.address?.[0].city || ''}
 										</td>
 									</tr>
 									<tr>
 										<td className='text key'>State</td>
 										<td className='text value'>
-											{userDetails?.address?.state || ''}
+											{userDetails?.address?.[0]?.state || ''}
 										</td>
 									</tr>
 									<tr>
 										<td className='text key'>Rating</td>
 										<td className='text value flex items-center gap-1'>
-											<p>{userDetails?.rating || ''}</p>
+											<p>{userDetails?.user?.rating || ''}</p>
 											<img src='/svgs/star.svg' alt='' className='w-4 h-4' />
 										</td>
 									</tr>
 									<tr>
 										<td className='text key'>Tier</td>
-										<td className='text value'>{userDetails?.tier || ''}</td>
+										<td className='text value'>
+											{userDetails?.user?.tier || ''}
+										</td>
 									</tr>
 								</tbody>
 							</table>

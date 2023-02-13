@@ -26,6 +26,7 @@ import CustomerTransactionsTable from './CustomerTransactionTable';
 import VendorTransactionsTable from './VendorTransactionTable';
 import WalletService from 'src/service/walletService';
 import { toast } from 'react-toastify';
+import { numberWithCommas } from 'src/utils';
 
 interface Props {
 	handleChange: (e: any) => void;
@@ -73,13 +74,13 @@ const Wallet = () => {
 					...prevState,
 					vendorBalance: res.data.payload.data.balance,
 				}));
-				console.log(res.data.payload.data);
+				// console.log(res.data.payload.data);
 				setVendorRecentWalletTrnx(res?.data?.payload?.data?.transactions);
 			})
 			.catch((err) => toast.error(err.response.data.error.message));
 		WalletService.customerWalletData()
 			.then((res) => {
-				console.log(res.data.payload.data?.transactions);
+				// console.log(res.data.payload.data?.transactions);
 				setMetricData((prevState) => ({
 					...prevState,
 					customerBalance: res?.data?.payload?.data?.balance,
@@ -95,28 +96,28 @@ const Wallet = () => {
 					verificationBalance:
 						res?.data?.payload?.data?.verification_fee_amount,
 				}));
-				console.log(res.data.payload.data);
+				// console.log(res.data.payload.data);
 			})
 			.catch((err) => toast.error(err.response.data.error.message));
 	}, []);
 
 	const metrics = [
 		{
-			count: metricData.customerBalance,
+			count: numberWithCommas(metricData?.customerBalance || 0),
 			key: 'Total Customer Wallet balance',
 			img: user,
 			color: theme.colors.purple,
 			href: '/users',
 		},
 		{
-			count: metricData.vendorBalance,
+			count: numberWithCommas(metricData?.vendorBalance || 0),
 			key: 'Total Vendor wallet balance',
 			img: artisan,
 			color: theme.colors.blue,
 			href: '/artisans',
 		},
 		{
-			count: metricData.escrowBalance,
+			count: numberWithCommas(metricData?.escrowBalance || 0),
 			key: 'Escrow Wallet Balance ',
 			img: wallet,
 			color: theme.colors.cyan,
@@ -136,7 +137,7 @@ const Wallet = () => {
 			href: '/bookings?tabStatus=all',
 		},
 		{
-			count: metricData.verificationBalance,
+			count: numberWithCommas(metricData?.verificationBalance || 0),
 			key: 'Total Verification Fee',
 			img: wallet,
 			color: theme.colors.blue,

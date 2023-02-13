@@ -33,8 +33,9 @@ const ProfileContainer = styled.div`
 
 const DocumentUpload: FC<{
 	id: string;
+	who: string;
 	verifyData: { [key: string]: any };
-}> = ({ id, verifyData }) => {
+}> = ({ id, verifyData, who }) => {
 	const { handleSubmit, control, setValue } = useForm({
 		mode: 'onChange',
 	});
@@ -55,11 +56,12 @@ const DocumentUpload: FC<{
 	const handleRejectKyc = () => {
 		startRejectingKyc();
 		id &&
-			VerificationService.approveRejectVendor(
+			VerificationService.approveRejectVerification(
 				{ reason: 'rejectionReason' },
 				id,
 				'reject',
-				'id_card'
+				'id_card',
+				who
 			)
 				.then((res) => {
 					console.log(res.data);
@@ -85,11 +87,12 @@ const DocumentUpload: FC<{
 	const onSubmit = (data: any) => {
 		console.log(data);
 		startApprovingKyc();
-		VerificationService.approveRejectVendor(
+		VerificationService.approveRejectVerification(
 			{ reason: '' },
 			id,
 			'approve',
-			'id_card'
+			'id_card',
+			who
 		)
 			.then((res) => {
 				console.log(res.data);
@@ -129,17 +132,28 @@ const DocumentUpload: FC<{
 						/>
 					</div>
 				</div>
-				<div className='flex gap-6 justify-center'>
-					<Button classes='bg-[#7607BD] text-2xl py-2 flex justify-center items-center gap-2 text-white'>
-						Accept
-					</Button>
-					<Button
-						onClick={handleRejectOpen}
-						classes='border border-[#D92D20] text-2xl py-2 flex justify-center items-center gap-2 text-[#D92D20]'
-					>
-						Reject
-					</Button>
-				</div>
+				{verifyData?.artisan?.verified?.id_card ||
+				verifyData?.user?.verified?.id_card ? (
+					<div className='flex gap-2 items-center justify-center'>
+						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
+						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
+					</div>
+				) : (
+					<div className='flex gap-6 justify-center'>
+						<Button
+							disabled={approvingKyc}
+							classes='bg-[#7607BD] text-2xl py-2 flex justify-center items-center gap-2 text-white'
+						>
+							Accept
+						</Button>
+						<Button
+							onClick={handleRejectOpen}
+							classes='border border-[#D92D20] text-2xl py-2 flex justify-center items-center gap-2 text-[#D92D20]'
+						>
+							Reject
+						</Button>
+					</div>
+				)}
 			</div>
 			<KycApprovedModal
 				open={open}

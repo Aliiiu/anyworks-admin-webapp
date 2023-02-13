@@ -3,17 +3,16 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
-import { Input } from 'src/styles/commonStyle';
 import styled from 'styled-components';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import closeModal from 'src/assets/images/common/closeModal.svg';
 import { PhotoCamera } from '@mui/icons-material';
-import { AdminServices } from 'src/service/AdminServices';
 import { Loading } from 'src/components/ui';
-import clsx from 'clsx';
 import ModalResponse from './ModalResponse';
 import miscService from 'src/service/miscServices';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { SelectField, TextField } from '../ui/form/FormComponent';
 // import { toast, ToastContainer } from 'react-toastify';
 
 const style = {
@@ -125,6 +124,8 @@ interface categoriesTypes {
 	slug: string;
 }
 
+type formTypes = { name: string; base_fee: string; category_slug: string };
+
 const EditOccupationModal: React.FC<{
 	open: boolean;
 	id: string;
@@ -132,6 +133,10 @@ const EditOccupationModal: React.FC<{
 	data: any;
 	handleClose: () => void;
 }> = ({ open, handleClose, fetchOccupation, id, data }) => {
+	const { formState, handleSubmit, register, control, setValue, reset } =
+		useForm<formTypes>({
+			mode: 'onChange',
+		});
 	const [openResponseModal, setOpenResponseModal] = useState(false);
 	const handleOpenModal = () => setOpenResponseModal(true);
 	const handleCloseModal = () => setOpenResponseModal(false);
@@ -167,29 +172,31 @@ const EditOccupationModal: React.FC<{
 			category: data?.category_slug,
 			categoryError: '',
 		}));
+		setValue('name', data?.name || '');
+		setValue('base_fee', data?.base_fee || '');
+		setValue('category_slug', data?.category_slug || '');
+		// reset({
+		// 	name: data?.name,
+		// 	base_fee: data?.base_fee,
+		// 	category_slug: data?.category_slug,
+		// });
 	}, [data, id]);
 
 	const [categories, setCategories] = useState<categoriesTypes[]>([]);
 
-	const submitHandler = (e: any) => {
-		e.preventDefault();
-		if (disabled) {
-			return;
-		}
-		let nameError = '';
-		let categoryError = '';
-		// console.log(occupationDetails);
+	const submitHandler: SubmitHandler<formTypes> = (data) => {
+		// e.preventDefault();
+		// if (disabled) {
+		// 	return;
+		// }
+
 		setDisabled(true);
 		const newData = new FormData();
-		newData.append('name', occupationDetails.name);
-		newData.append('category_slug', occupationDetails.category);
+		newData.append('name', data.name.trim());
+		newData.append('category_slug', data.category_slug?.trim());
+		newData.append('base_fee', data.base_fee);
 		newData.append('icon', occupationDetails.display_picture[0]);
-		// console.log({
-		// 	id,
-		// 	name: occupationDetails.name,
-		// 	category_slug: occupationDetails.category,
-		// 	icon: occupationDetails.display_picture[0],
-		// });
+
 		miscService
 			.editOccupations(id, newData)
 			.then((res) => {
@@ -202,14 +209,14 @@ const EditOccupationModal: React.FC<{
 				console.log(err.response.data.error.message);
 			})
 			.finally(() => {
-				setOccupationDetails((prevState) => ({
-					...prevState,
-					name: '',
-					nameError: '',
-					category: '',
-					categoryError: '',
-					display_picture: [],
-				}));
+				// setOccupationDetails((prevState) => ({
+				// 	...prevState,
+				// 	name: '',
+				// 	nameError: '',
+				// 	category: '',
+				// 	categoryError: '',
+				// 	display_picture: [],
+				// }));
 				setDisabled(false);
 				handleOpenModal();
 				handleClose();
@@ -273,34 +280,15 @@ const EditOccupationModal: React.FC<{
 							<Typography id='transition-modal-title' variant='h3' gutterBottom>
 								Edit Occupation
 							</Typography>
-							<StyledForm onSubmit={submitHandler}>
-								<InputContainer>
-									<label htmlFor='First Name'>Occupation</label>
-									<Input
-										value={occupationDetails.name}
-										onChange={(e: any) =>
-											setOccupationDetails((prevState) => ({
-												...prevState,
-												name: e.target.value,
-												nameError: '',
-											}))
-										}
-										placeholder='name'
-										style={{
-											width: '100%',
-											borderColor: occupationDetails.nameError && '#F04438',
-											background: occupationDetails.nameError && '#F9FAFB',
-										}}
-										className={clsx()}
-										required
-									/>
-									{occupationDetails.nameError && (
-										<h6 className='validation_error'>
-											{occupationDetails.nameError}
-										</h6>
-									)}
-								</InputContainer>
-								<div>
+							<StyledForm onSubmit={handleSubmit(submitHandler)}>
+								<TextField
+									label={'Occupation'}
+									type='text'
+									control={control}
+									error={formState.errors.name}
+									{...register('name', { required: false })}
+								/>
+								{/* <div>
 									<label htmlFor='categories' className='mb-1'>
 										Select Category
 									</label>
@@ -328,7 +316,23 @@ const EditOccupationModal: React.FC<{
 											{occupationDetails.categoryError}
 										</h6>
 									)}
-								</div>
+								</div> */}
+								<SelectField
+									label='Category'
+									placeholder='Select category'
+									// onChange={handleChange}
+									value={occupationDetails.category}
+									error={formState.errors.category_slug}
+									selectArr={categories}
+									{...register('category_slug', { required: false })}
+								/>
+								<TextField
+									label={'Base Fee'}
+									type='text'
+									control={control}
+									error={formState.errors.base_fee}
+									{...register('base_fee', { required: false })}
+								/>
 								<InputContainer>
 									<label htmlFor='dropzone-file'>Occupation Icon</label>
 									<div className='file_wrapper'>
@@ -383,11 +387,7 @@ const EditOccupationModal: React.FC<{
 										)}
 									</div>
 								</InputContainer>
-								<button
-									disabled={disabled}
-									onClick={submitHandler}
-									className='btn_action'
-								>
+								<button disabled={disabled} className='btn_action'>
 									{disabled ? <Loading color='white' /> : 'Create'}
 								</button>
 							</StyledForm>

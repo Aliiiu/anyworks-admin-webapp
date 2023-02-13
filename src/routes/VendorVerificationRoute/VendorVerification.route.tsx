@@ -28,6 +28,7 @@ import VerificationService from 'src/service/VerifyService';
 import VendorProfileInfo from '../../components/kyc/VendorProfileInfo';
 import { ScaleLoader } from 'react-spinners';
 import { BsCheck2 } from 'react-icons/bs';
+import Certificate from 'src/pages/kyc/Certificate';
 
 const ArtisankycContainer = styled.div`
 	.pageHeader {
@@ -108,6 +109,14 @@ const VendorVerificationRoute = () => {
 			href: 'social-media-linking',
 			verified: vendorVerify?.artisan?.verified?.social_media,
 		},
+		{
+			id: 6,
+			title: 'Tier 6',
+			content: 'Uploading professional Certificates',
+			img: '/svgs/tier6.svg',
+			href: 'certificate',
+			verified: vendorVerify?.artisan?.verified?.social_media,
+		},
 	];
 	console.log(vendorVerify?.artisan?.verified?.nin);
 	return (
@@ -169,12 +178,15 @@ const VendorVerificationRoute = () => {
 															</div>
 															<p className='text-[#999999]'>{item.content}</p>
 														</div>
-														{item.verified && (
+														{item.verified ? (
 															<div className='w-8 h-8 rounded-full flex justify-center items-center bg-primary'>
 																<BsCheck2 className='text-white text-xl' />
 															</div>
+														) : (
+															<div className='bg-[#00A7D7] text-white py-1 px-2 rounded-2xl'>
+																Pending
+															</div>
 														)}
-														{/* {item.verified} */}
 													</div>
 												</div>
 											</Link>
@@ -187,6 +199,7 @@ const VendorVerificationRoute = () => {
 									path='/nin-validation'
 									element={
 										<NinValidation
+											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
 										/>
@@ -196,6 +209,7 @@ const VendorVerificationRoute = () => {
 									path='/document-upload'
 									element={
 										<DocumentUpload
+											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
 										/>
@@ -203,35 +217,48 @@ const VendorVerificationRoute = () => {
 								/>
 								<Route
 									path='/address-verification'
-									element={<AddressVerification />}
+									element={
+										<AddressVerification
+											who='artisan'
+											id={artisan_id || ''}
+											verifyData={vendorVerify}
+										/>
+									}
 								/>
-								<Route path='/face-recognition' element={<FaceRecognition />} />
-								<Route path='/social-media-linking' element={<Socials />} />
+								<Route
+									path='/face-recognition'
+									element={
+										<FaceRecognition
+											who='artisan'
+											id={artisan_id || ''}
+											verifyData={vendorVerify}
+										/>
+									}
+								/>
+								<Route
+									path='/social-media-linking'
+									element={
+										<Socials
+											who='artisan'
+											id={artisan_id || ''}
+											verifyData={vendorVerify}
+										/>
+									}
+								/>
+								<Route
+									path='/certificate'
+									element={
+										<Certificate
+											who='artisan'
+											id={artisan_id || ''}
+											verifyData={vendorVerify}
+										/>
+									}
+								/>
 							</Routes>
 						</div>
 					</>
 				)}
-
-				{/* <KycApprovedModal
-					open={open}
-					handleClose={handleClose}
-					artisanName={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
-				/>
-				<RejectionModal
-					open={openReject}
-					handleRejectKyc={handleRejectKyc}
-					handleClose={handleRejectClose}
-					rejectionReason={rejectionReason}
-					setRejectionReason={setRejectionReason}
-					rejectingKyc={rejectingKyc}
-				/>
-				<ConfirmApproveKycModal
-					open={openConfirmApproveKycModal}
-					handleApproveKyc={handleApproveKyc}
-					handleClose={handleConfirmApproveKycModalClose}
-					artisanName={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
-					approvingKyc={approvingKyc}
-				/> */}
 			</ArtisankycContainer>
 		</DashboardLayout>
 	);

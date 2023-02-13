@@ -9,6 +9,7 @@ import KycTable from 'src/components/kyc/KycTable';
 import { CustomerData } from 'src/constants/KYCDATA';
 import { ArtisansServices } from 'src/service/ArtisansServices';
 import { IoWarning } from 'react-icons/io5';
+import { useLoading } from 'src/hooks';
 
 interface Props {
 	handleChange: (e: any) => void;
@@ -36,18 +37,21 @@ type VendorDataType = {
 const VendorVerification = () => {
 	const [searchField, setSearchField] = useState('');
 	const [vendorData, setVendorData] = useState([]);
+	const { loading, startLoading, stopLoading } = useLoading(false);
 
 	const handleChange = (e: any) => {
 		setSearchField(e.target.value);
 	};
 
 	useEffect(() => {
+		startLoading();
 		ArtisansServices.getAllArtisansVerification()
 			.then((res) => {
 				console.log(res?.data?.payload?.data);
 				setVendorData(res?.data?.payload?.data);
 			})
-			.catch((err) => console.log(err.response.data.error.message));
+			.catch((err) => console.log(err.response.data.error.message))
+			.finally(() => stopLoading());
 	}, []);
 
 	const filteredData = vendorData.filter((data: VendorDataType) => {
@@ -118,7 +122,7 @@ const VendorVerification = () => {
 		>
 			<>
 				<ToastContainer />
-				{false ? (
+				{loading ? (
 					<div
 						style={{
 							display: 'flex',

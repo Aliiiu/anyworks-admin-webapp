@@ -60,10 +60,14 @@ const OccupationTable = ({ rows, fetchOccupation }: Props) => {
 				/>
 			),
 		},
-		{ title: 'Occupations', render: (row: any) => `${row?.name || ''}` },
+		{ title: 'Occupations', render: (row: any) => `${row?.name.trim() || ''}` },
 		{
 			title: 'Category',
 			render: (row: any) => `${row?.category_slug || ''}`,
+		},
+		{
+			title: 'Base Fee',
+			render: (row: any) => `${row?.base_fee || ''}`,
 		},
 		{
 			title: '',
