@@ -87,7 +87,6 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 	} = useLoading(false);
 
 	const handleApprove = () => {
-		// e.preventDefault();
 		// console.log(data);
 		if (approvingKyc || !INPUTVAL) {
 			return;
@@ -179,7 +178,9 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 			<KycApprovedModal
 				open={open}
 				handleClose={handleClose}
-				artisanName={`${verifyData?.artisan?.first_name} ${verifyData?.artisan?.last_name}`}
+				name={`${
+					verifyData?.artisan?.first_name || verifyData?.user?.first_name
+				} ${verifyData?.artisan?.last_name || verifyData?.user?.last_name}`}
 			/>
 			<RejectionModal
 				open={openReject}

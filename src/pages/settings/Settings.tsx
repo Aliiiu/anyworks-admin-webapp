@@ -296,6 +296,7 @@ const Settings = () => {
 			.then((res) => {
 				console.log(res?.data);
 				setValue('amount_per_km', res?.data?.payload?.data?.amount_per_km);
+				setValues(res?.data?.payload?.data?.amount_per_km);
 				const timeVar = res?.data?.payload?.data?.time_variation;
 				setTimeIntervalFee(timeVar);
 			})

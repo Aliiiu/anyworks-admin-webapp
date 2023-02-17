@@ -12,6 +12,57 @@ import { Link } from 'react-router-dom';
 import { Disclosure } from '@headlessui/react';
 import { FiChevronUp } from 'react-icons/fi';
 
+export const tierHandler = (tier: number) => {
+	console.log(typeof tier);
+	switch (tier) {
+		case 1:
+			return (
+				<div className='flex gap-1 items-center'>
+					<p>{tier}</p>
+					<img src='/svgs/tier1.svg' alt='tier 1' />
+				</div>
+			);
+		case 2:
+			return (
+				<div className='flex gap-1 items-center'>
+					<p>{tier}</p>
+					<img src='/svgs/tier2.svg' alt='tier 2' />
+				</div>
+			);
+		case 3:
+			return (
+				<div className='flex gap-1 items-center'>
+					<p>{tier}</p>
+					<img src='/svgs/tier3.svg' alt='tier 3' />
+				</div>
+			);
+		case 4:
+			return (
+				<div className='flex gap-1 items-center'>
+					<p>{tier}</p>
+					<img src='/svgs/tier4.svg' alt='tier 4' />
+				</div>
+			);
+		case 5:
+			return (
+				<div className='flex gap-1 items-center'>
+					<p>{tier}</p>
+					<img src='/svgs/tier5.svg' alt='tier 5' />
+				</div>
+			);
+		case 6:
+			return (
+				<div className='flex gap-1 items-center'>
+					<p>{tier}</p>
+					<img src='/svgs/tier6.svg' alt='tier 6' />
+				</div>
+			);
+
+		default:
+			break;
+	}
+};
+
 export const ProfileInfoContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
 	margin: 3rem 0;
@@ -73,56 +124,6 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
 	// console.log(userDetails?.user?._id);
 
-	const tierHandler = (tier: number) => {
-		console.log(typeof tier);
-		switch (tier) {
-			case 1:
-				return (
-					<div className='flex gap-1 items-center'>
-						<p>{tier}</p>
-						<img src='/svgs/tier1.svg' alt='tier 1' />
-					</div>
-				);
-			case 2:
-				return (
-					<div className='flex gap-1 items-center'>
-						<p>{tier}</p>
-						<img src='/svgs/tier2.svg' alt='tier 2' />
-					</div>
-				);
-			case 3:
-				return (
-					<div className='flex gap-1 items-center'>
-						<p>{tier}</p>
-						<img src='/svgs/tier3.svg' alt='tier 3' />
-					</div>
-				);
-			case 4:
-				return (
-					<div className='flex gap-1 items-center'>
-						<p>{tier}</p>
-						<img src='/svgs/tier4.svg' alt='tier 4' />
-					</div>
-				);
-			case 5:
-				return (
-					<div className='flex gap-1 items-center'>
-						<p>{tier}</p>
-						<img src='/svgs/tier5.svg' alt='tier 5' />
-					</div>
-				);
-			case 6:
-				return (
-					<div className='flex gap-1 items-center'>
-						<p>{tier}</p>
-						<img src='/svgs/tier6.svg' alt='tier 6' />
-					</div>
-				);
-
-			default:
-				break;
-		}
-	};
 	return (
 		<ProfileInfoContainer>
 			<div className='heading'>

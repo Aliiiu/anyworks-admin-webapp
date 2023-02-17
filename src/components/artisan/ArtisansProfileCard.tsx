@@ -1,4 +1,4 @@
-import { ProfileInfoContainer } from '../common/ProfileInfo';
+import { ProfileInfoContainer, tierHandler } from '../common/ProfileInfo';
 import Flex from '../ui/Flex';
 import phone from 'src/assets/images/profile/phone.svg';
 import mail from 'src/assets/images/profile/mail.svg';
@@ -185,7 +185,7 @@ const ArtisansProfileCard = ({
 											{artisanDetails.address.state} State
 										</td>
 									</tr>
-									{/* <tr>
+									<tr>
 										<td className='text key'>City</td>
 										<td className='text value'>
 											{artisanDetails.address.city}
@@ -196,7 +196,7 @@ const ArtisansProfileCard = ({
 										<td className='text value'>
 											{artisanDetails.address.state}
 										</td>
-									</tr> */}
+									</tr>
 									<tr>
 										<td className='text key'>Rating</td>
 										<td className='text value flex items-center gap-1'>
@@ -213,6 +213,12 @@ const ArtisansProfileCard = ({
 									<tr>
 										<td className='text key'>Status</td>
 										<td className='text value'>{artisanDetails.status}</td>
+									</tr>
+									<tr>
+										<td className='text key'>Tier</td>
+										<td className='text value'>
+											{tierHandler(artisanDetails?.tier)}
+										</td>
 									</tr>
 									<tr>
 										<td className='text key'>Suspended</td>

@@ -4,6 +4,7 @@ import { theme } from 'src/styles/Theme';
 import styled from 'styled-components';
 import ArtisansProfileCard from 'src/components/artisan/ArtisansProfileCard';
 import bookingsIcon from 'src/assets/images/metrics/bookingSummary.svg';
+import walletIcon from 'src/assets/images/metrics/walletIcon.svg';
 import BookingsTabs from 'src/components/bookings/BookingsTabs';
 import {
 	Link,
@@ -63,16 +64,17 @@ const StyledBookingSummary = styled.div`
 
 const ArtisansProfile = () => {
 	let navigate = useNavigate();
-	const [artisanBookings, setArtisanBookings] = useState<BookingsTypes[]>([
-		initialBookingState,
-	]);
+	const [artisanBookings, setArtisanBookings] = useState<BookingsTypes[]>([]);
 	const { id } = useParams();
 
 	useEffect(() => {
 		id &&
 			bookingAdminService
 				.artisanBookingHistory(id)
-				.then((res) => setArtisanBookings(res.data.payload.data))
+				.then((res) => {
+					setArtisanBookings(res.data.payload.data);
+					console.log(res.data.payload.data);
+				})
 				.catch((err: any) => {
 					console.log(err?.response?.data?.error?.message);
 					toast.error(err?.response?.data?.error?.message);
@@ -93,6 +95,7 @@ const ArtisansProfile = () => {
 		rating: 0,
 		phone: '',
 		status: '',
+		tier: 0,
 		suspended: false,
 		display_picture: '',
 		address: {
@@ -185,7 +188,7 @@ const ArtisansProfile = () => {
 					>
 						{' '}
 						<img src={arrowLeft} alt='back' />
-						<span>Back to Artisans</span>
+						<span>Back to Vendors</span>
 					</Button>
 				</Link>
 			</StyledProfileHeader>
@@ -211,7 +214,7 @@ const ArtisansProfile = () => {
 						<h5>Wallet Balance</h5>{' '}
 						<h3> ₦{numberWithCommas(walletBal.balance)}</h3>
 					</div>
-					<img src={bookingsIcon} alt='' width={55} height='55px' />
+					<img src={walletIcon} alt='' width={55} height='55px' />
 				</div>
 			</StyledBookingSummary>
 			<BookingsTabs

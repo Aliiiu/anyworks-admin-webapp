@@ -21,11 +21,11 @@ const style = {
 	p: '60px',
 };
 
-const KycApprovedModal: React.FC<{ open: boolean; handleClose: () => void; artisanName: string }> = ({
-	open,
-	handleClose,
-	artisanName
-}) => {
+const KycApprovedModal: React.FC<{
+	open: boolean;
+	handleClose: () => void;
+	name: string;
+}> = ({ open, handleClose, name }) => {
 	return (
 		<div>
 			<Modal
@@ -60,7 +60,7 @@ const KycApprovedModal: React.FC<{ open: boolean; handleClose: () => void; artis
 							variant='h5'
 							gutterBottom
 						>
-							You have sucessfully verify {artisanName}
+							You have sucessfully verify {name}
 						</Typography>
 						<button
 							onClick={handleClose}
