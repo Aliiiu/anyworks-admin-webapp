@@ -112,7 +112,7 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 					leaveTo='transform opacity-0 scale-95'
 				>
 					<Menu.Items className='absolute right-0 z-40 mt-6 w-[349px] p-6 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-						<div>
+						{/* <div>
 							<h4 className='text-[#4D4D4D]'>Select Date</h4>
 							<div className='flex gap-x-5 gap-y-3 mt-3 flex-wrap'>
 								{daysArr.map((item, index) => (
@@ -129,7 +129,7 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 									</small>
 								))}
 							</div>
-						</div>
+						</div> */}
 						<div className='mt-4'>
 							<h4 className='text-[#4D4D4D]'>Select Time</h4>
 							<div className='flex justify-between mt-3'>
