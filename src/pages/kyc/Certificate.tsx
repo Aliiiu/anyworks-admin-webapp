@@ -11,17 +11,24 @@ const Certificate: FC<{
 	id: string;
 	who: string;
 	verifyData: { [key: string]: any };
-}> = ({ id, verifyData, who }) => {
+	fetchData: Function;
+}> = ({ id, verifyData, who, fetchData }) => {
 	const { formState, handleSubmit, register, control, setValue } = useForm({
 		mode: 'onChange',
 	});
 
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const handleClose = () => {
+		setOpen(false);
+		fetchData(id);
+	};
 	const [openReject, setOpenReject] = useState(false);
 	const handleRejectOpen = () => setOpenReject(true);
-	const handleRejectClose = () => setOpenReject(false);
+	const handleRejectClose = () => {
+		setOpenReject(false);
+		fetchData(id);
+	};
 	const [rejectionReason, setRejectionReason] = useState('');
 
 	const {
@@ -30,7 +37,10 @@ const Certificate: FC<{
 		stopLoading: stopRejectingKyc,
 	} = useLoading(false);
 
-	const handleRejectKyc = () => {
+	const handleRejectKyc = handleSubmit(() => {
+		if (rejectingKyc) {
+			return;
+		}
 		startRejectingKyc();
 		id &&
 			VerificationService.approveRejectVerification(
@@ -53,7 +63,7 @@ const Certificate: FC<{
 					handleRejectClose();
 					// navigate('/kyc');
 				});
-	};
+	});
 
 	const {
 		loading: approvingKyc,
@@ -61,8 +71,16 @@ const Certificate: FC<{
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 
-	const onSubmit = (data: any) => {
-		console.log(data);
+	const onSubmit = (e?: any) => {
+		e.preventDefault();
+		// console.log(data);
+		if (
+			approvingKyc ||
+			!verifyData?.verification?.nin?.nin_no ||
+			!verifyData?.verification?.nin?.vnin_no
+		) {
+			return;
+		}
 		startApprovingKyc();
 		VerificationService.approveRejectVerification(
 			{ reason: '' },
@@ -85,10 +103,7 @@ const Certificate: FC<{
 			});
 	};
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className='w-[60%] pb-[29px] pt-[74px]'
-		>
+		<form className='w-[60%] pb-[29px] pt-[74px]'>
 			<div className='flex flex-col justify-between items-center h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>Professional Certificates</h3>
@@ -102,8 +117,8 @@ const Certificate: FC<{
 						</small>
 					</div>
 				</div>
-				{verifyData?.artisan?.verified?.face_capture ||
-				verifyData?.user?.verified?.face_capture ? (
+				{verifyData?.artisan?.verified?.certificate ||
+				verifyData?.user?.verified?.certificate ? (
 					<div className='flex gap-2 items-center justify-center'>
 						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
 						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
@@ -111,14 +126,30 @@ const Certificate: FC<{
 				) : (
 					<div className='flex gap-6 justify-center'>
 						<Button
+							onClick={handleSubmit(onSubmit)}
 							disabled={approvingKyc}
-							classes='bg-[#7607BD] text-2xl py-2 flex justify-center items-center gap-2 text-white'
+							classes={`bg-[#7607BD] w-[100px] py-2 flex justify-center items-center gap-2 text-white ${
+								verifyData?.verification?.certificate?.certificate_url
+									? ''
+									: 'cursor-not-allowed'
+							}`}
 						>
 							Accept
 						</Button>
 						<Button
-							onClick={handleRejectOpen}
-							classes='border border-[#D92D20] text-2xl py-2 flex justify-center items-center gap-2 text-[#D92D20]'
+							onClick={(e?: any) => {
+								e.preventDefault();
+								if (!verifyData?.verification?.certificate?.certificate_url) {
+									return;
+								} else {
+									handleRejectOpen();
+								}
+							}}
+							classes={`border border-[#D92D20] w-[100px] py-2 flex justify-center items-center gap-2 text-[#D92D20] ${
+								verifyData?.verification?.certificate?.certificate_url
+									? ''
+									: 'cursor-not-allowed'
+							}`}
 						>
 							Reject
 						</Button>

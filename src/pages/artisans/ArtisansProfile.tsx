@@ -178,7 +178,7 @@ const ArtisansProfile = () => {
 					{artisanDetails.first_name &&
 						`${artisanDetails.first_name} ${artisanDetails.last_name}'s profile`}
 				</h2>
-				<Link to='/artisans'>
+				<Link to='/vendors'>
 					<Button
 						classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
 						style={{ backgroundColor: theme.colors.purple }}

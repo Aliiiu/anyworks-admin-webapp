@@ -19,7 +19,7 @@ import { useParams } from 'react-router-dom';
 import { useLoading } from 'src/hooks';
 import { toast, ToastContainer } from 'react-toastify';
 import { Loader } from 'src/components/common';
-import NinValidation from 'src/components/kyc/NinValidation';
+import NinValidation from 'src/pages/kyc/NinValidation';
 import DocumentUpload from 'src/pages/kyc/DocumentUpload';
 import AddressVerification from 'src/pages/kyc/AddressVerification';
 import Socials from 'src/pages/kyc/Socials';
@@ -64,7 +64,7 @@ const VendorVerificationRoute = () => {
 			});
 	};
 	useEffect(() => {
-		console.log(artisan_id);
+		// console.log(artisan_id);
 		fetchingVendorVerificationData(artisan_id || '');
 	}, []);
 
@@ -118,7 +118,7 @@ const VendorVerificationRoute = () => {
 			verified: vendorVerify?.artisan?.verified?.social_media,
 		},
 	];
-	console.log(vendorVerify?.artisan?.verified?.nin);
+	// console.log(vendorVerify?.artisan?.verified?.nin);
 	return (
 		<DashboardLayout>
 			<ToastContainer />
@@ -202,6 +202,7 @@ const VendorVerificationRoute = () => {
 											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
+											fetchData={fetchingVendorVerificationData}
 										/>
 									}
 								/>
@@ -212,6 +213,7 @@ const VendorVerificationRoute = () => {
 											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
+											fetchData={fetchingVendorVerificationData}
 										/>
 									}
 								/>
@@ -222,6 +224,7 @@ const VendorVerificationRoute = () => {
 											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
+											fetchData={fetchingVendorVerificationData}
 										/>
 									}
 								/>
@@ -232,6 +235,7 @@ const VendorVerificationRoute = () => {
 											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
+											fetchData={fetchingVendorVerificationData}
 										/>
 									}
 								/>
@@ -242,6 +246,7 @@ const VendorVerificationRoute = () => {
 											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
+											fetchData={fetchingVendorVerificationData}
 										/>
 									}
 								/>
@@ -252,6 +257,7 @@ const VendorVerificationRoute = () => {
 											who='artisan'
 											id={artisan_id || ''}
 											verifyData={vendorVerify}
+											fetchData={fetchingVendorVerificationData}
 										/>
 									}
 								/>

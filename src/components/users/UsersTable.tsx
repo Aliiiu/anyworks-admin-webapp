@@ -37,7 +37,7 @@ export const UsersTable = ({ rows }: Props) => {
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState<string[]>([]);
 	const handleNavigate = (id: string) => {
-		navigate(`/users/${id}?tabStatus=all`);
+		navigate(`/customers/${id}?tabStatus=all`);
 	};
 
 	const [allowRowClick, setAllowRowClick] = useState(true);

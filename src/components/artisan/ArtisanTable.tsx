@@ -43,7 +43,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 	const [allowRowClick, setAllowRowClick] = useState(true);
 
 	const handleNavigate = (id: string) => {
-		navigate(`/artisans/${id}?tabStatus=all`);
+		navigate(`/vendors/${id}?tabStatus=all`);
 	};
 
 	const ArtisanTableHeaders = [

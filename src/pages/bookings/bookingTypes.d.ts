@@ -6,6 +6,7 @@ interface BookingsTypes {
 	state: string;
 	status: string;
 	createdAt: string;
+	description: string;
 	user_id: string;
 	user_meta: MetaTypes;
 }

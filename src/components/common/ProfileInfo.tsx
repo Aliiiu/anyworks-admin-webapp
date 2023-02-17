@@ -71,6 +71,58 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 	const [openSendMailModal, setOpenSendMailModal] = useState(false);
 	const handleOpenMailModal = () => setOpenSendMailModal(true);
 	const handleCloseMailModal = () => setOpenSendMailModal(false);
+	// console.log(userDetails?.user?._id);
+
+	const tierHandler = (tier: number) => {
+		console.log(typeof tier);
+		switch (tier) {
+			case 1:
+				return (
+					<div className='flex gap-1 items-center'>
+						<p>{tier}</p>
+						<img src='/svgs/tier1.svg' alt='tier 1' />
+					</div>
+				);
+			case 2:
+				return (
+					<div className='flex gap-1 items-center'>
+						<p>{tier}</p>
+						<img src='/svgs/tier2.svg' alt='tier 2' />
+					</div>
+				);
+			case 3:
+				return (
+					<div className='flex gap-1 items-center'>
+						<p>{tier}</p>
+						<img src='/svgs/tier3.svg' alt='tier 3' />
+					</div>
+				);
+			case 4:
+				return (
+					<div className='flex gap-1 items-center'>
+						<p>{tier}</p>
+						<img src='/svgs/tier4.svg' alt='tier 4' />
+					</div>
+				);
+			case 5:
+				return (
+					<div className='flex gap-1 items-center'>
+						<p>{tier}</p>
+						<img src='/svgs/tier5.svg' alt='tier 5' />
+					</div>
+				);
+			case 6:
+				return (
+					<div className='flex gap-1 items-center'>
+						<p>{tier}</p>
+						<img src='/svgs/tier6.svg' alt='tier 6' />
+					</div>
+				);
+
+			default:
+				break;
+		}
+	};
 	return (
 		<ProfileInfoContainer>
 			<div className='heading'>
@@ -120,7 +172,7 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 							</button>
 						</Flex>
 						<Link
-							to={`/verification/customer/${userDetails._id}/nin-validation`}
+							to={`/verification/customer/${userDetails?.user?._id}/nin-validation`}
 							className=' bg-primary py-3 px-2 2xl:px-5 text-white rounded-lg'
 						>
 							View Verification
@@ -207,7 +259,7 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 									<tr>
 										<td className='text key'>Tier</td>
 										<td className='text value'>
-											{userDetails?.user?.tier || ''}
+											{tierHandler(userDetails?.user?.tier)}
 										</td>
 									</tr>
 								</tbody>

@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 import { useLoading } from 'src/hooks';
 import { toast, ToastContainer } from 'react-toastify';
 import { Loader } from 'src/components/common';
-import NinValidation from 'src/components/kyc/NinValidation';
+import NinValidation from 'src/pages/kyc/NinValidation';
 import VerificationService from 'src/service/VerifyService';
 
 const ArtisankycContainer = styled.div`

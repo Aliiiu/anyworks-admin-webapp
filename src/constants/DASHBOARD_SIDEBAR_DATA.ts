@@ -43,13 +43,13 @@ export const DASHBOARD_SIDEBAR_DATA = () => {
 		},
 		{
 			text: 'Customers',
-			url: '/users',
+			url: '/customers',
 			icon: usersIcon,
 			activeIcon: usersActiveIcon,
 		},
 		{
 			text: 'Vendors',
-			url: '/artisans',
+			url: '/vendors',
 			icon: artisanIcon,
 			activeIcon: artisanActiveIcon,
 		},

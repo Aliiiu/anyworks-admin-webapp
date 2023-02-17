@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { IoWarning } from 'react-icons/io5';
 import { ClipLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { NumberInput } from 'src/components/inputs/NumberInput';
@@ -35,16 +36,23 @@ const DocumentUpload: FC<{
 	id: string;
 	who: string;
 	verifyData: { [key: string]: any };
-}> = ({ id, verifyData, who }) => {
+	fetchData: Function;
+}> = ({ id, verifyData, who, fetchData }) => {
 	const { handleSubmit, control, setValue } = useForm({
 		mode: 'onChange',
 	});
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const handleClose = () => {
+		setOpen(false);
+		fetchData(id);
+	};
 	const [openReject, setOpenReject] = useState(false);
 	const handleRejectOpen = () => setOpenReject(true);
-	const handleRejectClose = () => setOpenReject(false);
+	const handleRejectClose = () => {
+		setOpenReject(false);
+		fetchData(id);
+	};
 	const [rejectionReason, setRejectionReason] = useState('');
 
 	const {
@@ -53,7 +61,7 @@ const DocumentUpload: FC<{
 		stopLoading: stopRejectingKyc,
 	} = useLoading(false);
 
-	const handleRejectKyc = () => {
+	const handleRejectKyc = handleSubmit(() => {
 		startRejectingKyc();
 		id &&
 			VerificationService.approveRejectVerification(
@@ -76,7 +84,7 @@ const DocumentUpload: FC<{
 					handleRejectClose();
 					// navigate('/kyc');
 				});
-	};
+	});
 
 	const {
 		loading: approvingKyc,
@@ -84,8 +92,11 @@ const DocumentUpload: FC<{
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 
-	const onSubmit = (data: any) => {
-		console.log(data);
+	const onSubmit = () => {
+		// console.log(data);
+		if (!verifyData?.verification?.id_card?.id_card_url || approvingKyc) {
+			return;
+		}
 		startApprovingKyc();
 		VerificationService.approveRejectVerification(
 			{ reason: '' },
@@ -96,7 +107,7 @@ const DocumentUpload: FC<{
 		)
 			.then((res) => {
 				console.log(res.data);
-				toast.success(res?.data?.message || '');
+				// toast.success(res?.data?.message || '');
 				setTimeout(() => handleOpen(), 1000);
 			})
 			.catch((err) => {
@@ -109,28 +120,35 @@ const DocumentUpload: FC<{
 	};
 	return (
 		<form
-			onSubmit={handleSubmit(onSubmit)}
+			// onSubmit={handleSubmit(onSubmit)}
 			className='w-[60%] pb-[29px] pt-[74px]'
 		>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>
-						{verifyData?.verification?.id_card?.id_card_type ||
-							'Drivers License'}
+						{verifyData?.verification?.id_card?.id_card_type || ''}
 					</h3>
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignContent: 'center',
-						}}
-						className='mt-10'
-					>
-						<ImageMagnifier
-							height='300px'
-							src={`${verifyData?.verification?.id_card?.id_card_url}`}
-						/>
-					</div>
+					{verifyData?.verification?.id_card?.id_card_url ? (
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignContent: 'center',
+							}}
+							className='mt-10'
+						>
+							<ImageMagnifier
+								height='300px'
+								src={`${verifyData?.verification?.id_card?.id_card_url}`}
+							/>
+						</div>
+					) : (
+						<div className='flex justify-center items-center py-10 px-5'>
+							<span className='md:text-sm text-sm px-5 py-3 flex items-center leading-5 rounded-lg bg-gray-50 text-gray-500'>
+								<IoWarning size={20} /> There are currently no available data
+							</span>
+						</div>
+					)}
 				</div>
 				{verifyData?.artisan?.verified?.id_card ||
 				verifyData?.user?.verified?.id_card ? (
@@ -141,14 +159,29 @@ const DocumentUpload: FC<{
 				) : (
 					<div className='flex gap-6 justify-center'>
 						<Button
+							onClick={handleSubmit(onSubmit)}
 							disabled={approvingKyc}
-							classes='bg-[#7607BD] text-2xl py-2 flex justify-center items-center gap-2 text-white'
+							classes={`bg-[#7607BD] w-[100px] py-2 flex justify-center items-center gap-2 text-white ${
+								verifyData?.verification?.id_card?.id_card_url
+									? ''
+									: 'cursor-not-allowed'
+							}`}
 						>
 							Accept
 						</Button>
 						<Button
-							onClick={handleRejectOpen}
-							classes='border border-[#D92D20] text-2xl py-2 flex justify-center items-center gap-2 text-[#D92D20]'
+							onClick={() => {
+								if (!verifyData?.verification?.id_card?.id_card_url) {
+									return;
+								} else {
+									handleRejectOpen();
+								}
+							}}
+							classes={`border border-[#D92D20] w-[100px] py-2 flex justify-center items-center gap-2 text-[#D92D20] ${
+								verifyData?.verification?.id_card?.id_card_url
+									? ''
+									: 'cursor-not-allowed'
+							}`}
 						>
 							Reject
 						</Button>

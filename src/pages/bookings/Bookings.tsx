@@ -52,6 +52,7 @@ const initialBookingState = {
 	status: '',
 	createdAt: '',
 	user_id: '',
+	description: '',
 	artisan_meta: initialMetaState,
 	user_meta: initialMetaState,
 };
