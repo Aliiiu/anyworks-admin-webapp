@@ -17,8 +17,9 @@ type SocialType = {
 const Socials: FC<{
 	id: string;
 	who: string;
+	fetchData: Function;
 	verifyData: { [key: string]: any };
-}> = ({ id, verifyData, who }) => {
+}> = ({ id, verifyData, who, fetchData }) => {
 	const { formState, handleSubmit, register, control, setValue } =
 		useForm<SocialType>({
 			mode: 'onChange',
@@ -26,10 +27,16 @@ const Socials: FC<{
 
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const handleClose = () => {
+		setOpen(false);
+		fetchData(id);
+	};
 	const [openReject, setOpenReject] = useState(false);
 	const handleRejectOpen = () => setOpenReject(true);
-	const handleRejectClose = () => setOpenReject(false);
+	const handleRejectClose = () => {
+		setOpenReject(false);
+		fetchData(id);
+	};
 	const [rejectionReason, setRejectionReason] = useState('');
 
 	const {
@@ -38,7 +45,10 @@ const Socials: FC<{
 		stopLoading: stopRejectingKyc,
 	} = useLoading(false);
 
-	const handleRejectKyc = () => {
+	const handleRejectKyc = handleSubmit(() => {
+		if (rejectingKyc) {
+			return;
+		}
 		startRejectingKyc();
 		id &&
 			VerificationService.approveRejectVerification(
@@ -50,7 +60,7 @@ const Socials: FC<{
 			)
 				.then((res) => {
 					console.log(res.data);
-					toast.success(res?.data?.message || []);
+					// toast.success(res?.data?.message || []);
 					// handleRejectClose();
 				})
 				.catch((err) => {
@@ -61,7 +71,7 @@ const Socials: FC<{
 					handleRejectClose();
 					// navigate('/kyc');
 				});
-	};
+	});
 
 	const {
 		loading: approvingKyc,
@@ -69,35 +79,40 @@ const Socials: FC<{
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 
-	const onSubmit: SubmitHandler<SocialType> = (data) => {
-		console.log(data);
-		// startApprovingKyc();
-		// VerificationService.approveRejectVerification(
-		// 	{ reason: '' },
-		// 	id,
-		// 	'approve',
-		// 	'face_capture',
-		// 	who
-		// )
-		// 	.then((res) => {
-		// 		console.log(res.data);
-		// 		toast.success(res?.data?.message || '');
-		// 		setTimeout(() => handleOpen(), 1000);
-		// 	})
-		// 	.catch((err) => {
-		// 		toast.error(err.response.data.error.message);
-		// 	})
-		// 	.finally(() => {
-		// 		stopApprovingKyc();
-		// 		// navigate('/artisans');
-		// 	});
+	const onSubmit: SubmitHandler<SocialType> = (e?: any) => {
+		e.preventDefault();
+		// console.log(data);
+		if (approvingKyc) {
+			return;
+		}
+		startApprovingKyc();
+		VerificationService.approveRejectVerification(
+			{ reason: '' },
+			id,
+			'approve',
+			'face_capture',
+			who
+		)
+			.then((res) => {
+				console.log(res.data);
+				toast.success(res?.data?.message || '');
+				setTimeout(() => handleOpen(), 1000);
+			})
+			.catch((err) => {
+				toast.error(err.response.data.error.message);
+			})
+			.finally(() => {
+				stopApprovingKyc();
+			});
 	};
 
+	const INPUTVAL =
+		verifyData?.verification?.social_media?.twitter ||
+		verifyData?.verification?.social_media?.facebook ||
+		verifyData?.verification?.social_media?.linkedin ||
+		verifyData?.verification?.social_media?.others;
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className='w-[60%] pb-[29px] pt-[74px]'
-		>
+		<form className='w-[60%] pb-[29px] pt-[74px]'>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>Social Media Linking</h3>
@@ -141,14 +156,26 @@ const Socials: FC<{
 				) : (
 					<div className='flex gap-6 justify-center'>
 						<Button
+							onClick={handleSubmit(onSubmit)}
 							disabled={approvingKyc}
-							classes='bg-[#7607BD] text-2xl py-2 flex justify-center items-center gap-2 text-white'
+							classes={`bg-[#7607BD] w-[100px] py-2 flex justify-center items-center gap-2 text-white ${
+								INPUTVAL ? '' : 'cursor-not-allowed'
+							}`}
 						>
 							Accept
 						</Button>
 						<Button
-							onClick={handleRejectOpen}
-							classes='border border-[#D92D20] text-2xl py-2 flex justify-center items-center gap-2 text-[#D92D20]'
+							onClick={(e?: any) => {
+								e.preventDefault();
+								if (!INPUTVAL) {
+									return;
+								} else {
+									handleRejectOpen();
+								}
+							}}
+							classes={`border border-[#D92D20] w-[100px] py-2 flex justify-center items-center gap-2 text-[#D92D20] ${
+								INPUTVAL ? '' : 'cursor-not-allowed'
+							}`}
 						>
 							Reject
 						</Button>

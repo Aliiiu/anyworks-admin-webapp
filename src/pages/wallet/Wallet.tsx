@@ -47,6 +47,8 @@ type WalletSummaryTypes = {
 	customerBalance: number;
 	vendorBalance: number;
 	escrowBalance: number;
+	commitmentFee: number;
+	serviceFee: number;
 	verificationBalance: number;
 };
 const Wallet = () => {
@@ -55,6 +57,8 @@ const Wallet = () => {
 		customerBalance: 0,
 		vendorBalance: 0,
 		escrowBalance: 0,
+		commitmentFee: 0,
+		serviceFee: 0,
 		verificationBalance: 0,
 	});
 	const [customerRecentWalletTrnx, setCustomerRecentWalletTrnx] = useState<
@@ -93,6 +97,8 @@ const Wallet = () => {
 				setMetricData((prevState) => ({
 					...prevState,
 					escrowBalance: res?.data?.payload?.data?.escrow_balance_amount,
+					commitmentFee: res?.data?.payload?.data?.commitment_fee_commission,
+					serviceFee: res?.data?.payload?.data?.service_fee_commission,
 					verificationBalance:
 						res?.data?.payload?.data?.verification_fee_amount,
 				}));
@@ -107,30 +113,31 @@ const Wallet = () => {
 			key: 'Total Customer Wallet balance',
 			img: user,
 			color: theme.colors.purple,
-			href: '/users',
+			href: '/customers',
 		},
 		{
 			count: numberWithCommas(metricData?.vendorBalance || 0),
 			key: 'Total Vendor wallet balance',
 			img: artisan,
 			color: theme.colors.blue,
-			href: '/artisans',
+			href: '/vendors',
 		},
 		{
 			count: numberWithCommas(metricData?.escrowBalance || 0),
 			key: 'Escrow Wallet Balance ',
 			img: wallet,
 			color: theme.colors.cyan,
+			href: '/bookings?tabStatus=active',
 		},
 		{
-			count: '100,000',
+			count: numberWithCommas(metricData?.serviceFee || 0),
 			key: 'Total Service Fee commission',
 			img: wallet,
 			color: theme.colors.purple,
 			href: '/kyc',
 		},
 		{
-			count: '100,000',
+			count: numberWithCommas(metricData?.commitmentFee || 0),
 			key: 'Total Commitment Fee',
 			img: wallet,
 			color: theme.colors.blue,

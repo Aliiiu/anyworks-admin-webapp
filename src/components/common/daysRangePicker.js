@@ -1,42 +1,8 @@
 import { Menu, RadioGroup, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 
-// if (!item.selected) {
-// 	console.log(item.id);
-// 	item.selected = !item.selected;
-// 	let days = [...daysArr];
-// 	let dayIndex = days.indexOf(item);
-// 	// setRange((prevState) => [...prevState, dayIndex]);
-// 	days[dayIndex] = { ...item };
-// 	setDaysArr(days);
-// 	if (range.length < 2) {
-// 		let daysRange = [...range];
-// 		// let start = item.id;
-// 		daysRange.push(item.id);
-// 		setRange(daysRange);
-// 	} else if (range.length === 2) {
-// 		let daysRange = [...range];
-// 		// let start = item.id;
-// 		daysRange[1] = item.id;
-// 		setRange(daysRange);
-// 	}
-// } else {
-// 	console.log(item.id);
-// 	item.selected = !item.selected;
-// 	let days = [...daysArr];
-// 	let dayIndex = days.indexOf(item);
-// 	// setRange((prevState) => [...prevState, dayIndex]);
-// 	days[dayIndex] = { ...item };
-// 	setDaysArr(days);
-// 	if (range.length === 2) {
-// 		let daysRange = [...range];
-// 		// let start = item.id;
-// 		daysRange[1] = item.id;
-// 		setRange(daysRange);
-// 	}
-// }
-export default function DaysRangePicker() {
+const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 	const [daysSelector, setDaysSelector] = useState(null);
 	const [start, setStart] = useState(null);
 	const [startDate, setStartDate] = useState(null);
@@ -130,7 +96,7 @@ export default function DaysRangePicker() {
 						</p>
 						<div className='flex gap-1 items-center'>
 							<p className='text-[#999999]'>
-								8{time ? time : 'AM'} - 4{timeDay ? timeDay : 'PM'}
+								{startTime ? startTime : '4'} - {endTime ? endTime : '16'}
 							</p>
 							<img src='/svgs/calendar-new.svg' alt='' className='w-6 h-6' />
 						</div>
@@ -145,7 +111,7 @@ export default function DaysRangePicker() {
 					leaveFrom='transform opacity-100 scale-100'
 					leaveTo='transform opacity-0 scale-95'
 				>
-					<Menu.Items className='absolute right-0 mt-6 w-[349px] p-6 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+					<Menu.Items className='absolute right-0 z-40 mt-6 w-[349px] p-6 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
 						<div>
 							<h4 className='text-[#4D4D4D]'>Select Date</h4>
 							<div className='flex gap-x-5 gap-y-3 mt-3 flex-wrap'>
@@ -157,11 +123,6 @@ export default function DaysRangePicker() {
 												? 'text-primary border border-primary px-1 rounded-2xl'
 												: 'text-[#B3B3B3]'
 										}  cursor-pointer`}
-										// className={`${
-										// 	daysSelector === index
-										// 		? 'text-primary border border-primary px-1 rounded-2xl'
-										// 		: 'text-[#B3B3B3]'
-										// }  cursor-pointer`}
 										key={index}
 									>
 										{item.day}
@@ -175,8 +136,15 @@ export default function DaysRangePicker() {
 								<div className='flex flex-col gap-1'>
 									<label className='text-[#999999] text-xs'>From</label>
 									<div className='flex gap-1 max-h-fit'>
-										<input className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-[44px]' />
-										<RadioGroup value={time} onChange={setTime}>
+										<div className='flex flex-col gap-1'>
+											<input
+												value={startTime}
+												onChange={(e) => setStartTime(e)}
+												className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-[44px]'
+											/>
+											{/* {(startTime > 24 || startTime < 0) && <small className='text-red-500'>Hour range should be between 0 - 24</small>} */}
+										</div>
+										{/* <RadioGroup value={time} onChange={setTime}>
 											<RadioGroup.Option value='AM'>
 												{({ checked }) => (
 													<small
@@ -203,15 +171,19 @@ export default function DaysRangePicker() {
 													</small>
 												)}
 											</RadioGroup.Option>
-										</RadioGroup>
+										</RadioGroup> */}
 									</div>
 								</div>
 								<div></div>
 								<div className='flex flex-col gap-1'>
 									<label className='text-[#999999] text-xs'>To</label>
 									<div className='flex gap-1 max-h-fit'>
-										<input className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-[44px]' />
-										<RadioGroup value={timeDay} onChange={setTimeDay}>
+										<input
+											value={endTime}
+											onChange={(e) => setEndTime(e)}
+											className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-[44px]'
+										/>
+										{/* <RadioGroup value={timeDay} onChange={setTimeDay}>
 											<RadioGroup.Option value='AM'>
 												{({ checked }) => (
 													<small
@@ -238,7 +210,7 @@ export default function DaysRangePicker() {
 													</small>
 												)}
 											</RadioGroup.Option>
-										</RadioGroup>
+										</RadioGroup> */}
 									</div>
 								</div>
 							</div>
@@ -248,4 +220,6 @@ export default function DaysRangePicker() {
 			</Menu>
 		</div>
 	);
-}
+};
+
+export default DaysRangePicker;

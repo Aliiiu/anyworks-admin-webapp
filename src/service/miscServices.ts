@@ -25,6 +25,12 @@ const miscService = {
 	delCache: async () => {
 		return adminServiceApi().delete('admin/v1/cache');
 	},
+	setVariableFee: async (data: any) => {
+		return adminServiceApi().post('booking/v1/admin/variable-fee', data);
+	},
+	getVariable: async () => {
+		return adminServiceApi().get('booking/v1/admin/variable-fee');
+	},
 };
 
 export default miscService;

@@ -85,7 +85,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/users'
+				path='/customers'
 				element={
 					<PrivateRoute>
 						<Users />
@@ -93,7 +93,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/users/:id'
+				path='/customers/:id'
 				element={
 					<PrivateRoute>
 						<Profile />
@@ -101,7 +101,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/artisans'
+				path='/vendors'
 				element={
 					<PrivateRoute>
 						<Artisan />
@@ -109,7 +109,7 @@ const Router = () => {
 				}
 			/>
 			<Route
-				path='/artisans/:id'
+				path='/vendors/:id'
 				element={
 					<PrivateRoute>
 						<ArtisansProfile />

@@ -160,14 +160,14 @@ const Dashboard = () => {
 			key: 'Total Customers',
 			img: user,
 			color: theme.colors.purple,
-			href: '/users',
+			href: '/customers',
 		},
 		{
 			count: metricData?.artisanData?.artisans || 0,
 			key: 'Total Vendor',
 			img: artisan,
 			color: theme.colors.blue,
-			href: '/artisans',
+			href: '/vendors',
 		},
 		// {
 		// 	count: `₦${numberWithCommas(metricData.total_balance)}`,

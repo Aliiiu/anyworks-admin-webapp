@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import KycApprovedModal from 'src/components/kyc/kycModals/KycApprovedModal';
@@ -11,18 +11,31 @@ import VerificationService from 'src/service/VerifyService';
 const AddressVerification: FC<{
 	id: string;
 	who: string;
+	fetchData: Function;
 	verifyData: { [key: string]: any };
-}> = ({ id, verifyData, who }) => {
+}> = ({ id, verifyData, who, fetchData }) => {
 	const { formState, handleSubmit, register, control, setValue } = useForm({
 		mode: 'onChange',
 	});
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const handleClose = () => {
+		setOpen(false);
+		fetchData(id);
+	};
 	const [openReject, setOpenReject] = useState(false);
 	const handleRejectOpen = () => setOpenReject(true);
-	const handleRejectClose = () => setOpenReject(false);
+	const handleRejectClose = () => {
+		setOpenReject(false);
+		fetchData(id);
+	};
 	const [rejectionReason, setRejectionReason] = useState('');
+
+	const INPUTVAL =
+		verifyData?.verification?.address?.house_address ||
+		verifyData?.verification?.address?.city ||
+		verifyData?.verification?.address?.state ||
+		verifyData?.verification?.address?.city;
 
 	const {
 		loading: rejectingKyc,
@@ -31,6 +44,9 @@ const AddressVerification: FC<{
 	} = useLoading(false);
 
 	const handleRejectKyc = () => {
+		if (rejectingKyc) {
+			return;
+		}
 		startRejectingKyc();
 		id &&
 			VerificationService.approveRejectVerification(
@@ -42,7 +58,7 @@ const AddressVerification: FC<{
 			)
 				.then((res) => {
 					console.log(res.data);
-					toast.success(res?.data?.message || []);
+					// toast.success(res?.data?.message || []);
 					// handleRejectClose();
 				})
 				.catch((err) => {
@@ -61,8 +77,12 @@ const AddressVerification: FC<{
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 
-	const onSubmit = (data: any) => {
-		console.log(data);
+	const onSubmit = (e?: any) => {
+		// console.log(data);
+		e.preventDefault();
+		if (approvingKyc || !INPUTVAL) {
+			return;
+		}
 		startApprovingKyc();
 		VerificationService.approveRejectVerification(
 			{ reason: '' },
@@ -73,7 +93,7 @@ const AddressVerification: FC<{
 		)
 			.then((res) => {
 				console.log(res.data);
-				toast.success(res?.data?.message || '');
+				// toast.success(res?.data?.message || '');
 				setTimeout(() => handleOpen(), 1000);
 			})
 			.catch((err) => {
@@ -84,15 +104,24 @@ const AddressVerification: FC<{
 				// navigate('/artisans');
 			});
 	};
+
+	useEffect(() => {
+		setValue('address', verifyData?.verification?.address?.house_address || '');
+		setValue('city', verifyData?.verification?.address?.city || '');
+		setValue('state', verifyData?.verification?.address?.state || '');
+		setValue('description', verifyData?.verification?.address?.city || '');
+	}, []);
+
 	return (
 		<form
-			onSubmit={handleSubmit(onSubmit)}
+			// onSubmit={handleSubmit(onSubmit)}
 			className='w-[60%] pb-[29px] pt-[74px]'
 		>
 			<div className='flex flex-col justify-between h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>Address Verification</h3>
 					<div className='mt-10'>
+						{/* {verifyData?.verification?.address?.house_address} */}
 						<TextField
 							label={'Residential Address'}
 							type='text'
@@ -132,14 +161,26 @@ const AddressVerification: FC<{
 				) : (
 					<div className='flex gap-6 justify-center'>
 						<Button
+							onClick={handleSubmit(onSubmit)}
 							disabled={approvingKyc}
-							classes='bg-[#7607BD] text-2xl py-2 flex justify-center items-center gap-2 text-white'
+							classes={`bg-[#7607BD] w-[100px] py-2 flex justify-center items-center gap-2 text-white ${
+								INPUTVAL ? '' : 'cursor-not-allowed'
+							}`}
 						>
 							Accept
 						</Button>
 						<Button
-							onClick={handleRejectOpen}
-							classes='border border-[#D92D20] text-2xl py-2 flex justify-center items-center gap-2 text-[#D92D20]'
+							onClick={(e?: any) => {
+								e.preventDefault();
+								if (!INPUTVAL) {
+									return;
+								} else {
+									handleRejectOpen();
+								}
+							}}
+							classes={`border border-[#D92D20] w-[100px] py-2 flex justify-center items-center gap-2 text-[#D92D20] ${
+								INPUTVAL ? '' : 'cursor-not-allowed'
+							}`}
 						>
 							Reject
 						</Button>

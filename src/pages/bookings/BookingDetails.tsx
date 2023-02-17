@@ -64,6 +64,7 @@ export const initialBookingState = {
 	status: '',
 	createdAt: '',
 	user_id: '',
+	description: '',
 	artisan_meta: initialMetaState,
 	user_meta: initialMetaState,
 };
@@ -117,7 +118,7 @@ const BookingDetailsPage = () => {
 				<div className='people'>
 					<Flex gap='2rem' wrap='wrap' justify='space-between'>
 						<Link
-							to={`/users/${bookingsDetail?.user_id}`}
+							to={`/customers/${bookingsDetail?.user_id}`}
 							className='user people-card'
 						>
 							<Flex justify='space-between' wrap='wrap'>
@@ -154,11 +155,11 @@ const BookingDetailsPage = () => {
 										)}
 									</Flex>
 								</div>
-								<p className='role'>User</p>
+								<p className='role'>Customer</p>
 							</Flex>
 						</Link>
 						<Link
-							to={`/artisans/${bookingsDetail?.artisan_id}`}
+							to={`/vendors/${bookingsDetail?.artisan_id}`}
 							className='artisan people-card'
 						>
 							<Flex justify='space-between' wrap='wrap'>
@@ -196,7 +197,7 @@ const BookingDetailsPage = () => {
 										)}
 									</Flex>
 								</div>
-								<p className='role'>Artisan</p>
+								<p className='role'>Vendor</p>
 							</Flex>
 						</Link>
 					</Flex>
@@ -221,11 +222,7 @@ const BookingDetailsPage = () => {
 							<div className='item'>
 								<Flex direction='column' gap='10px'>
 									<p className='title'>Description</p>
-									<p className='details'>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										Pulvinar mauris ultricies aliquam sit tortor congue sed
-										eget. Tortor gravida fringilla metus lacus porttitor.
-									</p>
+									<p className='details'>{bookingsDetail?.description || ''}</p>
 								</Flex>
 							</div>
 							<div className='item'>

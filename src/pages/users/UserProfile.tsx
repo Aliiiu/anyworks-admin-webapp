@@ -60,7 +60,7 @@ const StyledBookingSummary = styled.div`
 
 export const RhsHeading = () => (
 	<Flex wrap='wrap'>
-		<Link to='/users'>
+		<Link to='/customers'>
 			<Button
 				classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
 				style={{ backgroundColor: theme.colors.purple }}
