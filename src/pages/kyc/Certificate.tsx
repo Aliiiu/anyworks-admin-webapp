@@ -71,8 +71,7 @@ const Certificate: FC<{
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 
-	const onSubmit = (e?: any) => {
-		e.preventDefault();
+	const onSubmit = () => {
 		// console.log(data);
 		if (
 			approvingKyc ||
@@ -159,7 +158,9 @@ const Certificate: FC<{
 			<KycApprovedModal
 				open={open}
 				handleClose={handleClose}
-				artisanName={`${verifyData?.artisan?.first_name} ${verifyData?.artisan?.last_name}`}
+				name={`${
+					verifyData?.artisan?.first_name || verifyData?.user?.first_name
+				} ${verifyData?.artisan?.last_name || verifyData?.user?.last_name}`}
 			/>
 			<RejectionModal
 				open={openReject}

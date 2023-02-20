@@ -8,6 +8,7 @@ interface ArtisanProfileDetails {
 	rating: number;
 	phone: string;
 	status: string;
+	tier: number;
 	suspended: boolean;
 	display_picture: string;
 	address: ArtisanAddress;

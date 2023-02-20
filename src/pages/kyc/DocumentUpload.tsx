@@ -170,7 +170,8 @@ const DocumentUpload: FC<{
 							Accept
 						</Button>
 						<Button
-							onClick={() => {
+							onClick={(e?: any) => {
+								e.preventDefault();
 								if (!verifyData?.verification?.id_card?.id_card_url) {
 									return;
 								} else {
@@ -191,7 +192,9 @@ const DocumentUpload: FC<{
 			<KycApprovedModal
 				open={open}
 				handleClose={handleClose}
-				artisanName={`${verifyData?.artisan?.first_name} ${verifyData?.artisan?.last_name}`}
+				name={`${
+					verifyData?.artisan?.first_name || verifyData?.user?.first_name
+				} ${verifyData?.artisan?.last_name || verifyData?.user?.last_name}`}
 			/>
 			<RejectionModal
 				open={openReject}

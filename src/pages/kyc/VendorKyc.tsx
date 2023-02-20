@@ -197,7 +197,7 @@ const VendorKyc = () => {
 				<KycApprovedModal
 					open={open}
 					handleClose={handleClose}
-					artisanName={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
+					name={`${artisanKyc?.artisan?.first_name} ${artisanKyc?.artisan?.last_name}`}
 				/>
 				{/* <RejectionModal
 					open={openReject}

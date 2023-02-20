@@ -72,7 +72,7 @@ const Users = () => {
 	};
 
 	useEffect(() => {
-		document.title = "User's Page";
+		document.title = "Customer's Page";
 	}, []);
 
 	return (

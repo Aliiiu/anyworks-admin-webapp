@@ -39,6 +39,12 @@ const Socials: FC<{
 	};
 	const [rejectionReason, setRejectionReason] = useState('');
 
+	const INPUTVAL =
+		verifyData?.verification?.social_media?.twitter ||
+		verifyData?.verification?.social_media?.facebook ||
+		verifyData?.verification?.social_media?.linkedin ||
+		verifyData?.verification?.social_media?.others;
+
 	const {
 		loading: rejectingKyc,
 		startLoading: startRejectingKyc,
@@ -79,10 +85,9 @@ const Socials: FC<{
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 
-	const onSubmit: SubmitHandler<SocialType> = (e?: any) => {
-		e.preventDefault();
+	const onSubmit: SubmitHandler<SocialType> = () => {
 		// console.log(data);
-		if (approvingKyc) {
+		if (approvingKyc || !INPUTVAL) {
 			return;
 		}
 		startApprovingKyc();
@@ -106,11 +111,6 @@ const Socials: FC<{
 			});
 	};
 
-	const INPUTVAL =
-		verifyData?.verification?.social_media?.twitter ||
-		verifyData?.verification?.social_media?.facebook ||
-		verifyData?.verification?.social_media?.linkedin ||
-		verifyData?.verification?.social_media?.others;
 	return (
 		<form className='w-[60%] pb-[29px] pt-[74px]'>
 			<div className='flex flex-col justify-between h-full'>
@@ -185,7 +185,9 @@ const Socials: FC<{
 			<KycApprovedModal
 				open={open}
 				handleClose={handleClose}
-				artisanName={`${verifyData?.artisan?.first_name} ${verifyData?.artisan?.last_name}`}
+				name={`${
+					verifyData?.artisan?.first_name || verifyData?.user?.first_name
+				} ${verifyData?.artisan?.last_name || verifyData?.user?.last_name}`}
 			/>
 			<RejectionModal
 				open={openReject}

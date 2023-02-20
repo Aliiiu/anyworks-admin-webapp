@@ -70,8 +70,7 @@ const FaceRecognition: FC<{
 		stopLoading: stopApprovingKyc,
 	} = useLoading(false);
 
-	const onSubmit = (e?: any) => {
-		e.preventDefault();
+	const onSubmit = () => {
 		// console.log(data);
 		if (
 			approvingKyc ||
@@ -102,10 +101,7 @@ const FaceRecognition: FC<{
 	};
 
 	return (
-		<form
-			// onSubmit={handleSubmit(onSubmit)}
-			className='w-[60%] pb-[29px] pt-[74px]'
-		>
+		<form className='w-[60%] pb-[29px] pt-[74px]'>
 			<div className='flex flex-col justify-between items-center h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>Face Recognition</h3>
@@ -164,7 +160,9 @@ const FaceRecognition: FC<{
 			<KycApprovedModal
 				open={open}
 				handleClose={handleClose}
-				artisanName={`${verifyData?.artisan?.first_name} ${verifyData?.artisan?.last_name}`}
+				name={`${
+					verifyData?.artisan?.first_name || verifyData?.user?.first_name
+				} ${verifyData?.artisan?.last_name || verifyData?.user?.last_name}`}
 			/>
 			<RejectionModal
 				open={openReject}

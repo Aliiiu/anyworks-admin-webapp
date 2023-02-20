@@ -177,17 +177,17 @@ const Dashboard = () => {
 		// },
 		{
 			count: metricData?.artisanData?.pending_verification || 0,
-			key: 'Total Pending Vendor Verification',
+			key: 'Total Pending verification Vendor',
 			img: kyc,
 			color: theme.colors.mustard,
-			href: '/kyc',
+			href: '/verification/vendor',
 		},
 		{
 			count: metricData?.userData?.pending_verification || 0,
-			key: 'Total Pending Customer Verification',
+			key: 'Total Pending verification Customer',
 			img: kyc,
 			color: theme.colors.mustard,
-			href: '/kyc',
+			href: '/verification/customer',
 		},
 		{
 			count: metricData?.bookingData?.total_bookings || 0,

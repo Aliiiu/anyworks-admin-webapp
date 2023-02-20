@@ -18,6 +18,7 @@ import { initialBookingState } from '../bookings/BookingDetails';
 import { toast, ToastContainer } from 'react-toastify';
 import avatar from '../../assets/images/header/avatar.svg';
 import bookingsIcon from 'src/assets/images/metrics/bookingSummary.svg';
+import walletIcon from 'src/assets/images/metrics/walletIcon.svg';
 import WalletTable from 'src/components/artisan/WalletTable';
 
 const UserProfileContainer = styled.div`
@@ -67,7 +68,7 @@ export const RhsHeading = () => (
 			>
 				{' '}
 				<img src={arrowLeft} alt='back' />
-				<span>Back to Users</span>
+				<span>Back to Customers</span>
 			</Button>
 		</Link>
 	</Flex>
@@ -209,7 +210,7 @@ const UserProfile = () => {
 							<h5>Wallet Balance</h5>{' '}
 							<h3> ₦{numberWithCommas(userWalletDetails?.balance)}</h3>
 						</div>
-						<img src={bookingsIcon} alt='' width={55} height='55px' />
+						<img src={walletIcon} alt='' width={55} height='55px' />
 					</div>
 				</StyledBookingSummary>
 				<BookingsTabs

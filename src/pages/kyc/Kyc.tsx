@@ -51,7 +51,7 @@ const KYCDataGrid = () => {
 	} = useLoading(false);
 
 	useEffect(() => {
-		document.title = 'KYC Page';
+		document.title = 'Verification Page';
 	}, []);
 
 	// useEffect(() => {
@@ -69,7 +69,7 @@ const KYCDataGrid = () => {
 
 	return (
 		<DashboardLayout
-			pageTitle='KYC'
+			pageTitle='Verification'
 			rhsHeading={<RhsHeading handleChange={handleChange} />}
 		>
 			<>

@@ -48,7 +48,7 @@ const Artisan = () => {
 	const handleClose = () => setOpen(false);
 
 	useEffect(() => {
-		document.title = "Artisan's Page";
+		document.title = "Vendor's Page";
 	}, []);
 
 	const fetchAllArtisans = () => {
