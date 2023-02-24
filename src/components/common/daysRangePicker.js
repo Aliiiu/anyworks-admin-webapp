@@ -1,6 +1,11 @@
 import { Menu, RadioGroup, Transition } from '@headlessui/react';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { TimePicker } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 	const [daysSelector, setDaysSelector] = useState(null);
@@ -11,6 +16,7 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 	const [range, setRange] = useState([]);
 	let [time, setTime] = useState('AM');
 	let [timeDay, setTimeDay] = useState('AM');
+	const [open, setOpen] = useState(false);
 
 	const [daysArr, setDaysArr] = useState([
 		{ id: 0, day: 'Monday', selected: false },
@@ -23,27 +29,8 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 	]);
 
 	// useEffect(() => {
-	// 	console.log(daysArr.filter((item) => item.selected));
-	// }, [daysArr]);
-
-	useEffect(() => {
-		console.log(start);
-	}, [start]);
-	// useEffect(() => {
-	// 	console.log(range);
-	// 	if (range.length === 2) {
-	// 		const tempArr = [...daysArr];
-	// 		tempArr.map((item) => {
-	// 			if (item.id >= range[0] && item.id <= range[1]) {
-	// 				item.selected = true;
-	// 			} else {
-	// 				item.selected = false;
-	// 			}
-	// 		});
-	// 		console.log(tempArr);
-	// 		setDaysArr(tempArr);
-	// 	}
-	// }, [range]);
+	// 	console.log(start);
+	// }, [start]);
 
 	const selectDate = (item) => {
 		if (start === null) {
@@ -85,7 +72,7 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 			}
 		}
 	};
-
+	// console.log(dayjs(`${startTime ? startTime : '00'}:00`, 'HH:mm'));
 	return (
 		<div className=''>
 			<Menu as='div' className='relative inline-block text-left'>
@@ -96,7 +83,8 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 						</p>
 						<div className='flex gap-1 items-center'>
 							<p className='text-[#999999]'>
-								{startTime ? startTime : '4'} - {endTime ? endTime : '16'}
+								{startTime ? startTime + ':00' : '04:00'} -{' '}
+								{endTime ? endTime + ':00' : '16:00'}
 							</p>
 							<img src='/svgs/calendar-new.svg' alt='' className='w-6 h-6' />
 						</div>
@@ -138,11 +126,17 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 									<div className='flex gap-1 max-h-fit'>
 										<div className='flex flex-col gap-1'>
 											<input
-												value={startTime}
+												value={`${
+													startTime
+														? Number(startTime) < 10
+															? '0' + startTime
+															: startTime
+														: '00'
+												}:00`}
 												onChange={(e) => setStartTime(e)}
-												className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-[44px]'
+												type='time'
+												className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-2 py-3 h-[44px]'
 											/>
-											{/* {(startTime > 24 || startTime < 0) && <small className='text-red-500'>Hour range should be between 0 - 24</small>} */}
 										</div>
 										{/* <RadioGroup value={time} onChange={setTime}>
 											<RadioGroup.Option value='AM'>
@@ -179,9 +173,17 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 									<label className='text-[#999999] text-xs'>To</label>
 									<div className='flex gap-1 max-h-fit'>
 										<input
-											value={endTime}
+											value={`${
+												endTime
+													? Number(endTime) < 10
+														? '0' + endTime
+														: endTime
+													: '00'
+											}:00`}
+											// value={endTime}
+											type='time'
 											onChange={(e) => setEndTime(e)}
-											className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-4 py-3 h-[44px]'
+											className='bg-[#F2F4F7] max-w-[92px] border border-[#98a2b3] rounded-lg outline-none focus:bg-white px-2 py-3 h-[44px]'
 										/>
 										{/* <RadioGroup value={timeDay} onChange={setTimeDay}>
 											<RadioGroup.Option value='AM'>

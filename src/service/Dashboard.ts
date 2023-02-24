@@ -11,9 +11,9 @@ export const DashboardService = {
 		return adminServiceApi().get('booking/v1/admin/dashboard');
 	},
 	RecentWalletHistory: async () => {
-		return adminServiceApi().get('artisan/v1/wallet/transactions/recent');
+		return adminServiceApi().get('booking/v1/admin/dashboard/recent');
 	},
 	RecentBookingHistory: async () => {
-		return adminServiceApi().get('booking/v1/admin/recent');
+		return adminServiceApi().get('booking/v1/admin/dashboard/recent');
 	},
 };

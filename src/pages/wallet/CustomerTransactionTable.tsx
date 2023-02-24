@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Flex, Table } from 'src/components/ui';
 import avatar from 'src/assets/images/header/avatar.svg';
 import { formatDateDmy, numberWithCommas } from 'src/utils';
+import { usePagination } from 'src/hooks';
 
 const RecentTransactionsTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -37,52 +38,52 @@ const RecentTransactionsTableContainer = styled.div`
 
 const RecentTransactionsTableHeaders = [
 	{
-		title: 'Customer',
+		title: 'Purpose',
 		render: (row: CustomerWalletTrnxTypes) => (
-			<Flex gap='10px' align='center'>
-				<img
-					style={{ width: 40, height: 40, borderRadius: '50%' }}
-					src={row?.img || avatar}
-					alt=''
-				/>{' '}
-				{row?.customer || 'Olajide Musiliu'}
-			</Flex>
+			<p>
+				{row?.transaction_details?.debited_for ||
+					row?.transaction_details?.credited_for ||
+					(row?.transaction_details?.customer?.first_name
+						? row?.transaction_details?.customer?.first_name +
+						  ' ' +
+						  row?.transaction_details?.customer?.last_name
+						: '')}
+			</p>
 		),
 	},
 	{
 		title: 'Amount',
 		render: (row: CustomerWalletTrnxTypes) =>
-			`₦${numberWithCommas(row?.amount) || ''}`,
+			`₦${numberWithCommas(row?.amount || 0) || ''}`,
+	},
+	{
+		title: 'Type',
+		render: (row: CustomerWalletTrnxTypes) => (
+			<p
+				style={{
+					color: row?.type === 'credit' ? '#00CCCD' : '#FFAD4A',
+				}}
+			>
+				{row?.type}
+			</p>
+		),
 	},
 	{
 		title: 'Date',
 		render: (row: CustomerWalletTrnxTypes) =>
 			`${formatDateDmy(row?.created_at) || ''}`,
 	},
-	{
-		title: 'Transaction',
-		render: (row: CustomerWalletTrnxTypes) => `${row?.type || ''}`,
-	},
-	{
-		title: 'Status',
-		render: (row: CustomerWalletTrnxTypes) => (
-			<p
-				style={{
-					color:
-						row?.transaction_details.status === 'success'
-							? '#00CCCD'
-							: '#FFAD4A',
-				}}
-			>
-				{row?.transaction_details?.status || 'Failed'}
-			</p>
-		),
-	},
 ];
 
 export const CustomerTransactionsTable: FC<{
 	rows: CustomerWalletTrnxTypes[];
 }> = ({ rows }) => {
+	const { page, limit, Pagination } = usePagination({
+		page: 1,
+		limit: 5,
+		total: rows.length,
+	});
+	const paginatedRows = rows.slice((page - 1) * limit, page * limit);
 	return (
 		<RecentTransactionsTableContainer>
 			<div className='heading'>
@@ -91,13 +92,14 @@ export const CustomerTransactionsTable: FC<{
 			</div>
 			{rows.length > 0 ? (
 				<Table
-					rows={rows}
+					rows={paginatedRows}
 					headers={RecentTransactionsTableHeaders}
 					showHead={true}
 				/>
 			) : (
 				<h5 className='table-empty-status'> No recent Transaction</h5>
 			)}
+			<Pagination />
 		</RecentTransactionsTableContainer>
 	);
 };

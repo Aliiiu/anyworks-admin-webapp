@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { Flex, Table } from 'src/components/ui';
 import { RECENT_BOOKINGS_TABLE_DATA } from 'src/constants';
 import { useNavigate } from 'react-router-dom';
-import { formatDateDmy, formatTime } from 'src/utils';
+import { formatDateDmy, formatTime, numberWithCommas } from 'src/utils';
 import { FC } from 'react';
+import { usePagination } from 'src/hooks';
 
 const RecentBookingsTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -28,48 +29,37 @@ const RecentBookingsTableContainer = styled.div`
 `;
 
 interface BookingsTypes {
-	id: number;
-	customer?: string;
-	img: string;
-	vendor: string;
-	calloutFee: string;
-	serviceFee: string;
+	_id: string;
+	amount: number;
+	status: string;
+	narration: string;
+	createdAt: string;
 }
 
 const RecentBookingsTableHeaders = [
 	{
-		title: 'Vendor',
+		title: 'Narration',
+		render: (row: BookingsTypes) => <p>{row?.narration}</p>,
+	},
+	{
+		title: 'Amount',
+		render: (row: BookingsTypes) => numberWithCommas(row?.amount || 0),
+	},
+	{
+		title: 'Date',
+		render: (row: BookingsTypes) => formatDateDmy(row?.createdAt),
+	},
+	{
+		title: 'Status',
 		render: (row: BookingsTypes) => (
-			<Flex gap='10px' align='center'>
-				<img
-					style={{ width: 40, height: 40, borderRadius: '50%' }}
-					src={row.img}
-					alt=''
-				/>{' '}
-				{row.vendor}
-			</Flex>
+			<p
+				className={`${
+					row?.status === 'paid' ? 'text-[#00cccd] ' : 'text-[#ffad4a]'
+				}`}
+			>
+				{row.status}
+			</p>
 		),
-	},
-	{
-		title: 'Customer',
-		render: (row: BookingsTypes) => (
-			<Flex gap='10px' align='center'>
-				<img
-					style={{ width: 40, height: 40, borderRadius: '50%' }}
-					src={row.img}
-					alt=''
-				/>{' '}
-				{row.customer}
-			</Flex>
-		),
-	},
-	{
-		title: '10%  Call-Out Fee',
-		render: (row: BookingsTypes) => `${row.calloutFee}`,
-	},
-	{
-		title: '10%  Service Fee',
-		render: (row: BookingsTypes) => `${row.serviceFee}`,
 	},
 ];
 
@@ -80,6 +70,13 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 	const handleNavigate = (id: string) => {
 		navigate(`/bookings/${id}`);
 	};
+
+	const { page, limit, Pagination } = usePagination({
+		page: 1,
+		limit: 5,
+		total: rows.length,
+	});
+	const paginatedRows = rows.slice((page - 1) * limit, page * limit);
 	return (
 		<RecentBookingsTableContainer>
 			<div className='heading'>
@@ -88,7 +85,7 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 			</div>
 			{rows.length > 0 ? (
 				<Table
-					rows={rows}
+					rows={paginatedRows}
 					headers={RecentBookingsTableHeaders}
 					showHead={true}
 					onRowClick={handleNavigate}
@@ -99,6 +96,7 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 					No recent Bookings
 				</h5>
 			)}
+			<Pagination />
 		</RecentBookingsTableContainer>
 	);
 };

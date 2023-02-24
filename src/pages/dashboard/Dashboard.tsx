@@ -4,11 +4,9 @@ import {
 	DashboardLayout,
 	MetricsCard,
 	RecentBookingsTable,
-	RecentTransactionsTable,
 } from 'src/components/dashboard';
 import user from 'src/assets/images/metrics/user.svg';
 import artisan from 'src/assets/images/metrics/artisan.svg';
-import wallet from 'src/assets/images/metrics/wallet.svg';
 import kyc from 'src/assets/images/metrics/kyc.svg';
 import booking from 'src/assets/images/metrics/booking.svg';
 import { Flex } from 'src/components/ui';
@@ -16,8 +14,6 @@ import { theme } from 'src/styles/Theme';
 import { DashboardService } from 'src/service/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
 import bookingAdminService from 'src/service/BookingAdmin';
-import userServices from 'src/service/userServices';
-import { formatTime, numberWithCommas } from 'src/utils';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
 
@@ -67,7 +63,6 @@ const Dashboard = () => {
 	});
 	const [adminBookings, setAdminBookings] =
 		useState<BookingMetricTypes>(initialBookingState);
-	const [totalUsers, setTotalUsers] = useState<number>(0);
 	const [recentBookings, setRecentBookings] = useState<BookingsTypes[]>([]);
 	const [recentWalletTrnx, setRecentWalletTrnx] = useState<WalletTrnxTypes[]>(
 		[]
@@ -122,37 +117,30 @@ const Dashboard = () => {
 
 	const { loading, startLoading, stopLoading } = useLoading();
 	const {
-		loading: fetchRecentTrx,
-		startLoading: startFetchingTnx,
-		stopLoading: stopFetchingTnx,
+		loading: fetchRecentBookings,
+		startLoading: startFetchingBookings,
+		stopLoading: stopFetchingBookings,
 	} = useLoading();
 
-	// useEffect(() => {
-	// 	userServices
-	// 		.getUsers()
-	// 		.then((res) => setTotalUsers(res?.data?.payload?.data.length))
-	// 		.catch((err) => console.log(err?.response?.data?.error?.message));
-	// }, []);
+	useEffect(() => {
+		startFetchingBookings();
+		DashboardService.RecentBookingHistory()
+			.then((res) => {
+				setRecentBookings(res?.data?.payload?.data?.bookings);
+			})
+			.catch((err) => console.log(err.response))
+			.finally(() => stopFetchingBookings());
+	}, []);
 
 	// useEffect(() => {
-	// 	startLoading();
+	// 	startFetchingTnx();
 	// 	DashboardService.RecentBookingHistory()
 	// 		.then((res) => {
-	// 			setRecentBookings(res?.data?.payload?.data);
+	// 			setRecentBookings(res?.data?.payload?.data?.bookings);
 	// 		})
-	// 		.catch((err) => console.log(err.response))
-	// 		.finally(() => stopLoading());
+	// 		.catch((err) => console.log(err?.response?.data?.error?.message))
+	// 		.finally(() => stopFetchingTnx());
 	// }, []);
-
-	useEffect(() => {
-		startFetchingTnx();
-		DashboardService.RecentWalletHistory()
-			.then((res) => {
-				setRecentWalletTrnx(res?.data?.payload?.data);
-			})
-			.catch((err) => console.log(err?.response?.data?.error?.message))
-			.finally(() => stopFetchingTnx());
-	}, []);
 
 	const metrics = [
 		{
@@ -242,20 +230,13 @@ const Dashboard = () => {
 						})}
 					</Flex>
 				</div>
-				{loading ? (
+				{fetchRecentBookings ? (
 					<div className='loader-container'>
 						<ScaleLoader color='#7E00C4' height={50} width={8} />
 					</div>
 				) : (
 					<RecentBookingsTable rows={recentBookings} />
 				)}
-				{/* {fetchRecentTrx ? (
-					<div className='loader-container'>
-						<ScaleLoader color='#7E00C4' height={50} width={8} />
-					</div>
-				) : (
-					<RecentTransactionsTable rows={recentWalletTrnx} />
-				)} */}
 			</DashboardContainer>
 		</DashboardLayout>
 	);
