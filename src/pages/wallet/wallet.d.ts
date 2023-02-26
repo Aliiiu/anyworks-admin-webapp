@@ -6,7 +6,7 @@ interface CustomerWalletTrnxTypes {
 	type: string;
 	img: string;
 	transaction_details: {
-		status: string;
+		[x: string]: any;
 	};
 }
 
@@ -19,6 +19,6 @@ interface VendorWalletTrnxTypes {
 	img: string;
 	status: string;
 	transaction_details: {
-		status: string;
+		[x: string]: any;
 	};
 }

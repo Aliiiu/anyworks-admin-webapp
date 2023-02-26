@@ -22,6 +22,7 @@ const DashboardSidebarContainer = styled.div`
 	width: 100%;
 	max-width: 15rem;
 	height: 100vh;
+
 	background: ${(props) => props.theme.colors.white};
 	z-index: 2;
 
@@ -36,6 +37,14 @@ const DashboardSidebarContainer = styled.div`
 			.DashboardSidebar__nav {
 				margin-top: 0;
 			}
+		}
+	}
+	@media (max-width: ${(props) => props.theme.breakpoint.xl}) {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+		overflow-y: scroll;
+		&::-webkit-scrollbar {
+			display: none;
 		}
 	}
 
@@ -334,7 +343,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 				toggleSidebar={toggleSidebar}
 				showOnDesktop
 			/>
-			<nav className='DashboardSidebar__nav'>
+			<nav className='DashboardSidebar__nav mb-10'>
 				<ul>{DASHBOARD_SIDEBAR_DATA().map(mapSidebarNav)}</ul>
 				<div className='logout__btn'>
 					<Button

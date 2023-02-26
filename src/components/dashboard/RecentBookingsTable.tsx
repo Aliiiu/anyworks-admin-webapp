@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatDateDmy, formatTime } from 'src/utils';
 import { BookingStatus } from '../bookings';
 import { FC } from 'react';
+import { usePagination } from 'src/hooks';
 
 const RecentBookingsTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -77,6 +78,12 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 	const handleNavigate = (id: string) => {
 		navigate(`/bookings/${id}`);
 	};
+	const { page, limit, Pagination } = usePagination({
+		page: 1,
+		limit: 5,
+		total: rows.length,
+	});
+	const paginatedRows = rows.slice((page - 1) * limit, page * limit);
 	return (
 		<RecentBookingsTableContainer>
 			<div className='heading'>
@@ -85,7 +92,7 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 			</div>
 			{rows.length > 0 ? (
 				<Table
-					rows={rows}
+					rows={paginatedRows}
 					headers={RecentBookingsTableHeaders}
 					showHead={true}
 					onRowClick={handleNavigate}
@@ -96,6 +103,7 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 					No recent Bookings
 				</h5>
 			)}
+			<Pagination />
 		</RecentBookingsTableContainer>
 	);
 };

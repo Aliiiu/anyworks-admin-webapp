@@ -39,5 +39,6 @@ export const formatTime = (data: any) => {
 };
 
 export function numberWithCommas(num: number) {
-	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	if (num) return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	// else return '';
 }

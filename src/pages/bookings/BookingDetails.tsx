@@ -18,6 +18,7 @@ import { useLoading } from 'src/hooks';
 import { ScaleLoader } from 'react-spinners';
 import { formatDateDmy, formatTime } from 'src/utils';
 import { toast, ToastContainer } from 'react-toastify';
+import BookingCard from 'src/components/bookings/BookingCard';
 
 export const RhsHeading: FC<{ tabStatus: string | null }> = ({ tabStatus }) => (
 	<Flex wrap='wrap'>
@@ -121,84 +122,27 @@ const BookingDetailsPage = () => {
 							to={`/customers/${bookingsDetail?.user_id}`}
 							className='user people-card'
 						>
-							<Flex justify='space-between' wrap='wrap'>
-								<div className='lhs'>
-									<Flex>
-										{loading ? (
-											<div className='loader-container'>
-												<ScaleLoader color='#7E00C4' height={50} width={8} />
-											</div>
-										) : (
-											<>
-												<img
-													style={{ borderRadius: '50%' }}
-													src={
-														bookingsDetail?.user_meta.display_picture || avatar
-													}
-													alt='dp'
-												/>
-												<div className='info'>
-													<p className='name'>
-														{bookingsDetail?.user_meta.first_name}{' '}
-														{bookingsDetail?.user_meta.last_name}
-													</p>
-													<div className='rating'>
-														<Flex>
-															<p className='key'>Rating</p>
-															<p className='value'>
-																{bookingsDetail?.user_meta.rating}
-															</p>
-														</Flex>
-													</div>
-												</div>
-											</>
-										)}
-									</Flex>
-								</div>
-								<p className='role'>Customer</p>
-							</Flex>
+							<BookingCard
+								loading={loading}
+								src={bookingsDetail?.user_meta.display_picture || avatar}
+								first_name={bookingsDetail?.user_meta.first_name}
+								last_name={bookingsDetail?.user_meta.last_name}
+								rating={bookingsDetail?.user_meta.rating}
+								card_type='Customer'
+							/>
 						</Link>
 						<Link
 							to={`/vendors/${bookingsDetail?.artisan_id}`}
 							className='artisan people-card'
 						>
-							<Flex justify='space-between' wrap='wrap'>
-								<div className='lhs'>
-									<Flex>
-										{loading ? (
-											<div className='loader-container'>
-												<ScaleLoader color='#7E00C4' height={50} width={8} />
-											</div>
-										) : (
-											<>
-												<img
-													style={{ borderRadius: '50%' }}
-													src={
-														bookingsDetail?.artisan_meta.display_picture ||
-														avatar
-													}
-													alt='dp'
-												/>
-												<div className='info'>
-													<p className='name'>
-														{bookingsDetail?.artisan_meta.first_name}{' '}
-														{bookingsDetail?.artisan_meta.last_name}
-													</p>
-													<div className='rating'>
-														<Flex>
-															<p className='key'>Rating</p>
-															<p className='value'>
-																{bookingsDetail?.artisan_meta.rating}
-															</p>
-														</Flex>
-													</div>
-												</div>
-											</>
-										)}
-									</Flex>
-								</div>
-								<p className='role'>Vendor</p>
-							</Flex>
+							<BookingCard
+								loading={loading}
+								src={bookingsDetail?.artisan_meta.display_picture || avatar}
+								first_name={bookingsDetail?.artisan_meta.first_name}
+								last_name={bookingsDetail?.artisan_meta.last_name}
+								rating={bookingsDetail?.artisan_meta.rating}
+								card_type='Vendor'
+							/>
 						</Link>
 					</Flex>
 				</div>
@@ -284,7 +228,12 @@ const BookingDetailsPage = () => {
 						handleClose={handleCloseInvoiceModal}
 						bookingTransaction={bookingTransactions}
 					/>
-					<ChatModal open={openChatModal} handleClose={handleCloseChatModal} />
+					<ChatModal
+						open={openChatModal}
+						handleClose={handleCloseChatModal}
+						customerImg={bookingsDetail?.user_meta.display_picture || avatar}
+						vendorImg={bookingsDetail?.artisan_meta.display_picture || avatar}
+					/>
 					<div className='buttons'>
 						<Flex gap='1.5rem' wrap='wrap'>
 							<div>

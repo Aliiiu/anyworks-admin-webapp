@@ -19,6 +19,7 @@ import ModalContent from 'src/components/common/ModalContent';
 import { AiOutlinePlus } from 'react-icons/ai';
 import DaysRangePicker from 'src/components/common/daysRangePicker';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { TimePicker } from 'antd';
 
 const InputField = styled(Field)`
 	border-radius: 8px;
@@ -278,7 +279,10 @@ const Settings = () => {
 		startLoadingTimeFee();
 		miscService
 			.setVariableFee(data)
-			.then((res) => console.log(res?.data))
+			.then((res) => {
+				console.log(res?.data?.payload);
+				toast.success(res?.data?.message);
+			})
 			.catch((err) => err.response.data)
 			.finally(() => stopLoadingTimeFee());
 	};
@@ -464,26 +468,24 @@ const Settings = () => {
 												startTime={item.start_time}
 												endTime={item.end_time}
 												setStartTime={(e: any) => {
-													const value = e.target.value.replace(/\D/g, '');
+													const value = e.target.value;
+													console.log(value.split(':')[0]);
 													let tempTime = [...timeIntervalFee];
-													if (e.target.value === '' || value <= 24) {
-														tempTime[index] = {
-															...item,
-															start_time: e.target.value.replace(/\D/g, ''),
-														};
-														setTimeIntervalFee(tempTime);
-													}
+													tempTime[index] = {
+														...item,
+														start_time: value.split(':')[0],
+													};
+													setTimeIntervalFee(tempTime);
 												}}
 												setEndTime={(e: any) => {
-													const value = e.target.value.replace(/\D/g, '');
+													console.log(e.target.value);
+													const value = e.target.value;
 													let tempTime = [...timeIntervalFee];
-													if (e.target.value === '' || value <= 24) {
-														tempTime[index] = {
-															...item,
-															end_time: e.target.value.replace(/\D/g, ''),
-														};
-														setTimeIntervalFee(tempTime);
-													}
+													tempTime[index] = {
+														...item,
+														end_time: value.split(':')[0],
+													};
+													setTimeIntervalFee(tempTime);
 												}}
 											/>
 											{/* <div className='flex pl-4 items-center gap-4'>

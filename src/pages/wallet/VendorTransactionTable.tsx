@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Flex, Table } from 'src/components/ui';
 import { formatDateDmy, numberWithCommas } from 'src/utils';
 import avatar from 'src/assets/images/header/avatar.svg';
+import { Pagination } from 'src/components/ui/Pagination';
+import { usePagination } from 'src/hooks';
 
 const RecentTransactionsTableContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
@@ -37,52 +39,52 @@ const RecentTransactionsTableContainer = styled.div`
 
 const RecentTransactionsTableHeaders = [
 	{
-		title: 'Vendor',
+		title: 'Purpose',
 		render: (row: VendorWalletTrnxTypes) => (
-			<Flex gap='10px' align='center'>
-				<img
-					style={{ width: 40, height: 40, borderRadius: '50%' }}
-					src={row.img || avatar}
-					alt=''
-				/>{' '}
-				{row?.vendor || 'Olajide Musiliu'}
-			</Flex>
+			<p>
+				{row.transaction_details?.debited_for ||
+					row?.transaction_details?.credited_for ||
+					(row?.transaction_details?.customer?.first_name
+						? row?.transaction_details?.customer?.first_name +
+						  ' ' +
+						  row?.transaction_details?.customer?.last_name
+						: '')}
+			</p>
 		),
 	},
 	{
 		title: 'Amount',
 		render: (row: VendorWalletTrnxTypes) =>
-			`₦${numberWithCommas(row?.amount) || ''}`,
+			`₦${numberWithCommas(row?.amount || 0) || ''}`,
+	},
+	{
+		title: 'Type',
+		render: (row: VendorWalletTrnxTypes) => (
+			<p
+				className={`${
+					row?.type === 'credit' ? 'text-[#00cccd] ' : 'text-[#ffad4a]'
+				}`}
+			>
+				{row.type}
+			</p>
+		),
 	},
 	{
 		title: 'Date',
 		render: (row: VendorWalletTrnxTypes) =>
 			`${formatDateDmy(row?.created_at) || ''}`,
 	},
-	{
-		title: 'Transaction',
-		render: (row: VendorWalletTrnxTypes) => `${row?.type || ''}`,
-	},
-	{
-		title: 'Status',
-		render: (row: VendorWalletTrnxTypes) => (
-			<p
-				style={{
-					color:
-						row?.transaction_details.status === 'success'
-							? '#00CCCD'
-							: '#FFAD4A',
-				}}
-			>
-				{row?.transaction_details?.status || 'Failed'}
-			</p>
-		),
-	},
 ];
 
 export const VendorTransactionsTable: FC<{
 	rows: VendorWalletTrnxTypes[];
 }> = ({ rows }) => {
+	const { page, limit, Pagination } = usePagination({
+		page: 1,
+		limit: 5,
+		total: rows.length,
+	});
+	const paginatedRows = rows.slice((page - 1) * limit, page * limit);
 	return (
 		<RecentTransactionsTableContainer>
 			<div className='heading'>
@@ -91,13 +93,14 @@ export const VendorTransactionsTable: FC<{
 			</div>
 			{rows.length > 0 ? (
 				<Table
-					rows={rows}
+					rows={paginatedRows}
 					headers={RecentTransactionsTableHeaders}
 					showHead={true}
 				/>
 			) : (
 				<h5 className='table-empty-status'> No recent Transaction</h5>
 			)}
+			<Pagination />
 		</RecentTransactionsTableContainer>
 	);
 };

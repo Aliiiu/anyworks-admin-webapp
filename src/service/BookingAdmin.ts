@@ -18,9 +18,10 @@ const bookingAdminService = {
 		);
 	},
 	bookingDetails: async (booking_id: string) => {
-		return adminServiceApi().get(
-			`booking/v1/admin/history/${booking_id}`
-		);
+		return adminServiceApi().get(`booking/v1/admin/history/${booking_id}`);
+	},
+	getMessages: async (booking_id: string) => {
+		return adminServiceApi().get(`booking/v1/admin/messages/${booking_id}`);
 	},
 };
 
