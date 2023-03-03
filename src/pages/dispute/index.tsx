@@ -8,6 +8,8 @@ import { Flex } from 'src/components/ui';
 import { formatDateDmy } from 'src/utils';
 import DisputeTabs from 'src/components/dispute/DisputeTab';
 import { BookingsData } from 'src/constants/BookingsData';
+import { disputeService } from 'src/service/disputeService';
+import { useLoading } from 'src/hooks';
 
 interface Props {
 	handleChange: (e: any) => void;
@@ -15,9 +17,8 @@ interface Props {
 
 interface DisputeTypes {
 	id: number;
-	first_name: string;
-	last_name: string;
-	date: string;
+	description: string;
+	createdAt: string;
 	display_picture: string;
 	status: string;
 }
@@ -33,73 +34,60 @@ export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
 
 const DisputePage = () => {
 	const [searchField, setSearchField] = useState('');
+	const [disputeData, setDisputeData] = useState<DisputeTypes[]>([
+		{} as DisputeTypes,
+	]);
+	const { loading, startLoading, stopLoading } = useLoading();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		document.title = 'Dispute Page';
 	}, []);
 
+	useEffect(() => {
+		startLoading();
+		disputeService
+			.getAllDisputes()
+			.then((res) => setDisputeData(res.data.payload.data))
+			.catch((err) => {
+				console.log(err.response);
+			})
+			.finally(() => stopLoading());
+	}, []);
 	const handleChange = (e: any) => {
 		setSearchField(e.target.value);
 	};
 	let [searchParams, setSearchParams] = useSearchParams();
 
-	const filteredData = BookingsData.filter((data) => {
-		return (
-			data.first_name.toLowerCase().includes(searchField.toLowerCase()) ||
-			data.last_name.toLowerCase().includes(searchField.toLowerCase())
-		);
+	const filteredData = disputeData.filter((data) => {
+		// console.log(data.description);
+		if (data.description) {
+			return data.description.toLowerCase().includes(searchField.toLowerCase());
+		}
 	});
 
-	const handleNavigate = (id: string) => {
-		navigate(`/dispute/${id}?tabStatus=${searchParams.get('tabStatus')}`);
+	const handleNavigate = (row: { [x: string]: any }) => {
+		navigate(`/dispute/${row?.booking_id}?tabStatus=${row?.status}`);
 	};
 
 	const DisputeTableHeaders = [
-		{ title: 'OrderID', render: (row: DisputeTypes) => `${row.id}` },
 		{
-			title: 'Customer',
-			render: (row: DisputeTypes) => (
-				<Flex gap='10px' align='center'>
-					<img
-						style={{ width: 40, height: 40, borderRadius: '50%' }}
-						src={row.display_picture}
-						alt=''
-					/>{' '}
-					{row.first_name} {row.last_name}
-				</Flex>
-			),
-		},
-		{
-			title: 'Vendor',
-			render: (row: DisputeTypes) => (
-				<Flex gap='10px' align='center'>
-					<img
-						style={{ width: 40, height: 40, borderRadius: '50%' }}
-						src={row.display_picture}
-						alt=''
-					/>{' '}
-					{row.first_name} {row.last_name}
-				</Flex>
-			),
+			title: 'Description',
+			render: (row: DisputeTypes) => `${row.description}`,
 		},
 		{
 			title: 'Date',
-			render: (row: DisputeTypes) => `${row.date}`,
+			render: (row: DisputeTypes) => formatDateDmy(row.createdAt),
 		},
-		// {
-		// 	title: 'Date',
-		// 	render: (row: DisputeTypes) => formatDateDmy(row.createdAt),
-		// },
 		{
 			title: 'Status',
 			render: (row: DisputeTypes) => (
 				<p
-					className={`${
-						row.status === 'Active' ? 'text-[#55C4F1]' : 'text-[#7607BD]'
+					className={`capitalize ${
+						row.status === 'pending' ? 'text-[#55C4F1]' : 'text-[#7607BD]'
 					}`}
 				>
-					{row.status}
+					{row.status === 'pending' ? 'active' : row.status}
 				</p>
 			),
 		},
@@ -112,7 +100,7 @@ const DisputePage = () => {
 		>
 			{/* <ToastContainer /> */}
 			<div>
-				{false ? (
+				{loading ? (
 					<div
 						style={{
 							display: 'flex',

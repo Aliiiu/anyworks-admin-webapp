@@ -1,7 +1,6 @@
 import { Menu, RadioGroup, Transition } from '@headlessui/react';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import { TimePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
@@ -12,11 +11,6 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 	const [start, setStart] = useState(null);
 	const [startDate, setStartDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
-	const [count, setCount] = useState(0);
-	const [range, setRange] = useState([]);
-	let [time, setTime] = useState('AM');
-	let [timeDay, setTimeDay] = useState('AM');
-	const [open, setOpen] = useState(false);
 
 	const [daysArr, setDaysArr] = useState([
 		{ id: 0, day: 'Monday', selected: false },

@@ -129,7 +129,7 @@ interface Props {
 	rows: any;
 	headers?: headerType[];
 	showHead?: boolean;
-	onRowClick?: Function | ((x?: Object) => void);
+	onRowClick?: Function | ((x?: { [x: string]: any } | string) => void);
 	allowRowClick?: boolean;
 }
 
@@ -166,7 +166,7 @@ export const Table: React.FC<Props> = ({
 					{rows.map((row: any) => (
 						<tr
 							key={row?._id || row?.transaction_details?.id}
-							onClick={allowRowClick ? () => onRowClick(row._id) : undefined}
+							onClick={allowRowClick ? () => onRowClick(row) : undefined}
 							className={clsx({ clickable: allowRowClick })}
 						>
 							{headers?.map((header) => {

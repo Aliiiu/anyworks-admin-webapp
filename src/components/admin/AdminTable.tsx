@@ -15,8 +15,8 @@ const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 	const [allowRowClick, setAllowRowClick] = useState(true);
 	let navigate = useNavigate();
 
-	const handleNavigate = (id: string) => {
-		navigate(`/admins/${id}`);
+	const handleNavigate = (row: any) => {
+		navigate(`/admins/${row?._id || ''}`);
 	};
 	const suspendActivityHandler = (admin_id: string, action: string) => {
 		AdminServices.suspendAdmin(admin_id, action)

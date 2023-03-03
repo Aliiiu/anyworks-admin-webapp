@@ -36,8 +36,8 @@ export const UsersTable = ({ rows }: Props) => {
 	const [userEmail, setUserEmail] = useState('');
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState<string[]>([]);
-	const handleNavigate = (id: string) => {
-		navigate(`/customers/${id}?tabStatus=all`);
+	const handleNavigate = (row: any) => {
+		navigate(`/customers/${row?._id}?tabStatus=all`);
 	};
 
 	const [allowRowClick, setAllowRowClick] = useState(true);
@@ -87,7 +87,7 @@ export const UsersTable = ({ rows }: Props) => {
 						{
 							title: 'View profile',
 							onClick: () => {
-								handleNavigate(row._id);
+								handleNavigate(row);
 							},
 						},
 						{

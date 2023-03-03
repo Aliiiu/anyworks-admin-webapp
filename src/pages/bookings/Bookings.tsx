@@ -113,8 +113,8 @@ const BookingsPage = () => {
 
 	let [searchParams, setSearchParams] = useSearchParams();
 
-	const handleNavigate = (id: string) => {
-		navigate(`/bookings/${id}?tabStatus=${searchParams.get('tabStatus')}`);
+	const handleNavigate = (row: { [x: string]: any }) => {
+		navigate(`/bookings/${row?._id}?tabStatus=${row?.status}`);
 	};
 
 	const BookingsTableHeaders = [

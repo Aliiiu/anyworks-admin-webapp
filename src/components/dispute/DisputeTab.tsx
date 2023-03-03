@@ -114,7 +114,7 @@ export const DisputeTabs: React.FC<Props> = ({
 			setSearchParams({ tabStatus: 'all' });
 		}
 		if (newValue === '2') {
-			setSearchParams({ tabStatus: 'active' });
+			setSearchParams({ tabStatus: 'pending' });
 		}
 		if (newValue === '3') {
 			setSearchParams({ tabStatus: 'resolved' });

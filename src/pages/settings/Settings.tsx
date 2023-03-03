@@ -19,7 +19,6 @@ import ModalContent from 'src/components/common/ModalContent';
 import { AiOutlinePlus } from 'react-icons/ai';
 import DaysRangePicker from 'src/components/common/daysRangePicker';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { TimePicker } from 'antd';
 
 const InputField = styled(Field)`
 	border-radius: 8px;
