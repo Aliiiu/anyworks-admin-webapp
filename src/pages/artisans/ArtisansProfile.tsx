@@ -140,8 +140,8 @@ const ArtisansProfile = () => {
 
 	let [searchParams, setSearchParams] = useSearchParams();
 
-	const handleNavigate = (booking_id: string) => {
-		navigate(`/bookings/${booking_id}tabStatus=all`);
+	const handleNavigate = (row: any) => {
+		navigate(`/bookings/${row?._id}tabStatus=${row?.status}`);
 	};
 	const BookingsTableHeaders = [
 		{

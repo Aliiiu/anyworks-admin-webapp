@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { isValidDate } from 'src/utils';
 
-export const formatDate = (date: any, format = 'DD MMM YYYY') => {
+export const formatDate = (date: any, format = 'MMM DD, YYYY') => {
 	if (date && isValidDate(date)) return dayjs(date).format(format);
 	return date;
 };
@@ -42,3 +42,10 @@ export function numberWithCommas(num: number) {
 	if (num) return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	// else return '';
 }
+
+export const formatTimer = (date: string) => {
+	return new Date(date).toLocaleTimeString('en-US', {
+		hour: '2-digit',
+		minute: '2-digit',
+	});
+};

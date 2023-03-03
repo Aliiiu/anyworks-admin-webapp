@@ -42,8 +42,8 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 	let navigate = useNavigate();
 	const [allowRowClick, setAllowRowClick] = useState(true);
 
-	const handleNavigate = (id: string) => {
-		navigate(`/vendors/${id}?tabStatus=all`);
+	const handleNavigate = (row: any) => {
+		navigate(`/vendors/${row?._id}?tabStatus=all`);
 	};
 
 	const ArtisanTableHeaders = [
@@ -117,7 +117,7 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 					actions={[
 						{
 							title: 'View profile',
-							onClick: () => handleNavigate(row._id),
+							onClick: () => handleNavigate(row),
 						},
 						{
 							title: 'Send email',

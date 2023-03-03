@@ -67,8 +67,8 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 	rows,
 }) => {
 	const navigate = useNavigate();
-	const handleNavigate = (id: string) => {
-		navigate(`/bookings/${id}`);
+	const handleNavigate = (row: any) => {
+		navigate(`/bookings/${row?._id}`);
 	};
 
 	const { page, limit, Pagination } = usePagination({
