@@ -20,12 +20,21 @@ import UserArtisanChart, {
 import { Loader } from 'src/components/common';
 import { formatDate } from 'src/utils';
 
+export type BookingTrnxType = {
+	narration: string;
+	amount: number;
+	status: string;
+	_id: string;
+};
 const DisputeDetails = () => {
 	const [showModal, setShowModal] = useState<boolean | null>(false);
 	const [showChat, setShowChat] = useState<boolean>(false);
 	const [disputeDetails, setDisputeDetails] = useState<{ [x: string]: any }>(
 		{}
 	);
+	const [bookingTrnx, setBookingTrnx] = useState<BookingTrnxType[]>([
+		{} as BookingTrnxType,
+	]);
 
 	const [bookingsDetail, setBookingDetail] = useState<BookingsTypes>(
 		{} as BookingsTypes
@@ -33,27 +42,45 @@ const DisputeDetails = () => {
 	const { id } = useParams();
 	const { loading, startLoading, stopLoading } = useLoading(false);
 	const {
-		loading: fetchBookings,
-		startLoading: startFetchingBookings,
-		stopLoading: stopFetchingBookings,
+		loading: resolveDispute,
+		startLoading: startResolvingDispute,
+		stopLoading: stopResolvingDispute,
 	} = useLoading(false);
 	const [messages, setMessages] = useState<ChatProp[]>([]);
 
-	const fetchDisputeDetails = (dispute_id: string) => {
+	const fetchDisputeDetails = (booking_id: string) => {
 		startLoading();
 		disputeService
-			.getDisputeDetails(dispute_id)
+			.getDisputeDetails(booking_id)
 			.then((res) => {
 				setDisputeDetails(res?.data?.payload?.data?.dispute);
 				setMessages(res?.data?.payload?.data?.chat_messages);
 				setBookingDetail(res?.data?.payload?.data?.booking || {});
+				setBookingTrnx(res.data?.payload?.data?.booking_trx);
 				// console.log(res?.data?.payload?.data);
+				console.log('Dispute Details');
 			})
 			.catch((err) => {
 				console.log(err?.response?.data?.error?.message);
 				toast.error(err?.response?.data?.error?.message);
 			})
 			.finally(() => stopLoading());
+	};
+
+	const resolveDisputes = (dispute_id: string, booking_id: string) => {
+		if (resolveDispute) return;
+		startResolvingDispute();
+		disputeService
+			.resolveDispute(dispute_id)
+			.then((res) => {
+				console.log(res.data.payload);
+				toast.success(res.data.message);
+				fetchDisputeDetails(booking_id);
+			})
+			.catch((err) => {
+				console.log(err.response);
+			})
+			.finally(() => stopResolvingDispute());
 	};
 
 	useEffect(() => {
@@ -126,12 +153,15 @@ const DisputeDetails = () => {
 									{disputeDetails?.description || ''}
 								</p>
 							</div>
-							<TransactionCard />
+							<TransactionCard bookingTrx={bookingTrnx} />
 							<div className='py-[18px]'>
 								<div className='flex justify-between'>
 									<h5 className='text-sm text-[#7607BD]'>Total Amount</h5>
 									<span className='text-[14px] font-semibold text-[#7607BD]'>
-										N15,000
+										N
+										{bookingTrnx
+											.map((item) => item.amount)
+											.reduce((a, b) => a + b, 0)}
 									</span>
 								</div>
 							</div>
@@ -148,12 +178,20 @@ const DisputeDetails = () => {
 						</div>
 						{disputeDetails?.status !== 'resolved' && (
 							<div className='flex flex-col gap-9 py-6 w-full'>
-								<button className='py-3 text-[#7607BD] border rounded-lg border-[#7607BD] w-full'>
+								<button
+									onClick={() => setShowModal(true)}
+									className='py-3 text-[#7607BD] border rounded-lg border-[#7607BD] w-full'
+								>
 									Refund
 								</button>
 								<button
-									onClick={() => setShowModal(true)}
-									className='py-3 text-white rounded-lg bg-[#7607BD] w-full'
+									disabled={resolveDispute}
+									onClick={() =>
+										disputeDetails._id &&
+										id &&
+										resolveDisputes(disputeDetails._id, id)
+									}
+									className='py-3 text-white rounded-lg bg-[#7607BD] w-full disabled:bg-opacity-60 disabled:cursor-not-allowed'
 								>
 									Resolve
 								</button>
@@ -167,8 +205,10 @@ const DisputeDetails = () => {
 						/>
 					) : (
 						<ChatCard
-							messages={disputeDetails?.messages}
 							bookingDetails={bookingsDetail}
+							dispute_id={disputeDetails?._id}
+							resolved={disputeDetails?.status === 'resolved'}
+							fetchDispute={fetchDisputeDetails}
 						/>
 					)}
 				</div>

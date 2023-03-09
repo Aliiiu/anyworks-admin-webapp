@@ -74,19 +74,27 @@ const VerificationRoute = () => {
 		{
 			id: 1,
 			title: 'Tier 1',
+			content: 'Face Recognition',
+			img: '/svgs/tier4.svg',
+			href: 'face-recognition',
+			verified: userVerify?.user?.verified?.face_capture,
+		},
+		{
+			id: 2,
+			title: 'Tier 2',
 			content: 'NIN validation ',
 			img: '/svgs/tier1.svg',
 			href: 'nin-validation',
 			verified: userVerify?.user?.verified?.nin,
 		},
-		{
-			id: 2,
-			title: 'Tier 2',
-			content: 'ID Card Upload',
-			img: '/svgs/tier2.svg',
-			href: 'document-upload',
-			verified: userVerify?.user?.verified?.id_card,
-		},
+		// {
+		// 	id: 2,
+		// 	title: 'Tier 2',
+		// 	content: 'ID Card Upload',
+		// 	img: '/svgs/tier2.svg',
+		// 	href: 'document-upload',
+		// 	verified: userVerify?.user?.verified?.id_card,
+		// },
 		{
 			id: 3,
 			title: 'Tier 3',
@@ -98,27 +106,19 @@ const VerificationRoute = () => {
 		{
 			id: 4,
 			title: 'Tier 4',
-			content: 'Face Recognition',
-			img: '/svgs/tier4.svg',
-			href: 'face-recognition',
-			verified: userVerify?.user?.verified?.face_capture,
-		},
-		{
-			id: 5,
-			title: 'Tier 5',
 			content: 'Social Media Linking',
 			img: '/svgs/tier5.svg',
 			href: 'social-media-linking',
 			verified: userVerify?.user?.verified?.social_media,
 		},
-		{
-			id: 6,
-			title: 'Tier 6',
-			content: 'Uploading professional Certificates',
-			img: '/svgs/tier6.svg',
-			href: 'certificate',
-			verified: userVerify?.user?.verified?.social_media,
-		},
+		// {
+		// 	id: 6,
+		// 	title: 'Tier 6',
+		// 	content: 'Uploading professional Certificates',
+		// 	img: '/svgs/tier6.svg',
+		// 	href: 'certificate',
+		// 	verified: userVerify?.user?.verified?.social_media,
+		// },
 	];
 
 	return (
@@ -247,7 +247,7 @@ const VerificationRoute = () => {
 										/>
 									}
 								/>
-								<Route
+								{/* <Route
 									path='/certificate'
 									element={
 										<Certificate
@@ -257,7 +257,7 @@ const VerificationRoute = () => {
 											fetchData={fetchingVendorVerificationData}
 										/>
 									}
-								/>
+								/> */}
 							</Routes>
 						</div>
 					</>

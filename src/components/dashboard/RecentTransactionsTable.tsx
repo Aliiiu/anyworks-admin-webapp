@@ -37,7 +37,7 @@ const RecentTransactionsTableContainer = styled.div`
 const RecentTransactionsTableHeaders = [
 	{
 		title: 'Type',
-		render: (row: WalletTrnxTypes) => (
+		render: (row: CustomerWalletTrnxTypes) => (
 			<Flex gap='10px' align='center'>
 				{' '}
 				{row?.type || ''}{' '}
@@ -46,15 +46,17 @@ const RecentTransactionsTableHeaders = [
 	},
 	{
 		title: 'Amount',
-		render: (row: WalletTrnxTypes) => `₦${numberWithCommas(row?.amount) || ''}`,
+		render: (row: CustomerWalletTrnxTypes) =>
+			`₦${numberWithCommas(row?.amount) || ''}`,
 	},
 	{
 		title: 'Date',
-		render: (row: WalletTrnxTypes) => `${formatDateDmy(row?.created_at) || ''}`,
+		render: (row: CustomerWalletTrnxTypes) =>
+			`${formatDateDmy(row?.created_at) || ''}`,
 	},
 	{
 		title: 'Status',
-		render: (row: WalletTrnxTypes) => (
+		render: (row: CustomerWalletTrnxTypes) => (
 			<p
 				style={{
 					color:
@@ -69,9 +71,9 @@ const RecentTransactionsTableHeaders = [
 	},
 ];
 
-export const RecentTransactionsTable: FC<{ rows: WalletTrnxTypes[] }> = ({
-	rows,
-}) => {
+export const RecentTransactionsTable: FC<{
+	rows: CustomerWalletTrnxTypes[];
+}> = ({ rows }) => {
 	return (
 		<RecentTransactionsTableContainer>
 			<div className='heading'>

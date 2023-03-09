@@ -40,14 +40,6 @@ const initialBookingState: BookingMetricTypes = {
 	completed_bookings: 0,
 	bookings: [],
 };
-const initialWalletTrnxState: WalletTrnxTypes = {
-	created_at: '',
-	amount: 0,
-	type: '',
-	transaction_details: {
-		status: '',
-	},
-};
 
 const Dashboard = () => {
 	const [metricData, setMetricData] = useState<MetricTypes>({
@@ -64,9 +56,6 @@ const Dashboard = () => {
 	const [adminBookings, setAdminBookings] =
 		useState<BookingMetricTypes>(initialBookingState);
 	const [recentBookings, setRecentBookings] = useState<BookingsTypes[]>([]);
-	const [recentWalletTrnx, setRecentWalletTrnx] = useState<WalletTrnxTypes[]>(
-		[]
-	);
 
 	useEffect(() => {
 		document.title = 'Dashboard';

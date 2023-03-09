@@ -199,7 +199,7 @@ const UserProfile = () => {
 				<StyledBookingSummary>
 					<div className='booking_summary'>
 						<div className='summary_details'>
-							<h5>Total Bookings</h5> <h3>0</h3>
+							<h5>Total Bookings</h5> <h3>{userBookings?.length || 0}</h3>
 						</div>
 						<img src={bookingsIcon} alt='' width={55} height='55px' />
 					</div>

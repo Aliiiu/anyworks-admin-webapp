@@ -37,39 +37,41 @@ const WalletTableContainer = styled.div`
 	}
 `;
 
-const WalletTable: FC<{ rows: WalletTrnxTypes[] }> = ({ rows }) => {
+const WalletTable: FC<{ rows: CustomerWalletTrnxTypes[] }> = ({ rows }) => {
 	const WalletTableHeaders = [
 		{
-			title: 'Type',
-			render: (row: WalletTrnxTypes) => (
-				<Flex gap='10px' align='center'>
-					{' '}
-					{row?.type || ''}{' '}
-				</Flex>
+			title: 'Purpose',
+			render: (row: CustomerWalletTrnxTypes) => (
+				<p>
+					{row?.transaction_details?.debited_for ||
+						row?.transaction_details?.credited_for ||
+						(row?.transaction_details?.customer?.first_name
+							? row?.transaction_details?.customer?.first_name +
+							  ' ' +
+							  row?.transaction_details?.customer?.last_name
+							: '')}
+				</p>
 			),
 		},
 		{
 			title: 'Amount',
-			render: (row: WalletTrnxTypes) =>
+			render: (row: CustomerWalletTrnxTypes) =>
 				`₦${numberWithCommas(row?.amount) || ''}`,
 		},
 		{
 			title: 'Date',
-			render: (row: WalletTrnxTypes) =>
+			render: (row: CustomerWalletTrnxTypes) =>
 				`${formatDateDmy(row?.created_at) || ''}`,
 		},
 		{
-			title: 'Status',
-			render: (row: WalletTrnxTypes) => (
+			title: 'Type',
+			render: (row: CustomerWalletTrnxTypes) => (
 				<p
 					style={{
-						color:
-							row?.transaction_details.status === 'success'
-								? '#00CCCD'
-								: '#FFAD4A',
+						color: row?.type === 'credit' ? '#00CCCD' : '#FFAD4A',
 					}}
 				>
-					{row?.transaction_details?.status || ''}
+					{row?.type}
 				</p>
 			),
 		},
@@ -92,7 +94,7 @@ const WalletTable: FC<{ rows: WalletTrnxTypes[] }> = ({ rows }) => {
 	const startDate = state[0]?.startDate;
 	const endDate = state[0]?.endDate;
 
-	const dateFilteredData = rows.filter((a: WalletTrnxTypes) => {
+	const dateFilteredData = rows.filter((a: CustomerWalletTrnxTypes) => {
 		const date = new Date(a.created_at);
 		return date >= startDate && date <= endDate;
 	});

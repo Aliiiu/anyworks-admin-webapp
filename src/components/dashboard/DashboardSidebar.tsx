@@ -216,45 +216,6 @@ export const DashboardSidebar: React.FC<Props> = ({
 
 		if (sublinks.length) {
 			return (
-				// <li key={nav.text} className={clsx({ isActiveNav })}>
-				// 	<details onClick={() => setOpen((prevState) => !prevState)}>
-				// 		<summary>
-				// 			<i
-				// 				style={{
-				// 					backgroundImage: `url(${
-				// 						isActiveNav ? nav.activeIcon : nav.icon
-				// 					})`,
-				// 				}}
-				// 			/>
-				// 			<span>{nav.text}</span>
-				// 			{open ? <IoIosArrowDown /> : <IoIosArrowForward />}
-				// 		</summary>
-
-				// 		<ul>
-				// 			{sublinks.map((subnav: any) => {
-				// 				const isActiveSubNav = location.pathname === subnav.url;
-				// 				return (
-				// 					<li key={subnav.text} className={clsx({ isActiveSubNav })}>
-				// 						<Link
-				// 							to={subnav.url}
-				// 							className='DashboardSidebar__subnav__link'
-				// 						>
-				// 							<div
-				// 								style={{
-				// 									background: `${
-				// 										isActiveSubNav ? '#7E00C4' : 'transparent'
-				// 									}`,
-				// 								}}
-				// 								className='sublink_nav'
-				// 							></div>
-				// 							{subnav.text}
-				// 						</Link>
-				// 					</li>
-				// 				);
-				// 			})}
-				// 		</ul>
-				// 	</details>
-				// </li>
 				<Disclosure key={nav.text}>
 					{({ open }) => (
 						<>
@@ -343,7 +304,7 @@ export const DashboardSidebar: React.FC<Props> = ({
 				toggleSidebar={toggleSidebar}
 				showOnDesktop
 			/>
-			<nav className='DashboardSidebar__nav mb-10'>
+			<nav className='DashboardSidebar__nav pb-20'>
 				<ul>{DASHBOARD_SIDEBAR_DATA().map(mapSidebarNav)}</ul>
 				<div className='logout__btn'>
 					<Button

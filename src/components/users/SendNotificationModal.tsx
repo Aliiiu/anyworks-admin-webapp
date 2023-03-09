@@ -146,9 +146,11 @@ export const SendNotificationModal: React.FC<{
 				.then((res) => {
 					console.log(res?.data);
 					toast.success(res?.data.message);
+					handleClose();
 				})
 				.catch((err: any) => {
-					console.log(err.response);
+					console.log(err.response.error.message);
+					toast.error(err.response.error.message);
 				})
 				.finally(() => {
 					setIsDisabled(false);

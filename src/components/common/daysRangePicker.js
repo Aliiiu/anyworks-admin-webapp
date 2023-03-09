@@ -122,10 +122,11 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 											<input
 												value={`${
 													startTime
-														? Number(startTime) < 10
-															? '0' + startTime
-															: startTime
-														: '00'
+														? startTime
+														: // Number(startTime) < 10
+														  // 	? '0' + startTime
+														  // 	: startTime
+														  '00'
 												}:00`}
 												onChange={(e) => setStartTime(e)}
 												type='time'
@@ -169,10 +170,11 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 										<input
 											value={`${
 												endTime
-													? Number(endTime) < 10
-														? '0' + endTime
-														: endTime
-													: '00'
+													? endTime
+													: // Number(endTime) < 10
+													  // 	? '0' + endTime
+													  // 	: endTime
+													  '00'
 											}:00`}
 											// value={endTime}
 											type='time'

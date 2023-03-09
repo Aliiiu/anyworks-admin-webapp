@@ -20,7 +20,19 @@ interface ArtisanAddress {
 	state: string;
 }
 
+interface CustomerWalletTrnxTypes {
+	customer: string;
+	id: string;
+	amount: number;
+	created_at: string;
+	type: string;
+	img: string;
+	transaction_details: {
+		[x: string]: any;
+	};
+}
+
 interface WalletDataTypes {
 	balance: number;
-	transactions: WalletTrnxTypes[];
+	transactions: CustomerWalletTrnxTypes[];
 }

@@ -23,7 +23,7 @@ type MetricTypes = {
 		artisans: number;
 	};
 };
-interface WalletTrnxTypes {
+interface CustomerWalletTrnxTypes {
 	created_at: string;
 	amount: number;
 	type: string;
