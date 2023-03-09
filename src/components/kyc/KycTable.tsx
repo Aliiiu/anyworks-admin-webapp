@@ -53,28 +53,6 @@ export const KycTable = ({ rows, header, title }: Props) => {
 		setSelectedFilterValue(event.target.value);
 	};
 
-	//Date filter
-	// const [openDateFilter, setOpenDateFilter] = useState(false)
-	// const handleOpenDateFilter = () => setOpenDateFilter(true)
-	// const handleCloseDateFilter = () => setOpenDateFilter(false)
-
-	// const [state, setState] = useState([
-	//   {
-	//     startDate: new Date('2020-01-01'),
-	//     endDate: addDays(new Date(), 8),
-	//     key: 'selection',
-	//     color: theme.colors.darkPurple,
-	//   },
-	// ])
-
-	// const startDate = state[0]?.startDate
-	// const endDate = state[0]?.endDate
-
-	// const dateFilteredData = rows.filter((a: any) => {
-	//   const date = new Date(a.date)
-	//   return date >= new Date(startDate) && date <= new Date(endDate)
-	// })
-
 	const sortedData = () => {
 		if (selectedFilterValue === 'all') {
 			return rows;
@@ -174,8 +152,8 @@ export const KycTable = ({ rows, header, title }: Props) => {
 				rows={paginatedRows}
 				headers={header}
 				showHead={true}
-				onRowClick={(index) => {
-					navigate(`${index}/nin-validation`);
+				onRowClick={(row: VendorDataType) => {
+					navigate(`${row?._id}/nin-validation`);
 				}}
 			/>
 			<Pagination />

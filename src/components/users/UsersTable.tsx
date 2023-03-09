@@ -65,7 +65,7 @@ export const UsersTable = ({ rows }: Props) => {
 			render: (row: UsersListTypes) => (
 				<Flex gap='10px' align='center'>
 					<img
-						style={{ width: 40, borderRadius: '50%' }}
+						style={{ width: 40, height: 40, borderRadius: '50%' }}
 						src={row.display_picture}
 						alt=''
 					/>{' '}

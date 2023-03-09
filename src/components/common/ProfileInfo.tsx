@@ -144,6 +144,8 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 				handleClose={handleCloseMailModal}
 			/>
 			<SendNotificationModal
+				artisan={false}
+				userId={[userDetails?._id]}
 				open={openSendNotificationModal}
 				handleClose={handleCloseNotificationModal}
 			/>
@@ -221,7 +223,7 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 																</p>
 																<FiChevronUp
 																	className={`${
-																		open ? 'rotate-180 transform' : ''
+																		open ? '' : 'rotate-180 transform'
 																	} h-5 w-5 text-[#999999]`}
 																/>
 															</Disclosure.Button>

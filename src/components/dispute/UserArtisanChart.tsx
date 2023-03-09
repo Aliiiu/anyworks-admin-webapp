@@ -60,7 +60,7 @@ const UserArtisanChart = ({ bookingDetails, messages }: CardProp) => {
 	const { loading, startLoading, stopLoading } = useLoading(false);
 
 	return (
-		<div className=' overflow-hidden rounded-lg w-[65%] max-h-[85vh] relative'>
+		<div className=' overflow-hidden rounded-lg w-[65%] pb-[168px] max-h-[85vh] relative'>
 			<div className='bg-white py-5 px-7 flex justify-between'>
 				<div className='flex gap-4'>
 					<img
@@ -94,13 +94,13 @@ const UserArtisanChart = ({ bookingDetails, messages }: CardProp) => {
 			<div className='text-center py-2'>
 				You are viewing customer and vendor chat
 			</div>
-			<div className='p-[28px] bg-white h-full overflow-y-auto'>
+			<div className='p-[28px] rounded-b-lg bg-white h-full overflow-y-auto'>
 				{loading ? (
 					<div className='flex justify-center'>
 						<ScaleLoader color='#7E00C4' height={40} width={8} />
 					</div>
 				) : messages.length > 0 ? (
-					<div>
+					<div className=''>
 						{messages.map((item, idx) => (
 							<div key={item?._id} className=''>
 								{item?.sender === 'user' ? (

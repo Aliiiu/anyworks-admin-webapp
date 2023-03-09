@@ -24,16 +24,6 @@ export const RhsHeading: React.FC<Props> = ({ handleChange }) => (
 	/>
 );
 
-type VendorDataType = {
-	_id: string;
-	email: string;
-	tier: number;
-	display_picture: string;
-	first_name: string;
-	gender: string;
-	last_name: string;
-};
-
 const VendorVerification = () => {
 	const [searchField, setSearchField] = useState('');
 	const [vendorData, setVendorData] = useState([]);
@@ -72,7 +62,7 @@ const VendorVerification = () => {
 	const vendorTableHeaders = [
 		{
 			title: 'Picture',
-			render: (row: any) => (
+			render: (row: VendorDataType) => (
 				<div
 					style={{
 						backgroundImage: `url(${row?.display_picture || avatar})`,
@@ -90,16 +80,16 @@ const VendorVerification = () => {
 		},
 		{
 			title: 'First Name',
-			render: (row: any) => `${row.first_name}`,
+			render: (row: VendorDataType) => `${row.first_name}`,
 		},
 		{
 			title: 'Last Name',
-			render: (row: any) => `${row.last_name}`,
+			render: (row: VendorDataType) => `${row.last_name}`,
 		},
 
 		{
 			title: 'Gender',
-			render: (row: any) => `${row.gender}`,
+			render: (row: VendorDataType) => `${row.gender}`,
 		},
 		{
 			title: 'Email',
@@ -107,7 +97,7 @@ const VendorVerification = () => {
 		},
 		{
 			title: 'Status',
-			render: (row: any) => (
+			render: (row: VendorDataType) => (
 				<p className={`${row?.tier < 1 ? 'text-[#B3B3B3]' : 'text-[#7E00C4]'}`}>
 					{row?.tier < 1 ? 'Pending' : 'Upgrade'}
 				</p>
