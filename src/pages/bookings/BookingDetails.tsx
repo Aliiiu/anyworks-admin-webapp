@@ -22,7 +22,7 @@ import BookingCard from 'src/components/bookings/BookingCard';
 
 export const RhsHeading: FC<{ tabStatus: string | null }> = ({ tabStatus }) => (
 	<Flex wrap='wrap'>
-		<Link to={`/bookings?tabStatus=${tabStatus}`}>
+		<Link to={`/bookings?tabStatus=all`}>
 			<Button
 				classes={[ButtonClass.SOLID, ButtonClass.WITH_ICON]}
 				style={{ backgroundColor: theme.colors.purple }}

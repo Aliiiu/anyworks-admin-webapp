@@ -125,6 +125,7 @@ const AddressVerification: FC<{
 						<TextField
 							label={'Residential Address'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.address}
 							{...register('address', { required: false })}
@@ -132,6 +133,7 @@ const AddressVerification: FC<{
 						<TextField
 							label={'City'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.city}
 							{...register('city', { required: false })}
@@ -139,6 +141,7 @@ const AddressVerification: FC<{
 						<TextField
 							label={'State'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.state}
 							{...register('state', { required: false })}
@@ -146,6 +149,7 @@ const AddressVerification: FC<{
 						<TextField
 							label={'Description'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.description}
 							{...register('description', { required: false })}

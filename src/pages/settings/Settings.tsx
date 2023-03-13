@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ChangePasswordCard from 'src/components/settings/ChangePasswordCard';
 
 type IntervalFeeType = {
+	_id?: string;
 	start_time: string;
 	end_time: string;
 	percent: string;
@@ -226,6 +227,12 @@ const Settings = () => {
 											<DaysRangePicker
 												startTime={item.start_time}
 												endTime={item.end_time}
+												onDelete={() => {
+													console.log(item?._id);
+													setTimeIntervalFee((prevState) =>
+														prevState.filter((elem) => elem._id !== item._id)
+													);
+												}}
 												setStartTime={(e: any) => {
 													const value = e.target.value;
 													// console.log(value.split(':')[0]);

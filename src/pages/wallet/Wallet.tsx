@@ -16,7 +16,6 @@ import WalletService from 'src/service/walletService';
 import { toast } from 'react-toastify';
 import { numberWithCommas } from 'src/utils';
 import { useLoading } from 'src/hooks';
-import { DashboardService } from 'src/service/Dashboard';
 
 interface Props {
 	handleChange: (e: any) => void;
@@ -140,7 +139,7 @@ const Wallet = () => {
 					verificationBalance:
 						res?.data?.payload?.data?.verification_fee_amount,
 				}));
-				console.log(res.data.payload.data);
+				// console.log(res.data.payload.data);
 			})
 			.catch((err) => toast.error(err.response.data.error.message));
 	}, []);
@@ -161,21 +160,30 @@ const Wallet = () => {
 			href: '/vendors',
 		},
 		{
-			count: metricData?.escrowBalance || 0,
+			count:
+				metricData?.escrowBalance === 0
+					? metricData?.escrowBalance
+					: numberWithCommas(metricData?.escrowBalance),
 			key: 'Escrow Wallet Balance ',
 			img: wallet,
 			color: theme.colors.cyan,
 			href: '/bookings?tabStatus=active',
 		},
 		{
-			count: metricData?.serviceFee || 0,
+			count:
+				metricData?.serviceFee === 0
+					? metricData?.serviceFee
+					: numberWithCommas(metricData?.serviceFee),
 			key: 'Total Service Fee commission',
 			img: wallet,
 			color: theme.colors.purple,
 			href: '/kyc',
 		},
 		{
-			count: metricData?.commitmentFee || 0,
+			count:
+				metricData?.commitmentFee === 0
+					? metricData?.commitmentFee
+					: numberWithCommas(metricData?.commitmentFee),
 			key: 'Total Commitment Fee',
 			img: wallet,
 			color: theme.colors.blue,
@@ -190,7 +198,7 @@ const Wallet = () => {
 		},
 	];
 
-	console.log(!!metricData?.commitmentFee);
+	// console.log(!!metricData?.commitmentFee);
 	const {
 		loading: fetchRecentBookings,
 		startLoading: startFetchingBookings,

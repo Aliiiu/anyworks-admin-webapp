@@ -47,6 +47,12 @@ export const BookingStatusBg = ({ status }: Props) => {
 		</div>
 	);
 
+	const displayPending = () => (
+		<div className='item bg-primary bg-opacity-50'>
+			<p className='text text-primary'>Pending</p>
+		</div>
+	);
+
 	const displayCanceled = () => (
 		<div className='item canceled_item'>
 			<p className='text canceled_text'>Canceled</p>
@@ -56,6 +62,7 @@ export const BookingStatusBg = ({ status }: Props) => {
 	return (
 		<Wrapper>
 			{status === 'active' && displayActive()}
+			{status === 'pending' && displayPending()}
 			{status === 'completed' && displayCompleted()}
 			{status === 'canceled' && displayCanceled()}
 		</Wrapper>

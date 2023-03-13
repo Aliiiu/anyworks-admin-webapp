@@ -24,13 +24,25 @@ export const TextField = React.forwardRef<
 		className?: string;
 		mb?: string;
 		error: any;
+		disabled?: boolean;
 		type: string;
 		placeholder?: string;
 		onChange: ChangeHandler;
 	}
 >(
 	(
-		{ label, type, name, control, className, error, mb, placeholder, onChange },
+		{
+			label,
+			type,
+			name,
+			control,
+			className,
+			error,
+			mb,
+			placeholder,
+			onChange,
+			disabled,
+		},
 		ref
 	) => {
 		// console.log(error);
@@ -45,6 +57,7 @@ export const TextField = React.forwardRef<
 							name={name}
 							render={({ field: { onChange } }) => (
 								<input
+									disabled={disabled}
 									type={type}
 									placeholder={placeholder}
 									onChange={(e) => onChange(parseInt(e.target.value, 10))}
@@ -57,6 +70,7 @@ export const TextField = React.forwardRef<
 							type={type}
 							name={name}
 							id={name}
+							disabled={disabled}
 							placeholder={placeholder}
 							onChange={onChange}
 							ref={ref}

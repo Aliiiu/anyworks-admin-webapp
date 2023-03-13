@@ -120,6 +120,7 @@ const Socials: FC<{
 						<TextField
 							label={'Twitter'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.twitter}
 							{...register('twitter', { required: false })}
@@ -127,6 +128,7 @@ const Socials: FC<{
 						<TextField
 							label={'Facebook'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.facebook}
 							{...register('facebook', { required: false })}
@@ -134,6 +136,7 @@ const Socials: FC<{
 						<TextField
 							label={'Linkedin'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.linkedin}
 							{...register('linkedin', { required: false })}
@@ -141,6 +144,7 @@ const Socials: FC<{
 						<TextField
 							label={'Other websites or Social media'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.others}
 							{...register('others', { required: false })}

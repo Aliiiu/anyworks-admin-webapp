@@ -161,7 +161,11 @@ const ArtisanTable: FC<{ filteredRow: any }> = ({ filteredRow }) => {
 		<ArtisanTableContainer>
 			<div className='heading'>
 				<Flex justify='space-between' align='center'>
-					<p className='count'>{sortedData().length} Vendors</p>
+					<p className='count'>
+						{sortedData().length > 1
+							? sortedData().length + ' Vendors'
+							: sortedData().length + ' Vendor'}
+					</p>
 					<Popover
 						isOpen={isOpen}
 						padding={1}

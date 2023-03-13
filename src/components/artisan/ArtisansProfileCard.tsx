@@ -140,7 +140,7 @@ const ArtisansProfileCard = ({
 							</button>
 						</Flex>
 						<Link
-							to={`/verification/vendor/${artisanDetails._id}/nin-validation`}
+							to={`/verification/vendor/${artisanDetails._id}/face-recognition`}
 							className=' bg-primary py-3 px-5 text-white rounded-lg'
 						>
 							View Verification
