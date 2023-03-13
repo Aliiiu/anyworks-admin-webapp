@@ -113,7 +113,9 @@ const AdminTable: FC<{ rows: any; fetchAdmins: Function }> = ({
 	return (
 		<AdminTableContainer>
 			<div className='heading'>
-				<p className='count'>{rows.length} Admins</p>
+				<p className='count'>
+					{rows.length > 1 ? rows.length + ' Admins' : rows.length + ' Admin'}
+				</p>
 			</div>
 			<ToastContainer />
 			<Table

@@ -118,7 +118,7 @@ const VendorVerificationRoute = () => {
 		// 	verified: vendorVerify?.artisan?.verified?.id_card,
 		// },
 	];
-	// console.log(vendorVerify?.artisan?.verified?.nin);
+
 	return (
 		<DashboardLayout>
 			<ToastContainer />

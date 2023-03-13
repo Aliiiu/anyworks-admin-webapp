@@ -121,6 +121,7 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 						<TextField
 							label={'NIN'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.nin}
 							{...register('nin', { required: false })}
@@ -128,6 +129,7 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 						<TextField
 							label={'V-NIN'}
 							type='text'
+							disabled={true}
 							control={control}
 							error={formState.errors.vnin}
 							{...register('vnin', { required: false })}

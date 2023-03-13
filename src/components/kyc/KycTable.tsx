@@ -153,7 +153,7 @@ export const KycTable = ({ rows, header, title }: Props) => {
 				headers={header}
 				showHead={true}
 				onRowClick={(row: VendorDataType) => {
-					navigate(`${row?._id}/nin-validation`);
+					navigate(`${row?._id}/face-recognition`);
 				}}
 			/>
 			<Pagination />

@@ -105,7 +105,7 @@ const FaceRecognition: FC<{
 			<div className='flex flex-col justify-between items-center h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>Face Recognition</h3>
-					<div className='mt-10 bg-[#7507BD] w-[307px] h-[316px] mx-auto p-[25px] rounded-full'>
+					<div className='mt-10 bg-[#7507BD] w-[307px] h-[316px] mx-auto p-[15px] rounded-full'>
 						{verifyData?.verification?.face_capture?.face_capture_url ? (
 							<img
 								src={verifyData?.verification?.face_capture?.face_capture_url}

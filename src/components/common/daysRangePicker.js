@@ -3,10 +3,17 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { IoTrashBinOutline } from 'react-icons/io5';
 
 dayjs.extend(customParseFormat);
 
-const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
+const DaysRangePicker = ({
+	setStartTime,
+	setEndTime,
+	startTime,
+	endTime,
+	onDelete,
+}) => {
 	const [daysSelector, setDaysSelector] = useState(null);
 	const [start, setStart] = useState(null);
 	const [startDate, setStartDate] = useState(null);
@@ -70,7 +77,7 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 	return (
 		<div className=''>
 			<Menu as='div' className='relative inline-block text-left'>
-				<div>
+				<div className='flex items-center gap-2'>
 					<Menu.Button className='flex pl-4 items-center gap-4'>
 						<p className='text-[#999999]'>
 							{startDate ? startDate : 'Mon'} - {endDate ? endDate : 'Fri'}
@@ -83,6 +90,10 @@ const DaysRangePicker = ({ setStartTime, setEndTime, startTime, endTime }) => {
 							<img src='/svgs/calendar-new.svg' alt='' className='w-6 h-6' />
 						</div>
 					</Menu.Button>
+					<IoTrashBinOutline
+						onClick={onDelete}
+						className='text-red-500 cursor-pointer'
+					/>
 				</div>
 				<Transition
 					as={Fragment}

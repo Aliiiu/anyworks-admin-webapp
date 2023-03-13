@@ -74,28 +74,28 @@ export const RhsHeading = () => (
 	</Flex>
 );
 
-const initialUserDetails: UsersDetailsType = {
-	address: {
-		city: '',
-		house_address: '',
-		state: '',
-	},
-	createdAt: '',
-	display_picture: '',
-	dob: '',
-	email: '',
-	first_name: '',
-	gender: '',
-	last_name: '',
-	phone: '',
-	rating: 0,
-	tier: 0,
-	suspended: false,
-	updatedAt: '',
-	uuid: '',
-	verified: false,
-	_id: '',
-};
+// const initialUserDetails: UsersDetailsType = {
+// 	address: {
+// 		city: '',
+// 		house_address: '',
+// 		state: '',
+// 	},
+// 	createdAt: '',
+// 	display_picture: '',
+// 	dob: '',
+// 	email: '',
+// 	first_name: '',
+// 	gender: '',
+// 	last_name: '',
+// 	phone: '',
+// 	rating: 0,
+// 	tier: 0,
+// 	suspended: false,
+// 	updatedAt: '',
+// 	uuid: '',
+// 	verified: false,
+// 	_id: '',
+// };
 
 const UserProfile = () => {
 	const navigate = useNavigate();

@@ -145,7 +145,7 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 			/>
 			<SendNotificationModal
 				artisan={false}
-				userId={[userDetails?._id]}
+				userId={[userDetails?.user?._id]}
 				open={openSendNotificationModal}
 				handleClose={handleCloseNotificationModal}
 			/>
@@ -175,7 +175,7 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 							</button>
 						</Flex>
 						<Link
-							to={`/verification/customer/${userDetails?.user?._id}/nin-validation`}
+							to={`/verification/customer/${userDetails?.user?._id}/face-recognition`}
 							className=' bg-primary py-3 px-2 2xl:px-5 text-white rounded-lg'
 						>
 							View Verification

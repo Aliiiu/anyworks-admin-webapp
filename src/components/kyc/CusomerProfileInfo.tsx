@@ -2,14 +2,9 @@ import { Input } from 'src/styles/commonStyle';
 import styled from 'styled-components';
 import { formatDateYmd } from 'src/utils/helpers';
 import { Flex } from 'src/components/ui';
-import { useEffect, useState } from 'react';
-import KycData from 'src/service/VerifyService';
-import { ClipLoader } from 'react-spinners';
 import useLoading from 'src/hooks/useLoading';
-import AdminAuth from 'src/service/AdminAuth';
 import { Controller, useForm } from 'react-hook-form';
 import { NumberInput } from '../inputs/NumberInput';
-import { toast } from 'react-toastify';
 
 const ProfileContainer = styled.div`
 	padding: 40px;
@@ -34,23 +29,6 @@ interface Props {
 }
 
 const CustomerProfileInfo = ({ verifyData }: Props) => {
-	const {
-		register,
-		handleSubmit,
-		control,
-		setValue,
-		reset,
-		formState: { errors },
-	} = useForm({
-		mode: 'onChange',
-		// defaultValues: {
-		// 	callout_fee_min: 200,
-		// 	callout_fee_max: 1000,
-		// },
-	});
-
-	const { loading, startLoading, stopLoading } = useLoading(false);
-
 	return (
 		<ProfileContainer>
 			<h3 className='text-neutral text-3xl'>Profile Information</h3>
@@ -118,8 +96,8 @@ const CustomerProfileInfo = ({ verifyData }: Props) => {
 							disabled
 							style={{ background: '#F2F4F7' }}
 							value={
-								verifyData?.user?.address
-									? `${verifyData?.user?.address?.house_address},${verifyData?.user?.address?.city}, ${verifyData?.user?.address?.state}`
+								verifyData?.address
+									? `${verifyData?.address?.house_address},${verifyData?.address?.city}, ${verifyData?.address?.state}`
 									: ''
 							}
 						/>

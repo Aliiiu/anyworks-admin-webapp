@@ -1,25 +1,13 @@
 import { useState, useEffect } from 'react';
 import arrowLeft from 'src/assets/images/common/arrowLeft.svg';
 import { theme } from 'src/styles/Theme';
-import {
-	Link,
-	Route,
-	Routes,
-	useLocation,
-	useNavigate,
-} from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { Button, ButtonClass, Flex } from 'src/components/ui';
 import { DashboardLayout } from 'src/components/dashboard';
 import styled from 'styled-components';
-import KycProfileInfo from '../../components/kyc/VendorProfileInfo';
-import KycApprovedModal from 'src/components/kyc/kycModals/KycApprovedModal';
-import RejectionModal from 'src/components/kyc/kycModals/RejectionModal';
-import ConfirmApproveKycModal from 'src/components/kyc/kycModals/ConfirmApproveKycModal';
 import { useParams } from 'react-router-dom';
 import { useLoading } from 'src/hooks';
-import KycData from 'src/service/VerifyService';
 import { toast, ToastContainer } from 'react-toastify';
-import { Loader } from 'src/components/common';
 import NinValidation from 'src/pages/kyc/NinValidation';
 import DocumentUpload from 'src/pages/kyc/DocumentUpload';
 import AddressVerification from 'src/pages/kyc/AddressVerification';
@@ -56,7 +44,7 @@ const VerificationRoute = () => {
 		VerificationService.getUserVerification(id || '')
 			.then((res) => {
 				setUserVerify(res?.data?.payload?.data || {});
-				console.log(res.data.payload?.data);
+				// console.log(res.data.payload?.data);
 			})
 			.catch((err) => {
 				toast.error(err.response.data.error.message);
@@ -66,7 +54,6 @@ const VerificationRoute = () => {
 			});
 	};
 	useEffect(() => {
-		console.log(user_id);
 		fetchingVendorVerificationData(user_id || '');
 	}, []);
 

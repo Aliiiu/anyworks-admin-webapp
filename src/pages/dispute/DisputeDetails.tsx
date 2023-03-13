@@ -1,10 +1,8 @@
 import { Disclosure } from '@headlessui/react';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import { MdKeyboardArrowRight } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { DashboardLayout } from 'src/components/dashboard';
-import avatar from 'src/assets/images/header/avatar.svg';
 import AppModal from 'src/components/ui/widget/Modal/Modal';
 import ResolveModal from './ResolveModal';
 import ResolvedCard from 'src/components/dispute/ResolvedCard';
@@ -217,7 +215,13 @@ const DisputeDetails = () => {
 			<AppModal
 				open={showModal}
 				onClose={() => setShowModal(false)}
-				content={<ResolveModal onClick={() => setShowModal(false)} />}
+				content={
+					<ResolveModal
+						onClick={() => setShowModal(false)}
+						bookingTrnx={bookingTrnx}
+						bookingDetails={bookingsDetail}
+					/>
+				}
 			/>
 		</DashboardLayout>
 	);

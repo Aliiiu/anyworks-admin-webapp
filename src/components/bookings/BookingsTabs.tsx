@@ -117,9 +117,12 @@ export const BookingsTabs: React.FC<Props> = ({
 			setSearchParams({ tabStatus: 'active' });
 		}
 		if (newValue === '3') {
-			setSearchParams({ tabStatus: 'completed' });
+			setSearchParams({ tabStatus: 'pending' });
 		}
 		if (newValue === '4') {
+			setSearchParams({ tabStatus: 'completed' });
+		}
+		if (newValue === '5') {
 			setSearchParams({ tabStatus: 'canceled' });
 		}
 	};
@@ -127,8 +130,9 @@ export const BookingsTabs: React.FC<Props> = ({
 	useEffect(() => {
 		searchParams.get('tabStatus') === 'all' && setValue('1');
 		searchParams.get('tabStatus') === 'active' && setValue('2');
-		searchParams.get('tabStatus') === 'completed' && setValue('3');
-		searchParams.get('tabStatus') === 'canceled' && setValue('4');
+		searchParams.get('tabStatus') === 'pending' && setValue('3');
+		searchParams.get('tabStatus') === 'completed' && setValue('4');
+		searchParams.get('tabStatus') === 'canceled' && setValue('5');
 	}, [searchParams]);
 	const [openDateFilter, setOpenDateFilter] = useState(false);
 	const handleOpenDateFilter = () => setOpenDateFilter(true);
@@ -203,8 +207,9 @@ export const BookingsTabs: React.FC<Props> = ({
 						<TabList onChange={handleChange} aria-label='lab API tabs example'>
 							<Tab label='All' value='1' />
 							<Tab label='Active' value='2' />
-							<Tab label='Completed' value='3' />
-							<Tab label='Canceled' value='4' />
+							<Tab label='Pending' value='3' />
+							<Tab label='Completed' value='4' />
+							<Tab label='Canceled' value='5' />
 						</TabList>
 					</div>
 					<div>
@@ -254,10 +259,27 @@ export const BookingsTabs: React.FC<Props> = ({
 									<Pagination />
 								</>
 							) : (
-								<p className='pd-20'>No Completed Bookings</p>
+								<p className='pd-20'>No Pending Bookings</p>
 							)}
 						</TabPanel>
 						<TabPanel value='4'>
+							{paginatedRows.length > 0 ? (
+								<>
+									<Table
+										rows={paginatedRows}
+										headers={BookingsTableHeaders}
+										showHead={true}
+										allowRowClick={allowRowClick}
+										onRowClick={onRowClick}
+									/>
+
+									<Pagination />
+								</>
+							) : (
+								<p className='pd-20'>No Completed Bookings</p>
+							)}
+						</TabPanel>
+						<TabPanel value='5'>
 							{paginatedRows.length > 0 ? (
 								<>
 									<Table

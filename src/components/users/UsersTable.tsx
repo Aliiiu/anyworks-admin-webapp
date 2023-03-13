@@ -118,7 +118,11 @@ export const UsersTable = ({ rows }: Props) => {
 	return (
 		<UsersTableContainer>
 			<div className='heading'>
-				<p className='count'>{rows.length} Users</p>
+				<p className='count'>
+					{rows.length > 1
+						? rows.length + ' Customers'
+						: rows.length + ' Customer'}
+				</p>
 			</div>
 			<SendMailModal
 				open={openSendMailModal}

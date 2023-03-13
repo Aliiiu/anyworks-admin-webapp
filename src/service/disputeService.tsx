@@ -4,9 +4,14 @@ export const disputeService = {
 	getAllDisputes: async () => {
 		return adminServiceApi().get(`booking/v1/admin/dispute`);
 	},
-	getDisputeDetails: async (dispute_id: string) => {
+	getDisputeDetails: async (booking_id: string) => {
 		return adminServiceApi().get(
-			`booking/v1/admin/${dispute_id}/dispute?admin=1`
+			`booking/v1/admin/${booking_id}/dispute?admin=1`
+		);
+	},
+	refund: async (booking_id: string) => {
+		return adminServiceApi().post(
+			`booking/v1/admin/${booking_id}/dispute/refund`
 		);
 	},
 	resolveDispute: async (dispute_id: string) => {

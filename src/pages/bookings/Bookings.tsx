@@ -182,7 +182,9 @@ const BookingsPage = () => {
 						BookingsTableHeaders={BookingsTableHeaders}
 						title={
 							<p className='count'>
-								{filteredData.length > 1 ? filteredData.length : 0} Bookings
+								{filteredData.length > 1
+									? filteredData.length + ' Bookings'
+									: filteredData.length + ' Booking'}
 							</p>
 						}
 						onRowClick={handleNavigate}

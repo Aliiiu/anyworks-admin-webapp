@@ -88,7 +88,7 @@ export const RecentBookingsTable: FC<{ rows: BookingsTypes[] }> = ({
 					rows={paginatedRows}
 					headers={RecentBookingsTableHeaders}
 					showHead={true}
-					onRowClick={handleNavigate}
+					// onRowClick={handleNavigate}
 				/>
 			) : (
 				<h5 className='font-bold text-center py-8 italic text-2xl'>
