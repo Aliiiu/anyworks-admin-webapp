@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { TextField } from 'src/components/ui/form/FormComponent';
 import Button from 'src/components/ui/widget/Button';
@@ -44,6 +44,25 @@ const Socials: FC<{
 		verifyData?.verification?.social_media?.facebook ||
 		verifyData?.verification?.social_media?.linkedin ||
 		verifyData?.verification?.social_media?.others;
+
+	useEffect(() => {
+		setValue('twitter', verifyData?.verification?.social_media?.twitter || '');
+		setValue(
+			'facebook',
+			verifyData?.verification?.social_media?.facebook || ''
+		);
+		setValue(
+			'linkedin',
+			verifyData?.verification?.social_media?.linkedin || ''
+		);
+		setValue('others', verifyData?.verification?.social_media?.others || '');
+	}, [
+		setValue,
+		verifyData?.verification?.social_medial?.twitter,
+		verifyData?.verification?.social_media?.facebook,
+		verifyData?.verification?.social_media?.linkedin,
+		verifyData?.verification?.social_media?.others,
+	]);
 
 	const {
 		loading: rejectingKyc,
@@ -95,7 +114,7 @@ const Socials: FC<{
 			{ reason: '' },
 			id,
 			'approve',
-			'face_capture',
+			'social_media',
 			who
 		)
 			.then((res) => {
@@ -110,6 +129,8 @@ const Socials: FC<{
 				stopApprovingKyc();
 			});
 	};
+
+	console.log(INPUTVAL);
 
 	return (
 		<form className='w-[60%] pb-[29px] pt-[74px]'>

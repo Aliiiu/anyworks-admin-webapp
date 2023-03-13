@@ -106,14 +106,22 @@ const Certificate: FC<{
 			<div className='flex flex-col justify-between items-center h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>Professional Certificates</h3>
-					<div className='mt-10 border border-dashed flex flex-col justify-between rounded-lg border-[#B3B3B3] w-[420px] h-[114px] mx-auto p-[16px]'>
-						<div>
-							<h3 className='text-[#4D4D4D]'>legal-tenure.pdf</h3>
-							<small className='text-[#7607BD99]'>2MB</small>
+					<div className='mt-10 border border-dashed flex flex-col justify-between rounded-lg border-[#B3B3B3] w-[420px] gap-2 h-fit mx-auto p-[16px]'>
+						<div className=''>
+							<h3 className='text-[#4D4D4D] break-all'>
+								{verifyData?.verification?.certificate?.certificate_url}
+							</h3>
+							{/* <small className='text-[#7607BD99]'>2MB</small> */}
 						</div>
-						<small className='text-[#7E00C4] cursor-pointer text-center'>
+						<a
+							href={verifyData?.verification?.certificate?.certificate_url}
+							target='_blank'
+							rel='noopener noreferrer'
+							download
+							className='text-[#7E00C4] text-xs cursor-pointer text-center'
+						>
 							Download{' '}
-						</small>
+						</a>
 					</div>
 				</div>
 				{verifyData?.artisan?.verified?.certificate ||
