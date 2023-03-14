@@ -11,10 +11,6 @@ import {
 import { Button, ButtonClass, Flex } from 'src/components/ui';
 import { DashboardLayout } from 'src/components/dashboard';
 import styled from 'styled-components';
-import KycProfileInfo from '../../components/kyc/VendorProfileInfo';
-import KycApprovedModal from 'src/components/kyc/kycModals/KycApprovedModal';
-import RejectionModal from 'src/components/kyc/kycModals/RejectionModal';
-import ConfirmApproveKycModal from 'src/components/kyc/kycModals/ConfirmApproveKycModal';
 import { useParams } from 'react-router-dom';
 import { useLoading } from 'src/hooks';
 import { toast, ToastContainer } from 'react-toastify';
@@ -107,7 +103,7 @@ const VendorVerificationRoute = () => {
 			content: 'Uploading professional Certificates',
 			img: '/svgs/tier6.svg',
 			href: 'certificate',
-			verified: vendorVerify?.artisan?.verified?.social_media,
+			verified: vendorVerify?.artisan?.verified?.certificate,
 		},
 		// {
 		// 	id: 6,
