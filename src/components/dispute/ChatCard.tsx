@@ -13,6 +13,7 @@ type ChatProp = {
 	_id?: string;
 	sender?: string;
 	message_date: string;
+	message_type: string;
 	checked?: boolean;
 };
 type CardProp = {
@@ -50,10 +51,12 @@ const AdminCard = ({ message }: MessageProp) => {
 const SenderCard = ({ message }: MessageProp) => {
 	return (
 		<div className='mt-5 w-full'>
-			{message.message && (
-				<div className='py-[10px] px-[20px] max-w-[80%] border w-fit rounded-r-lg rounded-bl-lg border-[#7E00C4]'>
+			{message?.message_type === 'text' ? (
+				<div className='py-[10px] px-[20px] border w-fit rounded-r-lg rounded-bl-lg border-[#7E00C4]'>
 					{message.message}
 				</div>
+			) : (
+				<img src={'data:image/png;base64,' + message?.message} alt='' />
 			)}
 
 			{/* <p className='text-[#B3B3B3] text-sm mt-1'>09:30 PM</p> */}

@@ -29,13 +29,8 @@ const AdminCard = ({ message }: MessageProp) => {
 					<p className='text-[#4D4D4D]'>{message.message}</p>
 				</div>
 			) : (
-				<img src={message?.message} alt='' />
+				<img src={'data:image/png;base64,' + message?.message} alt='' />
 			)}
-
-			{/* <div className='flex gap-1 items-center'>
-				<h3 className='text-sm text-[#B3B3B3]'>09:30 PM</h3>
-				<img src='/svgs/seenIcon.svg' alt='' className='w-[18px] h-[18px]' />
-			</div> */}
 		</div>
 	);
 };
@@ -48,10 +43,8 @@ const SenderCard = ({ message }: MessageProp) => {
 					{message.message}
 				</div>
 			) : (
-				<img src={message?.message} alt='' />
+				<img src={'data:image/png;base64,' + message?.message} alt='' />
 			)}
-
-			{/* <p className='text-[#B3B3B3] text-sm mt-1'>09:30 PM</p> */}
 		</div>
 	);
 };

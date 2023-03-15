@@ -9,9 +9,10 @@ export const disputeService = {
 			`booking/v1/admin/${booking_id}/dispute?admin=1`
 		);
 	},
-	refund: async (booking_id: string) => {
+	refund: async (booking_id: string, refundData: string[]) => {
 		return adminServiceApi().post(
-			`booking/v1/admin/${booking_id}/dispute/refund`
+			`booking/v1/admin/${booking_id}/dispute/refund`,
+			{ narrations: refundData }
 		);
 	},
 	resolveDispute: async (dispute_id: string) => {

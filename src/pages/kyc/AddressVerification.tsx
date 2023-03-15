@@ -31,11 +31,12 @@ const AddressVerification: FC<{
 	};
 	const [rejectionReason, setRejectionReason] = useState('');
 
-	const INPUTVAL =
+	const INPUTVAL = !!(
 		verifyData?.verification?.address?.house_address ||
 		verifyData?.verification?.address?.city ||
 		verifyData?.verification?.address?.state ||
-		verifyData?.verification?.address?.city;
+		verifyData?.verification?.address?.city
+	);
 
 	const {
 		loading: rejectingKyc,
@@ -162,7 +163,7 @@ const AddressVerification: FC<{
 						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
 						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
 					</div>
-				) : (
+				) : INPUTVAL ? (
 					<div className='flex gap-6 justify-center'>
 						<Button
 							onClick={handleSubmit(onSubmit)}
@@ -189,6 +190,8 @@ const AddressVerification: FC<{
 							Reject
 						</Button>
 					</div>
+				) : (
+					''
 				)}
 			</div>
 			<KycApprovedModal

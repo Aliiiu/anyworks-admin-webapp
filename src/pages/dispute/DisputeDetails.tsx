@@ -8,7 +8,7 @@ import ResolveModal from './ResolveModal';
 import ResolvedCard from 'src/components/dispute/ResolvedCard';
 import { disputeService } from 'src/service/disputeService';
 import { useLoading } from 'src/hooks';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import ChatCard from 'src/components/dispute/ChatCard';
 import bookingAdminService from 'src/service/BookingAdmin';
 import TransactionCard from 'src/components/dispute/TransactionCard';
@@ -22,6 +22,7 @@ export type BookingTrnxType = {
 	narration: string;
 	amount: number;
 	status: string;
+	selected: boolean;
 	_id: string;
 };
 const DisputeDetails = () => {
@@ -87,6 +88,7 @@ const DisputeDetails = () => {
 
 	return (
 		<DashboardLayout>
+			<ToastContainer />
 			<div className='flex justify-between'>
 				<h2 className='text-4xl'>Booking Details</h2>
 				<Link to={'/dispute'}>
@@ -217,7 +219,7 @@ const DisputeDetails = () => {
 				onClose={() => setShowModal(false)}
 				content={
 					<ResolveModal
-						onClick={() => setShowModal(false)}
+						onClose={() => setShowModal(false)}
 						bookingTrnx={bookingTrnx}
 						bookingDetails={bookingsDetail}
 					/>

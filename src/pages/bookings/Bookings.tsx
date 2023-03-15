@@ -124,10 +124,10 @@ const BookingsPage = () => {
 				<Flex gap='10px' align='center'>
 					<img
 						style={{ width: 40, height: 40, borderRadius: '50%' }}
-						src={row.artisan_meta.display_picture}
+						src={row.user_meta.display_picture}
 						alt=''
 					/>{' '}
-					{row.artisan_meta.first_name} {row.artisan_meta.last_name}
+					{row.user_meta.first_name} {row.user_meta.last_name}
 				</Flex>
 			),
 		},
@@ -137,10 +137,10 @@ const BookingsPage = () => {
 				<Flex gap='10px' align='center'>
 					<img
 						style={{ width: 40, height: 40, borderRadius: '50%' }}
-						src={row.user_meta.display_picture}
+						src={row.artisan_meta.display_picture}
 						alt=''
 					/>{' '}
-					{row.user_meta.first_name} {row.user_meta.last_name}
+					{row.artisan_meta.first_name} {row.artisan_meta.last_name}
 				</Flex>
 			),
 		},
