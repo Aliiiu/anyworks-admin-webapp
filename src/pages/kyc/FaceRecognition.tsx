@@ -99,7 +99,7 @@ const FaceRecognition: FC<{
 				// navigate('/artisans');
 			});
 	};
-
+	const INPUTVAL = !!verifyData?.verification?.face_capture?.face_capture_url;
 	return (
 		<form className='w-[60%] pb-[29px] pt-[74px]'>
 			<div className='flex flex-col justify-between items-center h-full'>
@@ -123,7 +123,7 @@ const FaceRecognition: FC<{
 						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
 						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
 					</div>
-				) : (
+				) : INPUTVAL ? (
 					<div className='flex gap-6 justify-center'>
 						<Button
 							onClick={handleSubmit(onSubmit)}
@@ -154,6 +154,8 @@ const FaceRecognition: FC<{
 							Reject
 						</Button>
 					</div>
+				) : (
+					''
 				)}
 				{/* {verifyData?.verification?.face_capture?.face_capture_url} */}
 			</div>

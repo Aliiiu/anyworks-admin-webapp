@@ -72,6 +72,8 @@ const VendorVerificationRoute = () => {
 			img: '/svgs/tier4.svg',
 			href: 'face-recognition',
 			verified: vendorVerify?.artisan?.verified?.face_capture,
+			tier: vendorVerify?.user?.tier,
+			pending: vendorVerify?.user?.meta?.pending_verification,
 		},
 		{
 			id: 2,
@@ -80,6 +82,8 @@ const VendorVerificationRoute = () => {
 			img: '/svgs/tier1.svg',
 			href: 'nin-validation',
 			verified: vendorVerify?.artisan?.verified?.nin,
+			tier: vendorVerify?.user?.tier,
+			pending: vendorVerify?.user?.meta?.pending_verification,
 		},
 		{
 			id: 3,
@@ -88,6 +92,8 @@ const VendorVerificationRoute = () => {
 			img: '/svgs/tier3.svg',
 			href: 'address-verification',
 			verified: vendorVerify?.artisan?.verified?.address,
+			tier: vendorVerify?.user?.tier,
+			pending: vendorVerify?.user?.meta?.pending_verification,
 		},
 		{
 			id: 4,
@@ -96,6 +102,8 @@ const VendorVerificationRoute = () => {
 			img: '/svgs/tier5.svg',
 			href: 'social-media-linking',
 			verified: vendorVerify?.artisan?.verified?.social_media,
+			tier: vendorVerify?.user?.tier,
+			pending: vendorVerify?.user?.meta?.pending_verification,
 		},
 		{
 			id: 5,
@@ -104,15 +112,9 @@ const VendorVerificationRoute = () => {
 			img: '/svgs/tier6.svg',
 			href: 'certificate',
 			verified: vendorVerify?.artisan?.verified?.certificate,
+			tier: vendorVerify?.user?.tier,
+			pending: vendorVerify?.user?.meta?.pending_verification,
 		},
-		// {
-		// 	id: 6,
-		// 	title: 'Tier 4',
-		// 	content: 'ID Card Upload',
-		// 	img: '/svgs/tier2.svg',
-		// 	href: 'document-upload',
-		// 	verified: vendorVerify?.artisan?.verified?.id_card,
-		// },
 	];
 
 	return (
@@ -178,10 +180,16 @@ const VendorVerificationRoute = () => {
 															<div className='w-8 h-8 rounded-full flex justify-center items-center bg-primary'>
 																<BsCheck2 className='text-white text-xl' />
 															</div>
+														) : item.tier === item.id ? (
+															item.pending ? (
+																<div className='bg-[#00A7D7] text-white py-1 px-2 rounded-2xl'>
+																	Pending
+																</div>
+															) : (
+																''
+															)
 														) : (
-															<div className='bg-[#00A7D7] text-white py-1 px-2 rounded-2xl'>
-																Pending
-															</div>
+															''
 														)}
 													</div>
 												</div>

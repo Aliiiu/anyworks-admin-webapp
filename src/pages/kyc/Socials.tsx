@@ -39,11 +39,12 @@ const Socials: FC<{
 	};
 	const [rejectionReason, setRejectionReason] = useState('');
 
-	const INPUTVAL =
+	const INPUTVAL = !!(
 		verifyData?.verification?.social_media?.twitter ||
 		verifyData?.verification?.social_media?.facebook ||
 		verifyData?.verification?.social_media?.linkedin ||
-		verifyData?.verification?.social_media?.others;
+		verifyData?.verification?.social_media?.others
+	);
 
 	useEffect(() => {
 		setValue('twitter', verifyData?.verification?.social_media?.twitter || '');
@@ -130,7 +131,7 @@ const Socials: FC<{
 			});
 	};
 
-	console.log(INPUTVAL);
+	// console.log(INPUTVAL);
 
 	return (
 		<form className='w-[60%] pb-[29px] pt-[74px]'>
@@ -178,7 +179,7 @@ const Socials: FC<{
 						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
 						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
 					</div>
-				) : (
+				) : INPUTVAL ? (
 					<div className='flex gap-6 justify-center'>
 						<Button
 							onClick={handleSubmit(onSubmit)}
@@ -205,6 +206,8 @@ const Socials: FC<{
 							Reject
 						</Button>
 					</div>
+				) : (
+					''
 				)}
 			</div>
 			<KycApprovedModal

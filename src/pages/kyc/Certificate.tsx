@@ -101,27 +101,31 @@ const Certificate: FC<{
 				// navigate('/artisans');
 			});
 	};
+
+	const INPUTVAL = !!verifyData?.verification?.certificate?.certificate_url;
 	return (
 		<form className='w-[60%] pb-[29px] pt-[74px]'>
 			<div className='flex flex-col justify-between items-center h-full'>
 				<div className='p-[34px] w-full max-w-[530px] mx-auto'>
 					<h3 className='font-medium text-2xl'>Professional Certificates</h3>
-					<div className='mt-10 border border-dashed flex flex-col justify-between rounded-lg border-[#B3B3B3] w-[420px] gap-2 h-fit mx-auto p-[16px]'>
+					<div className='mt-10 border border-dashed flex flex-col justify-between rounded-lg border-[#B3B3B3] w-[420px] gap-2 h-[114px] mx-auto p-[16px]'>
 						<div className=''>
 							<h3 className='text-[#4D4D4D] break-all'>
 								{verifyData?.verification?.certificate?.certificate_url}
 							</h3>
 							{/* <small className='text-[#7607BD99]'>2MB</small> */}
 						</div>
-						<a
-							href={verifyData?.verification?.certificate?.certificate_url}
-							target='_blank'
-							rel='noopener noreferrer'
-							download
-							className='text-[#7E00C4] text-xs cursor-pointer text-center'
-						>
-							Download{' '}
-						</a>
+						{INPUTVAL && (
+							<a
+								href={verifyData?.verification?.certificate?.certificate_url}
+								target='_blank'
+								rel='noopener noreferrer'
+								download
+								className='text-[#7E00C4] text-xs cursor-pointer text-center'
+							>
+								Download{' '}
+							</a>
+						)}
 					</div>
 				</div>
 				{verifyData?.artisan?.verified?.certificate ||
@@ -130,7 +134,7 @@ const Certificate: FC<{
 						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
 						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
 					</div>
-				) : (
+				) : INPUTVAL ? (
 					<div className='flex gap-6 justify-center'>
 						<Button
 							onClick={handleSubmit(onSubmit)}
@@ -161,6 +165,8 @@ const Certificate: FC<{
 							Reject
 						</Button>
 					</div>
+				) : (
+					''
 				)}
 			</div>
 			<KycApprovedModal

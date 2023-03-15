@@ -44,9 +44,10 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 		verifyData?.verification?.nin?.vnin_no,
 	]);
 
-	const INPUTVAL =
+	const INPUTVAL = !!(
 		verifyData?.verification?.nin?.nin_no ||
-		verifyData?.verification?.nin?.vnin_no;
+		verifyData?.verification?.nin?.vnin_no
+	);
 
 	const {
 		loading: rejectingKyc,
@@ -148,7 +149,7 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 						<img src='/svgs/verified.svg' alt='' className='w-9 h-9' />
 						<p className='text-[#667085] font-semibold'>Validation Confirmed</p>
 					</div>
-				) : (
+				) : INPUTVAL ? (
 					<div className='flex gap-6 justify-center'>
 						<Button
 							onClick={handleSubmit(handleApprove)}
@@ -175,6 +176,8 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 							Reject
 						</Button>
 					</div>
+				) : (
+					''
 				)}
 			</div>
 			<KycApprovedModal
