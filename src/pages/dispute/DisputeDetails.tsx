@@ -18,13 +18,6 @@ import UserArtisanChart, {
 import { Loader } from 'src/components/common';
 import { formatDate } from 'src/utils';
 
-export type BookingTrnxType = {
-	narration: string;
-	amount: number;
-	status: string;
-	selected: boolean;
-	_id: string;
-};
 const DisputeDetails = () => {
 	const [showModal, setShowModal] = useState<boolean | null>(false);
 	const [showChat, setShowChat] = useState<boolean>(false);
@@ -38,6 +31,7 @@ const DisputeDetails = () => {
 	const [bookingsDetail, setBookingDetail] = useState<BookingsTypes>(
 		{} as BookingsTypes
 	);
+	const [messageList, setMessageList] = useState<ChatProp[]>();
 	const { id } = useParams();
 	const { loading, startLoading, stopLoading } = useLoading(false);
 	const {
@@ -53,6 +47,7 @@ const DisputeDetails = () => {
 			.getDisputeDetails(booking_id)
 			.then((res) => {
 				setDisputeDetails(res?.data?.payload?.data?.dispute);
+				setMessageList(res.data?.payload?.data?.dispute?.messages);
 				setMessages(res?.data?.payload?.data?.chat_messages);
 				setBookingDetail(res?.data?.payload?.data?.booking || {});
 				setBookingTrnx(res.data?.payload?.data?.booking_trx);
@@ -205,10 +200,12 @@ const DisputeDetails = () => {
 						/>
 					) : (
 						<ChatCard
+							messages={messageList || []}
 							bookingDetails={bookingsDetail}
 							dispute_id={disputeDetails?._id}
 							resolved={disputeDetails?.status === 'resolved'}
 							fetchDispute={fetchDisputeDetails}
+							setMessage={setMessageList}
 						/>
 					)}
 				</div>

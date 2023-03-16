@@ -7,7 +7,6 @@ import avatar from 'src/assets/images/header/avatar.svg';
 import { Flex } from 'src/components/ui';
 import { useLoading } from 'src/hooks';
 import { disputeService } from '../../service/disputeService';
-import { BookingTrnxType } from './DisputeDetails';
 
 const ResolveModal: React.FC<{
 	onClose: () => void;

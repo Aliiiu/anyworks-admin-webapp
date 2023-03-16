@@ -2,7 +2,6 @@ import { Disclosure } from '@headlessui/react';
 import React from 'react';
 import { IoWarning } from 'react-icons/io5';
 import { MdKeyboardArrowRight } from 'react-icons/md';
-import { BookingTrnxType } from 'src/pages/dispute/DisputeDetails';
 import { numberWithCommas } from 'src/utils';
 
 const TransactionCard = ({ bookingTrx }: { bookingTrx: BookingTrnxType[] }) => {
