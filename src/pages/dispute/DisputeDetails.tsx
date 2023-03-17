@@ -17,6 +17,7 @@ import UserArtisanChart, {
 } from 'src/components/dispute/UserArtisanChart';
 import { Loader } from 'src/components/common';
 import { formatDate } from 'src/utils';
+import MapCard from 'src/components/dispute/MapCard';
 
 const DisputeDetails = () => {
 	const [showModal, setShowModal] = useState<boolean | null>(false);
@@ -81,6 +82,10 @@ const DisputeDetails = () => {
 		id && fetchDisputeDetails(id);
 	}, [id]);
 
+	const location = {
+		lat: bookingsDetail?.user_meta?.address?.lat || 6.5882357,
+		lng: bookingsDetail?.user_meta?.address?.long || 3.3978118,
+	};
 	return (
 		<DashboardLayout>
 			<ToastContainer />
@@ -136,11 +141,14 @@ const DisputeDetails = () => {
 												bookingsDetail?.artisan_meta?.address?.state}
 									</h3>
 								</div>
-								<img
+								{/* <img
 									src='/images/location.png'
 									alt=''
 									className='w-full h-[120px] 2xl:h-[170px]'
-								/>
+								/> */}
+								<div className='w-full h-[120px] 2xl:h-[170px] overflow-hidden rounded-xl'>
+									<MapCard location={location} />
+								</div>
 							</div>
 							<div className='flex flex-col gap-2 py-[18px]'>
 								<h5 className='font-semibold text-[#4D4D4D]'>Description</h5>

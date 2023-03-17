@@ -27,21 +27,35 @@ const AdminCard = ({ message }: MessageProp) => {
 
 const SenderCard = ({ message }: MessageProp) => {
 	return (
-		<div className='mt-5 w-full '>
-			{message?.message_type === 'text' ? (
-				<div className='py-[10px] px-[20px] border w-fit max-w-[80%] rounded-r-lg rounded-bl-lg border-[#7E00C4]'>
-					{message.message}
+		<>
+			{message.message.length > 1 && (
+				<div className='w-full flex flex-col gap-1 items-start mt-5'>
+					<div className='rounded-lg w-fit max-w-[80%] p-[10px] bg-[#F2F2F2]'>
+						<p className='text-[#4D4D4D]'>{message.message}</p>
+					</div>
+					<div className='flex gap-1 items-center'>
+						<h3 className='text-sm text-[#B3B3B3]'>{message.message_date}</h3>
+						{/* <img src='/svgs/seenIcon.svg' alt='' className='w-[18px] h-[18px]' /> */}
+						<IoCheckmarkDone
+							className={message.checked ? 'text-[#7E00C4]' : 'text-gray-200'}
+						/>
+					</div>
 				</div>
-			) : (
-				<img
-					src={'data:image/png;base64,' + message?.message}
-					alt=''
-					className='h-[300px]'
-				/>
 			)}
-
-			{/* <p className='text-[#B3B3B3] text-sm mt-1'>09:30 PM</p> */}
-		</div>
+		</>
+		// <div className='mt-5 w-full '>
+		// 	{message?.message_type === 'text' ? (
+		// 		<div className='py-[10px] px-[20px] border w-fit max-w-[80%] rounded-r-lg rounded-bl-lg border-[#7E00C4]'>
+		// 			{message.message}
+		// 		</div>
+		// 	) : (
+		// 		<img
+		// 			src={'data:image/png;base64,' + message?.message}
+		// 			alt=''
+		// 			className='h-[300px]'
+		// 		/>
+		// 	)}
+		// </div>
 	);
 };
 

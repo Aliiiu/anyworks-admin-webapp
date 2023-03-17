@@ -34,7 +34,10 @@ const ResolveModal: React.FC<{
 			startLoading();
 			disputeService
 				.refund(id, refundNarration)
-				.then((res) => toast.success(res.data.message))
+				.then((res) => {
+					toast.success(res.data.message);
+					onClose();
+				})
 				.catch((err) => toast.error(err.response?.data?.error?.message))
 				.finally(() => stopLoading());
 		}
