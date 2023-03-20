@@ -9,7 +9,7 @@ type LocationType = {
 const MapCard = ({ location }: { location: LocationType }) => {
 	return (
 		<GoogleMapReact
-			bootstrapURLKeys={{ key: 'AIzaSyAxXp1Vr5G4j4rICCxxBM263SidP_6X6eY' }}
+			bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY || '' }}
 			defaultCenter={location}
 			defaultZoom={14}
 		>
