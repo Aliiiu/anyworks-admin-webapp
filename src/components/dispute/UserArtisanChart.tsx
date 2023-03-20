@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoWarning } from 'react-icons/io5';
 import { ScaleLoader } from 'react-spinners';
 import { useLoading } from 'src/hooks';
@@ -23,13 +23,17 @@ type MessageProp = {
 
 const AdminCard = ({ message }: MessageProp) => {
 	return (
-		<div className=' w-full flex flex-col gap-1 items-end mt-5'>
+		<div className='w-full flex flex-col gap-1 items-end mt-5'>
 			{message?.message_type === 'text' ? (
-				<div className='rounded-lg w-fit p-[10px] bg-[#F2F2F2]'>
+				<div className='rounded-lg w-fit max-w-[80%] p-[10px] bg-[#F2F2F2]'>
 					<p className='text-[#4D4D4D]'>{message.message}</p>
 				</div>
 			) : (
-				<img src={'data:image/png;base64,' + message?.message} alt='' />
+				<img
+					src={'data:image/png;base64,' + message?.message}
+					alt=''
+					className='h-[300px]'
+				/>
 			)}
 		</div>
 	);
@@ -37,13 +41,17 @@ const AdminCard = ({ message }: MessageProp) => {
 
 const SenderCard = ({ message }: MessageProp) => {
 	return (
-		<div className='mt-5'>
+		<div className='mt-5 w-full'>
 			{message?.message_type === 'text' ? (
-				<div className='py-[10px] px-[20px] border w-fit rounded-r-lg rounded-bl-lg border-[#7E00C4]'>
+				<div className='py-[10px] px-[20px] border w-fit max-w-[80%] rounded-r-lg rounded-bl-lg border-[#7E00C4]'>
 					{message.message}
 				</div>
 			) : (
-				<img src={'data:image/png;base64,' + message?.message} alt='' />
+				<img
+					src={'data:image/png;base64,' + message?.message}
+					alt=''
+					className='h-[300px] max-w-[80%]'
+				/>
 			)}
 		</div>
 	);
@@ -51,9 +59,13 @@ const SenderCard = ({ message }: MessageProp) => {
 
 const UserArtisanChart = ({ bookingDetails, messages }: CardProp) => {
 	const { loading, startLoading, stopLoading } = useLoading(false);
+	const messageRef = useRef<HTMLDivElement | null>(null);
+	useEffect(() => {
+		messageRef.current?.scrollIntoView({ behavior: 'smooth' });
+	}, [messages]);
 
 	return (
-		<div className=' overflow-hidden rounded-lg w-[65%] pb-[168px] max-h-[85vh] relative'>
+		<div className=' overflow-hidden rounded-lg w-[65%] max-h-[75vh] flex flex-col'>
 			<div className='bg-white py-5 px-7 flex justify-between'>
 				<div className='flex gap-4'>
 					<img
@@ -88,14 +100,10 @@ const UserArtisanChart = ({ bookingDetails, messages }: CardProp) => {
 				You are viewing customer and vendor chat
 			</div>
 			<div className='p-[28px] rounded-b-lg bg-white h-full overflow-y-auto'>
-				{loading ? (
-					<div className='flex justify-center'>
-						<ScaleLoader color='#7E00C4' height={40} width={8} />
-					</div>
-				) : messages.length > 0 ? (
+				{messages.length > 0 ? (
 					<div className=''>
 						{messages.map((item, idx) => (
-							<div key={item?._id} className=''>
+							<div ref={messageRef} key={item?._id} className=''>
 								{item?.sender === 'user' ? (
 									<SenderCard message={item} />
 								) : (

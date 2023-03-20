@@ -183,7 +183,7 @@ const Settings = () => {
 								</div>
 								<div className='w-[1px] h-[118px] bg-[#F2F2F2] mx-[68px]'></div>
 								<div className='flex flex-col gap-4'>
-									<div className='flex justify-between'>
+									<div className='flex justify-between gap-4'>
 										<label>Time Interval Fee</label>
 										<button
 											className='flex items-center cursor-pointer gap-2'
@@ -192,6 +192,7 @@ const Settings = () => {
 												setTimeIntervalFee((prev) => [
 													...prev,
 													{
+														_id: String(timeIntervalFee.length + 1),
 														start_time: '',
 														end_time: '',
 														percent: '',
@@ -203,7 +204,6 @@ const Settings = () => {
 											<span className='text-primary'>Add</span>
 										</button>
 									</div>
-									{/* Array.from(Array(timeRangeCount)) */}
 									{timeIntervalFee.map((item, index) => (
 										<div
 											key={index}

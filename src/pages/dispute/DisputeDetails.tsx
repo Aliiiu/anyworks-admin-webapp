@@ -17,14 +17,8 @@ import UserArtisanChart, {
 } from 'src/components/dispute/UserArtisanChart';
 import { Loader } from 'src/components/common';
 import { formatDate } from 'src/utils';
+import MapCard from 'src/components/dispute/MapCard';
 
-export type BookingTrnxType = {
-	narration: string;
-	amount: number;
-	status: string;
-	selected: boolean;
-	_id: string;
-};
 const DisputeDetails = () => {
 	const [showModal, setShowModal] = useState<boolean | null>(false);
 	const [showChat, setShowChat] = useState<boolean>(false);
@@ -34,10 +28,14 @@ const DisputeDetails = () => {
 	const [bookingTrnx, setBookingTrnx] = useState<BookingTrnxType[]>([
 		{} as BookingTrnxType,
 	]);
+	const [escrowTrnx, setEscrowTrnx] = useState<BookingTrnxType[]>([
+		{} as BookingTrnxType,
+	]);
 
 	const [bookingsDetail, setBookingDetail] = useState<BookingsTypes>(
 		{} as BookingsTypes
 	);
+	const [messageList, setMessageList] = useState<ChatProp[]>();
 	const { id } = useParams();
 	const { loading, startLoading, stopLoading } = useLoading(false);
 	const {
@@ -53,9 +51,11 @@ const DisputeDetails = () => {
 			.getDisputeDetails(booking_id)
 			.then((res) => {
 				setDisputeDetails(res?.data?.payload?.data?.dispute);
+				setMessageList(res.data?.payload?.data?.dispute?.messages);
 				setMessages(res?.data?.payload?.data?.chat_messages);
 				setBookingDetail(res?.data?.payload?.data?.booking || {});
 				setBookingTrnx(res.data?.payload?.data?.booking_trx);
+				setEscrowTrnx(res.data?.payload?.data?.escrow_trx);
 				// console.log(res?.data?.payload?.data);
 				console.log('Dispute Details');
 			})
@@ -86,6 +86,10 @@ const DisputeDetails = () => {
 		id && fetchDisputeDetails(id);
 	}, [id]);
 
+	const location = {
+		lat: bookingsDetail?.user_meta?.address?.lat || 6.5882357,
+		lng: bookingsDetail?.user_meta?.address?.long || 3.3978118,
+	};
 	return (
 		<DashboardLayout>
 			<ToastContainer />
@@ -112,7 +116,10 @@ const DisputeDetails = () => {
 				<div className='flex w-full h-full mt-10 gap-10'>
 					<div className='bg-white rounded-lg p-[24px] flex-grow-0 items-start max-h-[calc(80vh-45px)] overflow-y-auto w-[35%]'>
 						{disputeDetails?.status === 'resolved' && (
-							<ResolvedCard details={disputeDetails} />
+							<ResolvedCard
+								details={disputeDetails}
+								escrowBalance={escrowTrnx}
+							/>
 						)}
 						<div className='mt-10 flex flex-col divide-y divide-gray-300'>
 							<div className='flex flex-col gap-2 py-[18px]'>
@@ -141,11 +148,14 @@ const DisputeDetails = () => {
 												bookingsDetail?.artisan_meta?.address?.state}
 									</h3>
 								</div>
-								<img
+								{/* <img
 									src='/images/location.png'
 									alt=''
 									className='w-full h-[120px] 2xl:h-[170px]'
-								/>
+								/> */}
+								<div className='w-full h-[120px] 2xl:h-[170px] overflow-hidden rounded-xl'>
+									<MapCard location={location} />
+								</div>
 							</div>
 							<div className='flex flex-col gap-2 py-[18px]'>
 								<h5 className='font-semibold text-[#4D4D4D]'>Description</h5>
@@ -205,10 +215,12 @@ const DisputeDetails = () => {
 						/>
 					) : (
 						<ChatCard
+							messages={messageList || []}
 							bookingDetails={bookingsDetail}
 							dispute_id={disputeDetails?._id}
 							resolved={disputeDetails?.status === 'resolved'}
 							fetchDispute={fetchDisputeDetails}
+							setMessage={setMessageList}
 						/>
 					)}
 				</div>
@@ -220,7 +232,7 @@ const DisputeDetails = () => {
 				content={
 					<ResolveModal
 						onClose={() => setShowModal(false)}
-						bookingTrnx={bookingTrnx}
+						escrowTrnx={escrowTrnx}
 						bookingDetails={bookingsDetail}
 					/>
 				}

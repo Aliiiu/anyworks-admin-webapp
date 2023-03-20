@@ -15,6 +15,8 @@ interface AddressTypes {
 	city: string;
 	state: string;
 	house_address: string;
+	lat?: number;
+	long?: number;
 }
 
 interface MetaTypes {

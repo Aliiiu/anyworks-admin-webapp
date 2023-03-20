@@ -7,13 +7,12 @@ import avatar from 'src/assets/images/header/avatar.svg';
 import { Flex } from 'src/components/ui';
 import { useLoading } from 'src/hooks';
 import { disputeService } from '../../service/disputeService';
-import { BookingTrnxType } from './DisputeDetails';
 
 const ResolveModal: React.FC<{
 	onClose: () => void;
-	bookingTrnx: BookingTrnxType[];
+	escrowTrnx: BookingTrnxType[];
 	bookingDetails: BookingsTypes;
-}> = ({ onClose, bookingTrnx, bookingDetails }) => {
+}> = ({ onClose, escrowTrnx, bookingDetails }) => {
 	const [refundId, setRefundId] = useState<string[]>([]);
 	const [refundNarration, setRefundNarration] = useState<string[]>([]);
 	const { loading, startLoading, stopLoading } = useLoading(false);
@@ -22,7 +21,7 @@ const ResolveModal: React.FC<{
 		console.log(refundId);
 		console.log(refundNarration);
 	}, [refundId]);
-	const pendingTrnx = bookingTrnx.filter((item) => item.status === 'paid');
+	const pendingTrnx = escrowTrnx.filter((item) => item.status === 'pending');
 	// const updateRefund = (id: string, narration: string) => {
 	// 	const temp = { id, narration };
 	// };
@@ -35,7 +34,10 @@ const ResolveModal: React.FC<{
 			startLoading();
 			disputeService
 				.refund(id, refundNarration)
-				.then((res) => toast.success(res.data.message))
+				.then((res) => {
+					toast.success(res.data.message);
+					onClose();
+				})
 				.catch((err) => toast.error(err.response?.data?.error?.message))
 				.finally(() => stopLoading());
 		}
