@@ -116,7 +116,10 @@ const DisputeDetails = () => {
 				<div className='flex w-full h-full mt-10 gap-10'>
 					<div className='bg-white rounded-lg p-[24px] flex-grow-0 items-start max-h-[calc(80vh-45px)] overflow-y-auto w-[35%]'>
 						{disputeDetails?.status === 'resolved' && (
-							<ResolvedCard details={disputeDetails} />
+							<ResolvedCard
+								details={disputeDetails}
+								escrowBalance={escrowTrnx}
+							/>
 						)}
 						<div className='mt-10 flex flex-col divide-y divide-gray-300'>
 							<div className='flex flex-col gap-2 py-[18px]'>
