@@ -235,7 +235,7 @@ const DisputeDetails = () => {
 							setShowModal(false);
 						}}
 						fetchDisputeDetails={() => id && fetchDisputeDetails(id)}
-						bookingTrnx={escrowTrnx}
+						escrowTrnx={escrowTrnx}
 						bookingDetails={bookingsDetail}
 					/>
 				}

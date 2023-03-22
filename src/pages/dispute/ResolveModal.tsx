@@ -11,9 +11,9 @@ import { disputeService } from '../../service/disputeService';
 const ResolveModal: React.FC<{
 	onClose: () => void;
 	fetchDisputeDetails: () => void;
-	bookingTrnx: BookingTrnxType[];
+	escrowTrnx: BookingTrnxType[];
 	bookingDetails: BookingsTypes;
-}> = ({ onClose, bookingTrnx, bookingDetails, fetchDisputeDetails }) => {
+}> = ({ onClose, escrowTrnx, bookingDetails, fetchDisputeDetails }) => {
 	const [refundId, setRefundId] = useState<string[]>([]);
 	const [refundNarration, setRefundNarration] = useState<string[]>([]);
 	const { loading, startLoading, stopLoading } = useLoading(false);
