@@ -22,7 +22,7 @@ const ResolveModal: React.FC<{
 		console.log(refundId);
 		console.log(refundNarration);
 	}, [refundId]);
-	const pendingTrnx = bookingTrnx.filter((item) => item.status === 'pending');
+	const pendingTrnx = escrowTrnx.filter((item) => item.status === 'pending');
 	// const updateRefund = (id: string, narration: string) => {
 	// 	const temp = { id, narration };
 	// };

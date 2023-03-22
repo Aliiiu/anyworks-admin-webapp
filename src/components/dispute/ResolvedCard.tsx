@@ -3,8 +3,10 @@ import { formatDateDmy, numberWithCommas } from 'src/utils';
 
 type CardProp = {
 	details: { [x: string]: any };
+	escrowBalance: BookingTrnxType[];
 };
-const ResolvedCard = ({ details }: CardProp) => {
+const ResolvedCard = ({ details, escrowBalance }: CardProp) => {
+	const refunded_amount = escrowBalance.reduce((a, b) => a + b?.amount, 0);
 	return (
 		<div className='border border-[#7607BD] flex flex-col gap-2 2xl:gap-3 rounded-lg p-3'>
 			<div className='flex items-center justify-between'>
@@ -20,9 +22,7 @@ const ResolvedCard = ({ details }: CardProp) => {
 			<div className='flex justify-between'>
 				<h3 className='text-[#999999]'>Amount: </h3>
 				<p className='text-[#4d4d4d]'>
-					{details.refund_amount
-						? '₦' + numberWithCommas(details.refund_amount)
-						: 0}
+					{refunded_amount ? '₦' + numberWithCommas(refunded_amount) : 0}
 				</p>
 			</div>
 		</div>
