@@ -62,7 +62,7 @@ const NinValidation = ({ verifyData, id, who, fetchData }: Props) => {
 		startRejectingKyc();
 		id &&
 			VerificationService.approveRejectVerification(
-				{ reason: 'rejectionReason' },
+				{ reason: rejectionReason },
 				id,
 				'reject',
 				'nin',

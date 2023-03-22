@@ -142,6 +142,7 @@ export const ProfileInfo: FC<{ userDetails: { [key: string]: any } }> = ({
 				open={openSendMailModal}
 				userEmail={userDetails?.user?.email || ''}
 				handleClose={handleCloseMailModal}
+				user={userDetails?.user?.first_name || ''}
 			/>
 			<SendNotificationModal
 				artisan={false}

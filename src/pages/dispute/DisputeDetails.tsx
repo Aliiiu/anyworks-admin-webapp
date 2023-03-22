@@ -231,8 +231,11 @@ const DisputeDetails = () => {
 				onClose={() => setShowModal(false)}
 				content={
 					<ResolveModal
-						onClose={() => setShowModal(false)}
-						escrowTrnx={escrowTrnx}
+						onClose={() => {
+							setShowModal(false);
+						}}
+						fetchDisputeDetails={() => id && fetchDisputeDetails(id)}
+						bookingTrnx={escrowTrnx}
 						bookingDetails={bookingsDetail}
 					/>
 				}
