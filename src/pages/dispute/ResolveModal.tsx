@@ -10,9 +10,10 @@ import { disputeService } from '../../service/disputeService';
 
 const ResolveModal: React.FC<{
 	onClose: () => void;
+	fetchDisputeDetails: () => void;
 	bookingTrnx: BookingTrnxType[];
 	bookingDetails: BookingsTypes;
-}> = ({ onClose, bookingTrnx, bookingDetails }) => {
+}> = ({ onClose, bookingTrnx, bookingDetails, fetchDisputeDetails }) => {
 	const [refundId, setRefundId] = useState<string[]>([]);
 	const [refundNarration, setRefundNarration] = useState<string[]>([]);
 	const { loading, startLoading, stopLoading } = useLoading(false);
@@ -21,7 +22,7 @@ const ResolveModal: React.FC<{
 		console.log(refundId);
 		console.log(refundNarration);
 	}, [refundId]);
-	const pendingTrnx = bookingTrnx.filter((item) => item.status === 'paid');
+	const pendingTrnx = bookingTrnx.filter((item) => item.status === 'pending');
 	// const updateRefund = (id: string, narration: string) => {
 	// 	const temp = { id, narration };
 	// };
@@ -37,6 +38,7 @@ const ResolveModal: React.FC<{
 				.then((res) => {
 					toast.success(res.data.message);
 					onClose();
+					fetchDisputeDetails();
 				})
 				.catch((err) => toast.error(err.response?.data?.error?.message))
 				.finally(() => stopLoading());

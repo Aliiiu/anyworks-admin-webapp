@@ -28,6 +28,9 @@ const DisputeDetails = () => {
 	const [bookingTrnx, setBookingTrnx] = useState<BookingTrnxType[]>([
 		{} as BookingTrnxType,
 	]);
+	const [escrowTrnx, setEscrowTrnx] = useState<BookingTrnxType[]>([
+		{} as BookingTrnxType,
+	]);
 
 	const [bookingsDetail, setBookingDetail] = useState<BookingsTypes>(
 		{} as BookingsTypes
@@ -52,6 +55,7 @@ const DisputeDetails = () => {
 				setMessages(res?.data?.payload?.data?.chat_messages);
 				setBookingDetail(res?.data?.payload?.data?.booking || {});
 				setBookingTrnx(res.data?.payload?.data?.booking_trx);
+				setEscrowTrnx(res.data?.payload?.data?.escrow_trx);
 				// console.log(res?.data?.payload?.data);
 				console.log('Dispute Details');
 			})
@@ -224,8 +228,11 @@ const DisputeDetails = () => {
 				onClose={() => setShowModal(false)}
 				content={
 					<ResolveModal
-						onClose={() => setShowModal(false)}
-						bookingTrnx={bookingTrnx}
+						onClose={() => {
+							setShowModal(false);
+						}}
+						fetchDisputeDetails={() => id && fetchDisputeDetails(id)}
+						bookingTrnx={escrowTrnx}
 						bookingDetails={bookingsDetail}
 					/>
 				}

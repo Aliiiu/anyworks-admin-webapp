@@ -35,7 +35,7 @@ const AddressVerification: FC<{
 		verifyData?.verification?.address?.house_address ||
 		verifyData?.verification?.address?.city ||
 		verifyData?.verification?.address?.state ||
-		verifyData?.verification?.address?.city
+		verifyData?.verification?.address?.description
 	);
 
 	const {
@@ -51,7 +51,7 @@ const AddressVerification: FC<{
 		startRejectingKyc();
 		id &&
 			VerificationService.approveRejectVerification(
-				{ reason: 'rejectionReason' },
+				{ reason: rejectionReason },
 				id,
 				'reject',
 				'address',
@@ -110,7 +110,10 @@ const AddressVerification: FC<{
 		setValue('address', verifyData?.verification?.address?.house_address || '');
 		setValue('city', verifyData?.verification?.address?.city || '');
 		setValue('state', verifyData?.verification?.address?.state || '');
-		setValue('description', verifyData?.verification?.address?.city || '');
+		setValue(
+			'description',
+			verifyData?.verification?.address?.description || ''
+		);
 	}, []);
 
 	return (

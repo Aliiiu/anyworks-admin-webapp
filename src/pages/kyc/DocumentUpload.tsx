@@ -65,7 +65,7 @@ const DocumentUpload: FC<{
 		startRejectingKyc();
 		id &&
 			VerificationService.approveRejectVerification(
-				{ reason: 'rejectionReason' },
+				{ reason: rejectionReason },
 				id,
 				'reject',
 				'id_card',
