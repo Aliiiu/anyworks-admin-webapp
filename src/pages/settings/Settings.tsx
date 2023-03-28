@@ -168,7 +168,7 @@ const Settings = () => {
 					) : (
 						<>
 							<p className='mb-1 text-2xl font-semibold'>Variable Fee</p>
-							<div className='flex items-center'>
+							<div className='flex '>
 								<div className='flex flex-col gap-4'>
 									<label>Distance Fee</label>
 									<div className='flex items-center gap-1'>

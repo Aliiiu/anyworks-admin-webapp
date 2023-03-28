@@ -20,7 +20,7 @@ const ResolvedCard = ({ details, escrowBalance }: CardProp) => {
 				<p className='text-[#4d4d4d]'>Customer</p>
 			</div> */}
 			<div className='flex justify-between'>
-				<h3 className='text-[#999999]'>Amount: </h3>
+				<h3 className='text-[#999999]'>Refunded Amount: </h3>
 				<p className='text-[#4d4d4d]'>
 					{refunded_amount ? '₦' + numberWithCommas(refunded_amount) : 0}
 				</p>
